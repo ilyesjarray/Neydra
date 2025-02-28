@@ -135,7 +135,22 @@
       </div>
     </footer>
 
+    <!-- Add audio element for the click sound -->
+    <audio id="click-sound" src="click-sound.mp3" preload="auto"></audio>
+
     <script type="text/javascript">
+      // Function to play sound
+      function playClickSound() {
+        var sound = document.getElementById("click-sound");
+        sound.play();
+      }
+
+      // Add event listeners for click and touch events
+      document.querySelectorAll('button, a').forEach(function(element) {
+        element.addEventListener('click', playClickSound);
+        element.addEventListener('touchstart', playClickSound);
+      });
+
       document.getElementById('contact-form').addEventListener('submit', function(event) {
         event.preventDefault();
 
