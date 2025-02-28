@@ -361,7 +361,3 @@ footer {
     grid-template-columns: repeat(3, 1fr);
   }
 }
-  .project__grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
