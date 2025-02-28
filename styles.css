@@ -1,12 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 
 :root {
-  --primary-color: #000000;
+  --primary-color: #ffffff; /* Changed to white */
   --secondary-color: #ff0000;
   --secondary-color-dark: #880000;
   --text-dark: #000000;
-  --text-light: #9ca3af;
-  --white: #ffffff;
+  --text-light: #000000; /* Changed to black */
+  --white: #000000; /* Changed to black */
   --max-width: 1200px;
 }
 
@@ -49,7 +49,7 @@ img {
   outline: none;
   border: none;
   border-radius: 5px;
-  color: var(--white);
+  color: var(--primary-color); /* Changed to white */
   background-color: var(--secondary-color);
   cursor: pointer;
   transition: 0.3s;
@@ -61,11 +61,12 @@ img {
 
 a {
   text-decoration: none;
-  color: var(--white);
+  color: var(--primary-color); /* Changed to white */
 }
 
 body {
-  color: var(--white);
+  background-color: var(--primary-color); /* Changed to white */
+  color: var(--text-dark); /* Changed to black */
   font-family: "Poppins", sans-serif;
 }
 
@@ -109,7 +110,7 @@ header {
   margin: 1rem 0;
 }
 .header__container p span {
-  color: var(--white);
+  color: var(--primary-color); /* Changed to white */
   padding: 0.5rem 1rem;
   background-color: var(--secondary-color);
   border-radius: 5px;
@@ -155,7 +156,7 @@ header {
 
 .about,
 .project {
-  background-color: var(--text-dark);
+  background-color: var(--primary-color); /* Changed to white */
 }
 
 .about__container {
@@ -179,13 +180,13 @@ header {
 
 .about__details {
   padding: 2rem 0;
-  color: var(--text-light);
+  color: var(--text-dark); /* Changed to black */
   text-align: center;
 }
 
 .service,
 footer {
-  background-color: var(--primary-color);
+  background-color: var(--primary-color); /* Changed to white */
 }
 
 .service__grid,
@@ -201,7 +202,7 @@ footer {
   align-items: flex-start;
   gap: 1rem;
   padding: 2rem;
-  background-color: var(--text-dark);
+  background-color: var(--primary-color); /* Changed to white */
   border-radius: 5px;
 }
 
@@ -215,16 +216,16 @@ footer {
 }
 
 .service__card p {
-  color: var(--text-light);
+  color: var(--text-dark); /* Changed to black */
 }
 
 .service__card .read__more {
   width: max-content;
   padding: 0.5rem 1rem;
-  color: var(--text-light);
+  color: var(--text-dark); /* Changed to black */
   font-size: 0.8rem;
   border-radius: 5px;
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgba(0, 0, 0, 0.05); /* Changed to light black */
   cursor: pointer;
 }
 
@@ -259,7 +260,7 @@ footer {
 
 .footer__details {
   font-size: 0.8rem;
-  color: var(--text-light);
+  color: var(--text-dark); /* Changed to black */
   margin: 2rem 0;
   display: grid;
   gap: 1rem;
@@ -274,7 +275,7 @@ footer {
 .social__icons .icon {
   padding: 0.5rem;
   border-radius: 5px;
-  color: var(--white);
+  color: var(--primary-color); /* Changed to white */
   background-color: var(--secondary-color);
   transition: 0.3s;
   cursor: pointer;
@@ -291,11 +292,11 @@ footer {
 
 .footer__form :is(input, textarea) {
   padding: 1rem;
-  background-color: var(--text-dark);
+  background-color: var(--primary-color); /* Changed to white */
   outline: none;
   border: none;
   border-radius: 5px;
-  color: var(--white);
+  color: var(--text-dark); /* Changed to black */
 }
 
 .footer__form textarea {
@@ -357,6 +358,10 @@ footer {
   }
 
   .service__grid,
+  .project__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
   .project__grid {
     grid-template-columns: repeat(3, 1fr);
   }
