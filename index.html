@@ -35,10 +35,10 @@
     </div>
 
     <!-- Theme Music -->
-    <audio id="theme-music" src="assets/theme-music.mp3" autoplay loop></audio>
+    <audio id="theme-music" src="assets/theme-music.mp3" loop></audio>
 
     <nav>
-      <div class="nav__logo"><a href="#">☬<span class="fade-in-effect">Pro</span>fessional☬</a></div>
+      <div class="nav__logo"><a href="#" onclick="playThemeMusic()">☬<span class="fade-in-effect">Pro</span>fessional☬</a></div>
     </nav>
     <header>
       <div class="section__container header__container">
@@ -172,6 +172,19 @@
           }, function(error) {
             console.log('Failed to send email:', error);
           });
+      });
+
+      // Function to play theme music
+      function playThemeMusic() {
+        var themeMusic = document.getElementById("theme-music");
+        themeMusic.play();
+      }
+
+      // Ensure the music stops when the site is closed
+      window.addEventListener("beforeunload", function () {
+        var themeMusic = document.getElementById("theme-music");
+        themeMusic.pause();
+        themeMusic.currentTime = 0;
       });
     </script>
   </body>
