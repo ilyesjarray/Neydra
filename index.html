@@ -139,6 +139,12 @@
     <!-- Add audio element for the click sound -->
     <audio id="click-sound" src="click-sound.mp3" preload="auto"></audio>
 
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <h3>Tools</h3>
+      <!-- Future tools will be added here -->
+    </div>
+
     <script type="text/javascript">
       // Function to play sound
       function playClickSound() {
@@ -172,13 +178,6 @@
           }, function(error) {
             console.log('Failed to send email:', error);
           });
-      });
-
-      // Remove old text movement effect
-      window.addEventListener('scroll', function() {
-        document.querySelectorAll('.fade-in-effect').forEach(function(element) {
-          element.style.transform = '';
-        });
       });
     </script>
   </body>
