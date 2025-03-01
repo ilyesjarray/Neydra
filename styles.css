@@ -371,7 +371,7 @@ footer {
 }
 
 .fade-in-effect {
-  animation: fade-in 10s ease-in-out;
+  animation: fade-in 15s ease-in-out;
   display: inline-block;
   color: var(--secondary-color);
 }
