@@ -387,22 +387,39 @@ footer {
   position: fixed;
   top: 0;
   right: 0;
-  width: 300px;
+  width: 60px;
   height: 100%;
   background-color: var(--primary-color);
   color: var(--white);
-  padding: 20px;
+  padding: 10px;
   box-shadow: -2px 0 5px rgba(0,0,0,0.5);
-  transform: translateX(0); /* Make sure the toolbar is visible */
+  transform: translateX(100%);
   transition: transform 0.3s ease-in-out;
+}
+
+.sidebar-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  cursor: pointer;
 }
 
 .sidebar h3 {
   color: var(--secondary-color);
   text-align: center;
   margin-bottom: 20px;
+  display: none; /* Hidden initially */
 }
 
-.sidebar:hover {
-  transform: translateX(0);
+.sidebar.open h3 {
+  display: block; /* Display when sidebar is open */
+}
+
+.sidebar.open {
+  width: 300px; /* Expand width when open */
+}
+
+.sidebar.open .sidebar-icon {
+  font-size: 1.5rem; /* Adjust icon size when open */
 }
