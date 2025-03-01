@@ -174,10 +174,10 @@
           });
       });
 
-      // Add scroll event listener
+      // Remove old text movement effect
       window.addEventListener('scroll', function() {
         document.querySelectorAll('.fade-in-effect').forEach(function(element) {
-          element.style.transform = 'translateX(' + window.scrollY / 10 + 'px)';
+          element.style.transform = '';
         });
       });
     </script>
