@@ -259,7 +259,7 @@ footer {
 
 .footer__details {
   font-size: 0.8rem;
-  color: var(--text-light);
+  color: var (--text-light);
   margin: 2rem 0;
   display: grid;
   gap: 1rem;
@@ -274,7 +274,7 @@ footer {
 .social__icons .icon {
   padding: 0.5rem;
   border-radius: 5px;
-  color: var(--white);
+  color: var (--white);
   background-color: var(--secondary-color);
   transition: 0.3s;
   cursor: pointer;
@@ -363,5 +363,5 @@ footer {
 }
 
 .gif-container img {
-  transform: scale(1.5);
+  transform: scale(1.1);
 }
