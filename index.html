@@ -187,11 +187,11 @@
       function toggleToolbar() {
         var toolbar = document.getElementById("toolbar");
         var icon = document.querySelector(".sidebar-icon i");
-        if (toolbar.style.transform === "translateX(0px)") {
-          toolbar.style.transform = "translateX(100%)";
+        if (toolbar.classList.contains("open")) {
+          toolbar.classList.remove("open");
           icon.style.transform = "rotate(0deg)";
         } else {
-          toolbar.style.transform = "translateX(0px)";
+          toolbar.classList.add("open");
           icon.style.transform = "rotate(90deg)";
         }
       }
