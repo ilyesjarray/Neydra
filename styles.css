@@ -16,6 +16,11 @@
   box-sizing: border-box;
 }
 
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+}
+
 .section__container {
   max-width: var(--max-width);
   margin: auto;
@@ -67,6 +72,7 @@ a {
 body {
   color: var(--white);
   font-family: "Poppins", sans-serif;
+  background-color: var(--primary-color); /* Ensure the black background fills the entire viewport */
 }
 
 nav {
