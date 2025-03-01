@@ -393,8 +393,8 @@ footer {
   color: var(--white);
   padding: 20px;
   box-shadow: -2px 0 5px rgba(0,0,0,0.5);
+  transform: translateX(0); /* Make sure the toolbar is visible */
   transition: transform 0.3s ease-in-out;
-  transform: translateX(100%);
 }
 
 .sidebar h3 {
