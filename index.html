@@ -140,7 +140,10 @@
     <audio id="click-sound" src="click-sound.mp3" preload="auto"></audio>
 
     <!-- Sidebar -->
-    <div class="sidebar">
+    <div class="sidebar" id="toolbar">
+      <div class="sidebar-icon" onclick="toggleToolbar()">
+        <i class="ri-settings-3-fill"></i>
+      </div>
       <h3>Tools</h3>
       <!-- Future tools will be added here -->
     </div>
@@ -179,6 +182,19 @@
             console.log('Failed to send email:', error);
           });
       });
+
+      // Function to toggle the sidebar
+      function toggleToolbar() {
+        var toolbar = document.getElementById("toolbar");
+        var icon = document.querySelector(".sidebar-icon i");
+        if (toolbar.style.transform === "translateX(0px)") {
+          toolbar.style.transform = "translateX(100%)";
+          icon.style.transform = "rotate(0deg)";
+        } else {
+          toolbar.style.transform = "translateX(0px)";
+          icon.style.transform = "rotate(90deg)";
+        }
+      }
     </script>
   </body>
 </html>
