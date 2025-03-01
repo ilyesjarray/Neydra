@@ -361,3 +361,7 @@ footer {
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
+.gif-container img {
+  transform: scale(2);
+}
