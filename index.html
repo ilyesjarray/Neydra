@@ -173,6 +173,13 @@
             console.log('Failed to send email:', error);
           });
       });
+
+      // Add scroll event listener
+      window.addEventListener('scroll', function() {
+        document.querySelectorAll('.hacker-effect').forEach(function(element) {
+          element.style.transform = 'translateX(' + window.scrollY / 10 + 'px)';
+        });
+      });
     </script>
   </body>
 </html>
