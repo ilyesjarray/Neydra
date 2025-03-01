@@ -31,6 +31,8 @@ html, body {
   font-size: 2rem;
   font-weight: 600;
   text-align: center;
+  color: var(--secondary-color);
+  animation: neon 2s infinite;
 }
 
 .section__title span {
@@ -41,6 +43,8 @@ html, body {
   font-size: 1rem;
   font-weight: 500;
   text-align: center;
+  color: var(--secondary-color);
+  animation: neon 2s infinite;
 }
 
 img {
@@ -70,7 +74,7 @@ a {
 }
 
 body {
-  color: var(--white);
+  color: var (--white);
   font-family: "Poppins", sans-serif;
   background-color: var(--primary-color); /* Ensure the black background fills the entire viewport */
 }
@@ -124,6 +128,8 @@ header {
 .header__container h1 {
   font-size: 3rem;
   line-height: 3rem;
+  color: var(--secondary-color);
+  animation: neon 2s infinite;
 }
 .action__btns {
   display: flex;
@@ -380,4 +386,15 @@ footer {
   animation: fade-in 15s ease-in-out;
   display: inline-block;
   color: var(--secondary-color);
+}
+
+@keyframes neon {
+  0%, 100% {
+    text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 40px #ff0000, 0 0 80px #ff0000, 0 0 90px #ff0000, 0 0 100px #ff0000, 0 0 150px #ff0000;
+    color: #fff;
+  }
+  50% {
+    text-shadow: 0 0 2px #ff0000, 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 40px #ff0000, 0 0 80px #ff0000, 0 0 90px #ff0000, 0 0 100px #ff0000, 0 0 150px #ff0000;
+    color: #ff0000;
+  }
 }
