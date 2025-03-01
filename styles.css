@@ -375,3 +375,28 @@ footer {
   display: inline-block;
   color: var(--secondary-color);
 }
+
+/* Sidebar styling */
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 100%;
+  background-color: var(--primary-color);
+  color: var(--white);
+  padding: 20px;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.5);
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(100%);
+}
+
+.sidebar h3 {
+  color: var(--secondary-color);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.sidebar:hover {
+  transform: translateX(0);
+}
