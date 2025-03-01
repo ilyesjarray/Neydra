@@ -32,7 +32,7 @@ html, body {
   font-weight: 600;
   text-align: center;
   color: var(--secondary-color);
-  animation: neon 2s infinite;
+  animation: neon 3s infinite;
 }
 
 .section__title span {
@@ -44,7 +44,7 @@ html, body {
   font-weight: 500;
   text-align: center;
   color: var(--secondary-color);
-  animation: neon 2s infinite;
+  animation: neon 3s infinite;
 }
 
 img {
@@ -129,7 +129,7 @@ header {
   font-size: 3rem;
   line-height: 3rem;
   color: var(--secondary-color);
-  animation: neon 2s infinite;
+  animation: neon 3s infinite;
 }
 .action__btns {
   display: flex;
@@ -390,11 +390,11 @@ footer {
 
 @keyframes neon {
   0%, 100% {
-    text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 40px #ff0000, 0 0 80px #ff0000, 0 0 90px #ff0000, 0 0 100px #ff0000, 0 0 150px #ff0000;
+    text-shadow: 0 0 2px #ff0000, 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 40px #ff0000, 0 0 50px #ff0000, 0 0 60px #ff0000, 0 0 75px #ff0000;
     color: #fff;
   }
   50% {
-    text-shadow: 0 0 2px #ff0000, 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 40px #ff0000, 0 0 80px #ff0000, 0 0 90px #ff0000, 0 0 100px #ff0000, 0 0 150px #ff0000;
+    text-shadow: 0 0 1px #ff0000, 0 0 2px #ff0000, 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0000, 0 0 40px #ff0000, 0 0 50px #ff0000;
     color: #ff0000;
   }
 }
