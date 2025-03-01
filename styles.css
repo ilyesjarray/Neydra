@@ -308,7 +308,6 @@ footer {
 }
 
 /* Media queries */
-
 @media (min-width: 640px) {
   .section__title {
     font-size: 2.5rem;
@@ -364,4 +363,24 @@ footer {
 
 .gif-container img {
   transform: scale(1.385);
+}
+
+@keyframes hacker-text {
+  0% { opacity: 0; }
+  10% { opacity: 1; }
+  20% { opacity: 0; }
+  30% { opacity: 1; }
+  40% { opacity: 0; }
+  50% { opacity: 1; }
+  60% { opacity: 0; }
+  70% { opacity: 1; }
+  80% { opacity: 0; }
+  90% { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+.hacker-effect {
+  animation: hacker-text 2s infinite;
+  display: inline-block;
+  color: var(--secondary-color);
 }
