@@ -1,20 +1,56 @@
 {
-    "name": "NEXARC",
-    "short_name": "NEXARC",
-    "icons": [
-      {
-        "src": "assets/icon.png",
-        "sizes": "192x192",
-        "type": "image/png"
-      },
-      {
-        "src": "assets/icon.png",
-        "sizes": "512x512",
-        "type": "image/png"
-      }
-    ],
-    "start_url": "/",
-    "display": "standalone",
-    "background_color": "#000000",
-    "theme_color": "#ff0000"
+  "id": "com.nexarc.app",
+  "name": "NEXARC",
+  "short_name": "NEXARC",
+  "description": "NEXARC - Where Imagination Becomes Reality",
+  "icons": [
+    {
+      "src": "assets/icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#ff0000",
+  "orientation": "any",
+  "screenshots": [
+    {
+      "src": "assets/screenshot1.png",
+      "sizes": "640x480",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/screenshot2.png",
+      "sizes": "640x480",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["productivity", "tools"],
+  "dir": "ltr",
+  "iarc_rating_id": "e1234567890",
+  "lang": "en-US",
+  "scope": "/",
+  "scope_extensions": [],
+  "launch_handler": {},
+  "prefer_related_applications": false,
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=com.nexarc.app",
+      "id": "com.nexarc.app"
+    }
+  ],
+  "background_sync": {
+    "min_interval": 60
+  },
+  "periodic_sync": {
+    "min_interval": 86400
   }
+}
