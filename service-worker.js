@@ -49,3 +49,16 @@ self.addEventListener('notificationclick', function(event) {
     clients.openWindow('/')
   );
 });
+
+// Add client_mode to launch_handler
+if ('launchQueue' in window) {
+  launchQueue.setConsumer((launchParams) => {
+    if (launchParams.files.length === 0) {
+      return;
+    }
+    launchParams.client_mode = 'window';
+    for (const fileHandle of launchParams.files) {
+      // Process the files here
+    }
+  });
+}
