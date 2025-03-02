@@ -193,6 +193,27 @@
         themeMusic.pause();
         themeMusic.currentTime = 0;
       });
+
+      // Register service worker
+      if ('serviceWorker' in navigator && 'PushManager' in window) {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(function(registration) {
+            console.log('Service Worker registered with scope:', registration.scope);
+
+            // Request permission for push notifications
+            return Notification.requestPermission().then(function(permission) {
+              if (permission === 'granted') {
+                // Subscribe to push notifications
+                return registration.pushManager.subscribe({ userVisibleOnly: true });
+              }
+            });
+          });
+
+        // Register for background sync
+        navigator.serviceWorker.ready.then(function(registration) {
+          registration.sync.register('my-background-sync');
+        });
+      }
     </script>
   </body>
 </html>
