@@ -390,11 +390,11 @@ footer {
 
 @keyframes neon {
   0%, 100% {
-    text-shadow: 0 0 2px #ff0000, 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 40px #ff0000, 0 0 50px #ff0000, 0 0 60px #ff0000, 0 0 75px #ff0000;
+    text-shadow: 0 0 1px #ff0000, 0 0 2px #ff0000, 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0000;
     color: #fff;
   }
   50% {
-    text-shadow: 0 0 1px #ff0000, 0 0 2px #ff0000, 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0000, 0 0 40px #ff0000, 0 0 50px #ff0000;
+    text-shadow: 0 0 0.5px #ff0000, 0 0 1px #ff0000, 0 0 2px #ff0000, 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #ff0000;
     color: #ff0000;
   }
 }
