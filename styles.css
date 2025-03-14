@@ -221,14 +221,16 @@ footer {
 }
 
 .service__grid,
-.project__grid {
+.project__grid,
+.videos__container {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   gap: 1rem;
   margin-top: 5rem;
 }
 
-.service__card {
+.service__card,
+.video__card {
   display: grid;
   align-items: flex-start;
   gap: 1rem;
@@ -237,16 +239,19 @@ footer {
   border-radius: 5px;
 }
 
-.service__card i {
+.service__card i,
+.video__card video {
   font-size: 1.5rem;
 }
 
-.service__card h4 {
+.service__card h4,
+.video__card h4 {
   font-size: 1.2rem;
   font-weight: 500;
 }
 
-.service__card p {
+.service__card p,
+.video__card p {
   color: var(--text-light);
 }
 
@@ -371,7 +376,8 @@ footer {
   }
 
   .service__grid,
-  .project__grid {
+  .project__grid,
+  .videos__container {
     grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
   }
@@ -388,7 +394,8 @@ footer {
   }
 
   .service__grid,
-  .project__grid {
+  .project__grid,
+  .videos__container {
     grid-template-columns: repeat(3, 1fr);
   }
 }
