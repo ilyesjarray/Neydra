@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.0.0/fonts/remixicon.css" rel="stylesheet" />
+    <link href="https://unpkg.com/filepond/dist/filepond.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css" />
     <link rel="icon" href="assets/icon.png" type="image/png" />
     <link rel="manifest" href="manifest.json" />
@@ -27,7 +28,10 @@
     </header>
     <section class="videos">
       <div class="section__container videos__container">
-        <!-- Example videos -->
+        <!-- FilePond input -->
+        <input type="file" class="filepond" name="filepond" multiple data-max-files="5" />
+
+        <!-- Example video cards -->
         <div class="video__card">
           <video controls>
             <source src="assets/video1.mp4" type="video/mp4">
@@ -44,7 +48,6 @@
           <h4>Video Title 2</h4>
           <p>Video Description 2</p>
         </div>
-        <!-- Add more video cards as needed -->
       </div>
     </section>
     <footer>
@@ -62,5 +65,40 @@
         </div>
       </div>
     </footer>
+    <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
+    <script>
+      // Register FilePond plugins as needed
+      FilePond.registerPlugin();
+
+      // Get a reference to the file input element
+      const inputElement = document.querySelector('input[type="file"]');
+
+      // Create a FilePond instance
+      const pond = FilePond.create(inputElement);
+
+      // Set FilePond options
+      FilePond.setOptions({
+        server: {
+          url: '/upload', // Your server endpoint for handling uploads
+          process: {
+            url: '/process',
+            method: 'POST',
+            withCredentials: false,
+            headers: {},
+            timeout: 7000,
+            onload: (response) => response.key,
+            onerror: (response) => response.data,
+            ondata: (formData) => {
+              formData.append('extraData', 'value');
+              return formData;
+            },
+          },
+          revert: null,
+          restore: null,
+          load: null,
+          fetch: null,
+        }
+      });
+    </script>
   </body>
 </html>
