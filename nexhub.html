@@ -17,23 +17,35 @@
         <li><a href="index.html">Home</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="nexhub.html">NexHub</a></li>
+        <li><a href="contact.html">Contact</a></li>
       </ul>
     </nav>
     <header>
       <div class="section__container header__container">
         <h1>Welcome to NexHub</h1>
-        <p>Upload and share your videos with the world, just like on YouTube and other platforms.</p>
+        <p>Enjoy browsing the videos uploaded by NEXARC™.</p>
       </div>
     </header>
-    <section class="upload">
-      <div class="section__container upload__container">
-        <form class="upload__form" id="upload-form">
-          <input type="text" placeholder="Video Title" name="video_title" id="video_title" required />
-          <textarea cols="30" rows="10" placeholder="Video Description" name="video_description" id="video_description" required></textarea>
-          <input type="file" name="video_file" id="video_file" accept="video/*" required />
-          <button type="submit" class="btn">Upload Video</button>
-          <p id="error-message" class="error-message"></p>
-        </form>
+    <section class="videos">
+      <div class="section__container videos__container">
+        <!-- Example videos -->
+        <div class="video__card">
+          <video controls>
+            <source src="assets/video1.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <h4>Video Title 1</h4>
+          <p>Video Description 1</p>
+        </div>
+        <div class="video__card">
+          <video controls>
+            <source src="assets/video2.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <h4>Video Title 2</h4>
+          <p>Video Description 2</p>
+        </div>
+        <!-- Add more video cards as needed -->
       </div>
     </section>
     <footer>
@@ -51,20 +63,6 @@
         </div>
       </div>
     </footer>
-    <script type="text/javascript">
-      document.getElementById('upload-form').addEventListener('submit', function(event) {
-        event.preventDefault();
-        // Simulate upload process
-        const isUploaded = false; // Simulate upload failure
-        const errorMessageElement = document.getElementById('error-message');
-        
-        if (!isUploaded) {
-          errorMessageElement.textContent = "Video not uploaded. Please try again.";
-        } else {
-          errorMessageElement.textContent = "";
-          alert('Video uploaded successfully!');
-        }
-      });
-    </script>
   </body>
 </html>
+
