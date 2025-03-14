@@ -33,6 +33,7 @@
           <textarea cols="30" rows="10" placeholder="Video Description" name="video_description" id="video_description" required></textarea>
           <input type="file" name="video_file" id="video_file" accept="video/*" required />
           <button type="submit" class="btn">Upload Video</button>
+          <p id="error-message" class="error-message"></p>
         </form>
       </div>
     </section>
@@ -51,6 +52,20 @@
         </div>
       </div>
     </footer>
-    <script type="text/javascript" src="scripts.js"></script>
+    <script type="text/javascript">
+      document.getElementById('upload-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        // Simulate upload process
+        const isUploaded = false; // Simulate upload failure
+        const errorMessageElement = document.getElementById('error-message');
+        
+        if (!isUploaded) {
+          errorMessageElement.textContent = "Video not uploaded. Please try again.";
+        } else {
+          errorMessageElement.textContent = "";
+          alert('Video uploaded successfully!');
+        }
+      });
+    </script>
   </body>
 </html>
