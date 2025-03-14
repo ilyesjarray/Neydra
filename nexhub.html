@@ -1,104 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.0.0/fonts/remixicon.css" rel="stylesheet" />
-    <link href="https://unpkg.com/filepond/dist/filepond.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="icon" href="assets/icon.png" type="image/png" />
-    <link rel="manifest" href="manifest.json" />
-    <title>NexHub | NEXARC™</title>
-  </head>
-  <body>
-    <nav>
-      <div class="nav__logo"><a href="index.html">NEXARC™</a></div>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="nexhub.html">NexHub</a></li>
-      </ul>
-    </nav>
-    <header>
-      <div class="section__container header__container">
-        <h1>Welcome to NexHub</h1>
-        <p>Enjoy browsing the videos uploaded by NEXARC™.</p>
-      </div>
-    </header>
-    <section class="videos">
-      <div class="section__container videos__container">
-        <!-- FilePond input -->
-        <input type="file" class="filepond" name="filepond" multiple data-max-files="5" />
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.0.0/fonts/remixicon.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="assets/icon.png" type="image/png">
+  <link rel="manifest" href="manifest.json">
+  <title>NexHub | NEXARC™</title>
+</head>
+<body>
+  <nav>
+    <div class="nav__logo"><a href="index.html">NEXARC™</a></div>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="nexhub.html">NexHub</a></li>
+    </ul>
+  </nav>
+  <header>
+    <div class="section__container header__container">
+      <h1>Welcome to NexHub</h1>
+      <p>Enjoy browsing the videos uploaded by NEXARC™.</p>
+    </div>
+  </header>
+  <section class="videos">
+    <div class="section__container videos__container">
+      <!-- Simple file input -->
+      <input type="file" id="videoUpload" multiple accept="video/*" />
+      <button onclick="uploadVideos()">Upload Videos</button>
+      <div id="videoPreview"></div>
 
-        <!-- Example video cards -->
-        <div class="video__card">
-          <video controls>
-            <source src="assets/video1.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-          <h4>Video Title 1</h4>
-          <p>Video Description 1</p>
-        </div>
-        <div class="video__card">
-          <video controls>
-            <source src="assets/video2.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-          <h4>Video Title 2</h4>
-          <p>Video Description 2</p>
-        </div>
+      <!-- Example video cards -->
+      <div class="video__card">
+        <video controls>
+          <source src="assets/video1.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <h4>Video Title 1</h4>
+        <p>Video Description 1</p>
       </div>
-    </section>
-    <footer>
-      <div class="section__container footer__container">
-        <div class="footer__content">
-          <h2>Contact Us</h2>
-          <p>Reach out through our contact page or social media channels.</p>
-          <div class="social__icons">
-            <a href="https://www.facebook.com/share/1BcWt2hcvL/" class="icon"><i class="ri-facebook-fill"></i></a>
-            <a href="https://www.instagram.com/_ilyes_jarray_?igsh=MWZ2Y2VlZm9vazFwcQ==" class="icon"><i class="ri-instagram-fill"></i></a>
-          </div>
-        </div>
-        <div class="privacy-policy">
-          ©️ 2025 NEXARC. All rights reserved. By using this site, you agree to our privacy policy.
+      <div class="video__card">
+        <video controls>
+          <source src="assets/video2.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <h4>Video Title 2</h4>
+        <p>Video Description 2</p>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <div class="section__container footer__container">
+      <div class="footer__content">
+        <h2>Contact Us</h2>
+        <p>Reach out through our contact page or social media channels.</p>
+        <div class="social__icons">
+          <a href="https://www.facebook.com/share/1BcWt2hcvL/" class="icon"><i class="ri-facebook-fill"></i></a>
+          <a href="https://www.instagram.com/_ilyes_jarray_?igsh=MWZ2Y2VlZm9vazFwcQ==" class="icon"><i class="ri-instagram-fill"></i></a>
         </div>
       </div>
-    </footer>
-    <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
-    <script>
-      // Register FilePond plugins as needed
-      FilePond.registerPlugin();
+      <div class="privacy-policy">
+        ©️ 2025 NEXARC. All rights reserved. By using this site, you agree to our privacy policy.
+      </div>
+    </div>
+  </footer>
+  <script>
+    function uploadVideos() {
+      const input = document.getElementById('videoUpload');
+      const files = input.files;
+      const preview = document.getElementById('videoPreview');
+      preview.innerHTML = ''; // Clear previous previews
 
-      // Get a reference to the file input element
-      const inputElement = document.querySelector('input[type="file"]');
+      if (files.length > 0) {
+        for (let i = 0; i < files.length; i++) {
+          const file = files[i];
+          const videoCard = document.createElement('div');
+          videoCard.classList.add('video__card');
+          
+          const video = document.createElement('video');
+          video.controls = true;
+          const source = document.createElement('source');
+          source.src = URL.createObjectURL(file);
+          source.type = file.type;
+          video.appendChild(source);
 
-      // Create a FilePond instance
-      const pond = FilePond.create(inputElement);
+          const title = document.createElement('h4');
+          title.textContent = `Video Title ${i + 1}`;
+          const description = document.createElement('p');
+          description.textContent = `Video Description ${i + 1}`;
 
-      // Set FilePond options
-      FilePond.setOptions({
-        server: {
-          url: '/upload', // Your server endpoint for handling uploads
-          process: {
-            url: '/process',
-            method: 'POST',
-            withCredentials: false,
-            headers: {},
-            timeout: 7000,
-            onload: (response) => response.key,
-            onerror: (response) => response.data,
-            ondata: (formData) => {
-              formData.append('extraData', 'value');
-              return formData;
-            },
-          },
-          revert: null,
-          restore: null,
-          load: null,
-          fetch: null,
+          videoCard.appendChild(video);
+          videoCard.appendChild(title);
+          videoCard.appendChild(description);
+
+          preview.appendChild(videoCard);
         }
-      });
-    </script>
-  </body>
+      }
+    }
+  </script>
+</body>
 </html>
