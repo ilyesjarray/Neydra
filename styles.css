@@ -224,7 +224,7 @@ footer {
 .project__grid,
 .videos__container {
   display: grid;
-  grid-template-columns: repeat(1, 1fr);
+  grid-template-columns: 1fr;
   gap: 1rem;
   margin-top: 5rem;
 }
@@ -234,25 +234,30 @@ footer {
   display: grid;
   align-items: flex-start;
   gap: 1rem;
-  padding: 2rem;
+  padding: 1rem;  /* Reduce padding */
   background-color: var(--text-dark);
   border-radius: 5px;
+  max-width: 300px;  /* Reduce the width */
+  margin: auto;  /* Center the video cards */
 }
 
 .service__card i,
 .video__card video {
   font-size: 1.5rem;
+  width: 100%;
+  height: auto;
 }
 
 .service__card h4,
 .video__card h4 {
-  font-size: 1.2rem;
+  font-size: 1rem;  /* Reduce font size */
   font-weight: 500;
 }
 
 .service__card p,
 .video__card p {
   color: var(--text-light);
+  font-size: 0.9rem;  /* Reduce font size */
 }
 
 .service__card .read__more {
@@ -378,7 +383,7 @@ footer {
   .service__grid,
   .project__grid,
   .videos__container {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
     gap: 2rem;
   }
 
@@ -396,7 +401,7 @@ footer {
   .service__grid,
   .project__grid,
   .videos__container {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr;
   }
 }
 
