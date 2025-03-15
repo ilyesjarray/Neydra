@@ -1,193 +1,201 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="NEXARC - Where Imagination Becomes Reality" />
-    <meta name="keywords" content="NEXARC, Imagination, Reality, Web Development" />
-    <meta property="og:title" content="NEXARC" />
-    <meta property="og:description" content="NEXARC - Where Imagination Becomes Reality" />
-    <meta property="og:image" content="assets/og-image.jpg" />
-    <meta property="og:url" content="https://www.nexarc.com" />
-    <meta name="twitter:card" content="summary_large_image" />
-    
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXXXXXX-X"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="NEXARC - Where Imagination Becomes Reality" />
+  <meta name="keywords" content="NEXARC, Imagination, Reality, Web Development" />
+  <meta property="og:title" content="NEXARC" />
+  <meta property="og:description" content="NEXARC - Where Imagination Becomes Reality" />
+  <meta property="og:image" content="assets/og-image.jpg" />
+  <meta property="og:url" content="https://www.nexarc.com" />
+  <meta name="twitter:card" content="summary_large_image" />
+  
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXXXXXX-X"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-      gtag('config', 'UA-XXXXXXXXX-X');
-    </script>
+    gtag('config', 'UA-XXXXXXXXX-X');
+  </script>
 
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.0.0/fonts/remixicon.css" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="icon" href="assets/icon.png" type="image/png" />
-    <link rel="manifest" href="manifest.json" />
-    <title>Ilyes Official site | NEXARC™ Page</title>
-    <!-- EmailJS SDK -->
-    <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
-    <script type="text/javascript">
-      (function() {
-        emailjs.init("QrxaXFcp-hMFZabQc"); // Replace with your EmailJS Public Key
-      })();
-    </script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5036896092018597" crossorigin="anonymous"></script>
-    <meta name="google-adsense-account" content="ca-pub-5036896092018597">
-    <style>
-      body {
-        margin: 0;
-      }
-      .gif-container {
-        margin: 0;
-        text-align: center;
-        padding: 2rem 0;
-      }
-      .privacy-policy {
-        font-size: 0.75rem;
-        color: white;
-        text-align: center;
-        margin-top: 1rem;
-      }
-    </style>
-  </head>
-  <body>
-    <!-- GIF -->
-    <div class="gif-container">
-      <img src="assets/red-earth.gif" alt="Rotating Red Earth" />
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.0.0/fonts/remixicon.css" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="assets/icon.png" type="image/png" />
+  <link rel="manifest" href="manifest.json" />
+  <title>Ilyes Official site | NEXARC™ Page</title>
+  <!-- EmailJS SDK -->
+  <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function() {
+      emailjs.init("QrxaXFcp-hMFZabQc"); // Replace with your EmailJS Public Key
+    })();
+  </script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5036896092018597" crossorigin="anonymous"></script>
+  <meta name="google-adsense-account" content="ca-pub-5036896092018597">
+  <style>
+    body {
+      margin: 0;
+    }
+    .gif-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #000;
+      z-index: 9999;
+      transition: opacity 3s ease-in-out;
+    }
+    .gif-container img {
+      width: 100px;
+      height: auto;
+    }
+    .gif-container.fade-out {
+      opacity: 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading GIF -->
+  <div class="gif-container" id="loadingGif">
+    <img src="assets/red-earth.gif" alt="Loading..." />
+  </div>
+
+  <!-- Ad Block -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5036896092018597" crossorigin="anonymous"></script>
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-5036896092018597"
+       data-ad-slot="6602779823"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+
+  <!-- Theme Music -->
+  <audio id="theme-music" src="assets/theme-music.mp3" loop></audio>
+  
+  <nav>
+    <div class="nav__logo"><a href="#" onclick="playThemeMusic()"> <span class="fade-in-effect">NEXARC</span>™</a></div>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="nexhub.html">NexHub</a></li>
+    </ul>
+  </nav>
+  <header>
+    <div class="section__container header__container">
+      <h1 class="fade-in-effect">ILYESJARRAY</h1>
+      <h2 class="section__title">The CEO of <span class="fade-in-effect">NEXARC.</span></h2>
+      <p>
+        Welcome to my Organization! I'm Ilyes, a skilled and
+        creative web developer with a passion for creating Magic,
+        Imagination...
+      </p>
     </div>
+  </header>
 
-    <!-- Ad Block -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5036896092018597" crossorigin="anonymous"></script>
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-5036896092018597"
-         data-ad-slot="6602779823"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-
-    <!-- Theme Music -->
-    <audio id="theme-music" src="assets/theme-music.mp3" loop></audio>
-
-    <nav>
-      <div class="nav__logo"><a href="#" onclick="playThemeMusic()"> <span class="fade-in-effect">NEXARC</span>™</a></div>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="nexhub.html">NexHub</a></li>
-      </ul>
-    </nav>
-    <header>
-      <div class="section__container header__container">
-        <h1 class="fade-in-effect">ILYESJARRAY</h1>
-        <h2 class="section__title">The CEO of <span class="fade-in-effect">NEXARC.</span></h2>
-        <p>
-          Welcome to my Organization! I'm Ilyes, a skilled and
-          creative web developer with a passion for creating Magic,
-          Imagination...
+  <section class="about">
+    <div class="section__container about__container">
+      <div class="about__content">
+        <h2 class="section__title">About <span class="fade-in-effect">Me</span></h2>
+        <p class="section__subtitle">The CEO and founder of NEXARC !</p>
+        <p class="about__details">
+          Welcome to NEXARC – Where Imagination Becomes Reality
+          I am the founder of NEXARC, an organization born from the relentless pursuit of breaking limits and reshaping reality itself.
+          We stand on the edge of a new era—where the impossible is no longer just a dream but a challenge waiting to be conquered.
+          At NEXARC, we refuse to be confined by the ordinary. We are visionaries, creators, and pioneers on a mission to bring imagination to life
+          to craft a world beyond the mundane, and to revolutionize the way we experience existence. This is not just an idea; this is the beginning of a new world.
+          
+          Are you ready to step beyond the boundaries of reality and build the future with us? Join NEXARC. Become part of the revolution.
         </p>
       </div>
-    </header>
-    
-    <section class="about">
-      <div class="section__container about__container">
-        <div class="about__content">
-          <h2 class="section__title">About <span class="fade-in-effect">Me</span></h2>
-          <p class="section__subtitle">The CEO and founder of NEXARC !</p>
-          <p class="about__details">
-            Welcome to NEXARC – Where Imagination Becomes Reality
-            I am the founder of NEXARC, an organization born from the relentless pursuit of breaking limits and reshaping reality itself.
-            We stand on the edge of a new era—where the impossible is no longer just a dream but a challenge waiting to be conquered.
-            At NEXARC, we refuse to be confined by the ordinary. We are visionaries, creators, and pioneers on a mission to bring imagination to life
-            to craft a world beyond the mundane, and to revolutionize the way we experience existence. This is not just an idea; this is the beginning of a new world.
-            
-            Are you ready to step beyond the boundaries of reality and build the future with us? Join NEXARC. Become part of the revolution.
+    </div>
+  </section>
+
+  <section class="service">
+    <div class="section__container service__container">
+      <p class="section__subtitle">What We Offer!</p>
+      <h2 class="section__title"><span class="fade-in-effect">NEXARC</span> Services</h2>
+      <div class="service__grid">
+        <div class="service__card">
+          <i class="ri-smartphone-line"></i>
+          <h4>Breaking Boundaries</h4>
+          <p>
+            At NEXARC, we challenge the limits of reality
+            by turning bold ideas into groundbreaking innovations.
+            Our mission is to break free from conventional thinking,
+            reimagine possibilities, and create solutions that push humanity
+            forward. Whether in technology, science, or digital experiences, we refuse to accept the ordinary
+            —we strive for the extraordinary.
           </p>
+          <a href="#" class="read__more">Read more...</a>
+        </div>
+        <div class="service__card">
+          <i class="ri-code-s-slash-line"></i>
+          <h4>Bringing Imagination to Life</h4>
+          <p>
+            What was once considered fiction is now within our reach.
+            NEXARC is dedicated to embodying imagination and transforming creative concepts into tangible experiences.
+            We bring together visionaries, designers, and engineers to craft products
+            and projects that blur the line between reality and fantasy,
+            opening new doors to a future beyond expectations.
+          </p>
+          <a href="#" class="read__more">Read more...</a>
+        </div>
+        <div class="service__card">
+          <i class="ri-edit-2-line"></i>
+          <h4>Shaping a New World</h4>
+          <p>
+            We don’t just create; we revolutionize. 
+            NEXARC is more than an organization—it’s a movement toward a future
+            where imagination dictates reality. By fostering innovation, collaboration,
+            and limitless thinking, we are shaping a world that reflects the limitless potential of human creativity.
+            Join us as we build the foundation of a new era.
+          </p>
+          <a href="#" class="read__more">Read more...</a>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="service">
-      <div class="section__container service__container">
-        <p class="section__subtitle">What We Offer!</p>
-        <h2 class="section__title"><span class="fade-in-effect">NEXARC</span> Services</h2>
-        <div class="service__grid">
-          <div class="service__card">
-            <i class="ri-smartphone-line"></i>
-            <h4>Breaking Boundaries</h4>
-            <p>
-              At NEXARC, we challenge the limits of reality
-              by turning bold ideas into groundbreaking innovations.
-              Our mission is to break free from conventional thinking,
-              reimagine possibilities, and create solutions that push humanity
-              forward. Whether in technology, science, or digital experiences, we refuse to accept the ordinary
-              —we strive for the extraordinary.
-            </p>
-            <a href="#" class="read__more">Read more...</a>
-          </div>
-          <div class="service__card">
-            <i class="ri-code-s-slash-line"></i>
-            <h4>Bringing Imagination to Life</h4>
-            <p>
-              What was once considered fiction is now within our reach.
-              NEXARC is dedicated to embodying imagination and transforming creative concepts into tangible experiences.
-              We bring together visionaries, designers, and engineers to craft products
-              and projects that blur the line between reality and fantasy,
-              opening new doors to a future beyond expectations.
-            </p>
-            <a href="#" class="read__more">Read more...</a>
-          </div>
-          <div class="service__card">
-            <i class="ri-edit-2-line"></i>
-            <h4>Shaping a New World</h4>
-            <p>
-              We don’t just create; we revolutionize. 
-              NEXARC is more than an organization—it’s a movement toward a future
-              where imagination dictates reality. By fostering innovation, collaboration,
-              and limitless thinking, we are shaping a world that reflects the limitless potential of human creativity.
-              Join us as we build the foundation of a new era.
-            </p>
-            <a href="#" class="read__more">Read more...</a>
-          </div>
+  <footer>
+    <div class="section__container footer__container">
+      <div class="footer__content">
+        <h2 class="section__title">Contact <span class="fade-in-effect">Me!</span></h2>
+        <p class="section__subtitle">If you have any project in your mind</p>
+        <div class="footer__details">
+          <p>
+            You can reach me through the contact form provided on this
+            website. Simply fill out the form with your name, email address,
+            and message, and I will get back to you as soon as possible.
+          </p>
+          <p>  </p>
+        </div>
+        <div class="social__icons">
+          <a href="https://www.facebook.com/share/1BcWt2hcvL/" class="icon"><i class="ri-facebook-fill"></i></a>
+          <a href="https://www.instagram.com/_ilyes_jarray_?igsh=MWZ2Y2VlZm9vazFwcQ==" class="icon"><i class="ri-instagram-fill"></i></a>
         </div>
       </div>
-    </section>
-
-    <footer>
-      <div class="section__container footer__container">
-        <div class="footer__content">
-          <h2 class="section__title">Contact <span class="fade-in-effect">Me!</span></h2>
-          <p class="section__subtitle">If you have any project in your mind</p>
-          <div class="footer__details">
-            <p>
-              You can reach me through the contact form provided on this
-              website. Simply fill out the form with your name, email address,
-              and message, and I will get back to you as soon as possible.
-            </p>
-            <p>  </p>
-          </div>
-          <div class="social__icons">
-            <a href="https://www.facebook.com/share/1BcWt2hcvL/" class="icon"><i class="ri-facebook-fill"></i></a>
-            <a href="https://www.instagram.com/_ilyes_jarray_?igsh=MWZ2Y2VlZm9vazFwcQ==" class="icon"><i class="ri-instagram-fill"></i></a>
-          </div>
+      <form class="footer__form" id="contact-form">
+        <input type="text" placeholder="Your Name" name="user_name" id="user_name" required />
+        <input type="email" placeholder="Your Email Address" name="user_email" id="user_email" required />
+        <input type="text" placeholder="Your Phone Number" name="user_phone" id="user_phone" required />
+        <textarea cols="30" rows="10" placeholder="Your Idea" name="message" id="message" required></textarea>
+        <div class="action__btns">
+          <button type="submit" class="btn">Send Message</button>
         </div>
-        <form class="footer__form" id="contact-form">
-          <input type="text" placeholder="Your Name" name="user_name" id="user_name" required />
-          <input type="email" placeholder="Your Email Address" name="user_email" id="user_email" required />
-          <input type="text" placeholder="Your Phone Number" name="user_phone" id="user_phone" required />
-          <textarea cols="30" rows="10" placeholder="Your Idea" name="message" id="message" required></textarea>
-          <div class="action__btns">
-            <button type="submit" class="btn">Send Message</button>
-          </div>
-        </form>
-        <div class="privacy-policy">
-          ©️ 2025 NEXARC. All rights reserved. By using this site, you agree to our privacy policy.
-        </div>
+      </form>
+      <div class="privacy-policy">
+        ©️ 2025 NEXARC. All rights reserved. By using this site, you agree to our privacy policy.
       </div>
     </footer>
 
@@ -262,6 +270,16 @@
           registration.sync.register('my-background-sync');
         });
       }
+
+      // Fade out the loading GIF and show the page
+      window.addEventListener('load', function () {
+        var loadingGif = document.getElementById('loadingGif');
+        loadingGif.classList.add('fade-out');
+        setTimeout(function () {
+          loadingGif.style.display = 'none';
+        }, 3000);
+      });
     </script>
   </body>
 </html>
+
