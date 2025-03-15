@@ -416,7 +416,7 @@ footer {
 }
 
 .gif-container img {
-  transform: scale(10);
+  transform: scale(1.385);
 }
 
 @keyframes fade-in {
