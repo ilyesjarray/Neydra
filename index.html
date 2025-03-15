@@ -51,11 +51,12 @@
       height: 100%;
       background-color: #000;
       z-index: 9999;
-      transition: opacity 3s ease-in-out;
+      transition: opacity 10s ease-in-out;
     }
     .gif-container img {
-      width: 100px;
-      height: auto;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
     .gif-container.fade-out {
       opacity: 0;
@@ -282,4 +283,3 @@
     </script>
   </body>
 </html>
-
