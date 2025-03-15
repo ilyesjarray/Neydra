@@ -453,7 +453,7 @@ footer {
   height: 100%;
   background-color: #000;
   z-index: 9999;
-  transition: opacity 3s ease-in-out;
+  transition: opacity 14s ease-in-out;
 }
 
 .gif-container img {
