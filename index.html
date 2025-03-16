@@ -278,10 +278,10 @@
       var gifDuration = 8000; // Example: 8000ms (8 seconds)
 
       // Play the starting sound immediately
-      window.addEventListener('load', function () {
-        var startingSound = document.getElementById("starting-sound");
-        startingSound.play();
+      var startingSound = document.getElementById("starting-sound");
+      startingSound.play();
 
+      window.addEventListener('load', function () {
         setTimeout(function () {
           var loadingGif = document.getElementById('loadingGif');
           loadingGif.classList.add('fade-out');
