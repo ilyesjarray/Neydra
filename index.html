@@ -68,6 +68,9 @@
     <img src="assets/red-earth.gif" alt="Loading..." />
   </div>
 
+  <!-- Starting Sound -->
+  <audio id="starting-sound" src="assets/starting-sound.mp3" preload="auto"></audio>
+
   <!-- Ad Block -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5036896092018597" crossorigin="anonymous"></script>
   <ins class="adsbygoogle"
@@ -272,10 +275,14 @@
       }
 
       // Set the duration of the GIF in milliseconds
-      var gifDuration = 8000; // Example: 5000ms (5 seconds)
+      var gifDuration = 8000; // Example: 8000ms (8 seconds)
 
       // Fade out the loading GIF after it ends
       window.addEventListener('load', function () {
+        // Play the starting sound
+        var startingSound = document.getElementById("starting-sound");
+        startingSound.play();
+
         setTimeout(function () {
           var loadingGif = document.getElementById('loadingGif');
           loadingGif.classList.add('fade-out');
