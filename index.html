@@ -11,7 +11,7 @@
   <meta property="og:image" content="assets/og-image.jpg" />
   <meta property="og:url" content="https://www.nexarc.com" />
   <meta name="twitter:card" content="summary_large_image" />
-
+  
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXXXXXX-X"></script>
   <script>
@@ -87,11 +87,8 @@
   </script>
 
   <nav>
-    <div class="nav__logo">
-      <a href="#"> <span class="fade-in-effect">NEXARC</span>™</a>
-    </div>
-    <img src="assets/navbar.png" id="nav-toggle" alt="Toggle Navigation" />
-    <ul id="nav-menu">
+    <div class="nav__logo"><a href="#"> <span class="fade-in-effect">NEXARC</span>™</a></div>
+    <ul>
       <li><a href="index.html">Home</a></li>
       <li><a href="about.html">About</a></li>
       <li><a href="nexhub.html">NexHub</a></li>
@@ -294,12 +291,6 @@
             loadingGif.style.display = 'none';
           }, 3000); // Fade-out transition duration
         }, gifDuration);
-      });
-
-      // Toggle navigation menu
-      document.getElementById('nav-toggle').addEventListener('click', function() {
-        var navMenu = document.getElementById('nav-menu');
-        navMenu.classList.toggle('open');
       });
     </script>
   </body>
