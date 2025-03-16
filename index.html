@@ -71,6 +71,9 @@
   <!-- Starting Sound -->
   <audio id="starting-sound" src="assets/starting-sound.mp3" preload="auto"></audio>
 
+  <!-- Theme Music -->
+  <audio id="theme-music" src="assets/theme-music.mp3" loop></audio>
+
   <!-- Ad Block -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5036896092018597" crossorigin="anonymous"></script>
   <ins class="adsbygoogle"
@@ -83,11 +86,8 @@
        (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
 
-  <!-- Theme Music -->
-  <audio id="theme-music" src="assets/theme-music.mp3" loop></audio>
-  
   <nav>
-    <div class="nav__logo"><a href="#" onclick="playThemeMusic()"> <span class="fade-in-effect">NEXARC</span>™</a></div>
+    <div class="nav__logo"><a href="#"> <span class="fade-in-effect">NEXARC</span>™</a></div>
     <ul>
       <li><a href="index.html">Home</a></li>
       <li><a href="about.html">About</a></li>
@@ -277,9 +277,11 @@
       // Set the duration of the GIF in milliseconds
       var gifDuration = 8000; // Example: 8000ms (8 seconds)
 
-      // Play the starting sound immediately
+      // Play the starting sound and theme music immediately
       var startingSound = document.getElementById("starting-sound");
+      var themeMusic = document.getElementById("theme-music");
       startingSound.play();
+      themeMusic.play();
 
       window.addEventListener('load', function () {
         setTimeout(function () {
