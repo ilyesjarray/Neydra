@@ -44,6 +44,32 @@
         ©️ 2025 NEXARC. All rights reserved. By using this site, you agree to our privacy policy.
       </div>
     </footer>
+
+      <!-- Add audio elements for the click sound -->
+    <audio id="click-sound1" src="click-sound1.mp3" preload="auto"></audio>
+    <audio id="click-sound2" src="click-sound2.mp3" preload="auto"></audio>
+    <audio id="click-sound3" src="click-sound3.mp3" preload="auto"></audio>
+    <audio id="click-sound4" src="click-sound4.mp3" preload="auto"></audio>
+
+    <script type="text/javascript">
+      // Function to play a random click sound
+      function playClickSound() {
+        var sounds = [
+          document.getElementById("click-sound1"),
+          document.getElementById("click-sound2"),
+          document.getElementById("click-sound3"),
+          document.getElementById("click-sound4")
+        ];
+        var sound = sounds[Math.floor(Math.random() * sounds.length)];
+        sound.play();
+      }
+
+      // Add event listeners for click and touch events
+      document.querySelectorAll('button, a').forEach(function(element) {
+        element.addEventListener('click', playClickSound);
+        element.addEventListener('touchstart', playClickSound);
+      });
+
 </body>
 </html>
 
