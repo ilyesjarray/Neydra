@@ -301,6 +301,25 @@
           }, 3000); // Fade-out transition duration
         }, gifDuration);
       });
+
+      // Function to request fullscreen
+      function requestFullscreen() {
+        var elem = document.documentElement;
+        if (elem.requestFullscreen) {
+          elem.requestFullscreen();
+        } else if (elem.mozRequestFullScreen) { // Firefox
+          elem.mozRequestFullScreen();
+        } else if (elem.webkitRequestFullscreen) { // Chrome, Safari and Opera
+          elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) { // IE/Edge
+          elem.msRequestFullscreen();
+        }
+      }
+
+      // Request fullscreen on load
+      window.addEventListener('load', function () {
+        requestFullscreen();
+      });
     </script>
   </body>
 </html>
