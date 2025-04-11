@@ -1,8 +1,8 @@
 {
-  "id": "com.nexarc.app",
-  "name": "NEXARC",
-  "short_name": "NEXARC",
-  "description": "NEXARC - Where Imagination Becomes Reality",
+  "id": "com.neydra.app",
+  "name": "NEYDRA",
+  "short_name": "NEYDRA",
+  "description": "NEYDRA - Where Imagination Becomes Reality",
   "icons": [
     {
       "src": "assets/icon.png",
@@ -43,8 +43,8 @@
   "related_applications": [
     {
       "platform": "play",
-      "url": "https://play.google.com/store/apps/details?id=com.nexarc.app",
-      "id": "com.nexarc.app"
+      "url": "https://play.google.com/store/apps/details?id=com.neydra.app",
+      "id": "com.neydra.app"
     }
   ],
   "background_sync": {
