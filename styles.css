@@ -233,48 +233,35 @@ footer {
 .video__card {
   display: grid;
   align-items: flex-start;
-  gap: 1rem;
-  padding: 2rem;
+  gap: 0.8rem; /* Reduced gap */
+  padding: 1rem; /* Reduced padding */
   background-color: var(--text-dark);
   border-radius: 5px;
-  transform: scale(1.3); /* Scale the video cards by 1.3x */
-  margin: auto; /* Center the video cards */
-}
-
-.video__card video {
-  width: 100%; /* Ensure the video takes the full width of the card */
-  cursor: pointer; /* Change cursor to pointer for fullscreen */
-}
-
-.video__card video:fullscreen {
-  width: 100%;
-  height: auto;
+  transform: scale(1.1); /* Reduced scaling */
+  margin: auto;
 }
 
 .service__card i,
 .video__card video {
-  font-size: 1.5rem;
-  width: 100%;
-  height: auto;
+  font-size: 1.2rem; /* Smaller icon size */
 }
 
 .service__card h4,
 .video__card h4 {
-  font-size: 1rem; /* Reduce font size */
+  font-size: 0.8rem; /* Reduced heading font size */
   font-weight: 500;
 }
 
 .service__card p,
 .video__card p {
+  font-size: 0.7rem; /* Reduced paragraph font size */
   color: var(--text-light);
-  font-size: 0.9rem; /* Reduce font size */
 }
 
 .service__card .read__more {
   width: max-content;
-  padding: 0.5rem 1rem;
-  color: var(--text-light);
-  font-size: 0.8rem;
+  padding: 0.3rem 0.8rem; /* Reduced padding */
+  font-size: 0.7rem; /* Reduced font size */
   border-radius: 5px;
   background-color: rgba(255, 255, 255, 0.05);
   cursor: pointer;
