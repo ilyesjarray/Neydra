@@ -77,6 +77,7 @@ body {
   color: var (--white);
   font-family: "Poppins", sans-serif;
   background-color: var(--primary-color); /* Ensure the black background fills the entire viewport */
+  cursor: url("assets/mouseicon.png"), auto;
 }
 
 nav {
