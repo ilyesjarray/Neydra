@@ -28,6 +28,8 @@
 
   <link href="https://cdn.jsdelivr.net/npm/remixicon@3.0.0/fonts/remixicon.css" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <!-- AOS Animate On Scroll CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
   <link rel="icon" href="assets/icon.png" type="image/png" />
   <link rel="manifest" href="manifest.json" />
   <title>Ilyes Official site | NEYDRA™ Page</title>
@@ -100,12 +102,12 @@
 		'width' : 320,
 		'params' : {}
 	};
-</script>
-<script type="text/javascript" src="//www.highperformanceformat.com/0a919674e2889e8fec6a3aaf516f9a64/invoke.js"></script>
+  </script>
+  <script type="text/javascript" src="//www.highperformanceformat.com/0a919674e2889e8fec6a3aaf516f9a64/invoke.js"></script>
 
   <header>
     <div class="section__container header__container">
-      <h1 class="fade-in-effect">ILYESJARRAY</h1>
+      <h1 class="fade-in-effect" data-aos="fade-up">ILYESJARRAY</h1>
       <h2 class="section__title">The CEO of <span class="fade-in-effect">NEYDRA.</span></h2>
       <p>
         Welcome to my Organization! I'm Ilyes, a skilled and
@@ -328,6 +330,14 @@
       // Request fullscreen on load
       window.addEventListener('load', function () {
         requestFullscreen();
+      });
+    </script>
+    <!-- AOS Animate On Scroll JS -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+      AOS.init({
+        duration: 9000,
+        once: true
       });
     </script>
     <!-- Social Bar Ad Code -->
