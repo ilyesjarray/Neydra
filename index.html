@@ -67,8 +67,14 @@
   </style>
 </head>
 <body>
+  <!-- Are You Ready? Scene -->
+  <div id="readyScene" class="ready-scene">
+    <img src="assets/are-you-ready.png" alt="Are you ready?" class="ready-img">
+    <button id="continueBtn" class="ready-continue-btn" style="display:none;">Continue</button>
+  </div>
+
   <!-- Loading GIF -->
-  <div class="gif-container" id="loadingGif">
+  <div class="gif-container" id="loadingGif" style="display:none;">
     <img src="assets/red-earth.gif" alt="Loading..." />
   </div>
 
@@ -93,13 +99,13 @@
 
   <!-- Banner 410x250 Ad Block (placed under NAV) -->
   <script type="text/javascript">
-	atOptions = {
-		'key' : '0a919674e2889e8fec6a3aaf516f9a64',
-		'format' : 'iframe',
-		'height' : 250,
-		'width' : 410,
-		'params' : {}
-	};
+    atOptions = {
+      'key' : '0a919674e2889e8fec6a3aaf516f9a64',
+      'format' : 'iframe',
+      'height' : 250,
+      'width' : 410,
+      'params' : {}
+    };
   </script>
   <script type="text/javascript" src="//www.highperformanceformat.com/0a919674e2889e8fec6a3aaf516f9a64/invoke.js"></script>
 
@@ -325,6 +331,30 @@
       // Request fullscreen on load
       window.addEventListener('load', function () {
         requestFullscreen();
+      });
+
+      // Are You Ready? Scene logic
+      window.addEventListener("DOMContentLoaded", function () {
+        const readyScene = document.getElementById("readyScene");
+        const continueBtn = document.getElementById("continueBtn");
+        const loadingGif = document.getElementById("loadingGif");
+
+        // Start fade-in
+        readyScene.classList.add("fade-in");
+        setTimeout(() => {
+          continueBtn.style.display = "block";
+        }, 3000);
+
+        continueBtn.addEventListener("click", function () {
+          // Fade out scene
+          readyScene.classList.remove("fade-in");
+          readyScene.classList.add("fade-out");
+          // After fade out, show GIF loader
+          setTimeout(() => {
+            readyScene.style.display = "none";
+            loadingGif.style.display = "flex";
+          }, 3000);
+        });
       });
     </script>
     <!-- AOS Animate On Scroll JS -->
