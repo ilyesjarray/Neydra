@@ -452,3 +452,59 @@ footer {
 .gif-container.fade-out {
   opacity: 0;
 }
+
+/* Are You Ready? Scene Styles */
+.ready-scene {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #000;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-direction: column;
+  opacity: 0;
+  transition: opacity 3s ease-in-out;
+}
+
+.ready-scene.fade-in {
+  opacity: 1;
+}
+
+.ready-scene.fade-out {
+  opacity: 0;
+  transition: opacity 3s ease-in-out;
+}
+
+.ready-img {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+}
+
+.ready-continue-btn {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  background-color: var(--secondary-color);
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  opacity: 0.92;
+  transition: background 0.2s;
+  z-index: 10001;
+}
+
+.ready-continue-btn:hover {
+  background-color: var(--secondary-color-dark);
+}
+
