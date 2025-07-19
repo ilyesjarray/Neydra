@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Are You Ready? | NEYDRA Intro</title>
+  <link rel="stylesheet" href="intro.css" />
+  <style>
+    /* Inline fallback styles if CSS fails to load */
+    body {
+      margin: 0;
+      background: #000;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <div id="readyScene" class="ready-scene">
+    <img src="assets/are-you-ready.png" alt="Are you ready?" class="ready-img">
+    <button id="continueBtn" class="ready-continue-btn" style="display:none;">Continue</button>
+  </div>
+  <script>
+    window.addEventListener("DOMContentLoaded", function () {
+      const readyScene = document.getElementById("readyScene");
+      const continueBtn = document.getElementById("continueBtn");
+      // Start fade-in
+      readyScene.classList.add("fade-in");
+      setTimeout(() => {
+        continueBtn.style.display = "block";
+      }, 3000);
+
+      continueBtn.addEventListener("click", function () {
+        // Fade out scene
+        readyScene.classList.remove("fade-in");
+        readyScene.classList.add("fade-out");
+        // After fade out, redirect to home page
+        setTimeout(() => {
+          window.location.href = "index.html";
+        }, 3000);
+      });
+    });
+  </script>
+</body>
+</html>
