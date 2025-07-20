@@ -3,6 +3,7 @@ body {
   background: #000;
   overflow: hidden;
 }
+
 .ready-scene {
   position: fixed;
   top: 0;
@@ -12,31 +13,32 @@ body {
   background: #000;
   z-index: 10000;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   overflow: hidden;
-  flex-direction: column;
-  opacity: 0;
-  transition: opacity 3s ease-in-out;
 }
-.ready-scene.fade-in {
-  opacity: 1;
-}
-.ready-scene.fade-out {
-  opacity: 0;
-  transition: opacity 3s ease-in-out;
-}
+
 .ready-img {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100vw;
   height: 100vh;
   object-fit: cover;
   pointer-events: none;
   user-select: none;
+  opacity: 0;
+  transition: opacity 6s ease-in-out;
 }
+
+/* Centered Button, hold y' vertical center */
 .ready-continue-btn {
   position: absolute;
-  bottom: 2rem;
-  right: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 50%;
+  /* If you want to keep y' offset, e.g. move a bit up/down, adjust top */
+  /* top: calc(50% + 100px); /* Example to move below center */
   padding: 1rem 2rem;
   font-size: 1.2rem;
   background-color: #ff0000;
@@ -44,10 +46,11 @@ body {
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  opacity: 0.92;
-  transition: background 0.2s;
+  opacity: 0;
+  transition: opacity 12s ease-in-out, background 0.2s;
   z-index: 10001;
 }
 .ready-continue-btn:hover {
   background-color: #880000;
 }
+
