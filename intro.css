@@ -36,7 +36,7 @@ body {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 50%;
+  top: calc(50% - 100px);
   /* If you want to keep y' offset, e.g. move a bit up/down, adjust top */
   /* top: calc(50% + 100px); /* Example to move below center */
   padding: 1rem 2rem;
