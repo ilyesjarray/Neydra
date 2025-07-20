@@ -7,12 +7,7 @@
   <title>Are You Ready? | NEYDRA Intro</title>
   <link rel="stylesheet" href="intro.css" />
   <style>
-    /* Inline fallback styles if CSS fails to load */
-    body {
-      margin: 0;
-      background: #000;
-      overflow: hidden;
-    }
+    body { margin: 0; background: #000; overflow: hidden; }
   </style>
 </head>
 <body>
@@ -24,19 +19,16 @@
     window.addEventListener("DOMContentLoaded", function () {
       const readyScene = document.getElementById("readyScene");
       const continueBtn = document.getElementById("continueBtn");
-      // Start fade-in
       readyScene.classList.add("fade-in");
       setTimeout(() => {
         continueBtn.style.display = "block";
       }, 3000);
 
       continueBtn.addEventListener("click", function () {
-        // Fade out scene
         readyScene.classList.remove("fade-in");
         readyScene.classList.add("fade-out");
-        // After fade out, redirect to home page
         setTimeout(() => {
-          window.location.href = "index.html";
+          window.location.href = "home.html";
         }, 3000);
       });
     });
