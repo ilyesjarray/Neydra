@@ -13,20 +13,40 @@
 <body>
   <div id="readyScene" class="ready-scene">
     <img src="assets/are-you-ready.png" alt="Are you ready?" class="ready-img">
-    <button id="continueBtn" class="ready-continue-btn" style="display:none;">Continue</button>
+    <button id="continueBtn" class="ready-continue-btn">Continue</button>
   </div>
   <script>
-    window.addEventListener("DOMContentLoaded", function () {
-      const readyScene = document.getElementById("readyScene");
-      const continueBtn = document.getElementById("continueBtn");
-      readyScene.classList.add("fade-in");
-      setTimeout(() => {
-        continueBtn.style.display = "block";
-      }, 3000);
+    function fadeIn(element, duration) {
+      element.style.transition = `opacity ${duration}ms ease-in-out`;
+      element.style.opacity = 1;
+    }
+    function fadeOut(element, duration) {
+      element.style.transition = `opacity ${duration}ms ease-in-out`;
+      element.style.opacity = 0;
+    }
 
+    window.addEventListener("DOMContentLoaded", function () {
+      const readyImg = document.querySelector(".ready-img");
+      const continueBtn = document.getElementById("continueBtn");
+
+      // Initial state
+      readyImg.style.opacity = 0;
+      continueBtn.style.opacity = 0;
+
+      // Fade in image for 6s
+      setTimeout(() => {
+        fadeIn(readyImg, 6000);
+      }, 50);
+
+      // Fade in button for 12s (at the same time as image)
+      setTimeout(() => {
+        fadeIn(continueBtn, 12000);
+      }, 50);
+
+      // When button is clicked, fade out button & image for 3s
       continueBtn.addEventListener("click", function () {
-        readyScene.classList.remove("fade-in");
-        readyScene.classList.add("fade-out");
+        fadeOut(continueBtn, 3000);
+        fadeOut(readyImg, 3000);
         setTimeout(() => {
           window.location.href = "home.html";
         }, 3000);
