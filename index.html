@@ -38,10 +38,10 @@
         fadeIn(readyImg, 6000);
       }, 50);
 
-      // Fade in button for 12s (at the same time as image)
+      // Button waits 12s, then fades in for 3s
       setTimeout(() => {
-        fadeIn(continueBtn, 12000);
-      }, 50);
+        fadeIn(continueBtn, 3000);
+      }, 12000);
 
       // When button is clicked, fade out button & image for 3s
       continueBtn.addEventListener("click", function () {
