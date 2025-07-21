@@ -6,6 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Are You Ready? | NEYDRA Intro</title>
   <link rel="stylesheet" href="intro.css" />
+  <!-- Black search bar and browser theme -->
+  <meta name="theme-color" content="#000000">
+  <meta name="msapplication-navbutton-color" content="#000000">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <style>
     body { margin: 0; background: #000; overflow: hidden; }
   </style>
@@ -15,7 +19,15 @@
     <img src="assets/are-you-ready.png" alt="Are you ready?" class="ready-img">
     <button id="continueBtn" class="ready-continue-btn">Continue</button>
   </div>
+  <!-- THEME MUSIC 2 -->
+  <audio id="theme-music2" src="assets/theme-music2.mp3" loop></audio>
+  <!-- CLICK SOUNDS -->
+  <audio id="click-sound1" src="click-sound1.mp3" preload="auto"></audio>
+  <audio id="click-sound2" src="click-sound2.mp3" preload="auto"></audio>
+  <audio id="click-sound3" src="click-sound3.mp3" preload="auto"></audio>
+  <audio id="click-sound4" src="click-sound4.mp3" preload="auto"></audio>
   <script>
+    // Fade helpers
     function fadeIn(element, duration) {
       element.style.transition = `opacity ${duration}ms ease-in-out`;
       element.style.opacity = 1;
@@ -23,6 +35,44 @@
     function fadeOut(element, duration) {
       element.style.transition = `opacity ${duration}ms ease-in-out`;
       element.style.opacity = 0;
+    }
+
+    // Click sound
+    function playClickSound() {
+      var sounds = [
+        document.getElementById("click-sound1"),
+        document.getElementById("click-sound2"),
+        document.getElementById("click-sound3"),
+        document.getElementById("click-sound4")
+      ];
+      var sound = sounds[Math.floor(Math.random() * sounds.length)];
+      sound.currentTime = 0;
+      sound.play();
+    }
+
+    // Theme music 2 controls
+    function playThemeMusic2() {
+      var audio = document.getElementById("theme-music2");
+      audio.play();
+    }
+    function stopThemeMusic2() {
+      var audio = document.getElementById("theme-music2");
+      audio.pause();
+      audio.currentTime = 0;
+    }
+
+    // Request fullscreen
+    function requestFullscreen() {
+      var elem = document.documentElement;
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.mozRequestFullScreen) {
+        elem.mozRequestFullScreen();
+      } else if (elem.webkitRequestFullscreen) {
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) {
+        elem.msRequestFullscreen();
+      }
     }
 
     window.addEventListener("DOMContentLoaded", function () {
@@ -43,13 +93,28 @@
         fadeIn(continueBtn, 3000);
       }, 12000);
 
-      // When button is clicked, fade out button & image for 3s
+      // Play theme music2 on load
+      playThemeMusic2();
+
+      // Request fullscreen on load
+      requestFullscreen();
+
+      // Play click sound on button click
+      continueBtn.addEventListener('click', playClickSound);
+
+      // When button is clicked, fade out button & image for 3s, stop theme music2, then redirect
       continueBtn.addEventListener("click", function () {
         fadeOut(continueBtn, 3000);
         fadeOut(readyImg, 3000);
+        stopThemeMusic2();
         setTimeout(() => {
           window.location.href = "home.html";
         }, 3000);
+      });
+
+      // Stop theme music2 if user leaves the page
+      window.addEventListener("beforeunload", function () {
+        stopThemeMusic2();
       });
     });
   </script>
