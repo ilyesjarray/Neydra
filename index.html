@@ -51,9 +51,10 @@
     }
 
     // Theme music 2 controls
-var themeMusic2 = document.getElementById("theme-music2");
-themeMusic2.play();
-    
+    function playThemeMusic2() {
+      var audio = document.getElementById("theme-music2");
+      audio.play();
+    }
     function stopThemeMusic2() {
       var audio = document.getElementById("theme-music2");
       audio.pause();
