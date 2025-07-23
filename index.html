@@ -100,11 +100,11 @@
       // When button is clicked, fade out button & image for 3s, stop theme music2, then redirect
       continueBtn.addEventListener("click", function () {
         fadeOut(continueBtn, 3000);
-        fadeOut(readyImg, 3000);
+        fadeOut(readyImg, 6000);
         stopThemeMusic2();
         setTimeout(() => {
           window.location.href = "home.html";
-        }, 3000);
+        }, 6000);
       });
 
       // Stop theme music2 if user leaves the page
