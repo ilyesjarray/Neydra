@@ -16,6 +16,16 @@
   <meta name="msapplication-navbutton-color" content="#000000">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXXXXXX-X"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-XXXXXXXXX-X');
+  </script>
+
   <link href="https://cdn.jsdelivr.net/npm/remixicon@3.0.0/fonts/remixicon.css" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <!-- AOS Animate On Scroll CSS -->
@@ -25,13 +35,15 @@
   <title>Ilyes Official site | NEYDRA™ Page</title>
   <!-- EmailJS SDK -->
   <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
-  <script>
+  <script type="text/javascript">
     (function() {
-      emailjs.init("QrxaXFcp-hMFZabQc");
+      emailjs.init("QrxaXFcp-hMFZabQc"); // Replace with your EmailJS Public Key
     })();
   </script>
   <style>
-    body { margin: 0; }
+    body {
+      margin: 0;
+    }
     .gif-container {
       display: flex;
       justify-content: center;
@@ -54,33 +66,18 @@
     }
   </style>
 </head>
-<body class="cyberpunk">
-  <!-- CYBERPUNK ANIMATED BACKGROUND ELEMENTS -->
-  <div class="cyber-bg"></div>
-  <div class="cyber-gradient"></div>
-  <div class="matrix-rain"></div>
-  <div class="grid-overlay">
-    <div class="grid-lines"></div>
-    <div class="grid-glow"></div>
-  </div>
-  <div class="particles"></div>
-  <div class="orb orb1"></div>
-  <div class="orb orb2"></div>
-  <div class="orb orb3"></div>
-  <div class="scanlines"></div>
-  <div class="noise-overlay"></div>
-
+<body>
   <!-- Loading GIF -->
   <div class="gif-container" id="loadingGif">
     <img src="assets/red-earth.gif" alt="Loading..." />
   </div>
 
+  <!-- Starting Sound -->
   <audio id="starting-sound" src="assets/starting-sound.mp3" preload="auto"></audio>
+
+  <!-- Theme Music -->
   <audio id="theme-music" src="assets/theme-music.mp3" loop></audio>
-  <audio id="click-sound1" src="click-sound1.mp3" preload="auto"></audio>
-  <audio id="click-sound2" src="click-sound2.mp3" preload="auto"></audio>
-  <audio id="click-sound3" src="click-sound3.mp3" preload="auto"></audio>
-  <audio id="click-sound4" src="click-sound4.mp3" preload="auto"></audio>
+
 
   <nav>
     <div class="nav__logo"><a href="#"> <span class="fade-in-effect">NEYDRA</span>™</a></div>
@@ -114,6 +111,7 @@
           We stand on the edge of a new era—where the impossible is no longer just a dream but a challenge waiting to be conquered.
           At NEYDRA, we refuse to be confined by the ordinary. We are visionaries, creators, and pioneers on a mission to bring imagination to life
           to craft a world beyond the mundane, and to revolutionize the way we experience existence. This is not just an idea; this is the beginning of a new world.
+          
           Are you ready to step beyond the boundaries of reality and build the future with us? Join NEYDRA. Become part of the revolution.
         </p>
       </div>
@@ -166,7 +164,7 @@
     </div>
   </section>
 
-  <!-- Adsterra Ad Block -->
+    <!-- Adsterra Ad Block -->
   <script async="async" data-cfasync="false" src="//pl27182313.profitableratecpm.com/c6326231df53317cb52df53a618813f6/invoke.js"></script>
   <div id="container-c6326231df53317cb52df53a618813f6"></div>
 
@@ -181,6 +179,7 @@
             website. Simply fill out the form with your name, email address,
             and message, and I will get back to you as soon as possible.
           </p>
+          <p>  </p>
         </div>
         <div class="social__icons">
           <a href="https://www.facebook.com/share/1R4UFHcKoN/" class="icon"><i class="ri-facebook-fill"></i></a>
@@ -195,132 +194,159 @@
         <div class="action__btns">
           <button type="submit" class="btn">Send Message</button>
         </div>
-        <script type="text/javascript">
-          atOptions = {
-            'key' : '0a919674e2889e8fec6a3aaf516f9a64',
-            'format' : 'iframe',
-            'height' : 50,
-            'width' : 320,
-            'params' : {}
-          };
-        </script>
-        <script type="text/javascript" src="//www.highperformanceformat.com/0a919674e2889e8fec6a3aaf516f9a64/invoke.js"></script>
+        
+<script type="text/javascript">
+	atOptions = {
+		'key' : '0a919674e2889e8fec6a3aaf516f9a64',
+		'format' : 'iframe',
+		'height' : 50,
+		'width' : 320,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//www.highperformanceformat.com/0a919674e2889e8fec6a3aaf516f9a64/invoke.js"></script>
+      
       </form>
-    </div>
-  </footer>
+    </footer>
 
-  <!-- JS SCRIPTS (unchanged) -->
-  <script type="text/javascript">
-    // Function to play a random click sound
-    function playClickSound() {
-      var sounds = [
-        document.getElementById("click-sound1"),
-        document.getElementById("click-sound2"),
-        document.getElementById("click-sound3"),
-        document.getElementById("click-sound4")
-      ];
-      var sound = sounds[Math.floor(Math.random() * sounds.length)];
-      sound.play();
-    }
+    
 
-    // Add event listeners for click and touch events
-    document.querySelectorAll('button, a').forEach(function(element) {
-      element.addEventListener('click', playClickSound);
-      element.addEventListener('touchstart', playClickSound);
-    });
+    <!-- Add audio elements for the click sound -->
+    <audio id="click-sound1" src="click-sound1.mp3" preload="auto"></audio>
+    <audio id="click-sound2" src="click-sound2.mp3" preload="auto"></audio>
+    <audio id="click-sound3" src="click-sound3.mp3" preload="auto"></audio>
+    <audio id="click-sound4" src="click-sound4.mp3" preload="auto"></audio>
 
-    document.getElementById('contact-form').addEventListener('submit', function(event) {
-      event.preventDefault();
-      var name = document.getElementById('user_name').value.trim();
-      var email = document.getElementById('user_email').value.trim();
-      var phone = document.getElementById('user_phone').value.trim();
-      var message = document.getElementById('message').value.trim();
-      if (!name || !email || !phone || !message) {
-        alert('Please fill in all fields correctly.');
-        return;
+    <script type="text/javascript">
+      // Function to play a random click sound
+      function playClickSound() {
+        var sounds = [
+          document.getElementById("click-sound1"),
+          document.getElementById("click-sound2"),
+          document.getElementById("click-sound3"),
+          document.getElementById("click-sound4")
+        ];
+        var sound = sounds[Math.floor(Math.random() * sounds.length)];
+        sound.play();
       }
-      emailjs.sendForm('service_v1sa9hj', 'template_qi7mgvx', this)
-        .then(function() {
-          alert('Email sent successfully!');
-        }, function(error) {
-          console.log('Failed to send email:', error);
-        });
-    });
 
-    // Function to play theme music
-    function playThemeMusic() {
-      var themeMusic = document.getElementById("theme-music");
-      themeMusic.play();
-    }
-
-    window.addEventListener("beforeunload", function () {
-      var themeMusic = document.getElementById("theme-music");
-      themeMusic.pause();
-      themeMusic.currentTime = 0;
-    });
-
-    // Register service worker
-    if ('serviceWorker' in navigator && 'PushManager' in window) {
-      navigator.serviceWorker.register('service-worker.js')
-        .then(function(registration) {
-          console.log('Service Worker registered with scope:', registration.scope);
-          return Notification.requestPermission().then(function(permission) {
-            if (permission === 'granted') {
-              return registration.pushManager.subscribe({ userVisibleOnly: true });
-            }
-          });
-        });
-      navigator.serviceWorker.ready.then(function(registration) {
-        registration.sync.register('my-background-sync');
+      // Add event listeners for click and touch events
+      document.querySelectorAll('button, a').forEach(function(element) {
+        element.addEventListener('click', playClickSound);
+        element.addEventListener('touchstart', playClickSound);
       });
-    }
 
-    var gifDuration = 8000;
-    var startingSound = document.getElementById("starting-sound");
-    var themeMusic = document.getElementById("theme-music");
-    startingSound.play();
-    themeMusic.play();
+      document.getElementById('contact-form').addEventListener('submit', function(event) {
+        event.preventDefault();
 
-    window.addEventListener('load', function () {
-      setTimeout(function () {
-        var loadingGif = document.getElementById('loadingGif');
-        loadingGif.classList.add('fade-out');
-        setTimeout(function () {
-          loadingGif.style.display = 'none';
-        }, 3000);
-      }, gifDuration);
-      // Start cyberpunk background effects (JS for matrix rain/particles if needed)
-      // Optional: JS for animated particles or matrix rain
-    });
+        // Form validation
+        var name = document.getElementById('user_name').value.trim();
+        var email = document.getElementById('user_email').value.trim();
+        var phone = document.getElementById('user_phone').value.trim();
+        var message = document.getElementById('message').value.trim();
 
-    function requestFullscreen() {
-      var elem = document.documentElement;
-      if (elem.requestFullscreen) {
-        elem.requestFullscreen();
-      } else if (elem.mozRequestFullScreen) {
-        elem.mozRequestFullScreen();
-      } else if (elem.webkitRequestFullscreen) {
-        elem.webkitRequestFullscreen();
-      } else if (elem.msRequestFullscreen) {
-        elem.msRequestFullscreen();
+        if (!name || !email || !phone || !message) {
+          alert('Please fill in all fields correctly.');
+          return;
+        }
+
+        emailjs.sendForm('service_v1sa9hj', 'template_qi7mgvx', this)
+          .then(function() {
+            alert('Email sent successfully!');
+          }, function(error) {
+            console.log('Failed to send email:', error);
+          });
+      });
+
+      // Function to play theme music
+      function playThemeMusic() {
+        var themeMusic = document.getElementById("theme-music");
+        themeMusic.play();
       }
-    }
-    window.addEventListener('load', function () {
-      requestFullscreen();
-    });
-  </script>
-  <!-- AOS Animate On Scroll JS -->
-  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-  <script>
-    AOS.init({
-      duration: 9000,
-      once: true
-    });
-  </script>
-  <!-- Social Bar Ad Code -->
-  <script type='text/javascript' src='//pl27183052.profitableratecpm.com/1e/ca/d2/1ecad259ec13c85f487a7be8cd1dd5df.js'></script>
+
+      // Ensure the music stops when the site is closed
+      window.addEventListener("beforeunload", function () {
+        var themeMusic = document.getElementById("theme-music");
+        themeMusic.pause();
+        themeMusic.currentTime = 0;
+      });
+
+      // Register service worker
+      if ('serviceWorker' in navigator && 'PushManager' in window) {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(function(registration) {
+            console.log('Service Worker registered with scope:', registration.scope);
+
+            // Request permission for push notifications
+            return Notification.requestPermission().then(function(permission) {
+              if (permission === 'granted') {
+                // Subscribe to push notifications
+                return registration.pushManager.subscribe({ userVisibleOnly: true });
+              }
+            });
+          });
+
+        // Register for background sync
+        navigator.serviceWorker.ready.then(function(registration) {
+          registration.sync.register('my-background-sync');
+        });
+      }
+
+      // Set the duration of the GIF in milliseconds
+      var gifDuration = 8000; // Example: 8000ms (8 seconds)
+
+      // Play the starting sound and theme music immediately
+      var startingSound = document.getElementById("starting-sound");
+      var themeMusic = document.getElementById("theme-music");
+      startingSound.play();
+      themeMusic.play();
+
+      window.addEventListener('load', function () {
+        setTimeout(function () {
+          var loadingGif = document.getElementById('loadingGif');
+          loadingGif.classList.add('fade-out');
+          setTimeout(function () {
+            loadingGif.style.display = 'none';
+          }, 3000); // Fade-out transition duration
+        }, gifDuration);
+      });
+
+      // Function to request fullscreen
+      function requestFullscreen() {
+        var elem = document.documentElement;
+        if (elem.requestFullscreen) {
+          elem.requestFullscreen();
+        } else if (elem.mozRequestFullScreen) { // Firefox
+          elem.mozRequestFullScreen();
+        } else if (elem.webkitRequestFullscreen) { // Chrome, Safari and Opera
+          elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) { // IE/Edge
+          elem.msRequestFullscreen();
+        }
+      }
+
+      // Request fullscreen on load
+      window.addEventListener('load', function () {
+        requestFullscreen();
+      });
+    </script>
+    <!-- AOS Animate On Scroll JS -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+      AOS.init({
+        duration: 9000,
+        once: true
+      });
+    </script>
+    <!-- Social Bar Ad Code -->
+    <script type='text/javascript' src='//pl27183052.profitableratecpm.com/1e/ca/d2/1ecad259ec13c85f487a7be8cd1dd5df.js'></script>
+
   <!-- Elfsight WhatsApp Chat | Untitled WhatsApp Chat -->
   <script src="https://static.elfsight.com/platform/platform.js" async></script>
   <div class="elfsight-app-43e72c24-5b30-4a1e-84e9-2d1640196082" data-elfsight-app-lazy></div>
-</body>
+
+
+
+  
+  </body>
 </html>
