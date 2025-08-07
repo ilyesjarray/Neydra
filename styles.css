@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&display=swap');
 
 :root {
   --primary-color: #000000;
@@ -8,7 +9,231 @@
   --text-light: #9ca3af;
   --white: #ffffff;
   --max-width: 1200px;
+
+  /* Cyberpunk palette additions */
+  --primary-grey: #e5e7eb;
+  --primary-orange: #f97316;
+  --primary-purple: #7c3aed;
+  --secondary-amber: #fbbf24;
+  --dark-bg: #1a0b2e;
+  --darker-bg: #0f051a;
+  --card-bg: rgba(229, 231, 235, 0.03);
+  --border-color: rgba(229, 231, 235, 0.2);
+  --text-primary: #ffffff;
+  --text-secondary: #a1a1aa;
+  --primary-cyan: #00ffff;
+  --primary-pink: #ff00ff;
 }
+
+/* CYBERPUNK BACKGROUNDS & SPECIAL EFFECTS */
+.cyber-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--darker-bg);
+  overflow: hidden;
+  z-index: -5;
+}
+.cyber-gradient {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(255, 0, 255, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 40% 80%, rgba(124, 58, 237, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 60% 20%, rgba(249, 115, 22, 0.15) 0%, transparent 50%);
+  animation: gradientRotate 30s linear infinite;
+  filter: blur(40px);
+}
+@keyframes gradientRotate {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.2); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+.matrix-rain {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  opacity: 0.15;
+}
+.matrix-column {
+  position: absolute;
+  top: -100vh;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  color: var(--primary-cyan);
+  text-shadow: 0 0 5px var(--primary-cyan);
+  animation: matrixFall linear infinite;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  background: linear-gradient(to bottom, transparent 0%, var(--primary-cyan) 50%, transparent 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.matrix-column:nth-child(3n) {
+  color: var(--primary-pink);
+  text-shadow: 0 0 5px var(--primary-pink);
+  background: linear-gradient(to bottom, transparent 0%, var(--primary-pink) 50%, transparent 100%);
+}
+.matrix-column:nth-child(5n) {
+  color: var(--primary-purple);
+  text-shadow: 0 0 5px var(--primary-purple);
+  background: linear-gradient(to bottom, transparent 0%, var(--primary-purple) 50%, transparent 100%);
+}
+@keyframes matrixFall {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(200vh); }
+}
+.grid-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+}
+.grid-lines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(0, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: gridMove 20s linear infinite;
+}
+.grid-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(255, 0, 255, 0.03) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(255, 0, 255, 0.03) 2px, transparent 2px);
+  background-size: 100px 100px;
+  animation: gridMove 30s linear infinite reverse;
+}
+@keyframes gridMove {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(50px, 50px); }
+}
+.particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -3;
+}
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--primary-cyan);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--primary-cyan);
+  animation: float 20s infinite;
+  opacity: 0;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.particle:nth-child(odd) {
+  background: var(--primary-pink);
+  box-shadow: 0 0 10px var(--primary-pink);
+  animation-duration: 25s;
+}
+@keyframes float {
+  0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
+}
+.orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.5;
+  animation: orbFloat 20s ease-in-out infinite;
+  pointer-events: none;
+  z-index: -4;
+}
+.orb1 { width: 300px; height: 300px; background: var(--primary-cyan); top: 10%; left: -150px; animation-delay: 0s; }
+.orb2 { width: 400px; height: 400px; background: var(--primary-pink); bottom: 10%; right: -200px; animation-delay: 5s; }
+.orb3 { width: 250px; height: 250px; background: var(--primary-purple); top: 50%; left: 50%; animation-delay: 10s; }
+@keyframes orbFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(100px, -50px) scale(1.1); }
+  66% { transform: translate(-50px, 100px) scale(0.9); }
+}
+.scanlines {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+}
+.scanlines::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    transparent 0%,
+    rgba(0, 255, 255, 0.03) 50%,
+    transparent 100%
+  );
+  background-size: 100% 4px;
+  animation: scanline 8s linear infinite;
+}
+.scanlines::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.8) 100%);
+  pointer-events: none;
+}
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+.noise-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.03;
+  z-index: -1;
+  pointer-events: none;
+  background-image: 
+    repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(255, 255, 255, 0.03) 2px, rgba(255, 255, 255, 0.03) 4px),
+    repeating-linear-gradient(-45deg, transparent, transparent 2px, rgba(0, 255, 255, 0.02) 2px, rgba(0, 255, 255, 0.02) 4px);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--darker-bg); }
+::-webkit-scrollbar-thumb { background: linear-gradient(var(--primary-cyan), var(--primary-pink)); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: linear-gradient(var(--primary-pink), var(--primary-cyan)); }
 
 * {
   padding: 0;
@@ -78,6 +303,14 @@ body {
   font-family: "Poppins", sans-serif;
   background-color: var(--primary-color); /* Ensure the black background fills the entire viewport */
   cursor: url("assets/mouseicon.png"), auto;
+}
+
+/* Use cyberpunk font for cyberpunk sections */
+body.cyberpunk {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  background: var(--darker-bg);
+  color: var(--text-primary);
+  line-height: 1.6;
 }
 
 nav {
@@ -347,44 +580,80 @@ footer {
   width: max-content;
 }
 
+/* Modern cyberpunk buttons */
+.cyber-button,
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple));
+  color: var(--darker-bg);
+  padding: 1rem 2rem;
+  text-decoration: none;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
+  clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+  width: 100%;
+  text-align: center;
+}
+.cyber-button:hover,
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+}
+
+/* Animations for hero/cyber sections */
+@keyframes cyanPulse {
+  0%, 100% { 
+    filter: brightness(1) drop-shadow(0 0 15px rgba(0, 255, 255, 0.6));
+    transform: translateY(0) scale(1);
+  }
+  50% { 
+    filter: brightness(1.1) drop-shadow(0 0 25px rgba(0, 255, 255, 0.8));
+    transform: translateY(-2px) scale(1.01);
+  }
+}
+@keyframes purplePulse {
+  0%, 100% { 
+    filter: brightness(1) drop-shadow(0 0 15px rgba(255, 0, 255, 0.6));
+    transform: translateY(0) scale(1);
+  }
+  50% { 
+    filter: brightness(1.1) drop-shadow(0 0 25px rgba(255, 0, 255, 0.8));
+    transform: translateY(-2px) scale(1.01);
+  }
+}
+
 /* Media queries */
 @media (min-width: 640px) {
   .section__title {
     font-size: 2.5rem;
   }
-
   .header__container p {
     margin: 2rem 0;
   }
-
   .header__container h1 {
     font-size: 4rem;
     line-height: 4rem;
   }
-
   .action__btns {
     gap: 2rem;
   }
-
   .about__container {
     flex-direction: row;
   }
-
   .about__content {
     align-items: flex-start;
   }
-
   .about__details {
     text-align: left;
   }
-
   .service__grid,
   .project__grid,
   .videos__container {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
-
   .footer__container {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -395,7 +664,6 @@ footer {
     font-size: 5rem;
     line-height: 5rem;
   }
-
   .service__grid,
   .project__grid,
   .videos__container {
@@ -443,12 +711,10 @@ footer {
   z-index: 9999;
   transition: opacity 14s ease-in-out;
 }
-
 .gif-container img {
   max-width: 100%;
   max-height: 100%;
 }
-
 .gif-container.fade-out {
   opacity: 0;
 }
