@@ -11,18 +11,18 @@
   --max-width: 1200px;
 
   /* Cyberpunk palette additions */
-  --primary-grey: #e5e7eb;
-  --primary-orange: #f97316;
-  --primary-purple: #7c3aed;
-  --secondary-amber: #fbbf24;
-  --dark-bg: #1a0b2e;
-  --darker-bg: #0f051a;
+  --primary-grey: #000000;
+  --primary-orange: #000000;
+  --primary-purple: #000000;
+  --secondary-amber: #000000;
+  --dark-bg: #000000;
+  --darker-bg: #000000;
   --card-bg: rgba(229, 231, 235, 0.03);
   --border-color: rgba(229, 231, 235, 0.2);
-  --text-primary: #ffffff;
-  --text-secondary: #a1a1aa;
-  --primary-cyan: #00ffff;
-  --primary-pink: #ff00ff;
+  --text-primary: #000000;
+  --text-secondary: #000000;
+  --primary-cyan: #000000;
+  --primary-pink: #000000;
 }
 
 /* CYBERPUNK BACKGROUNDS & SPECIAL EFFECTS */
@@ -343,14 +343,14 @@ nav.bottom-nav li a img {
   transition: transform 0.3s ease, filter 0.3s;
   filter: drop-shadow(0 0 8px var(--primary-cyan));
   border-radius: 12px;
-  background: rgba(0,255,255,0.07);
+  background: rgba(0,0,0,0.07);
   padding: 7px;
 }
 
 nav.bottom-nav li a img:hover {
-  transform: scale(1.2) rotate(-8deg);
+  transform: scale(1.2) rotate(-0deg);
   filter: drop-shadow(0 0 24px var(--primary-pink)) brightness(1.1);
-  background: rgba(255,0,255,0.09);
+  background: rgba(255,0,0,0.09);
 }
 
 header {
@@ -737,3 +737,4 @@ footer {
 .gif-container.fade-out {
   opacity: 0;
 }
+
