@@ -328,7 +328,7 @@ nav.bottom-nav {
 nav.bottom-nav ul {
   list-style: none;
   display: flex;
-  gap: 40px;
+  gap: 200px;
   margin: 0;
   padding: 0;
 }
@@ -737,6 +737,7 @@ footer {
 .gif-container.fade-out {
   opacity: 0;
 }
+
 
 
 
