@@ -328,30 +328,34 @@ nav.bottom-nav {
 nav.bottom-nav ul {
   list-style: none;
   display: flex;
-  gap: 200px;
+  gap: 40px;
   margin: 0;
   padding: 0;
 }
 
 nav.bottom-nav li {
-  display: inline-block;
+  display: flex;           /* أحسن من inline-block */
+  justify-content: center; 
+  align-items: center;
 }
+
 
 nav.bottom-nav li a img {
   width: 150px;
   height: 150px;
+  border-radius: 50%; /* يجعل الصورة دائرية */
   transition: transform 0.3s ease, filter 0.3s;
-  filter: drop-shadow(0 0 8px var(--primary-cyan));
-  border-radius: 12px;
+  filter: drop-shadow(0 0 8px var(--primary-cyan)); /* الإشعاع */
   background: rgba(0,0,0,0.07);
   padding: 7px;
 }
 
 nav.bottom-nav li a img:hover {
-  transform: scale(1.2) rotate(-0deg);
+  transform: scale(1.2);
   filter: drop-shadow(0 0 24px var(--primary-pink)) brightness(1.1);
   background: rgba(255,0,0,0.09);
 }
+
 
 header {
   height: 100vh;
@@ -737,6 +741,7 @@ footer {
 .gif-container.fade-out {
   opacity: 0;
 }
+
 
 
 
