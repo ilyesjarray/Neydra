@@ -22,7 +22,7 @@
   --text-primary: #000000;
   --text-secondary: #000000;
   --primary-cyan: #000000;
-  --primary-pink: #000000;
+  --primary-pink: #ff0000;
 }
 
 /* CYBERPUNK BACKGROUNDS & SPECIAL EFFECTS */
@@ -338,8 +338,8 @@ nav.bottom-nav li {
 }
 
 nav.bottom-nav li a img {
-  width: 50px;
-  height: 50px;
+  width: 200px;
+  height: 200px;
   transition: transform 0.3s ease, filter 0.3s;
   filter: drop-shadow(0 0 8px var(--primary-cyan));
   border-radius: 12px;
@@ -737,4 +737,5 @@ footer {
 .gif-container.fade-out {
   opacity: 0;
 }
+
 
