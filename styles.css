@@ -339,22 +339,38 @@ nav.bottom-nav li {
   align-items: center;
 }
 
+nav.bottom-nav li a {
+  border: none !important;
+  outline: none !important;
+  text-decoration: none;
+}
 
 nav.bottom-nav li a img {
   width: 150px;
   height: 150px;
   border-radius: 50%; /* يجعل الصورة دائرية */
   transition: transform 0.3s ease, filter 0.3s;
-  filter: drop-shadow(0 0 8px var(--primary-cyan)); /* الإشعاع */
+  filter: drop-shadow(0 0 8px var(--primary-cyan)); /* إشعاع افتراضي */
   background: rgba(0,0,0,0.07);
   padding: 7px;
+  border: none;       /* منع أي حدود */
+  outline: none;      /* منع أي خطوط تركيز */
 }
 
 nav.bottom-nav li a img:hover {
   transform: scale(1.2);
-  filter: drop-shadow(0 0 24px var(--primary-pink)) brightness(1.1);
+  filter: drop-shadow(0 0 18px var(--primary-pink)) brightness(1.1); /* إشعاع أخف وأجمل */
   background: rgba(255,0,0,0.09);
+  border: none;
+  outline: none;
 }
+
+nav.bottom-nav li a img:focus,
+nav.bottom-nav li a img:active {
+  border: none !important;
+  outline: none !important;
+}
+
 
 
 header {
@@ -741,6 +757,7 @@ footer {
 .gif-container.fade-out {
   opacity: 0;
 }
+
 
 
 
