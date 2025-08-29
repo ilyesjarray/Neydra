@@ -21,7 +21,7 @@
   --border-color: rgba(229, 231, 235, 0.2);
   --text-primary: #000000;
   --text-secondary: #000000;
-  --primary-cyan: #000000;
+  --primary-cyan: #ff0000;
   --primary-pink: #ff0000;
 }
 
@@ -338,8 +338,8 @@ nav.bottom-nav li {
 }
 
 nav.bottom-nav li a img {
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
   transition: transform 0.3s ease, filter 0.3s;
   filter: drop-shadow(0 0 8px var(--primary-cyan));
   border-radius: 12px;
@@ -737,5 +737,6 @@ footer {
 .gif-container.fade-out {
   opacity: 0;
 }
+
 
 
