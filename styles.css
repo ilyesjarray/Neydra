@@ -11,18 +11,18 @@
   --max-width: 1200px;
 
   /* Cyberpunk palette additions */
-  --primary-grey: #000000;
-  --primary-orange: #000000;
-  --primary-purple: #000000;
-  --secondary-amber: #000000;
-  --dark-bg: #000000;
-  --darker-bg: #000000;
-  --card-bg: rgba(0, 0, 0, 0.03);
-  --border-color: rgba(0, 0, 0, 0.2);
+  --primary-grey: #e5e7eb;
+  --primary-orange: #f97316;
+  --primary-purple: #7c3aed;
+  --secondary-amber: #fbbf24;
+  --dark-bg: #1a0b2e;
+  --darker-bg: #0f051a;
+  --card-bg: rgba(229, 231, 235, 0.03);
+  --border-color: rgba(229, 231, 235, 0.2);
   --text-primary: #ffffff;
-  --text-secondary: #000000;
-  --primary-cyan: #000000;
-  --primary-pink: #000000;
+  --text-secondary: #a1a1aa;
+  --primary-cyan: #00ffff;
+  --primary-pink: #ff00ff;
 }
 
 /* CYBERPUNK BACKGROUNDS & SPECIAL EFFECTS */
@@ -43,10 +43,10 @@
   width: 200%;
   height: 200%;
   background: 
-    radial-gradient(circle at 20% 30%, rgba(0, 0, 0, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 80% 70%, rgba(0, 0, 0, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 40% 80%, rgba(0, 0, 0, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 60% 20%, rgba(0, 0, 0, 0.15) 0%, transparent 50%);
+    radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(255, 0, 255, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 40% 80%, rgba(124, 58, 237, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 60% 20%, rgba(249, 115, 22, 0.15) 0%, transparent 50%);
   animation: gradientRotate 30s linear infinite;
   filter: blur(40px);
 }
@@ -108,8 +108,8 @@
   width: 100%;
   height: 100%;
   background-image: 
-    linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+    linear-gradient(rgba(0, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 255, 0.05) 1px, transparent 1px);
   background-size: 50px 50px;
   animation: gridMove 20s linear infinite;
 }
@@ -120,8 +120,8 @@
   width: 100%;
   height: 100%;
   background-image: 
-    linear-gradient(rgba(0, 0, 0, 0.03) 2px, transparent 2px),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.03) 2px, transparent 2px);
+    linear-gradient(rgba(255, 0, 255, 0.03) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(255, 0, 255, 0.03) 2px, transparent 2px);
   background-size: 100px 100px;
   animation: gridMove 30s linear infinite reverse;
 }
@@ -195,7 +195,7 @@
   height: 100%;
   background: linear-gradient(
     transparent 0%,
-    rgba(255, 0, 0, 0.03) 50%,
+    rgba(0, 255, 255, 0.03) 50%,
     transparent 100%
   );
   background-size: 100% 4px;
@@ -299,7 +299,7 @@ a {
 }
 
 body {
-  color: var (--white);
+  color: var(--white);
   font-family: "Poppins", sans-serif;
   background-color: var(--primary-color); /* Ensure the black background fills the entire viewport */
   cursor: url("assets/mouseicon.png"), auto;
@@ -313,51 +313,55 @@ body.cyberpunk {
   line-height: 1.6;
 }
 
-nav {
+/* ------ NAVIGATION BAR INSIDE HEADER AT THE BOTTOM CENTER ------ */
+/* Remove old nav styles for main navigation bar, as now it's in header */
+nav.bottom-nav {
   position: absolute;
-  width: 100%;
-  top: 0;
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  max-width: var(--max-width);
-  padding: 1rem;
+  z-index: 3;
+  background: none;
+  box-shadow: none;
 }
 
-nav .nav__logo a {
-  font-size: 1.5rem;
-  font-weight: 600;
-}
-
-nav .nav__logo a span {
-  color: var(--secondary-color);
-}
-
-nav ul {
+nav.bottom-nav ul {
   list-style: none;
   display: flex;
-  gap: 1rem;
+  gap: 40px;
+  margin: 0;
+  padding: 0;
 }
 
-nav ul li {
-  display: inline;
+nav.bottom-nav li {
+  display: inline-block;
 }
 
-nav ul li a {
-  color: var(--white);
-  text-decoration: none;
-  font-weight: 500;
+nav.bottom-nav li a img {
+  width: 50px;
+  height: 50px;
+  transition: transform 0.3s ease, filter 0.3s;
+  filter: drop-shadow(0 0 8px var(--primary-cyan));
+  border-radius: 12px;
+  background: rgba(0,255,255,0.07);
+  padding: 7px;
 }
 
-nav ul li a:hover {
-  color: var(--secondary-color);
+nav.bottom-nav li a img:hover {
+  transform: scale(1.2) rotate(-8deg);
+  filter: drop-shadow(0 0 24px var(--primary-pink)) brightness(1.1);
+  background: rgba(255,0,255,0.09);
 }
 
 header {
   height: 100vh;
+  min-height: 600px;
   background-image: url("assets/header-bg.png");
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
+  position: relative;
+  overflow: hidden;
 }
 
 .header__container {
@@ -385,6 +389,7 @@ header {
   color: var(--secondary-color);
   animation: neon 3s infinite;
 }
+
 .action__btns {
   display: flex;
   align-items: center;
@@ -467,35 +472,35 @@ footer {
 .video__card {
   display: grid;
   align-items: flex-start;
-  gap: 0.8rem; /* Reduced gap */
-  padding: 1rem; /* Reduced padding */
+  gap: 0.8rem;
+  padding: 1rem;
   background-color: var(--text-dark);
   border-radius: 5px;
-  transform: scale(1.1); /* Reduced scaling */
+  transform: scale(1.1);
   margin: auto;
 }
 
 .service__card i,
 .video__card video {
-  font-size: 1.2rem; /* Smaller icon size */
+  font-size: 1.2rem;
 }
 
 .service__card h4,
 .video__card h4 {
-  font-size: 0.8rem; /* Reduced heading font size */
+  font-size: 0.8rem;
   font-weight: 500;
 }
 
 .service__card p,
 .video__card p {
-  font-size: 0.7rem; /* Reduced paragraph font size */
+  font-size: 0.7rem;
   color: var(--text-light);
 }
 
 .service__card .read__more {
   width: max-content;
-  padding: 0.3rem 0.8rem; /* Reduced padding */
-  font-size: 0.7rem; /* Reduced font size */
+  padding: 0.3rem 0.8rem;
+  font-size: 0.7rem;
   border-radius: 5px;
   background-color: rgba(255, 255, 255, 0.05);
   cursor: pointer;
@@ -512,7 +517,6 @@ footer {
 .project__card img {
   transition: scale 0.3s;
 }
-
 .project__card:hover img {
   scale: 1.1;
 }
@@ -532,7 +536,7 @@ footer {
 
 .footer__details {
   font-size: 0.8rem;
-  color: var (--text-light);
+  color: var(--text-light);
   margin: 2rem 0;
   display: grid;
   gap: 1rem;
@@ -547,7 +551,7 @@ footer {
 .social__icons .icon {
   padding: 0.5rem;
   border-radius: 5px;
-  color: var (--white);
+  color: var(--white);
   background-color: var(--secondary-color);
   transition: 0.3s;
   cursor: pointer;
@@ -671,6 +675,21 @@ footer {
   }
 }
 
+/* Responsive for bottom nav */
+@media (max-width: 650px) {
+  nav.bottom-nav ul {
+    gap: 18px;
+  }
+  nav.bottom-nav li a img {
+    width: 38px;
+    height: 38px;
+    padding: 4px;
+  }
+  header {
+    min-height: 430px;
+  }
+}
+
 .gif-container img {
   transform: scale(1.385);
 }
@@ -718,5 +737,3 @@ footer {
 .gif-container.fade-out {
   opacity: 0;
 }
-
-
