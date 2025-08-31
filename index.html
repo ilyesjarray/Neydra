@@ -14,17 +14,24 @@
   <meta property="og:image" content="assets/og-image.jpg" />
   <style>
     body { margin: 0; background: #000; overflow: hidden; }
+
+
   </style>
 </head>
 <body>
   <div id="readyScene" class="ready-scene">
     <img src="assets/are-you-ready.png" alt="Are you ready?" class="ready-img">
-    <button id="continueBtn" class="ready-continue-btn">Continue</button>
+    <!-- زر بصورة -->
+    <button id="continueBtn" class="ready-continue-btn">
+      <img src="assets/continue-btn.png" alt="Continue">
+    </button>
   </div>
+
   <!-- THEME MUSIC 2 -->
   <audio id="theme-music2" src="assets/theme-music2.mp3" loop></audio>
   <!-- CLICK SOUNDS -->
   <audio id="click-sound5" src="click-sound5.mp3" preload="auto"></audio>
+
   <script>
     // Fade helpers
     function fadeIn(element, duration) {
