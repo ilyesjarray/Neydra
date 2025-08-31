@@ -29,16 +29,17 @@ body {
   user-select: none;
   opacity: 0;
   transition: opacity 6s ease-in-out;
+  
+  /* ✨ إضافة تأثير الوهج */
+  filter: drop-shadow(0 0 12px #ff0000) brightness(1.1);
 }
 
-/* Centered Button, hold y' vertical center */
+/* Centered Button */
 .ready-continue-btn {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
   top: 40%;
-  /* If you want to keep y' offset, e.g. move a bit up/down, adjust top */
-  /* top: calc(50% + 100px); /* Example to move below center */
   padding: 1rem 2rem;
   font-size: 1.2rem;
   background-color: #ff0000;
@@ -47,10 +48,16 @@ body {
   border-radius: 8px;
   cursor: pointer;
   opacity: 0;
-  transition: opacity 12s ease-in-out, background 0.2s;
+  transition: opacity 12s ease-in-out, background 0.2s, transform 0.3s;
   z-index: 10001;
-}
-.ready-continue-btn:hover {
-  background-color: #880000;
+
+  /* ✨ تأثير وهج وزيادة سطوع */
+  filter: drop-shadow(0 0 7px #ff0000) brightness(1.2);
 }
 
+/* Hover effect */
+.ready-continue-btn:hover {
+  background-color: #880000;
+  transform: scale(1.05); /* تكبير بسيط عند المرور */
+  filter: drop-shadow(0 0 12px #C70000) brightness(1.3);
+}
