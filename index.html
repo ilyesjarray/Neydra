@@ -15,7 +15,33 @@
   <style>
     body { margin: 0; background: #000; overflow: hidden; }
 
+    .ready-continue-btn {
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      outline: none;
+      display: inline-block;
+      opacity: 0; /* start hidden */
+      transition: opacity 0.3s ease-in-out;
+    }
 
+    .ready-continue-btn img {
+      width: 100px; /* حجم الزر */
+      height: auto;
+      filter: drop-shadow(0 0 10px red) brightness(1.1);
+      transition: transform 0.2s ease, filter 0.2s ease;
+    }
+
+    .ready-continue-btn:hover img {
+      transform: scale(1.05);
+      filter: drop-shadow(0 0 15px red) brightness(1.3);
+    }
+
+    .ready-continue-btn:active img {
+      transform: scale(0.95);
+      filter: drop-shadow(0 0 5px red) brightness(0.9);
+    }
   </style>
 </head>
 <body>
@@ -123,3 +149,4 @@
   </script>
 </body>
 </html>
+
