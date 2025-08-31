@@ -38,8 +38,9 @@ body {
 .ready-continue-btn {
   position: absolute;
   left: 50%;
-  transform: translateX(-50%);
   top: 40%;
+  transform: translateX(-50%); /* تبقى لتوسيط الزر */
+  transform-origin: center;   /* ✨ يضمن أن التكبير يتم من المركز */
   padding: 1rem 2rem;
   font-size: 1.2rem;
   background-color: #ff0000;
@@ -58,6 +59,8 @@ body {
 /* Hover effect */
 .ready-continue-btn:hover {
   background-color: #880000;
-  transform: scale(1.05); /* تكبير بسيط عند المرور */
+  transform: translateX(-50%) scale(1.05); /* ✨ ضفنا التوسيط + التكبير مع بعض */
   filter: drop-shadow(0 0 12px #C70000) brightness(1.3);
 }
+
+
