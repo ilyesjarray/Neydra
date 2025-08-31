@@ -13,41 +13,54 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta property="og:image" content="assets/og-image.jpg" />
   <style>
-    body { margin: 0; background: #000; overflow: hidden; }
+    body { 
+      margin: 0; 
+      background: #000; 
+      overflow: hidden; 
+    }
 
+    /* الزر */
     .ready-continue-btn {
       background: none;
       border: none;
       padding: 0;
       cursor: pointer;
       outline: none;
-      display: inline-block;
-      opacity: 0; /* start hidden */
+      opacity: 0; /* يبدأ مخفي */
       transition: opacity 0.3s ease-in-out;
+      border-radius: 50%; /* دائرة */
+    }
+    .ready-continue-btn:focus {
+      outline: none; /* منع الحدود الزرقاء */
     }
 
+    /* صورة الزر */
     .ready-continue-btn img {
-      width: 50px; /* حجم الزر */
-      height: auto;
+      width: 80px; /* حجم الزر */
+      height: 80px;
+      border-radius: 50%; /* دائرية */
+      display: block;
       filter: drop-shadow(0 0 10px red) brightness(1.1);
       transition: transform 0.2s ease, filter 0.2s ease;
     }
 
+    /* عند التمرير */
     .ready-continue-btn:hover img {
       transform: scale(1.05);
       filter: drop-shadow(0 0 15px red) brightness(1.3);
     }
 
+    /* عند الضغط */
     .ready-continue-btn:active img {
       transform: scale(0.95);
-      filter: drop-shadow(0 0 5px red) brightness(0.9);
+      filter: drop-shadow(0 0 6px red) brightness(0.9);
     }
   </style>
 </head>
 <body>
   <div id="readyScene" class="ready-scene">
     <img src="assets/are-you-ready.png" alt="Are you ready?" class="ready-img">
-    <!-- زر بصورة -->
+    <!-- زر دائري بصورة مشعة -->
     <button id="continueBtn" class="ready-continue-btn">
       <img src="assets/continue-btn.png" alt="Continue">
     </button>
@@ -71,9 +84,7 @@
 
     // Click sound
     function playClickSound() {
-      var sounds = [
-        document.getElementById("click-sound5")
-      ];
+      var sounds = [document.getElementById("click-sound5")];
       var sound = sounds[Math.floor(Math.random() * sounds.length)];
       sound.currentTime = 0;
       sound.play();
@@ -149,5 +160,4 @@
   </script>
 </body>
 </html>
-
 
