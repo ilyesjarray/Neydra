@@ -253,8 +253,8 @@ html, body {
 }
 
 .section__title {
-  font-size: 2rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 300;
   text-align: center;
   color: var(--secondary-color);
   animation: neon 3s infinite;
@@ -265,8 +265,8 @@ html, body {
 }
 
 .section__subtitle {
-  font-size: 1rem;
-  font-weight: 500;
+  font-size: 0.5rem;
+  font-weight: 250;
   text-align: center;
   color: var(--secondary-color);
   animation: neon 3s infinite;
@@ -404,8 +404,8 @@ header {
   margin-right: 1rem;
 }
 .header__container h1 {
-  font-size: 3rem;
-  line-height: 3rem;
+  font-size: 1.5rem;
+  line-height: 1.5rem;
   color: var(--secondary-color);
   animation: neon 3s infinite;
 }
@@ -757,6 +757,7 @@ footer {
 .gif-container.fade-out {
   opacity: 0;
 }
+
 
 
 
