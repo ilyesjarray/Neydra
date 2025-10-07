@@ -249,7 +249,7 @@ html, body {
 .section__container {
   max-width: var(--max-width);
   margin: auto;
-  padding: 3rem 1rem;
+  padding: 1rem 1rem;
 }
 
 .section__title {
@@ -651,14 +651,14 @@ footer {
 /* Media queries */
 @media (min-width: 640px) {
   .section__title {
-    font-size: 2.5rem;
+    font-size: 1rem;
   }
   .header__container p {
     margin: 2rem 0;
   }
   .header__container h1 {
-    font-size: 4rem;
-    line-height: 4rem;
+    font-size: 2rem;
+    line-height: 2rem;
   }
   .action__btns {
     gap: 2rem;
@@ -685,8 +685,8 @@ footer {
 
 @media (min-width: 768px) {
   .header__container h1 {
-    font-size: 5rem;
-    line-height: 5rem;
+    font-size: 2rem;
+    line-height: 2rem;
   }
   .service__grid,
   .project__grid,
@@ -757,6 +757,7 @@ footer {
 .gif-container.fade-out {
   opacity: 0;
 }
+
 
 
 
