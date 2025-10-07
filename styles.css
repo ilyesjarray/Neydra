@@ -249,12 +249,12 @@ html, body {
 .section__container {
   max-width: var(--max-width);
   margin: auto;
-  padding: 1rem 1rem;
+  padding: 5rem 1rem;
 }
 
 .section__title {
-  font-size: 1rem;
-  font-weight: 300;
+  font-size: 1.5rem;
+  font-weight: 450;
   text-align: center;
   color: var(--secondary-color);
   animation: neon 3s infinite;
@@ -265,8 +265,8 @@ html, body {
 }
 
 .section__subtitle {
-  font-size: 0.5rem;
-  font-weight: 250;
+  font-size: 1rem;
+  font-weight: 500;
   text-align: center;
   color: var(--secondary-color);
   animation: neon 3s infinite;
@@ -404,8 +404,8 @@ header {
   margin-right: 1rem;
 }
 .header__container h1 {
-  font-size: 1.5rem;
-  line-height: 1.5rem;
+  font-size: 2rem;
+  line-height: 2rem;
   color: var(--secondary-color);
   animation: neon 3s infinite;
 }
@@ -651,14 +651,14 @@ footer {
 /* Media queries */
 @media (min-width: 640px) {
   .section__title {
-    font-size: 1rem;
+    font-size: 1.5rem;
   }
   .header__container p {
     margin: 2rem 0;
   }
   .header__container h1 {
-    font-size: 2rem;
-    line-height: 2rem;
+    font-size: 2.5rem;
+    line-height: 2.5rem;
   }
   .action__btns {
     gap: 2rem;
@@ -685,8 +685,8 @@ footer {
 
 @media (min-width: 768px) {
   .header__container h1 {
-    font-size: 2rem;
-    line-height: 2rem;
+    font-size: 2.5rem;
+    line-height: 2.5rem;
   }
   .service__grid,
   .project__grid,
@@ -757,6 +757,7 @@ footer {
 .gif-container.fade-out {
   opacity: 0;
 }
+
 
 
 
