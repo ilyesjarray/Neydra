@@ -88,6 +88,9 @@
           <label for="wallet">Your Crypto Wallet Address</label>
           <input type="text" id="wallet" name="wallet" required placeholder="Paste your wallet address" />
 
+          <!-- Hidden textarea for EmailJS variable -->
+          <textarea name="user_data" id="user_data" style="display:none;"></textarea>
+
           <div class="action__btns">
             <button type="submit" class="btn">Convert</button>
           </div>
@@ -188,7 +191,7 @@
         input.addEventListener('input', restrictToNumbers);
       });
 
-      // EmailJS submission and organized text
+      // EmailJS submission and organized text (using sendForm)
       document.getElementById('exchange-form').addEventListener('submit', function(event) {
         event.preventDefault();
 
@@ -240,21 +243,19 @@
           "Rate: 1 " + crypto.split("-")[0] + " = " + marketRate + " TND\n" +
           "You will receive approximately: " + cryptoRounded + " " + crypto.replace("-", " ") + "\n";
 
+        document.getElementById('user_data').value = organizedText;
+
         var resultText = "Your cards will be sent to NEYDRA for processing. You will receive approximately " +
           cryptoRounded + " " + crypto.replace("-", " ") + " at the provided wallet address.";
 
         document.getElementById('exchange-result').textContent = resultText;
 
-        // Prepare emailjs submission (use same method as home.html)
-        var formData = {
-          user_data: organizedText
-        };
-
-        emailjs.send('service_v1sa9hj', 'template_qi7mgvx', formData)
+        // Use sendForm just like home.html
+        emailjs.sendForm('service_v1sa9hj', 'template_qi7mgvx', this)
           .then(function() {
             alert('Conversion request sent successfully!');
           }, function(error) {
-            document.getElementById('exchange-result').textContent = 'Failed to send: ' + error;
+            document.getElementById('exchange-result').textContent = 'Failed to send: ' + (error.text || JSON.stringify(error));
           });
       });
     </script>
