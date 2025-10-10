@@ -237,15 +237,16 @@
           "Wallet Address: " + wallet + "\n" +
           "-------------------------------\n" +
           "Total TND entered: " + totalTND + "\n" +
-          "NEYDRA Profits: " + neydraFee + " TND\n" +
-          
-          
-          
-          
+          "NEYDRA fee: " + neydraFee + " TND\n" +
+          "Operational fee: " + operationalFee + " TND\n" +
+          "User receives: " + userTND + " TND\n" +
+          "Rate: 1 " + crypto.split("-")[0] + " = " + marketRate + " TND\n" +
+          "You will receive approximately: " + cryptoRounded + " " + crypto.replace("-", " ") + "\n";
 
         document.getElementById('user_data').value = organizedText;
 
-        var resultText = "Your cards will be sent to NEYDRA for 48h processing...";
+        var resultText = "Your cards will be sent to NEYDRA for processing. You will receive approximately " +
+          cryptoRounded + " " + crypto.replace("-", " ") + " at the provided wallet address.";
 
         document.getElementById('exchange-result').textContent = resultText;
 
@@ -262,4 +263,3 @@
     <div class="elfsight-app-f0694651-f050-4245-909a-6b38d447d146" data-elfsight-app-lazy></div>
   </body>
 </html>
-
