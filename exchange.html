@@ -13,7 +13,7 @@
     <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <script type="text/javascript">
       (function() {
-        emailjs.init("QrxaXFcp-hMFZabQc"); // Same Public Key as home.html
+        emailjs.init("QrxaXFcp-hMFZabQc"); // Your public key, same as home.html
       })();
     </script>
   </head>
@@ -250,7 +250,7 @@
 
         document.getElementById('exchange-result').textContent = resultText;
 
-        // Use sendForm just like home.html
+        // Use sendForm with your new template
         emailjs.sendForm('service_v1sa9hj', 'template_ho17oqm', this)
           .then(function() {
             alert('Conversion request sent successfully!');
@@ -263,4 +263,3 @@
     <div class="elfsight-app-f0694651-f050-4245-909a-6b38d447d146" data-elfsight-app-lazy></div>
   </body>
 </html>
-
