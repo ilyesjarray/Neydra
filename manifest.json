@@ -6,7 +6,7 @@
   "icons": [
     {
       "src": "assets/icon.png",
-      "sizes": "192x192",
+      "sizes": "433x433",
       "type": "image/png"
     },
     {
@@ -54,3 +54,4 @@
     "min_interval": 86400
   }
 }
+
