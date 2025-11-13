@@ -40,6 +40,7 @@
       emailjs.init("QrxaXFcp-hMFZabQc"); // Replace with your EmailJS Public Key
     })();
   </script>
+
   <style>
     body { margin: 0; }
     .gif-container {
@@ -57,6 +58,23 @@
     }
     .gif-container img { max-width: 100%; max-height: 100%; }
     .gif-container.fade-out { opacity: 0; }
+
+    /* Small neon red download button specifically for the PWA install action */
+    #installBtn {
+      display: none; /* shown only after beforeinstallprompt */
+      margin-top: 1rem;
+      padding: 0.45rem 0.9rem;
+      background: linear-gradient(135deg, #ff0000, #cc0000);
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      box-shadow: 0 0 10px rgba(255,0,0,0.55), 0 0 24px rgba(255,0,0,0.15);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    #installBtn:focus { outline: 2px solid rgba(255,0,0,0.25); }
   </style>
 </head>
 <body>
@@ -81,9 +99,11 @@
         Welcome to my Organization! I'm Ilyes
         a skilled and creative web developer
         with a passion for creating Magic Imagination...
-        
-        
       </p>
+
+      <!-- Neon red one-click "Download" install button (hidden until PWA install is available) -->
+      <button id="installBtn" aria-hidden="true" title="Install NEYDRA PWA">Download</button>
+
     </div>
 
     <!-- Navigation bar positioned at the bottom center of the header -->
@@ -213,7 +233,7 @@
         document.getElementById("click-sound4")
       ];
       var sound = sounds[Math.floor(Math.random() * sounds.length)];
-      sound.play();
+      if (sound && sound.play) sound.play();
     }
 
     // Add event listeners for click and touch events
@@ -278,14 +298,71 @@
       });
     }
 
+    // PWA install: capture beforeinstallprompt and show a custom "Download" button
+    let deferredPrompt = null;
+    const installBtn = document.getElementById('installBtn');
+
+    // Show/hide helper (for accessibility)
+    function showInstallButton() {
+      if (installBtn) {
+        installBtn.style.display = 'inline-block';
+        installBtn.setAttribute('aria-hidden', 'false');
+      }
+    }
+    function hideInstallButton() {
+      if (installBtn) {
+        installBtn.style.display = 'none';
+        installBtn.setAttribute('aria-hidden', 'true');
+      }
+    }
+
+    // Listen for the beforeinstallprompt event and save the event
+    window.addEventListener('beforeinstallprompt', (e) => {
+      // Prevent the mini-infobar from appearing on mobile
+      e.preventDefault();
+      // Stash the event so it can be triggered later.
+      deferredPrompt = e;
+      // Update UI to notify the user they can install the PWA
+      showInstallButton();
+      console.log('beforeinstallprompt captured');
+    });
+
+    // When the user clicks our button, show the install prompt
+    if (installBtn) {
+      installBtn.addEventListener('click', async () => {
+        if (!deferredPrompt) {
+          // No install prompt saved, nothing to do
+          console.log('No deferred prompt available');
+          return;
+        }
+        // Show the install prompt
+        deferredPrompt.prompt();
+
+        // Wait for the user's response
+        const choiceResult = await deferredPrompt.userChoice;
+        console.log('User choice', choiceResult.outcome);
+
+        // Clear the saved prompt since it can't be used again
+        deferredPrompt = null;
+        // Hide our custom install button after prompt used
+        hideInstallButton();
+      });
+    }
+
+    // Optional: detect install event
+    window.addEventListener('appinstalled', (evt) => {
+      console.log('PWA was installed.', evt);
+      hideInstallButton();
+    });
+
     // Set the duration of the GIF in milliseconds
     var gifDuration = 8000; // Example: 8000ms (8 seconds)
 
     // Play the starting sound and theme music immediately
     var startingSound = document.getElementById("starting-sound");
     var themeMusic = document.getElementById("theme-music");
-    startingSound.play();
-    themeMusic.play();
+    if (startingSound && startingSound.play) startingSound.play();
+    if (themeMusic && themeMusic.play) themeMusic.play();
 
     window.addEventListener('load', function () {
       setTimeout(function () {
@@ -332,7 +409,3 @@
 
 </body>
 </html>
-
-
-
-
