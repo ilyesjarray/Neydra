@@ -19,7 +19,7 @@
       overflow: hidden; 
     }
 
-    .gif-container {
+    .black-screen {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -30,17 +30,21 @@
       height: 100%;
       background-color: #000;
       z-index: 9999;
+      opacity: 1;
       transition: opacity 1s ease-in-out;
     }
 
-    .gif-container img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+    .black-screen.fade-out {
+      opacity: 0;
     }
 
-    .gif-container.fade-out {
+    .ready-scene {
       opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .ready-scene.fade-in {
+      opacity: 1;
     }
 
     /* الزر */
@@ -83,11 +87,10 @@
   </style>
 </head>
 <body>
-  <!-- Logo GIF -->
-  <div class="gif-container" id="logoGif">
-    <img src="assets/logo.gif" alt="NEYDRA Logo Animation" />
-  </div>
+  <!-- Full black screen for loading -->
+  <div class="black-screen" id="blackScreen"></div>
 
+  <!-- The main scene -->
   <div id="readyScene" class="ready-scene">
     <img src="assets/are-you-ready.png" alt="Are you ready?" class="ready-img">
     <!-- زر دائري بصورة مشعة -->
@@ -102,17 +105,7 @@
   <audio id="click-sound5" src="click-sound5.mp3" preload="auto"></audio>
 
   <script>
-    // Fade helpers
-    function fadeIn(element, duration) {
-      element.style.transition = `opacity ${duration}ms ease-in-out`;
-      element.style.opacity = 1;
-    }
-    function fadeOut(element, duration) {
-      element.style.transition = `opacity ${duration}ms ease-in-out`;
-      element.style.opacity = 0;
-    }
-
-    // Function to request fullscreen
+    // Blink to fullscreen with multiple verifications for compatibility
     function requestFullscreen() {
       const elem = document.documentElement;
       if (elem.requestFullscreen) {
@@ -126,21 +119,39 @@
       }
     }
 
-    // Logo GIF handling
+    // Black screen handling
     window.addEventListener('load', () => {
-      const logoGif = document.getElementById('logoGif');
-
-      // Request fullscreen for the logo GIF
       requestFullscreen();
 
-      // Show the logo GIF for 5 seconds
+      const blackScreen = document.getElementById('blackScreen');
+      const readyScene = document.getElementById('readyScene');
+
+      // Simulate a 10-second black screen loading delay
       setTimeout(() => {
-        fadeOut(logoGif, 1000); // Fade out in 1 second
+        // Fade out and hide the black screen
+        blackScreen.classList.add('fade-out');
         setTimeout(() => {
-          logoGif.style.display = 'none'; // Hide it completely
-        }, 1000); // Delay to allow fade-out effect to complete
-      }, 15000); // Display time (5 seconds)
+          blackScreen.style.display = 'none';
+
+          // Fade-in effect for the ready scene
+          readyScene.classList.add('fade-in');
+
+          // Play theme music
+          const themeMusic = document.getElementById('theme-music2');
+          if (themeMusic) themeMusic.play();
+        }, 1000); // Match this delay to fade-out transition
+      }, 10000); // 10 seconds black screen delay
     });
+
+    // Fade helpers
+    function fadeIn(element, duration) {
+      element.style.transition = `opacity ${duration}ms ease-in-out`;
+      element.style.opacity = 1;
+    }
+    function fadeOut(element, duration) {
+      element.style.transition = `opacity ${duration}ms ease-in-out`;
+      element.style.opacity = 0;
+    }
 
     // Click sound
     function playClickSound() {
@@ -151,7 +162,7 @@
       }
     }
 
-    // Theme music 2 controls
+    // Theme music controls
     function playThemeMusic2() {
       const audio = document.getElementById("theme-music2");
       audio.play();
@@ -162,39 +173,38 @@
       audio.currentTime = 0;
     }
 
+    // After the black screen fades out, initialize the main scene fade-ins
     window.addEventListener("DOMContentLoaded", () => {
       const readyImg = document.querySelector(".ready-img");
       const continueBtn = document.getElementById("continueBtn");
 
-      // Initial state
+      // Initial fade state
       readyImg.style.opacity = 0;
       continueBtn.style.opacity = 0;
 
-      // Fade in "Are you ready?" image after 6 seconds
+      // Fade-in the "Are you ready?" image after timing delay
       setTimeout(() => {
         fadeIn(readyImg, 6000);
       }, 6000);
 
-      // Fade in the continue button 3 seconds after the image
+      // Fade-in the continue button slightly later
       setTimeout(() => {
         fadeIn(continueBtn, 3000);
       }, 12000);
 
-      // Play theme music on page load
-      playThemeMusic2();
-
-      // Handle continue button click
+      // Add click sound on button interaction
       continueBtn.addEventListener('click', () => {
         playClickSound();
         fadeOut(continueBtn, 3000);
         fadeOut(readyImg, 6000);
         stopThemeMusic2();
+
         setTimeout(() => {
           window.location.href = "home.html";
-        }, 6000); // Redirect after fade-out animation
+        }, 6000); // Redirect after fade-out timing
       });
 
-      // Stop theme music if user leaves the page
+      // Stop theme music when the page is unloaded
       window.addEventListener("beforeunload", stopThemeMusic2);
     });
   </script>
