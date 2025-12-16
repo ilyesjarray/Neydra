@@ -32,7 +32,7 @@
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
   <link rel="icon" href="assets/icon.png" type="image/png" />
   <link rel="manifest" href="manifest.json" />
-  <title> Official site </title>
+  <title>  Official site  </title>
   <!-- EmailJS SDK -->
   <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
   <script type="text/javascript">
@@ -75,6 +75,38 @@
       letter-spacing: 1px;
     }
     #installBtn:focus { outline: 2px solid rgba(255,0,0,0.25); }
+
+    /* Sound button at the bottom left */
+    #soundBtn {
+      position: fixed;
+      bottom: 15px;
+      left: 15px;
+      width: 50px;
+      height: 50px;
+      background: none;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      transition: transform 0.2s ease, filter 0.2s ease;
+    }
+    #soundBtn img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      filter: drop-shadow(0 0 8px red) brightness(1);
+    }
+    #soundBtn:hover img {
+      transform: scale(1.1);
+      filter: drop-shadow(0 0 15px red) brightness(1.3);
+    }
+    #soundBtn:active img {
+      transform: scale(0.9);
+      filter: drop-shadow(0 0 5px red) brightness(0.8);
+    }
   </style>
 </head>
 <body>
@@ -85,6 +117,7 @@
 
   <!-- Starting Sound -->
   <audio id="starting-sound" src="assets/starting-sound.mp3" preload="auto"></audio>
+  <audio id="s-sound" src="assets/s-sound.mp3" preload="auto"></audio>
   <!-- Theme Music -->
   <audio id="theme-music" src="assets/theme-music.mp3" loop></audio>
 
@@ -96,7 +129,7 @@
       <h1 class="fade-in-effect" data-aos="fade-up">The 494C594A5252 </h1>
       <h2 class="section__title">The CEO of <span class="fade-in-effect">NEYDRA.</span></h2>
       <p>
-        Welcome to my Organization!  
+        Welcome to my Organization !  
         I'm a skilled and creative web developer
         with a passion for creating Magic Imagination...
       </p>
@@ -182,8 +215,6 @@
     </div>
   </section>
 
-
-
   <footer>
     <div class="section__container footer__container">
       <div class="footer__content">
@@ -195,7 +226,6 @@
             website. Simply fill out the form with your name, email address,
             and message, and I will get back to you as soon as possible.
           </p>
-          <p>  </p>
         </div>
         <div class="social__icons">
           <a href="https://www.facebook.com/share/1R4UFHcKoN/" class="icon"><i class="ri-facebook-fill"></i></a>
@@ -210,16 +240,14 @@
         <div class="action__btns">
           <button type="submit" class="btn">Send Message</button>
         </div>
-        
       </form>
     </div>
   </footer>
 
-  <!-- Add audio elements for the click sound -->
-  <audio id="click-sound1" src="click-sound1.mp3" preload="auto"></audio>
-  <audio id="click-sound2" src="click-sound2.mp3" preload="auto"></audio>
-  <audio id="click-sound3" src="click-sound3.mp3" preload="auto"></audio>
-  <audio id="click-sound4" src="click-sound4.mp3" preload="auto"></audio>
+  <!-- Sound button -->
+  <button id="soundBtn">
+    <img src="assets/s-sound.png" alt="Sound Button" />
+  </button>
 
   <script type="text/javascript">
     // Function to play a random click sound
@@ -233,6 +261,15 @@
       var sound = sounds[Math.floor(Math.random() * sounds.length)];
       if (sound && sound.play) sound.play();
     }
+
+    // Play "s-sound.mp3" when the bottom-left button is clicked
+    document.getElementById('soundBtn').addEventListener('click', function() {
+      const sound = document.getElementById('s-sound');
+      if (sound) {
+        sound.currentTime = 0;
+        sound.play();
+      }
+    });
 
     // Add event listeners for click and touch events
     document.querySelectorAll('button, a').forEach(function(element) {
@@ -264,13 +301,13 @@
 
     // Function to play theme music
     function playThemeMusic() {
-      var themeMusic = document.getElementById("theme-music");
+      const themeMusic = document.getElementById("theme-music");
       themeMusic.play();
     }
 
     // Ensure the music stops when the site is closed
     window.addEventListener("beforeunload", function () {
-      var themeMusic = document.getElementById("theme-music");
+      const themeMusic = document.getElementById("theme-music");
       themeMusic.pause();
       themeMusic.currentTime = 0;
     });
@@ -374,7 +411,7 @@
 
     // Function to request fullscreen
     function requestFullscreen() {
-      var elem = document.documentElement;
+      const elem = document.documentElement;
       if (elem.requestFullscreen) {
         elem.requestFullscreen();
       } else if (elem.mozRequestFullScreen) { // Firefox
@@ -410,4 +447,3 @@
 
 </body>
 </html>
-
