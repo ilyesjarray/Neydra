@@ -129,19 +129,88 @@
     <!-- Elfsight Cookie Consent | Untitled Cookie Consent -->
 <script src="https://elfsightcdn.com/platform.js" async></script>
 <div class="elfsight-app-5cd0545b-72bf-4fef-9980-423865009ac3" data-elfsight-app-lazy></div>
-    <div class="section__container header__container">
-      <h1 class="fade-in-effect" data-aos="fade-up">The 494C594A5252 </h1>
-      <h2 class="section__title">The CEO of <span class="fade-in-effect">NEYDRA.</span></h2>
-      <p>
-        Welcome to my Organization !  
-        I'm a skilled and creative web developer
-        with a passion for creating Magic Imagination...
-      </p>
 
-      <!-- Neon red one-click "Download" install button (hidden until PWA install is available) -->
-      <button id="installBtn" aria-hidden="true" title="Install NEYDRA PWA">Download</button>
+    <!-- NEYDRA Red Particle Fog -->
+    <canvas id="neydra-fog"></canvas>
 
-    </div>
+    <style>
+      #neydra-fog {
+        display: block;
+        background: black;
+      }
+    </style>
+
+    <script>
+      const isMobile = window.innerHeight > window.innerWidth;
+      const WIDTH = isMobile ? 720 : 1280;
+      const HEIGHT = isMobile ? 1280 : 720;
+
+      const canvas = document.getElementById("neydra-fog");
+      const ctx = canvas.getContext("2d");
+
+      canvas.width = WIDTH;
+      canvas.height = HEIGHT;
+
+      const PARTICLES = 1400;
+      const DRIFT = -0.15;
+      const MOUSE_RADIUS = 120;
+
+      const particles = Array.from({ length: PARTICLES }, () => ({
+        x: Math.random() * WIDTH,
+        y: Math.random() * HEIGHT,
+        r: Math.random() * 1.6 + 0.4,
+        vx: DRIFT * (0.5 + Math.random()),
+        vy: (Math.random() - 0.5) * 0.05,
+        a: Math.random() * 0.25 + 0.05
+      }));
+
+      const mouse = { x: -9999, y: -9999 };
+
+      canvas.addEventListener("mousemove", e => {
+        const rect = canvas.getBoundingClientRect();
+        mouse.x = e.clientX - rect.left;
+        mouse.y = e.clientY - rect.top;
+      });
+
+      canvas.addEventListener("mouseleave", () => {
+        mouse.x = -9999;
+        mouse.y = -9999;
+      });
+
+      function render() {
+        ctx.clearRect(0, 0, WIDTH, HEIGHT);
+
+        for (const p of particles) {
+          p.x += p.vx;
+          p.y += p.vy;
+
+          if (p.x < -20) p.x = WIDTH + 20;
+          if (p.y < -20) p.y = HEIGHT + 20;
+          if (p.y > HEIGHT + 20) p.y = -20;
+
+          const dx = p.x - mouse.x;
+          const dy = p.y - mouse.y;
+          const d = Math.sqrt(dx * dx + dy * dy);
+
+          let alpha = p.a;
+          if (d < MOUSE_RADIUS) {
+            const f = (MOUSE_RADIUS - d) / MOUSE_RADIUS;
+            p.x += dx * f * 0.03;
+            p.y += dy * f * 0.03;
+            alpha += f * 0.15;
+          }
+
+          ctx.beginPath();
+          ctx.fillStyle = `rgba(255, 40, 40, ${alpha})`;
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        requestAnimationFrame(render);
+      }
+
+      render();
+    </script>
 
     <!-- Navigation bar positioned at the bottom center of the header -->
     <nav class="bottom-nav">
@@ -246,6 +315,9 @@
         </div>
       </form>
     </div>
+  <!-- Elfsight WhatsApp Chat | Untitled WhatsApp Chat -->
+  <script src="https://static.elfsight.com/platform/platform.js" async></script>
+  <div class="elfsight-app-43e72c24-5b30-4a1e-84e9-2d1640196082" data-elfsight-app-lazy></div>
   </footer>
 
   <!-- Sound button -->
@@ -445,10 +517,7 @@
   <div class="elfsight-app-d014008a-6eb4-4c15-9d7e-1b5ea1a3779f" data-elfsight-app-lazy></div>
 
 
-  <!-- Elfsight WhatsApp Chat | Untitled WhatsApp Chat -->
-  <script src="https://static.elfsight.com/platform/platform.js" async></script>
-  <div class="elfsight-app-43e72c24-5b30-4a1e-84e9-2d1640196082" data-elfsight-app-lazy></div>
+
 
 </body>
 </html>
-
