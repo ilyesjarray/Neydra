@@ -129,6 +129,8 @@
     <!-- Elfsight Cookie Consent | Untitled Cookie Consent -->
 <script src="https://elfsightcdn.com/platform.js" async></script>
 <div class="elfsight-app-5cd0545b-72bf-4fef-9980-423865009ac3" data-elfsight-app-lazy></div>
+    <div class="section__container header__container">
+      <h1 class="fade-in-effect" data-aos="fade-up">Welcome... </h1>
 
 
 
@@ -250,50 +252,106 @@
   </section>
 
   <section class="service">
-    <div class="section__container service__container">
-      <p class="section__subtitle">What We Offer!</p>
-      <h2 class="section__title"><span class="fade-in-effect">NEYDRA</span> Services</h2>
-      <div class="service__grid">
-        <div class="service__card">
-          <i class="ri-smartphone-line"></i>
-          <h4>Breaking Boundaries</h4>
-          <p>
-            At NEYDRA, we challenge the limits of reality
-            by turning bold ideas into groundbreaking innovations.
-            Our mission is to break free from conventional thinking,
-            reimagine possibilities, and create solutions that push humanity
-            forward. Whether in technology, science, or digital experiences, we refuse to accept the ordinary
-            —we strive for the extraordinary.
-          </p>
-          <a href="#" class="read__more">Read more...</a>
+  <div class="section__container service__container">
+    <p class="section__subtitle">What We Offer! </p>
+    <h2 class="section__title"><span class="fade-in-effect">NEYDRA</span> Services</h2>
+    <div class="service__grid">
+      
+      <!-- SERVICE 1: SAFE EXCHANGE (FREE - Always Unlocked) -->
+      <div class="service__card free-feature">
+        <div class="service-header">
+          <h4>NEYDRA SAFE EXCHANGE</h4>
+          <span class="plan-badge free">FREE</span>
         </div>
-        <div class="service__card">
-          <i class="ri-code-s-slash-line"></i>
-          <h4>Bringing Imagination to Life</h4>
-          <p>
-            What was once considered fiction is now within our reach.
-            NEXARC is dedicated to embodying imagination and transforming creative concepts into tangible experiences.
-            We bring together visionaries, designers, and engineers to craft products
-            and projects that blur the line between reality and fantasy,
-            opening new doors to a future beyond expectations.
-          </p>
-          <a href="#" class="read__more">Read more...</a>
+        <p class="service-description">
+          Fast, secure, and transparent conversion of Tunisian Dinar (TND) to digital assets. No registration required for basic exchanges.
+        </p>
+        <div class="service-features">
+          <ul>
+            <li>✅ Instant TND to Crypto conversion</li>
+            <li>✅ Low fees (1/3 transaction cost)</li>
+            <li>✅ No KYC required</li>
+            <li>✅ 24/7 availability</li>
+          </ul>
         </div>
-        <div class="service__card">
-          <i class="ri-edit-2-line"></i>
-          <h4>Shaping a New World</h4>
-          <p>
-            We don’t just create; we revolutionize. 
-            NEYDRA is more than an organization—it’s a movement toward a future
-            where imagination dictates reality. By fostering innovation, collaboration,
-            and limitless thinking, we are shaping a world that reflects the limitless potential of human creativity.
-            Join us as we build the foundation of a new era.
-          </p>
-          <a href="#" class="read__more">Read more...</a>
-        </div>
+        <button class="service-btn unlock-btn" id="btn-exchange" onclick="navigateService('exchange. html', 'free')">
+          <img src="assets/free_button.png" alt="Access Exchange Service" class="btn-icon" />
+          <span class="btn-label">Access Now</span>
+        </button>
       </div>
+
+      <!-- SERVICE 2: AI PREDICTIVE ANALYTICS (STANDARD PLAN - $15/44TND) -->
+      <div class="service__card locked-feature" id="pae-service">
+        <div class="service-header">
+          <h4>AI-Driven Predictive Analytics Engine</h4>
+          <span class="plan-badge standard">STANDARD</span>
+        </div>
+        <p class="service-description">
+          Advanced machine learning models forecast XAU/USD price movements with 87%+ accuracy. Receive actionable trading signals before market shifts.
+        </p>
+        <div class="service-features">
+          <ul>
+            <li>🤖 Real-time AI predictions (1-hour, 4-hour, daily)</li>
+            <li>📊 99.9% data accuracy from institutional sources</li>
+            <li>🔔 Smart alerts on bullish/bearish signals</li>
+            <li>📈 Historical backtesting & performance metrics</li>
+          </ul>
+        </div>
+        <button class="service-btn locked-btn" id="btn-pae" onclick="checkAccess('PAE. html', 'standard')">
+          <img src="assets/Predictive_Analytics.png" alt="Unlock Predictive Analytics" class="btn-icon" />
+          <span class="btn-label">🔒 Unlock ($15/mo)</span>
+        </button>
+      </div>
+
+      <!-- SERVICE 3: INSTITUTIONAL LIQUIDITY DECODER (PREMIUM PLAN - $40/100TND) -->
+      <div class="service__card locked-feature" id="ail-service">
+        <div class="service-header">
+          <h4>Institutional Liquidity Decoder</h4>
+          <span class="plan-badge premium">PREMIUM</span>
+        </div>
+        <p class="service-description">
+          Visualize hidden whale orders, market depth layers, and liquidity flows invisible to retail traders. Execute with institutional-level precision.
+        </p>
+        <div class="service-features">
+          <ul>
+            <li>🐋 Whale order detection & tracking</li>
+            <li>💧 Real-time liquidity pool analysis</li>
+            <li>🎯 Support/resistance level identification</li>
+            <li>📡 Live order book depth visualization</li>
+          </ul>
+        </div>
+        <button class="service-btn locked-btn" id="btn-ail" onclick="checkAccess('AIL.html', 'premium')">
+          <img src="assets/Liquidity_Decoder. png" alt="Unlock Liquidity Decoder" class="btn-icon" />
+          <span class="btn-label">🔒 Unlock ($40/mo)</span>
+        </button>
+      </div>
+
+      <!-- SERVICE 4: REAL-TIME NLP SENTIMENT ANALYZER (ULTRA PLAN - $90/262TND) -->
+      <div class="service__card locked-feature" id="nlp-service">
+        <div class="service-header">
+          <h4>Real-Time NLP Sentiment Analyzer</h4>
+          <span class="plan-badge ultra">ULTRA</span>
+        </div>
+        <p class="service-description">
+          Harness global news streams with AI-powered NLP to predict volatility spikes and market regime shifts before the crowd reacts. 
+        </p>
+        <div class="service-features">
+          <ul>
+            <li>🌍 Multi-language news aggregation (150+ sources)</li>
+            <li>🧠 AI sentiment scoring (-100 to +100)</li>
+            <li>⚡ Volatility prediction (24-48 hours ahead)</li>
+            <li>📰 Trending topics & market catalysts tracking</li>
+          </ul>
+        </div>
+        <button class="service-btn locked-btn" id="btn-nlp" onclick="checkAccess('RT-NLP-SA.html', 'ultra')">
+          <img src="assets/NLP_Analysis.png" alt="Unlock Sentiment Analyzer" class="btn-icon" />
+          <span class="btn-label">🔒 Unlock ($90/mo)</span>
+        </button>
+      </div>
+
     </div>
-  </section>
+  </div>
+</section>
 
   <footer>
     <div class="section__container footer__container">
@@ -529,6 +587,7 @@
 
 </body>
 </html>
+
 
 
 
