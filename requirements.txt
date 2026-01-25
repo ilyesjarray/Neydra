@@ -1,0 +1,1 @@
+flask pymysql cryptography web3 yfinance pandas numpy scikit-learn newspaper3k textblob requests
