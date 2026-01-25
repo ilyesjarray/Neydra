@@ -1,9 +1,0 @@
-yfinance
-web3
-pandas
-numpy
-scikit-learn
-newspaper3k
-textblob
-requests
-libsql-client
