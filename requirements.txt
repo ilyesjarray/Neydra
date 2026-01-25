@@ -1,9 +1,6 @@
 yfinance
-web3
 pandas
 numpy
-scikit-learn
-newspaper3k
-textblob
+web3
 requests
-libsql-client
+beautifulsoup4
