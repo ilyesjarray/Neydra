@@ -1,10 +1,9 @@
 yfinance
 web3
-pymysql
 pandas
 numpy
 scikit-learn
 newspaper3k
 textblob
 requests
-
+libsql-client
