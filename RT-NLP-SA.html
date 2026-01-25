@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEYDRA ULTRA NLP</title>
+    <style>
+        :root {
+            --bg-color: #000000;
+            --panel-bg: #111111;
+            --text-color: #eee;
+            --bull-color: #ff0000;
+            --bear-color: #ff0000;
+            --neutral-color: #8b0000;
+            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-main);
+            margin: 0;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 2px solid #0f0f0f;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+        h1 { margin: 0; font-weight: 300; letter-spacing: 4px; }
+        .highlight { color: var(--neutral-color); font-weight: bold; }
+
+        /* DASHBOARD GRID */
+        .grid {
+            display: grid;
+            grid-template-columns: 300px 1fr 300px;
+            gap: 20px;
+            height: 80vh;
+        }
+        .panel {
+            background: var(--panel-bg);
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid #222;
+            overflow-y: auto;
+        }
+        .panel h2 { margin-top: 0; font-size: 14px; color: #888; text-transform: uppercase; }
+
+        /* SENTIMENT METER */
+        .meter-container { text-align: center; margin-top: 40px; }
+        .score-display { font-size: 80px; font-weight: bold; }
+        .regime-display { font-size: 18px; letter-spacing: 2px; margin-top: 10px; }
+
+        /* NEWS FEED */
+        .news-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #222;
+        }
+        .news-meta { font-size: 10px; color: #666; display: flex; justify-content: space-between; }
+        .news-title { font-size: 13px; margin: 5px 0; line-height: 1.4; }
+        .news-score { font-size: 10px; font-weight: bold; }
+        .bullish { color: var(--bull-color); }
+        .bearish { color: var(--bear-color); }
+
+        /* VOLATILITY RADAR */
+        .vol-display { text-align: center; margin-top: 20px; }
+        .vol-value { font-size: 40px; font-weight: bold; }
+        .alert { 
+            background: #222; 
+            padding: 10px; 
+            margin-top: 10px; 
+            border-radius: 4px; 
+            font-size: 12px;
+            border-left: 3px solid #666;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div>
+            <h1>NEYDRA <span class="highlight">ULTRA</span></h1>
+            <small>REAL-TIME NLP & VOLATILITY ENGINE</small>
+        </div>
+        <div style="text-align:right">
+            <div>STATUS: <span style="color:var(--bull-color)">ONLINE</span></div>
+            <div id="clock">--:--:--</div>
+        </div>
+    </div>
+
+    <div class="grid">
+        <div class="panel">
+            <h2>Global Sentiment Score</h2>
+            <div class="meter-container">
+                <div id="sentimentScore" class="score-display">0</div>
+                <div id="marketRegime" class="regime-display">ANALYZING...</div>
+            </div>
+            <div style="margin-top: 50px; font-size: 12px; color: #666; text-align: center;">
+                Values > 20: RISK ON<br>
+                Values < -20: RISK OFF
+            </div>
+        </div>
+
+        <div class="panel">
+            <h2>Live Global News Wire (Top 50)</h2>
+            <div id="newsFeed">Loading global streams...</div>
+        </div>
+
+        <div class="panel">
+            <h2>Volatility Prediction (AI)</h2>
+            <div class="vol-display">
+                <div style="font-size: 12px; color: #888;">Predicted ATR Shift</div>
+                <div id="volValue" class="vol-value">0.0%</div>
+            </div>
+            
+            <div id="volAlert" class="alert" style="border-color: #444;">
+                No significant volatility detected.
+            </div>
+
+            <div style="margin-top: 30px;">
+                <h2>Top Keywords</h2>
+                <div id="keywordsList" style="font-size: 12px; line-height: 1.6;">
+                    Scanning...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = "http://127.0.0.1:8000/ultra_data";
+
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('clock').innerText = now.toLocaleTimeString();
+        }
+        setInterval(updateClock, 1000);
+
+        async function fetchUltraData() {
+            try {
+                const response = await fetch(API_URL);
+                const data = await response.json();
+
+                // 1. Update Sentiment Meter
+                const scoreEl = document.getElementById('sentimentScore');
+                const regimeEl = document.getElementById('marketRegime');
+                
+                scoreEl.innerText = data.global_sentiment > 0 ? "+" + data.global_sentiment : data.global_sentiment;
+                regimeEl.innerText = data.market_regime;
+                
+                // Color Logic
+                if(data.global_sentiment > 0) {
+                    scoreEl.style.color = "var(--bull-color)";
+                    regimeEl.style.color = "var(--bull-color)";
+                } else if(data.global_sentiment < 0) {
+                    scoreEl.style.color = "var(--bear-color)";
+                    regimeEl.style.color = "var(--bear-color)";
+                } else {
+                    scoreEl.style.color = "var(--neutral-color)";
+                    regimeEl.style.color = "var(--neutral-color)";
+                }
+
+                // 2. Update News Feed
+                const feed = document.getElementById('newsFeed');
+                feed.innerHTML = "";
+                
+                // Collect all keywords for the right panel
+                let allKeywords = [];
+
+                data.latest_headlines.forEach(news => {
+                    const item = document.createElement('div');
+                    item.className = 'news-item';
+                    
+                    let scoreClass = "neutral";
+                    if(news.score > 0) scoreClass = "bullish";
+                    if(news.score < 0) scoreClass = "bearish";
+                    
+                    allKeywords.push(...news.keywords);
+
+                    item.innerHTML = `
+                        <div class="news-meta">
+                            <span>${news.datetime} | ${news.source}</span>
+                            <span class="${scoreClass}">Sent: ${news.score}</span>
+                        </div>
+                        <div class="news-title">
+                            <span style="color:#aaa">[${news.ticker}]</span> ${news.title}
+                        </div>
+                    `;
+                    feed.appendChild(item);
+                });
+
+                // 3. Update Volatility
+                const volEl = document.getElementById('volValue');
+                volEl.innerText = data.volatility_forecast + "%";
+                const volAlert = document.getElementById('volAlert');
+                
+                if (data.volatility_forecast > 5.0) {
+                    volEl.style.color = "var(--bull-color)";
+                    volAlert.innerText = " VOLATILITY EXPANSION IMMINENT. PREPARE FOR MOVEMENT.";
+                    volAlert.style.borderColor = "var(--bull-color)";
+                } else if (data.volatility_forecast < -5.0) {
+                    volEl.style.color = "var(--bear-color)";
+                    volAlert.innerText = " VOLATILITY CONTRACTION. EXPECT CHOPPY MARKETS.";
+                    volAlert.style.borderColor = "var(--bear-color)";
+                } else {
+                    volEl.style.color = "#eee";
+                    volAlert.innerText = "Market stability nominal.";
+                    volAlert.style.borderColor = "#444";
+                }
+
+                // 4. Update Keywords
+                const kwList = document.getElementById('keywordsList');
+                // Count occurrences
+                const counts = {};
+                allKeywords.forEach(x => { counts[x] = (counts[x] || 0) + 1; });
+                // Sort by count
+                const sortedKw = Object.keys(counts).sort((a,b) => counts[b] - counts[a]).slice(0, 10);
+                
+                kwList.innerHTML = sortedKw.map(k => 
+                    `<span style="background:#222; padding:2px 5px; margin:2px; border-radius:3px;">${k} (${counts[k]})</span>`
+                ).join(" ");
+
+            } catch (e) {
+                console.error("Fetch error", e);
+            }
+        }
+
+        setInterval(fetchUltraData, 5000); // Fetch every 5 seconds
+        fetchUltraData();
+    </script>
+    <script src="js/auth.js"></script>
+</body>
+</html>
