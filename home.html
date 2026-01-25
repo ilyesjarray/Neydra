@@ -255,6 +255,15 @@
   <div class="section__container service__container">
     <p class="section__subtitle">What We Offer! </p>
     <h2 class="section__title"><span class="fade-in-effect">NEYDRA</span> Services</h2>
+    <button onclick="verifyPayment()" style="background:#ff0000; color:white; padding:10px; border:none;">Check Payment & Unlock</button>
+
+<script>
+function verifyPayment() {
+    fetch('/api/verify_payment')
+    .then(res => res.text())
+    .then(data => alert(data + " Please refresh the page."));
+}
+</script>
     <div class="service__grid">
       
       <!-- SERVICE 1: SAFE EXCHANGE (FREE - Always Unlocked) -->
@@ -586,6 +595,7 @@
 
 </body>
 </html>
+
 
 
 
