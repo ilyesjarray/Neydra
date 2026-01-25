@@ -1,13 +1,10 @@
-flask
-pymysql
-cryptography
-web3
 yfinance
+web3
+pymysql
 pandas
 numpy
 scikit-learn
 newspaper3k
 textblob
 requests
-vercel-serverless
 
