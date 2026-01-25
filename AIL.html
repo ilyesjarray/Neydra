@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEYDRA INSTITUTIONAL DECODER</title>
+    <style>
+        :root {
+            --bg-color: #000000;
+            --card-bg: #111111;
+            --text-main: #e0e0e0;
+            --accent-green: #ff0000;
+            --accent-red: #8f0000;
+            --accent-gold: #ff0000;
+            --neon-glow: 0 0 10px rgba(255, 0, 0, 0.3);
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 20px;
+            overflow: hidden;
+        }
+        h1, h2 { text-transform: uppercase; letter-spacing: 2px; margin: 0; }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--accent-gold);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        .live-price { font-size: 2.5em; font-weight: bold; color: var(--accent-gold); }
+        
+        /* GRID LAYOUT */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            height: 85vh;
+        }
+        .panel {
+            background: var(--card-bg);
+            border: 1px solid #111111;
+            border-radius: 5px;
+            padding: 15px;
+            overflow-y: auto;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        .panel-title {
+            color: #888;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 5px;
+        }
+
+        /* WHALE LOG */
+        .log-entry {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #222;
+            font-size: 0.85em;
+        }
+        .buy { color: var(--accent-green); }
+        .sell { color: var(--accent-red); }
+
+        /* LIQUIDITY POOLS */
+        .pool-item {
+            padding: 10px;
+            margin-bottom: 5px;
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 3px solid;
+        }
+        .res { border-color: var(--accent-red); }
+        .sup { border-color: var(--accent-green); }
+
+        /* DEPTH CHART (Simple CSS Bar Chart) */
+        .depth-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2px;
+            height: 12px;
+        }
+        .depth-price { width: 60px; font-size: 0.7em; text-align: right; margin-right: 10px; }
+        .depth-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #000000, #000000);
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div>
+            <h1>NEYDRA <span style="color:var(--accent-gold)">DECODER</span></h1>
+            <small>INSTITUTIONAL LIQUIDITY TRACKER // V1.0</small>
+        </div>
+        <div class="live-price" id="priceDisplay">LOADING...</div>
+    </div>
+
+    <div class="dashboard">
+        <div class="panel">
+            <div class="panel-title"> WHALE ORDER FLOW (DETECTED)</div>
+            <div id="whaleLog">Waiting for signal...</div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-title"> MARKET DEPTH (SYNTHETIC)</div>
+            <div id="depthChart">Scanning Depth...</div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-title"> LIQUIDITY CLUSTERS (STOP HUNTS)</div>
+            <div id="poolList">Calculating KMeans...</div>
+        </div>
+    </div>
+
+    <script>
+        // API URL
+        const API_URL = "http://127.0.0.1:8000/data";
+
+        async function updateDashboard() {
+            try {
+                const response = await fetch(API_URL);
+                const data = await response.json();
+
+                // 1. Update Price
+                document.getElementById('priceDisplay').innerText = data.current_price.toFixed(2);
+                document.getElementById('priceDisplay').style.color = 
+                    data.whales.length > 0 && data.whales[data.whales.length-1].action.includes("BUY") 
+                    ? "var(--accent-green)" : "var(--accent-gold)";
+
+                // 2. Update Whale Log
+                const whaleDiv = document.getElementById('whaleLog');
+                whaleDiv.innerHTML = "";
+                // Show last 15 whale alerts reversed
+                data.whales.slice().reverse().forEach(w => {
+                    const row = document.createElement('div');
+                    row.className = 'log-entry';
+                    const isBuy = w.action.includes("BUY");
+                    row.innerHTML = `
+                        <span>${w.time}</span>
+                        <span class="${isBuy ? 'buy' : 'sell'}">${w.action}</span>
+                        <span>Vol: ${w.volume}</span>
+                        <span>@ ${w.price.toFixed(2)}</span>
+                    `;
+                    whaleDiv.appendChild(row);
+                });
+
+                // 3. Update Liquidity Pools
+                const poolDiv = document.getElementById('poolList');
+                poolDiv.innerHTML = "";
+                data.liquidity_pools.forEach(pool => {
+                    const div = document.createElement('div');
+                    const isRes = pool.type.includes("RESISTANCE");
+                    div.className = `pool-item ${isRes ? 'res' : 'sup'}`;
+                    div.innerHTML = `
+                        <strong>${pool.price.toFixed(2)}</strong> <br>
+                        <small>${pool.type}</small>
+                    `;
+                    poolDiv.appendChild(div);
+                });
+
+                // 4. Update Depth Chart
+                const depthDiv = document.getElementById('depthChart');
+                depthDiv.innerHTML = "";
+                // Normalize volumes for bar width
+                const maxVol = Math.max(...data.depth.map(d => d.volume));
+                
+                // Show middle slice of depth (around current price)
+                data.depth.forEach(d => {
+                    const widthPct = (d.volume / maxVol) * 100;
+                    const row = document.createElement('div');
+                    row.className = 'depth-row';
+                    
+                    // Highlight current price level
+                    const isCurrent = Math.abs(d.price - data.current_price) < 0.1;
+                    const color = isCurrent ? "var(--accent-gold)" : (d.price > data.current_price ? "#ff3b3b55" : "#00ff9d55");
+
+                    row.innerHTML = `
+                        <div class="depth-price" style="${isCurrent ? 'color:gold; font-weight:bold;' : ''}">${d.price.toFixed(2)}</div>
+                        <div class="depth-bar" style="width:${widthPct}%; background:${color};"></div>
+                    `;
+                    depthDiv.appendChild(row);
+                });
+
+            } catch (error) {
+                console.error("Connection Error:", error);
+            }
+        }
+
+        // Refresh every 1 second
+        setInterval(updateDashboard, 1000);
+        updateDashboard();
+    </script>
+    <script src="js/auth.js"></script>
+</body>
+</html>
