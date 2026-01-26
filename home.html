@@ -255,15 +255,65 @@
   <div class="section__container service__container">
     <p class="section__subtitle">What We Offer! </p>
     <h2 class="section__title"><span class="fade-in-effect">NEYDRA</span> Services</h2>
-    <button onclick="verifyPayment()" style="background:#ff0000; color:white; padding:10px; border:none;">Check Payment & Unlock</button>
+    <style>
+  .btn-unlock {
+    background: linear-gradient(135deg, #ff4b2b, #ff416c);
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 75, 43, 0.3);
+  }
+
+  .btn-unlock:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 75, 43, 0.4);
+    filter: brightness(1.1);
+  }
+
+  .btn-unlock:active {
+    transform: translateY(0);
+  }
+
+  .btn-unlock:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+</style>
+
+<button id="unlockBtn" class="btn-unlock" onclick="verifyPayment()">
+  Check Payment & Unlock
+</button>
 
 <script>
-function verifyPayment() {
-    fetch('/api/verify_payment.py')
-    .then(res => res.text())
-    .then(data => alert(data + " Please refresh the page."));
-}
+  async function verifyPayment() {
+    const btn = document.getElementById('unlockBtn');
+    const originalText = btn.innerText;
+    
+    // UI Feedback: Loading state
+    btn.disabled = true;
+    btn.innerText = 'Verifying...';
+
+    try {
+      const response = await fetch('/api/verify_payment.py');
+      const data = await response.text();
+      
+      // Standard JavaScript alert
+      alert(data + " Please refresh the page.");
+    } catch (error) {
+      alert("Error checking payment. Please try again.");
+    } finally {
+      btn.disabled = false;
+      btn.innerText = originalText;
+    }
+  }
 </script>
+
     <div class="service__grid">
       
       <!-- SERVICE 1: SAFE EXCHANGE (FREE - Always Unlocked) -->
@@ -595,6 +645,7 @@ function verifyPayment() {
 
 </body>
 </html>
+
 
 
 
