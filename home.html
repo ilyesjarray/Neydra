@@ -259,7 +259,7 @@
 
 <script>
 function verifyPayment() {
-    fetch('/api/verify_payment')
+    fetch('/api/verify_payment.py')
     .then(res => res.text())
     .then(data => alert(data + " Please refresh the page."));
 }
@@ -595,6 +595,7 @@ function verifyPayment() {
 
 </body>
 </html>
+
 
 
 
