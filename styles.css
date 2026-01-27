@@ -440,6 +440,45 @@ header {
 .action__btns .video:hover .play {
   background-color: var(--secondary-color-dark);
 }
+/* NEYDRA Panel Style */
+.about__container {
+  /* 1. Set the image as the background */
+  background-image: url('assets/panel.png');
+  background-repeat: no-repeat;
+  
+  /* 2. This stretches the panel to fit the text height/width exactly */
+  background-size: 100% 100%; 
+  
+  /* 3. CRITICAL: The "Safe Zone" 
+     This padding pushes the text inside so it doesn't touch the borders.
+     Top/Bottom: 6rem, Left/Right: 4rem */
+  padding: 6rem 4rem; 
+
+  /* 4. Center the panel and limit width so it doesn't get too stretched */
+  max-width: 900px;
+  margin: 0 auto; 
+  
+  /* 5. Text Styling to make it look like a HUD screen */
+  color: #ffffff;
+  text-align: center;
+  position: relative;
+  z-index: 10;
+}
+
+/* Ensure the text inside is readable */
+.about__details {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  text-shadow: 0 0 5px rgba(255, 0, 0, 0.5); /* Slight red glow for sci-fi effect */
+}
+
+/* Responsive adjustments for Mobile */
+@media (max-width: 768px) {
+  .about__container {
+    padding: 4rem 2rem; /* Smaller padding for mobile screens */
+    background-size: 100% 100%;
+  }
+}
 
 .about,
 .project {
@@ -1081,4 +1120,5 @@ footer {
 .gif-container. fade-out {
   opacity: 0;
 }
+
 
