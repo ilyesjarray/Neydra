@@ -241,7 +241,7 @@
         <p class="section__subtitle">The CEO and founder of NEYDRA !</p>
         <p class="about__details">
           Welcome to NEYDRA – Where Imagination Becomes Reality.<br><br>
-          I am the founder of NEYDRA, an organization born from the relentless pursuit of breaking limits and reshaping reality itself.
+          I am ILYES JARRAY the founder of NEYDRA, an organization born from the relentless pursuit of breaking limits and reshaping reality itself.
           We stand on the edge of a new era—where the impossible is no longer just a dream but a challenge waiting to be conquered.<br><br>
           At NEYDRA, we refuse to be confined by the ordinary. We are visionaries, creators, and pioneers on a mission to bring imagination to life
           to craft a world beyond the mundane, and to revolutionize the way we experience existence. This is not just an idea; this is the beginning of a new world.<br><br>
@@ -290,31 +290,6 @@
   Check Payment & Unlock
 </button>
 
-<script>
-  async function verifyPayment() {
-    const btn = document.getElementById('unlockBtn');
-    const originalText = btn.innerText;
-    
-    // UI Feedback: Loading state
-    btn.disabled = true;
-    btn.innerText = 'Verifying...';
-
-    try {
-      const response = await fetch('/api/verify_payment.py');
-      const data = await response.text();
-      
-      // Standard JavaScript alert
-      alert(data + " Please refresh the page.");
-    } catch (error) {
-      alert("Error checking payment. Please try again.");
-    } finally {
-      btn.disabled = false;
-      btn.innerText = originalText;
-    }
-  }
-</script>
-    
-
     <div class="service__grid">
       
       <!-- SERVICE 1: SAFE EXCHANGE (FREE - Always Unlocked) -->
@@ -335,7 +310,7 @@
           </ul>
         </div>
         <button class="service-btn unlock-btn" id="btn-exchange" onclick="window.location.href='exchange.html'">
-          <img src="assets/free_button.png" alt="Access Exchange Service" class="btn-icon" />
+          <img src="assets/free_button0.png" alt="Access Exchange Service" class="btn-icon" />
           <span class="btn-label">Access Now</span>
         </button>
         <br><br>
@@ -361,7 +336,7 @@
           </ul>
         </div>
         <button class="service-btn locked-btn" id="btn-pae" onclick="checkAccess('PAE.html', 'standard')">
-          <img src="assets/Predictive_Analytics.png" alt="Unlock Predictive Analytics" class="btn-icon" />
+          <img src="assets/Predictive_Analytics0.png" alt="Unlock Predictive Analytics" class="btn-icon" />
           <span class="btn-label">🗝 Unlock ($15/44TNDmo)
           Coming soon </span>
         </button>
@@ -387,7 +362,7 @@
           </ul>
         </div>
         <button class="service-btn locked-btn" id="btn-ail" onclick="checkAccess('AIL.html', 'premium')">
-          <img src="assets/Liquidity_Decoder.png" alt="Unlock Liquidity Decoder" class="btn-icon" />
+          <img src="assets/Liquidity_Decoder0.png" alt="Unlock Liquidity Decoder" class="btn-icon" />
           <span class="btn-label">🗝 Unlock ($40/115TNDmo)
           Coming soon </span>
         </button>
@@ -413,7 +388,7 @@
           </ul>
         </div>
         <button class="service-btn locked-btn" id="btn-nlp" onclick="checkAccess('RT-NLP-SA.html', 'ultra')">
-          <img src="assets/NLP_Analysis.png" alt="Unlock Sentiment Analyzer" class="btn-icon" />
+          <img src="assets/NLP_Analysis0.png" alt="Unlock Sentiment Analyzer" class="btn-icon" />
           <span class="btn-label">🗝 Unlock ($90/262TNDmo)
           Coming soon </span>
         </button>
@@ -653,6 +628,7 @@
 
 </body>
 </html>
+
 
 
 
