@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NEYDRA | Secure Subscription</title>
+  
+  <!-- Fonts & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.0.0/fonts/remixicon.css" rel="stylesheet" />
+  
+  <!-- EmailJS SDK (Using your existing Public Key) -->
+  <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function() {
+      emailjs.init("QrxaXFcp-hMFZabQc"); 
+    })();
+  </script>
+
+  <style>
+    /* --- RESET & BASE STYLES --- */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      background-color: #000000;
+      color: #ffffff;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      align-items: center;
+    }
+
+    /* --- BACKGROUND EFFECTS --- */
+    .bg-fog {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: radial-gradient(circle at 50% 50%, #1a0000 0%, #000000 70%);
+    }
+
+    /* --- CONTAINER --- */
+    .payment-container {
+      width: 100%;
+      max-width: 600px;
+      padding: 40px 20px;
+      z-index: 10;
+      margin-top: 50px;
+      text-align: center;
+    }
+
+    /* --- HEADER TEXT --- */
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      background: linear-gradient(90deg, #ffffff, #ff0000);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 2px;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: #cccccc;
+      margin-bottom: 40px;
+      font-weight: 300;
+    }
+
+    /* --- PLAN CARD --- */
+    .plan-card {
+      background: rgba(20, 20, 20, 0.8);
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 30px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.1);
+      margin-bottom: 30px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .plan-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, #ff0000, #ff6600);
+    }
+
+    .plan-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #ff0000;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .plan-price {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 5px;
+    }
+
+    .plan-subprice {
+      font-size: 1rem;
+      color: #888;
+      margin-bottom: 20px;
+    }
+
+    /* --- FORM STYLES --- */
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      color: #ff0000;
+      margin-bottom: 8px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    input {
+      width: 100%;
+      padding: 15px;
+      background: #0a0a0a;
+      border: 1px solid #333;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #ff0000;
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+    }
+
+    /* --- BUTTON --- */
+    .btn-unlock {
+      width: 100%;
+      padding: 18px;
+      background: linear-gradient(135deg, #cc0000, #ff0000);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-unlock:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(255, 0, 0, 0.6);
+      filter: brightness(1.2);
+    }
+
+    .btn-unlock:active {
+      transform: translateY(1px);
+    }
+
+    /* --- NOTIFICATION TOAST --- */
+    .notification {
+      position: fixed;
+      bottom: -150px; /* Hidden initially */
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 500px;
+      background: rgba(20, 0, 0, 0.95);
+      border: 1px solid #ff0000;
+      color: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
+      z-index: 9999;
+      transition: bottom 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+    }
+
+    .notification.show {
+      bottom: 20px;
+    }
+
+    .notification i {
+      font-size: 1.5rem;
+      color: #ff0000;
+      margin-top: 2px;
+    }
+
+    .notification-content h4 {
+      font-size: 1rem;
+      margin-bottom: 5px;
+      color: #ff0000;
+    }
+
+    .notification-content p {
+      font-size: 0.85rem;
+      line-height: 1.4;
+      color: #ddd;
+    }
+
+    /* --- BACK BUTTON --- */
+    .back-link {
+      display: inline-block;
+      margin-top: 20px;
+      color: #666;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.3s;
+    }
+    .back-link:hover { color: #ff0000; }
+
+    /* Mobile Adjustments */
+    @media (max-width: 600px) {
+      h1 { font-size: 1.8rem; }
+      .payment-container { padding: 20px 15px; margin-top: 20px; }
+      .plan-price { font-size: 1.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-fog"></div>
+
+  <div class="payment-container">
+    <h1>Buy Your Plan</h1>
+    <p class="subtitle">Our client, to unlock this features you have to setup a plan!</p>
+
+    <div class="plan-card">
+      <div class="plan-title" id="displayPlanName">LOADING...</div>
+      <div class="plan-price" id="displayPrice">$0</div>
+      <div class="plan-subprice" id="displayPriceTnd">TND 0</div>
+    </div>
+
+    <form id="paymentForm">
+      <div class="form-group">
+        <label for="fullName">YOUR FULL NAME</label>
+        <input type="text" id="fullName" name="fullName" placeholder="Enter your full legal name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">YOUR EMAIL</label>
+        <input type="email" id="email" name="email" placeholder="Enter your active email address" required>
+      </div>
+
+      <div class="form-group">
+        <label for="wallet">YOUR USDT TRC20 WALLET</label>
+        <input type="text" id="wallet" name="wallet" placeholder="TRC20 Address (starts with T...)" required>
+      </div>
+
+      <button type="submit" class="btn-unlock">Unlock Request</button>
+    </form>
+
+    <a href="home.html" class="back-link"><i class="ri-arrow-left-line"></i> Back to Home</a>
+  </div>
+
+  <!-- Notification Slide Up -->
+  <div id="notification" class="notification">
+    <i class="ri-error-warning-line"></i>
+    <div class="notification-content">
+      <h4>Request Processing</h4>
+      <p>Your request is processing in 48h, please be attention that you pay with the same plan price or your request will be denied!</p>
+    </div>
+  </div>
+
+  <script>
+    // --- 1. GET DATA FROM URL ---
+    const urlParams = new URLSearchParams(window.location.search);
+    const planType = urlParams.get('plan'); // standard, premium, ultra
+    const priceUsd = urlParams.get('price');
+    const priceTnd = urlParams.get('priceTnd');
+
+    // --- 2. UPDATE UI ---
+    const planTitleEl = document.getElementById('displayPlanName');
+    const priceEl = document.getElementById('displayPrice');
+    const priceTndEl = document.getElementById('displayPriceTnd');
+
+    if (planType && priceUsd) {
+      planTitleEl.innerText = planType.toUpperCase() + " PLAN";
+      priceEl.innerText = `$${priceUsd} / mo`;
+      priceTndEl.innerText = `~${priceTnd} TND`;
+    } else {
+      // Fallback if accessed directly without params
+      planTitleEl.innerText = "NEYDRA ACCESS";
+      priceEl.innerText = "SELECT PLAN";
+      priceTndEl.innerText = "Go back to services";
+      document.querySelector('.btn-unlock').disabled = true;
+      document.querySelector('.btn-unlock').innerText = "ERROR: No Plan Selected";
+    }
+
+    // --- 3. FORM HANDLING ---
+    const form = document.getElementById('paymentForm');
+    const notification = document.getElementById('notification');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // Extract values
+      const formData = {
+        full_name: document.getElementById('fullName').value,
+        email: document.getElementById('email').value,
+        wallet: document.getElementById('wallet').value,
+        plan: planType.toUpperCase(),
+        price: priceUsd
+      };
+
+      // --- 4. SIMULATE DATABASE ENTRY (For the Developer) ---
+      /* 
+         NOTE TO BACKEND DEVELOPER:
+         Since this is a frontend-only system, we cannot write directly to database/users.sql.
+         You must create a backend endpoint (Node/PHP/Python) to receive this data.
+         The SQL command you would run is:
+         
+         INSERT INTO users (full_name, email, wallet_address, plan_type, amount_usd, subscription_status, request_date)
+         VALUES ('${formData.full_name}', '${formData.email}', '${formData.wallet}', '${formData.plan}', ${formData.price}, 'pending', NOW());
+         
+         For now, we save to LocalStorage to simulate the user session.
+      */
+      console.log("Saving to Mock Database:", formData);
+      localStorage.setItem('neydra_user_request', JSON.stringify(formData));
+
+      // --- 5. SEND EMAIL VIA EMAILJS ---
+      const templateParams = {
+        to_name: "Admin Ilyes", // Who receives the email
+        from_name: formData.full_name,
+        message: `New Unlock Request from NEYDRA Platform!
+        
+        Plan: ${formData.plan} ($${formData.price})
+        Name: ${formData.full_name}
+        Email: ${formData.email}
+        Wallet (TRC20): ${formData.wallet}
+        
+        Please verify payment on the blockchain.`,
+        reply_to: formData.email
+      };
+
+      // Using the Service ID and Template ID found in your home.html
+      emailjs.send('service_v1sa9hj', 'template_qi7mgvx', templateParams)
+        .then(function() {
+          console.log('SUCCESS! Email sent to admin.');
+          showNotification();
+          
+          // Optional: Clear form
+          form.reset();
+        }, function(error) {
+          console.log('FAILED...', error);
+          alert("Connection error. Please try again or contact support directly.");
+        });
+
+    });
+
+    // --- 6. NOTIFICATION LOGIC ---
+    function showNotification() {
+      notification.classList.add('show');
+      
+      // Hide after 6 seconds (optional, or leave until user clicks)
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 8000);
+    }
+  </script>
+</body>
+</html>
