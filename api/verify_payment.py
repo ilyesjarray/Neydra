@@ -4,7 +4,7 @@ from web3 import Web3
 # Constants
 ETH_RPC_URL = "https://cloudflare-eth.com"  # Free Ethereum RPC Provider
 USDT_CONTRACT_ADDRESS = "0xdAC17F958D2ee523a2206206994597C13D831ec7"
-MY_USDT_WALLET = "your_usdt_wallet_address"  # Replace with your wallet address (must be checksummed)
+MY_USDT_WALLET = "0x7Ee22c8C929A65dBA02C810e23fEbE1AF706F476"  # Replace with your wallet address (must be checksummed)
 
 # Subscription Plan Thresholds (USDT, in 6 decimals: 1 USDT = 1,000,000 units)
 SUBSCRIPTION_PLANS = {
