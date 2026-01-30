@@ -335,7 +335,7 @@
             <li> Historical backtesting & performance metrics</li>
           </ul>
         </div>
-        <button class="service-btn locked-btn" id="btn-pae" onclick="checkAccess('PAE.html', 'standard')">
+        <button class="service-btn locked-btn" id="btn-pae" onclick="goToPayment('standard', '15', '44')">
           <img src="assets/Predictive_Analytics0.png" alt="Unlock Predictive Analytics" class="btn-icon" />
           <span class="btn-label">🗝 Unlock ($15/44TNDmo)
           Coming soon </span>
@@ -361,7 +361,7 @@
             <li> Live order book depth visualization</li>
           </ul>
         </div>
-        <button class="service-btn locked-btn" id="btn-ail" onclick="checkAccess('AIL.html', 'premium')">
+        <button class="service-btn locked-btn" id="btn-ail" onclick="goToPayment('premium', '40', '115')">
           <img src="assets/Liquidity_Decoder0.png" alt="Unlock Liquidity Decoder" class="btn-icon" />
           <span class="btn-label">🗝 Unlock ($40/115TNDmo)
           Coming soon </span>
@@ -387,7 +387,7 @@
             <li> Trending topics & market catalysts tracking</li>
           </ul>
         </div>
-        <button class="service-btn locked-btn" id="btn-nlp" onclick="checkAccess('RT-NLP-SA.html', 'ultra')">
+        <button class="service-btn locked-btn" id="btn-nlp" onclick="goToPayment('ultra', '90', '262')">
           <img src="assets/NLP_Analysis0.png" alt="Unlock Sentiment Analyzer" class="btn-icon" />
           <span class="btn-label">🗝 Unlock ($90/262TNDmo)
           Coming soon </span>
@@ -625,9 +625,17 @@
   <script src="https://elfsightcdn.com/platform.js" async></script>
   <div class="elfsight-app-d014008a-6eb4-4c15-9d7e-1b5ea1a3779f" data-elfsight-app-lazy></div>
   <script src="js/auth.js"></script>
+  <script>
+  // Add this function to your home.html script section
+  function goToPayment(planType, priceUsd, priceTnd) {
+    // Redirects to payment.html with plan details in URL
+    window.location.href = `payment.html?plan=${planType}&price=${priceUsd}&priceTnd=${priceTnd}`;
+  }
+  </script>
 
 </body>
 </html>
+
 
 
 
