@@ -13,7 +13,7 @@
   <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
   <script type="text/javascript">
     (function() {
-      emailjs.init("QrxaXFcp-hMFZabQc"); 
+      emailjs.init("MQKyFZlDIBIMySsjM"); 
     })();
   </script>
 
@@ -289,14 +289,25 @@
     </div>
   </div>
 
-  <script>
-    // --- 1. GET DATA FROM URL ---
+    <script>
+    // --- 1. CONFIGURATION ---
+    const SERVICE_ID = "service_b8rse03"; // Your Service ID
+    // PASTE YOUR NEW TEMPLATE ID BELOW INSIDE THE QUOTES:
+    const TEMPLATE_ID = "PASTE_YOUR_NEW_TEMPLATE_ID_HERE"; 
+    const PUBLIC_KEY = "MQKyFZlDIBIMySsjM";
+
+    // Initialize EmailJS
+    (function(){
+      emailjs.init(PUBLIC_KEY);
+    })();
+
+    // --- 2. GET PLAN DATA FROM URL ---
     const urlParams = new URLSearchParams(window.location.search);
-    const planType = urlParams.get('plan'); // standard, premium, ultra
+    const planType = urlParams.get('plan'); 
     const priceUsd = urlParams.get('price');
     const priceTnd = urlParams.get('priceTnd');
 
-    // --- 2. UPDATE UI ---
+    // --- 3. UPDATE PAGE UI ---
     const planTitleEl = document.getElementById('displayPlanName');
     const priceEl = document.getElementById('displayPrice');
     const priceTndEl = document.getElementById('displayPriceTnd');
@@ -306,80 +317,73 @@
       priceEl.innerText = `$${priceUsd} / mo`;
       priceTndEl.innerText = `~${priceTnd} TND`;
     } else {
-      // Fallback if accessed directly without params
-      planTitleEl.innerText = "NEYDRA ACCESS";
-      priceEl.innerText = "SELECT PLAN";
-      priceTndEl.innerText = "Go back to services";
+      planTitleEl.innerText = "ACCESS ERROR";
+      priceEl.innerText = "---";
       document.querySelector('.btn-unlock').disabled = true;
-      document.querySelector('.btn-unlock').innerText = "ERROR: No Plan Selected";
+      document.querySelector('.btn-unlock').innerText = "Return to Home";
     }
 
-    // --- 3. FORM HANDLING ---
+    // --- 4. FORM SUBMISSION ---
     const form = document.getElementById('paymentForm');
     const notification = document.getElementById('notification');
 
     form.addEventListener('submit', function(e) {
       e.preventDefault();
 
-      // Extract values
-      const formData = {
-        full_name: document.getElementById('fullName').value,
-        email: document.getElementById('email').value,
-        wallet: document.getElementById('wallet').value,
+      // Get Form Values
+      const u_name = document.getElementById('fullName').value;
+      const u_email = document.getElementById('email').value;
+      const u_wallet = document.getElementById('wallet').value;
+
+      // Validate basic wallet format (starts with T)
+      if(!u_wallet.toUpperCase().startsWith('T')) {
+        alert("Please enter a valid TRC20 Wallet Address (starts with T)");
+        return;
+      }
+
+      // Prepare Data for EmailJS
+      // These keys MUST match the {{ }} names in your EmailJS Template
+      const templateParams = {
+        to_name: "Admin", 
+        subject: planType.toUpperCase() + " Subscription",
+        user_name: u_name,
+        user_email: u_email,
+        user_wallet: u_wallet,
         plan: planType.toUpperCase(),
         price: priceUsd
       };
 
-      // --- 4. SIMULATE DATABASE ENTRY (For the Developer) ---
-      /* 
-         NOTE TO BACKEND DEVELOPER:
-         Since this is a frontend-only system, we cannot write directly to database/users.sql.
-         You must create a backend endpoint (Node/PHP/Python) to receive this data.
-         The SQL command you would run is:
-         
-         INSERT INTO users (full_name, email, wallet_address, plan_type, amount_usd, subscription_status, request_date)
-         VALUES ('${formData.full_name}', '${formData.email}', '${formData.wallet}', '${formData.plan}', ${formData.price}, 'pending', NOW());
-         
-         For now, we save to LocalStorage to simulate the user session.
-      */
-      console.log("Saving to Mock Database:", formData);
-      localStorage.setItem('neydra_user_request', JSON.stringify(formData));
+      const btn = document.querySelector('.btn-unlock');
+      const originalText = btn.innerText;
+      
+      // Loading State
+      btn.innerText = "Processing...";
+      btn.disabled = true;
 
-      // --- 5. SEND EMAIL VIA EMAILJS ---
-      const templateParams = {
-        to_name: "Admin Ilyes", // Who receives the email
-        from_name: formData.full_name,
-        message: `New Unlock Request from NEYDRA Platform!
-        
-        Plan: ${formData.plan} ($${formData.price})
-        Name: ${formData.full_name}
-        Email: ${formData.email}
-        Wallet (TRC20): ${formData.wallet}
-        
-        Please verify payment on the blockchain.`,
-        reply_to: formData.email
-      };
-
-      // Using the Service ID and Template ID found in your home.html
-      emailjs.send('service_v1sa9hj', 'template_qi7mgvx', templateParams)
+      // --- 5. SEND EMAIL ---
+      emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams)
         .then(function() {
-          console.log('SUCCESS! Email sent to admin.');
+          console.log('SUCCESS! Email sent to Admin.');
           showNotification();
           
-          // Optional: Clear form
+          // MOCK DATABASE ENTRY (Console Log for Developer)
+          console.log("SQL INSERT COMMAND for Backend Dev:");
+          console.log(`INSERT INTO users (full_name, email, wallet_address, plan_type, amount_usd) VALUES ('${u_name}', '${u_email}', '${u_wallet}', '${planType}', '${priceUsd}');`);
+
           form.reset();
+          btn.innerText = "Request Sent!";
         }, function(error) {
           console.log('FAILED...', error);
-          alert("Connection error. Please try again or contact support directly.");
+          alert("Error: " + error.text);
+          btn.innerText = originalText;
+          btn.disabled = false;
         });
-
     });
 
     // --- 6. NOTIFICATION LOGIC ---
     function showNotification() {
+      const notification = document.getElementById('notification');
       notification.classList.add('show');
-      
-      // Hide after 6 seconds (optional, or leave until user clicks)
       setTimeout(() => {
         notification.classList.remove('show');
       }, 8000);
