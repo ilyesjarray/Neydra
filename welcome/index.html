@@ -91,66 +91,62 @@
       filter: brightness(0.9);
     }
 
-    /* Premium Loading Bar CSS */
-    .loader-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
-    }
-
-    .neydra-text {
-      color: #ff0000;
-      font-size: 2rem;
+    /* Premium Glitch Loading Bar CSS */
+    .loading-container {
+      width: 60%;
+      max-width: 600px;
       font-family: 'Courier New', Courier, monospace;
-      letter-spacing: 10px;
+    }
+
+    .loading-text {
+      font-size: 1rem;
+      letter-spacing: 2px;
+      margin-bottom: 15px;
       text-transform: uppercase;
-      font-weight: bold;
-      text-shadow: 0 0 10px #ff0000, 0 0 20px #8b0000;
-      animation: pulse 1.5s infinite alternate;
+      color: #ff0000;
+      display: flex;
+      justify-content: space-between;
     }
 
-    @keyframes pulse {
-      from { text-shadow: 0 0 10px #ff0000, 0 0 20px #8b0000; }
-      to { text-shadow: 0 0 20px #ff0000, 0 0 40px #ff0000, 0 0 60px #8b0000; }
-    }
-
-    .progress-bar-bg {
-      width: 300px;
+    .loading-bar-wrapper {
+      width: 100%;
       height: 4px;
-      background: #111;
+      background-color: #1a1a1a;
       border-radius: 2px;
       overflow: hidden;
       position: relative;
-      box-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
     }
 
-    .progress-bar-fill {
-      height: 100%;
+    .loading-bar {
       width: 0%;
-      background: #ff0000;
-      box-shadow: 0 0 15px #ff0000, 0 0 30px #ff0000;
-      transition: width 0.2s ease-out;
+      height: 100%;
+      background: linear-gradient(90deg, #ff0000, #fff);
+      box-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
+      transition: width 0.1s linear;
+    }
+    
+    .loading-glitch {
+      animation: glitchText 4s infinite;
     }
 
-    .progress-text {
-      color: #ff0000;
-      font-family: monospace;
-      font-size: 1rem;
-      letter-spacing: 2px;
-      text-shadow: 0 0 5px #ff0000;
+    @keyframes glitchText {
+      0%, 95%, 100% { opacity: 1; text-shadow: none; transform: translate(0); }
+      96% { opacity: 0.8; text-shadow: 2px 0 red, -2px 0 white; transform: translate(-2px, 1px); }
+      97% { opacity: 0.9; text-shadow: -2px 0 red, 2px 0 white; transform: translate(2px, -1px); }
+      98% { opacity: 1; text-shadow: none; transform: translate(0); }
     }
   </style>
 </head>
 <body>
   <div class="black-screen" id="blackScreen">
-    <div class="loader-container">
-      <div class="neydra-text">NEYDRA</div>
-      <div class="progress-bar-bg">
-        <div class="progress-bar-fill" id="progressFill"></div>
-      </div>
-      <div class="progress-text" id="progressText">0%</div>
+    <div class="loading-container">
+        <div class="loading-text loading-glitch">
+            <span id="loading-status">INITIALIZING SYSTEMS...</span>
+            <span id="loading-percent">0%</span>
+        </div>
+        <div class="loading-bar-wrapper">
+            <div class="loading-bar" id="loading-bar"></div>
+        </div>
     </div>
   </div>
 
@@ -185,8 +181,9 @@
 
       const blackScreen = document.getElementById('blackScreen');
       const readyScene = document.getElementById('readyScene');
-      const progressFill = document.getElementById('progressFill');
-      const progressText = document.getElementById('progressText');
+      const loadingBar = document.getElementById('loading-bar');
+      const loadingPercent = document.getElementById('loading-percent');
+      const loadingStatus = document.getElementById('loading-status');
 
       // Heavy assets to preload silently
       const heavyAssets = [
@@ -210,8 +207,9 @@
       function finishLoading() {
         if (finished) return;
         finished = true;
-        progressFill.style.width = '100%';
-        progressText.innerText = '100%';
+        loadingBar.style.width = '100%';
+        loadingPercent.innerText = '100%';
+        loadingStatus.innerText = 'SYSTEM READY.';
         
         setTimeout(() => {
           // Fade out and hide the black screen
@@ -232,9 +230,20 @@
       function updateProgress() {
         if (finished) return;
         loadedCount++;
-        const percent = Math.floor((loadedCount / totalAssets) * 100);
-        progressFill.style.width = percent + '%';
-        progressText.innerText = percent + '%';
+        const percentComplete = (loadedCount / totalAssets) * 100;
+        const displayPercent = Math.floor(percentComplete);
+        loadingBar.style.width = percentComplete + '%';
+        loadingPercent.innerText = displayPercent + '%';
+
+        if (displayPercent < 30) {
+            loadingStatus.textContent = 'ESTABLISHING SECURE CONNECTION...';
+        } else if (displayPercent < 60) {
+            loadingStatus.textContent = 'DOWNLOADING CORE ASSETS...';
+        } else if (displayPercent < 90) {
+            loadingStatus.textContent = 'DECRYPTING RESOURCES...';
+        } else {
+            loadingStatus.textContent = 'FINALIZING DEPLOYMENT...';
+        }
 
         if (loadedCount >= totalAssets) {
           // All loaded, calculate how long we've been loading
