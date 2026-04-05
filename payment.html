@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NEYDRA | Secure Subscription</title>
+  
+  <!-- Fonts & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.0.0/fonts/remixicon.css" rel="stylesheet" />
+  
+  <!-- EmailJS SDK (Using your existing Public Key) -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function() {
+      emailjs.init("MQKyFZlDIBIMySsjM"); 
+    })();
+  </script>
+
+  <style>
+    /* --- RESET & BASE STYLES --- */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      background-color: #000000;
+      color: #ffffff;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      align-items: center;
+    }
+
+    /* --- BACKGROUND EFFECTS --- */
+    .bg-fog {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: radial-gradient(circle at 50% 50%, #1a0000 0%, #000000 70%);
+    }
+
+    /* --- CONTAINER --- */
+    .payment-container {
+      width: 100%;
+      max-width: 600px;
+      padding: 40px 20px;
+      z-index: 10;
+      margin-top: 50px;
+      text-align: center;
+    }
+
+    /* --- HEADER TEXT --- */
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      background: linear-gradient(90deg, #ffffff, #ff0000);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 2px;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: #cccccc;
+      margin-bottom: 40px;
+      font-weight: 300;
+    }
+
+    /* --- PLAN CARD --- */
+    .plan-card {
+      background: rgba(20, 20, 20, 0.8);
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 30px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.1);
+      margin-bottom: 30px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .plan-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, #ff0000, #ff6600);
+    }
+
+    .plan-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #ff0000;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .plan-price {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 5px;
+    }
+
+    .plan-subprice {
+      font-size: 1rem;
+      color: #888;
+      margin-bottom: 20px;
+    }
+
+    /* --- FORM STYLES --- */
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      color: #ff0000;
+      margin-bottom: 8px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    input {
+      width: 100%;
+      padding: 15px;
+      background: #0a0a0a;
+      border: 1px solid #333;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #ff0000;
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+    }
+
+    /* --- BUTTON --- */
+    .btn-unlock {
+      width: 100%;
+      padding: 18px;
+      background: linear-gradient(135deg, #cc0000, #ff0000);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-unlock:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(255, 0, 0, 0.6);
+      filter: brightness(1.2);
+    }
+
+    .btn-unlock:active {
+      transform: translateY(1px);
+    }
+
+    /* --- NOTIFICATION TOAST --- */
+    .notification {
+      position: fixed;
+      bottom: -150px; /* Hidden initially */
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 500px;
+      background: rgba(20, 0, 0, 0.95);
+      border: 1px solid #ff0000;
+      color: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
+      z-index: 9999;
+      transition: bottom 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+    }
+
+    .notification.show {
+      bottom: 20px;
+    }
+
+    .notification i {
+      font-size: 1.5rem;
+      color: #ff0000;
+      margin-top: 2px;
+    }
+
+    .notification-content h4 {
+      font-size: 1rem;
+      margin-bottom: 5px;
+      color: #ff0000;
+    }
+
+    .notification-content p {
+      font-size: 0.85rem;
+      line-height: 1.4;
+      color: #ddd;
+    }
+
+    /* --- BACK BUTTON --- */
+    .back-link {
+      display: inline-block;
+      margin-top: 20px;
+      color: #666;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.3s;
+    }
+    .back-link:hover { color: #ff0000; }
+
+    /* Mobile Adjustments */
+    @media (max-width: 600px) {
+      h1 { font-size: 1.8rem; }
+      .payment-container { padding: 20px 15px; margin-top: 20px; }
+      .plan-price { font-size: 1.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-fog"></div>
+
+  <div class="payment-container">
+  <h1>Buy Your Plan</h1>
+  <p class="subtitle">Secure, crypto subscription .</p>
+
+  <div class="plan-card">
+    <div class="plan-title" id="displayPlanName">LOADING...</div>
+    <div class="plan-price" id="displayPrice">$0</div>
+    <div class="plan-subprice">Recurring Monthly Charge</div>
+  </div>
+
+  <!-- Replace the old Form with this Container -->
+  <div id="helio-container" style="text-align: center;">
+    <p style="margin-bottom: 20px; color: #aaa;">Click below to launch secure payment .</p>
+    <button id="payWithHelio" class="btn-unlock">Proceed to Payment</button>
+  </div>
+
+  <a href="home.html" class="back-link"><i class="ri-arrow-left-line"></i> Back to Home</a>
+</div>
+
+
+
+
+<script>
+  // --- 1. MAPPING PLANS TO NOWPAYMENTS LINKS ---
+  // PASTE THE LINKS YOU GOT FROM NOWPAYMENTS HERE:
+  const PAYMENT_LINKS = {
+    'standard': 'https://nowpayments.io/payment/?iid=4458788659',
+    'premium':  'https://nowpayments.io/payment/?iid=5180468463',
+    'ultra':    'https://nowpayments.io/payment/?iid=6375314481'
+  };
+
+  // --- 2. GET PLAN DATA FROM URL ---
+  const urlParams = new URLSearchParams(window.location.search);
+  const planType = urlParams.get('plan'); 
+  const priceUsd = urlParams.get('price');
+  
+  const planTitleEl = document.getElementById('displayPlanName');
+  const priceEl = document.getElementById('displayPrice');
+  const payBtn = document.getElementById('payWithHelio'); // We keep the ID or rename it
+
+  // Renaming button ID for clarity (Optional, change HTML ID if you do this)
+  const payBtnNow = document.getElementById('payWithHelio'); 
+
+  if (planType && priceUsd) {
+    planTitleEl.innerText = planType.toUpperCase() + " PLAN";
+    priceEl.innerText = `$${priceUsd} / mo`;
+  } else {
+    planTitleEl.innerText = "ACCESS ERROR";
+    payBtnNow.disabled = true;
+    payBtnNow.innerText = "Invalid Plan";
+  }
+
+  // --- 3. PAYMENT LOGIC ---
+  payBtnNow.addEventListener('click', function() {
+    const targetLink = PAYMENT_LINKS[planType];
+    
+    if(!targetLink || targetLink.includes("PASTE_YOUR")) {
+      alert("Configuration Error: Payment link not found for this plan. Please check the code.");
+      return;
+    }
+
+    // Redirect to NOWPayments
+    window.location.href = targetLink;
+  });
+</script>
+</body>
+</html>

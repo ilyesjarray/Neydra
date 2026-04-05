@@ -1,0 +1,1 @@
+module.exports = (req, res) => {const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;const userAgent = req.headers['user-agent'];console.log(`Security Alert: Access attempt from ${ip}`);res.status(200).json({status: 'active', ip: ip});};

@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Access | NEYDRA</title>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.0.0/fonts/remixicon.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <style>
+    /* =========================================
+       LEVEL MAX CSS3 STYLES
+       ========================================= */
+    
+    :root {
+      --primary-color: #ff0000;
+      --primary-glow: rgba(0, 0, 0, 0.6);
+      --bg-dark: #000000;
+      --glass-bg: rgba(20, 20, 20, 0.6);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --text-main: #ff0000;
+      --text-muted: #888888;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      /* Animated deep space/cyber gradient background */
+      background: radial-gradient(circle at 50% 50%, #000000 0%, #000000 100%);
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Subtle animated background glow */
+    body::before {
+      content: '';
+      position: absolute;
+      width: 200vw;
+      height: 200vh;
+      background: radial-gradient(circle, var(--primary-glow) 0%, transparent 10%);
+      animation: pulseGlow 10s infinite alternate ease-in-out;
+      z-index: 0;
+      opacity: 0.3;
+    }
+
+    @keyframes pulseGlow {
+      0% { transform: scale(1) translate(-10%, -10%); opacity: 0.2; }
+      100% { transform: scale(1.5) translate(10%, 10%); opacity: 0.4; }
+    }
+
+    .container {
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+      position: relative;
+      padding: 40px 30px;
+      z-index: 100;
+      /* Glassmorphism Effect */
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 
+                  inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      animation: formEnter 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes formEnter {
+      from { opacity: 0; transform: translateY(40px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      color: var(--text-main);
+      margin-bottom: 30px;
+      letter-spacing: 3px;
+      font-size: 1.8rem;
+      text-transform: uppercase;
+      text-shadow: 0 0 10px var(--primary-glow), 0 0 20px rgba(255, 0, 0, 0.2);
+    }
+
+    /* Toggle Switch - Modern sliding pill style */
+    .toggle-container {
+      display: flex;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 30px;
+      padding: 6px;
+      margin-bottom: 30px;
+      border: 1px solid var(--glass-border);
+      position: relative;
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+    }
+
+    .toggle-btn {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-radius: 25px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      z-index: 2;
+    }
+
+    .toggle-btn:hover {
+      color: var(--text-main);
+    }
+
+    .toggle-btn.active {
+      background: var(--primary-color);
+      color: white;
+      box-shadow: 0 4px 15px var(--primary-glow);
+      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    }
+
+    /* Panel Animation */
+    .auth-panel {
+      display: none; 
+      animation: fadeSlideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    .auth-panel.active {
+      display: block;
+    }
+
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Advanced Inputs */
+    input {
+      width: 100%;
+      padding: 16px;
+      margin-bottom: 20px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: white;
+      border-radius: 12px;
+      box-sizing: border-box;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      font-family: 'Inter', sans-serif;
+    }
+
+    input::placeholder {
+      color: var(--text-muted);
+      transition: opacity 0.3s ease;
+    }
+
+    input:focus {
+      border-color: var(--primary-color);
+      background: rgba(0, 0, 0, 0.6);
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(255, 0, 0, 0.15);
+    }
+
+    input:focus::placeholder {
+      opacity: 0.5;
+    }
+
+    /* Cyberpunk Action Button */
+    button.action-btn {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, var(--primary-color), #ff0000);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 10px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Button hover sweep effect */
+    button.action-btn::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transform: skewX(-20deg);
+      transition: 0.5s;
+    }
+
+    button.action-btn:hover { 
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px var(--primary-glow);
+    }
+
+    button.action-btn:hover::after {
+      left: 150%;
+    }
+
+    button.action-btn:active {
+      transform: translateY(1px);
+      box-shadow: 0 5px 10px var(--primary-glow);
+    }
+
+    button.action-btn:disabled { 
+      background: #000; 
+      color: #666;
+      cursor: not-allowed; 
+      box-shadow: none;
+      transform: none;
+    }
+
+    button.action-btn:disabled::after {
+      display: none;
+    }
+
+    /* Error Message Styling */
+    .error { 
+      color: #ff0000; 
+      font-size: 0.85rem; 
+      margin-top: 15px; 
+      text-align: center;
+      background: rgba(255, 0, 0, 0.1);
+      border: 1px solid rgba(255, 0, 0, 0.3);
+      padding: 10px;
+      border-radius: 8px;
+      display: none;
+      animation: shake 0.4s ease-in-out;
+    }
+
+    .error.visible { display: block; }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>NEYDRA ACCESS</h1>
+
+    <div class="toggle-container">
+      <button class="toggle-btn active" id="btn-signup">Sign Up</button>
+      <button class="toggle-btn" id="btn-signin">Sign In</button>
+    </div>
+
+    <div id="panel-signup" class="auth-panel active">
+      <input type="text" id="su-name" placeholder="Full Name" required autocomplete="name">
+      <input type="email" id="su-email" placeholder="Email Address" required autocomplete="email">
+      <input type="password" id="su-pass" placeholder="Password" required autocomplete="new-password">
+      <input type="password" id="su-confirm" placeholder="Confirm Password" required autocomplete="new-password">
+      
+      <button id="btn-submit-signup" class="action-btn">Create Account</button>
+      <div class="error" id="error-su"></div>
+    </div>
+
+    <div id="panel-signin" class="auth-panel">
+      <input type="email" id="si-email" placeholder="Email Address" required autocomplete="email">
+      <input type="password" id="si-pass" placeholder="Password" required autocomplete="current-password">
+      
+      <button id="btn-submit-signin" class="action-btn">Enter NEYDRA</button>
+      <div class="error" id="error-si"></div>
+    </div>
+  </div>
+
+  <script>
+    window.onerror = function(message, source, lineno, colno, error) {
+      alert("JAVASCRIPT ERROR:\n" + message + "\nLine: " + lineno);
+      return false;
+    };
+  </script>
+
+  <script>
+    // --- CONFIGURATION ---
+    const SUPABASE_URL = 'https://ybrtpasetldpxanrhsle.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlicnRwYXNldGxkcHhhbnJoc2xlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAzMTgyMjksImV4cCI6MjA4NTg5NDIyOX0.Rdj0S0oGV4HmQDERePPbxjQifJ8euDjOTMfgWtdz7gQ';
+    
+    let neydraAuth;
+    try {
+      neydraAuth = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+      console.log("Supabase Initialized as neydraAuth");
+    } catch (e) {
+      alert("System Error: Failed to load security module. " + e.message);
+    }
+
+    // --- DOM ELEMENTS ---
+    const btnSignup = document.getElementById('btn-signup');
+    const btnSignin = document.getElementById('btn-signin');
+    const panelSignup = document.getElementById('panel-signup');
+    const panelSignin = document.getElementById('panel-signin');
+    
+    const btnSubmitSignup = document.getElementById('btn-submit-signup');
+    const btnSubmitSignin = document.getElementById('btn-submit-signin');
+
+    const errorSu = document.getElementById('error-su');
+    const errorSi = document.getElementById('error-si');
+
+    // --- EVENT LISTENERS ---
+    if (btnSignup && btnSignin) {
+        btnSignup.addEventListener('click', () => switchMode('signup'));
+        btnSignin.addEventListener('click', () => switchMode('signin'));
+    }
+
+    if (btnSubmitSignup) btnSubmitSignup.addEventListener('click', handleSignUp);
+    if (btnSubmitSignin) btnSubmitSignin.addEventListener('click', handleSignIn);
+
+    // --- UI LOGIC ---
+    function switchMode(mode) {
+      console.log("Switching to:", mode);
+      
+      btnSignup.classList.remove('active');
+      btnSignin.classList.remove('active');
+      panelSignup.classList.remove('active');
+      panelSignin.classList.remove('active');
+      errorSu.classList.remove('visible');
+      errorSi.classList.remove('visible');
+
+      if (mode === 'signup') {
+        btnSignup.classList.add('active');
+        panelSignup.classList.add('active');
+      } else {
+        btnSignin.classList.add('active');
+        panelSignin.classList.add('active');
+      }
+    }
+
+    function showError(element, message) {
+      element.innerText = message;
+      element.classList.add('visible');
+    }
+
+    // --- UPDATED SIGN UP LOGIC ---
+    async function handleSignUp() {
+      const name = document.getElementById('su-name').value;
+      const email = document.getElementById('su-email').value;
+      const pass = document.getElementById('su-pass').value;
+      const confirm = document.getElementById('su-confirm').value;
+
+      if (!name || !email || !pass || !confirm) {
+        showError(errorSu, "All fields are required.");
+        return;
+      }
+
+      if (pass !== confirm) {
+        showError(errorSu, "Passwords do not match.");
+        return;
+      }
+
+      btnSubmitSignup.disabled = true;
+      btnSubmitSignup.innerText = "Creating Account...";
+      errorSu.classList.remove('visible');
+
+      try {
+        const { data, error } = await neydraAuth.auth.signUp({
+          email: email,
+          password: pass,
+          options: {
+            data: { full_name: name }
+          }
+        });
+
+        if (error) throw error;
+
+        // NEW LOGIC: Check if email confirmation is needed
+        // If 'data.session' is null, it means Email Confirmation is ON
+        if (data.user && !data.session) {
+          alert("Registration Successful!\n\nWe have sent a confirmation email to " + email + ".\n\nPlease click the link in the email to activate your account, then Sign In.");
+          // Clear form
+          document.getElementById('su-name').value = '';
+          document.getElementById('su-email').value = '';
+          document.getElementById('su-pass').value = '';
+          document.getElementById('su-confirm').value = '';
+          switchMode('signin');
+        } else if (data.session) {
+          // If this happens, email confirmation is OFF (fallback)
+          window.location.href = 'home.html';
+        } else {
+          throw new Error("Unknown error occurred.");
+        }
+
+      } catch (err) {
+        console.error("Sign Up Error:", err);
+        showError(errorSu, err.message || "Failed to create account.");
+      } finally {
+        btnSubmitSignup.disabled = false;
+        btnSubmitSignup.innerText = "Create Account";
+      }
+    }
+
+    // --- UPDATED SIGN IN LOGIC ---
+    async function handleSignIn() {
+      const email = document.getElementById('si-email').value;
+      const pass = document.getElementById('si-pass').value;
+
+      if (!email || !pass) {
+        showError(errorSi, "Please enter email and password.");
+        return;
+      }
+
+      btnSubmitSignin.disabled = true;
+      btnSubmitSignin.innerText = "Verifying...";
+      errorSi.classList.remove('visible');
+
+      try {
+        const { data, error } = await neydraAuth.auth.signInWithPassword({
+          email: email,
+          password: pass,
+        });
+
+        if (error) {
+          // SPECIFIC ERROR HANDLING FOR UNVERIFIED EMAIL
+          if (error.message.includes("Email not confirmed")) {
+            throw new Error("Email not verified. Please check your inbox for the confirmation link.");
+          }
+          throw error;
+        }
+
+        console.log("Sign in successful, redirecting...");
+        window.location.href = 'home.html';
+
+      } catch (err) {
+        console.error("Sign In Error:", err);
+        showError(errorSi, err.message || "Invalid email or password.");
+        btnSubmitSignin.disabled = false;
+        btnSubmitSignin.innerText = "Enter NEYDRA";
+      }
+    }
+  </script>
+</body>
+</html>
+

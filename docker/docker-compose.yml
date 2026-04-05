@@ -1,0 +1,1 @@
+version: '3.8';services:web:image:neydra:latestports:-"80:80"volumes:-.:/var/www/htmldb:image:mysql:5.7environment:MYSQL_ROOT_PASSWORD:rootMYSQL_DATABASE:neydravolumes:-db_data:/var/lib/mysqlvolumes:db_data:

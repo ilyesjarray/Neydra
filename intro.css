@@ -1,0 +1,61 @@
+body {
+  margin: 0;
+  background: #000;
+  overflow: hidden;
+}
+
+.ready-scene {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #000;
+  z-index: 10000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.ready-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0;
+  transition: opacity 6s ease-in-out;
+  
+  /* ✨ إضافة تأثير الوهج */
+  filter: drop-shadow(0 0 12px #ff0000) brightness(1.1);
+}
+
+/* Centered Button */
+.ready-continue-btn {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  transform: translateX(-50%) scale(1); /* تبقى لتوسيط الزر */
+  transform-origin: center;   /* ✨ يضمن أن التكبير يتم من المركز */
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 12s ease-in-out, background 0.2s, transform 0.3s;
+}
+
+/* Hover effect */
+.ready-continue-btn:hover {
+  transform: translateX(-50%) scale(1.05); /* ✨ ضفنا التوسيط + التكبير مع بعض */
+  filter: brightness(1.3);
+}
+
+
+
+
+
+
+
+

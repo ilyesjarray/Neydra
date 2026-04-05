@@ -1,0 +1,59 @@
+{
+  "id": "com.neydra.app",
+  "name": "NEYDRA",
+  "short_name": "NEYDRA",
+  "description": "NEYDRA - Where Imagination Becomes Reality",
+  "icons": [
+    {
+      "src": "assets/icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "https://neydra.vercel.app",
+  "display": "fullscreen",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "orientation": "any",
+  "screenshots": [
+    {
+      "src": "assets/screenshot1.png",
+      "sizes": "640x480",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/screenshot2.png",
+      "sizes": "640x480",
+      "type": "image/png"
+    }
+  ],
+  "categories": [
+    "productivity",
+    "tools"
+  ],
+  "dir": "ltr",
+  "iarc_rating_id": "e1234567890",
+  "lang": "en-US",
+  "scope": "/",
+  "launch_handler": {},
+  "prefer_related_applications": false,
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=com.neydra.app",
+      "id": "com.neydra.app"
+    }
+  ],
+  "background_sync": {
+    "min_interval": 60
+  },
+  "periodic_sync": {
+    "min_interval": 86400
+  }
+}
+

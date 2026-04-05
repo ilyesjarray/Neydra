@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>NEYDRA P2P MARKETPLACE</title>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.0.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="icon" href="assets/icon.png" type="image/png" />
+    
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        /* =========================================
+           NEYDRA ULTRA AERO PROTOCOL [RED EDITION]
+           ========================================= */
+        :root {
+            --primary: #ff0000;
+            --primary-light: #ff3333;
+            --primary-dark: #cc0000;
+            --bg-solid: #000000;
+            --bg-panel: rgba(20, 0, 0, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-dim: #ff9999;
+            --success: #00ff66;
+            --warning: #ffaa00;
+            --danger: #ff0044;
+            --font-ui: 'Rajdhani', sans-serif;
+            --font-code: 'Share Tech Mono', monospace;
+        }
+
+        * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
+        html { height: -webkit-fill-available; scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg-solid);
+            color: var(--primary);
+            font-family: var(--font-ui);
+            margin: 0;
+            width: 100%;
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding-bottom: calc(90px + env(safe-area-inset-bottom));
+            user-select: none;
+            position: relative;
+        }
+
+        /* Aero Background */
+        .aero-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; overflow: hidden; pointer-events: none; }
+        .orb { position: absolute; border-radius: 50%; background: radial-gradient(circle at 30% 30%, rgba(255, 0, 0, 0.15), transparent 70%); box-shadow: 0 0 20px rgba(255, 0, 0, 0.05); animation: floatOrb linear infinite; }
+        @keyframes floatOrb { 0% { transform: translateY(110vh) scale(0.5); opacity: 0; } 20% { opacity: 0.8; } 100% { transform: translateY(-10vh) scale(1.2); opacity: 0; } }
+
+        /* Scanlines */
+        body::after { content: " "; position: fixed; top: 0; left: 0; bottom: 0; right: 0; background: linear-gradient(rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.05) 50%); z-index: 999; background-size: 100% 6px; pointer-events: none; opacity: 0.4; }
+
+        .container { position: relative; z-index: 10; max-width: 1400px; margin: 0 auto; padding: 15px; }
+
+        /* Animations */
+        @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes elasticPop { 0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; } 60% { transform: translate(-50%, -50%) scale(1.05); } 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
+        @keyframes pulseGlow { 0%, 100% { box-shadow: 0 0 5px var(--primary), 0 0 10px rgba(255,0,0,0.2); } 50% { box-shadow: 0 0 15px var(--primary), 0 0 30px rgba(255,0,0,0.4); } }
+
+        /* Panels */
+        .panel { background: linear-gradient(145deg, rgba(30, 0, 0, 0.7), rgba(0, 0, 0, 0.9)); border: 1px solid rgba(255, 0, 0, 0.2); backdrop-filter: blur(12px); box-shadow: 0 10px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05); padding: 30px; margin-bottom: 30px; border-radius: 16px; position: relative; overflow: hidden; animation: fadeSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .panel::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 50%; background: linear-gradient(to bottom, rgba(255,255,255,0.04), transparent); border-radius: 16px 16px 0 0; pointer-events: none; }
+        .panel-header { background: linear-gradient(90deg, rgba(255,0,0,0.2), transparent); color: #fff; font-family: var(--font-code); font-size: 11px; padding: 12px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); letter-spacing: 3px; margin: -30px -30px 30px -30px; display: flex; justify-content: space-between; text-transform: uppercase; text-shadow: 0 0 10px var(--primary); }
+
+        /* Header */
+        .main-header { text-align: center; padding: 60px 15px 50px; border-bottom: 1px solid rgba(255,0,0,0.2); background: radial-gradient(circle at center top, rgba(40,0,0,0.6), transparent 70%); margin-bottom: 30px; position: relative; }
+        .main-header h1 { font-size: 64px; margin: 0; letter-spacing: 12px; color: #fff; text-shadow: 0 0 30px rgba(255,0,0,0.8); font-weight: 800; text-transform: uppercase; line-height: 1; background: linear-gradient(180deg, #ffffff 0%, #ffcccc 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .subtitle { color: rgba(255,0,0,0.8); font-family: var(--font-code); font-size: 13px; letter-spacing: 6px; margin-top: 15px; display: block; text-transform: uppercase; }
+
+        /* View Management */
+        .view { display: none; }
+        .view.active { display: block; animation: fadeSlideUp 0.5s ease-out; }
+
+        /* Auth */
+        .auth-container { max-width: 480px; margin: 50px auto; }
+        .auth-tabs { display: flex; margin-bottom: 25px; background: rgba(0,0,0,0.3); padding: 5px; border-radius: 12px; }
+        .auth-tab { flex: 1; padding: 14px; background: transparent; border: none; color: rgba(255,255,255,0.6); font-family: var(--font-ui); font-weight: 700; font-size: 15px; cursor: pointer; transition: 0.3s; border-radius: 8px; }
+        .auth-tab.active { color: #fff; background: linear-gradient(145deg, var(--primary-dark), var(--primary)); box-shadow: 0 4px 15px rgba(255,0,0,0.4); }
+
+        /* Inputs */
+        label { display: block; font-family: var(--font-code); font-size: 10px; margin-bottom: 10px; color: var(--text-dim); letter-spacing: 2px; margin-top: 20px; text-transform: uppercase; }
+        input, select, textarea { width: 100%; background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255,0,0,0.2); color: #fff; font-family: var(--font-code); font-size: 15px; padding: 16px; margin-bottom: 5px; transition: 0.3s; border-radius: 8px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); }
+        input:focus, select:focus { border-color: var(--primary); box-shadow: inset 0 2px 4px rgba(0,0,0,0.5), 0 0 15px rgba(255,0,0,0.2); background: rgba(0, 0, 0, 0.6); }
+
+        /* Buttons */
+        .btn { background: linear-gradient(145deg, rgba(255,0,0,0.2), rgba(200,0,0,0.05)); border: 1px solid rgba(255,0,0,0.5); color: #fff; font-family: var(--font-ui); font-size: 15px; font-weight: 700; text-transform: uppercase; cursor: pointer; padding: 16px 24px; width: 100%; margin-top: 20px; transition: 0.3s; position: relative; overflow: hidden; letter-spacing: 2px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1); text-shadow: 0 2px 2px rgba(0,0,0,0.5); }
+        .btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); transition: 0.5s; }
+        .btn:hover { background: linear-gradient(145deg, var(--primary), var(--primary-dark)); border-color: #fff; box-shadow: 0 6px 20px rgba(255,0,0,0.5); transform: translateY(-2px); }
+        .btn:hover::before { left: 100%; }
+        .btn:active { transform: translateY(1px); box-shadow: 0 2px 10px rgba(255,0,0,0.5); }
+        .btn-sm { padding: 10px 18px; font-size: 12px; width: auto; margin-top: 10px; }
+        .btn-outline { border-color: rgba(255,255,255,0.3); color: var(--text-main); background: rgba(0,0,0,0.2); }
+        .btn-outline:hover { border-color: var(--primary); background: rgba(255,0,0,0.1); color: #fff; }
+        .btn-success { border-color: var(--success); color: var(--success); }
+        .btn-success:hover { background: var(--success); color: #000; box-shadow: 0 0 20px rgba(0,255,102,0.4); }
+        .btn-danger { border-color: var(--danger); color: var(--danger); }
+        .btn-danger:hover { background: var(--danger); color: #fff; }
+
+        /* Cards */
+        .offers-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 25px; }
+        .offer-card { background: linear-gradient(145deg, rgba(25, 0, 0, 0.6), rgba(0,0,0,0.8)); border: 1px solid rgba(255,0,0,0.15); position: relative; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); overflow: hidden; display: flex; flex-direction: column; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); cursor: pointer; }
+        .offer-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 40%; background: linear-gradient(to bottom, rgba(255,255,255,0.03), transparent); pointer-events: none; }
+        .offer-card:hover { border-color: var(--primary); transform: translateY(-5px) scale(1.01); box-shadow: 0 15px 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,0,0,0.3); }
+        .offer-header { padding: 20px; border-bottom: 1px solid rgba(255,0,0,0.1); display: flex; align-items: center; gap: 15px; background: rgba(0,0,0,0.2); }
+        
+        /* Avatar */
+        .seller-avatar { width: 52px; height: 52px; background: radial-gradient(circle at 30% 30%, #ff6666, #ff0000 40%, #990000 100%); display: flex; align-items: center; justify-content: center; font-weight: 800; color: #fff; font-size: 20px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.2); box-shadow: 0 4px 10px rgba(0,0,0,0.5), inset 0 -2px 5px rgba(0,0,0,0.3), inset 0 2px 5px rgba(255,255,255,0.3); position: relative; }
+        .seller-avatar::after { content: ''; position: absolute; top: 10%; left: 15%; width: 30%; height: 20%; background: radial-gradient(circle, rgba(255,255,255,0.6), transparent); border-radius: 50%; filter: blur(1px); }
+
+        .seller-name { color: #fff; font-weight: 600; font-size: 17px; letter-spacing: 0.5px; }
+        .offer-body { padding: 20px; flex: 1; display: flex; flex-direction: column; position: relative; z-index: 1; }
+        .offer-price { font-size: 34px; color: #fff; font-weight: 700; margin: 15px 0; text-shadow: 0 0 15px rgba(255,255,255,0.2); }
+        .offer-price span { font-size: 14px; color: var(--primary); font-family: var(--font-code); opacity: 0.9; }
+        .offer-meta { display: flex; justify-content: space-between; align-items: center; padding-top: 20px; border-top: 1px solid rgba(255,0,0,0.1); margin-top: auto; }
+        
+        .status-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--danger); box-shadow: 0 0 5px var(--danger); }
+        .status-dot.online { background: var(--success); box-shadow: 0 0 10px var(--success); animation: pulseGlow 2s infinite; }
+
+        /* Level Badges */
+        .level-badge { display: inline-block; padding: 3px 8px; font-size: 9px; font-family: var(--font-code); letter-spacing: 1px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); }
+        .level-new { background: rgba(255,0,0,0.2); color: var(--text-main); }
+        .level-trusted { background: rgba(0, 255, 102, 0.15); color: var(--success); border-color: rgba(0, 255, 102, 0.3); }
+        .level-professional { background: rgba(255, 170, 0, 0.15); color: var(--warning); border-color: rgba(255, 170, 0, 0.3); }
+
+        /* Stats Bar */
+        .stats-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
+        .stat-item { background: linear-gradient(145deg, rgba(20,0,0,0.6), rgba(0,0,0,0.8)); border: 1px solid rgba(255,0,0,0.15); padding: 20px; text-align: center; border-radius: 12px; position: relative; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .stat-item::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 50%; background: linear-gradient(to bottom, rgba(255,255,255,0.02), transparent); }
+        .stat-value { font-size: 32px; font-weight: 700; color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.1); }
+        .stat-label { font-size: 10px; color: var(--primary); font-family: var(--font-code); margin-top: 5px; letter-spacing: 1px; text-transform: uppercase; }
+
+        /* Modals & Panels */
+        .notification-panel { position: fixed; top: 0; right: -400px; width: 380px; max-width: 90vw; height: 100vh; background: rgba(5,0,0,0.98); border-left: 1px solid rgba(255,0,0,0.3); z-index: 2000; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1); overflow-y: auto; box-shadow: -10px 0 30px rgba(0,0,0,0.5); backdrop-filter: blur(10px); }
+        .notification-panel.open { right: 0; }
+        .notification-header { padding: 25px 20px; border-bottom: 1px solid rgba(255,0,0,0.2); display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2); }
+        .notification-item { padding: 20px; border-bottom: 1px solid rgba(255,0,0,0.1); cursor: pointer; transition: 0.3s; }
+        .notification-item:hover { background: rgba(255,0,0,0.05); }
+        .notification-item.unread { border-left: 2px solid var(--primary); background: rgba(255,0,0,0.02); }
+        
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.9); z-index: 1500; display: none; backdrop-filter: blur(5px); }
+        .overlay.active { display: block; }
+
+        .modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9); background: linear-gradient(145deg, rgba(20, 0, 0, 0.95), rgba(5, 0, 0, 0.98)); border: 1px solid rgba(255,0,0,0.3); width: 90%; max-width: 500px; max-height: 90vh; overflow-y: auto; z-index: 2000; display: none; opacity: 0; transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 20px 50px rgba(0,0,0,0.5); border-radius: 16px; backdrop-filter: blur(10px); }
+        .modal.open { display: block; opacity: 1; transform: translate(-50%, -50%) scale(1); animation: elasticPop 0.4s forwards; }
+        .modal-header { padding: 20px; border-bottom: 1px solid rgba(255,0,0,0.2); display: flex; justify-content: space-between; background: rgba(0,0,0,0.2); }
+        .modal-body { padding: 25px; }
+        .close-btn { background: none; border: none; color: var(--primary); font-size: 24px; cursor: pointer; transition: 0.3s; }
+        .close-btn:hover { color: #fff; transform: rotate(90deg); text-shadow: 0 0 10px var(--primary); }
+
+        /* Dashboard */
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .dashboard-card { background: linear-gradient(145deg, rgba(20, 0, 0, 0.4), rgba(0, 0, 0, 0.6)); border: 1px solid rgba(255,0,0,0.1); padding: 25px; border-radius: 12px; }
+        .dashboard-card h3 { color: rgba(255,255,255,0.8); font-size: 14px; font-family: var(--font-code); margin: 0 0 20px 0; padding-bottom: 15px; border-bottom: 1px solid rgba(255,0,0,0.1); letter-spacing: 2px; }
+
+        /* Bottom Nav */
+        .bottom-nav { position: fixed; bottom: 10px; left: 10px; right: 10px; background: rgba(10, 0, 0, 0.7); border: 1px solid rgba(255,0,0,0.2); z-index: 1000; padding: 8px 0; backdrop-filter: blur(20px); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .bottom-nav ul { list-style: none; margin: 0; padding: 0; display: flex; justify-content: space-around; }
+        .bottom-nav a { color: rgba(255,255,255,0.5); font-size: 24px; text-decoration: none; display: flex; flex-direction: column; align-items: center; transition: 0.3s; }
+        .bottom-nav a span { font-size: 10px; font-family: var(--font-code); margin-top: 5px; letter-spacing: 1px; }
+        .bottom-nav a.active { color: #fff; text-shadow: 0 0 10px var(--primary); background: radial-gradient(circle at center, rgba(255,0,0,0.2), transparent); }
+        .bottom-nav a:hover { color: #fff; transform: translateY(-2px); }
+        .nav-badge { position: absolute; top: -5px; right: -8px; background: var(--primary); color: #fff; font-size: 9px; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 10px var(--primary); }
+
+        /* Toast */
+        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 3000; display: flex; flex-direction: column; gap: 10px; }
+        .toast { background: rgba(10, 0, 0, 0.95); border: 1px solid var(--primary); padding: 15px 20px; min-width: 280px; animation: fadeSlideUp 0.3s ease; display: flex; align-items: center; gap: 12px; border-radius: 8px; backdrop-filter: blur(5px); }
+        .toast.success { border-color: var(--success); }
+        .toast.error { border-color: var(--danger); }
+
+        /* Card Input Styling */
+        .card-input-group { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+        .card-input-group input { margin-bottom: 0; flex: 1; }
+        .card-status { font-size: 12px; font-family: var(--font-code); }
+        .card-status.valid { color: var(--success); }
+        .card-status.invalid { color: var(--danger); }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-header h1 { font-size: 36px; letter-spacing: 5px; }
+            .stats-bar { grid-template-columns: repeat(2, 1fr); }
+            .offers-grid { grid-template-columns: 1fr; }
+            .main-header { padding: 40px 15px 30px; }
+            .bottom-nav { bottom: 5px; left: 5px; right: 5px; border-radius: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="aero-bg" id="aero-bg"></div>
+
+    <!-- Audio -->
+    <audio id="snd-engage" src="assets/engage.wav" preload="auto"></audio>
+    <audio id="snd-alert" src="assets/alert.wav" preload="auto"></audio>
+    <audio id="snd-tick" src="assets/tick.wav" preload="auto"></audio>
+
+    <div class="container">
+        <!-- AUTH VIEW -->
+        <div id="auth-view" class="view active">
+            <div class="auth-container">
+                <div style="text-align: center; margin-bottom: 40px;">
+                    <h1 style="font-size: 36px; border: none; padding: 0;">NEYDRA</h1>
+                    <span class="subtitle">TRC20 MARKET ACCESS</span>
+                </div>
+                <div class="panel">
+                    <div class="auth-tabs">
+                        <button class="auth-tab active" data-tab="login">LOGIN</button>
+                        <button class="auth-tab" data-tab="register">REGISTER</button>
+                    </div>
+                    <div id="login-form">
+                        <label>EMAIL ADDRESS</label>
+                        <input type="email" id="login-email" placeholder="Enter your email" autocomplete="email" />
+                        <label>PASSWORD</label>
+                        <input type="password" id="login-password" placeholder="Enter password" autocomplete="current-password" />
+                        <button class="btn" onclick="handleLogin()">ACCESS SYSTEM</button>
+                        <p class="log-msg" id="login-msg" style="text-align:center; margin-top:15px;"></p>
+                    </div>
+                    <div id="register-form" style="display: none;">
+                        <label>USERNAME</label>
+                        <input type="text" id="reg-username" placeholder="Choose username" autocomplete="username" />
+                        <label>EMAIL ADDRESS</label>
+                        <input type="email" id="reg-email" placeholder="Enter email" autocomplete="email" />
+                        <label>PASSWORD</label>
+                        <input type="password" id="reg-password" placeholder="Create password" autocomplete="new-password" />
+                        <label>CONFIRM PASSWORD</label>
+                        <input type="password" id="reg-confirm" placeholder="Confirm password" autocomplete="new-password" />
+                        <button class="btn" onclick="handleRegister()">CREATE ACCOUNT</button>
+                        <p class="log-msg" id="register-msg" style="text-align:center; margin-top:15px;"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MARKETPLACE VIEW -->
+        <div id="market-view" class="view">
+            <header class="main-header">
+                <h1>MARKETPLACE</h1>
+                <p class="subtitle">USDT TRC20 ONLY</p>
+            </header>
+
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <div class="stat-value" id="stat-trades">0</div>
+                    <div class="stat-label">YOUR TRADES</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="stat-rating">-</div>
+                    <div class="stat-label">RATING</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="stat-online">0</div>
+                    <div class="stat-label">ONLINE</div>
+                </div>
+            </div>
+
+            <!-- No filters for crypto as it's USDT only -->
+            <div class="filter-bar" style="justify-content: space-between;">
+                <h3 style="color:#fff; margin:0; font-size:16px;"><i class="ri-filter-line"></i> FILTER BY SELLER LEVEL</h3>
+                <select id="filter-level" style="width: auto; min-width: 150px;">
+                    <option value="">ALL LEVELS</option>
+                    <option value="professional">PROFESSIONAL</option>
+                    <option value="trusted">TRUSTED</option>
+                    <option value="new">NEW</option>
+                </select>
+            </div>
+
+            <div class="offers-grid" id="offers-container"></div>
+        </div>
+
+        <!-- CREATE OFFER VIEW -->
+        <div id="create-view" class="view">
+            <header class="main-header">
+                <h1>CREATE OFFER</h1>
+                <p class="subtitle">SELL USDT TRC20</p>
+            </header>
+            <div class="panel" style="max-width: 600px; margin: 0 auto;">
+                <div class="panel-header"><span>NEW OFFER DETAILS</span></div>
+                
+                <label>CRYPTOCURRENCY</label>
+                <input type="text" value="USDT (TRC20)" disabled style="opacity: 0.7; border-color: var(--success); color: var(--success);" />
+                
+                <label>QUANTITY (USDT)</label>
+                <input type="number" id="offer-quantity" placeholder="Amount of USDT to sell" min="1" step="0.01" />
+                
+                <label>PRICE (TND per 1 USDT)</label>
+                <input type="number" id="offer-price" placeholder="Price in Tunisian Dinar" min="0.01" step="0.01" />
+                
+                <label>YOUR TRC20 WALLET ADDRESS</label>
+                <input type="text" id="offer-wallet" placeholder="TJx..." />
+                
+                <label>NOTES (OPTIONAL)</label>
+                <textarea id="offer-notes" rows="2" placeholder="Terms or notes"></textarea>
+                
+                <div style="display:flex; gap:10px; margin-top:20px;">
+                    <button class="btn btn-outline" onclick="showView('market-view')">CANCEL</button>
+                    <button class="btn" onclick="createOffer()">PUBLISH</button>
+                </div>
+                <p class="log-msg" id="offer-msg"></p>
+            </div>
+        </div>
+
+        <!-- DASHBOARD VIEW -->
+        <div id="dash-view" class="view">
+            <header class="main-header">
+                <h1>DASHBOARD</h1>
+                <p class="subtitle">ACCOUNT</p>
+            </header>
+            
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <h3>PROFILE</h3>
+                    <div id="profile-info" style="text-align:center;"></div>
+                </div>
+                <div class="dashboard-card">
+                    <h3>MY OFFERS</h3>
+                    <div id="my-offers-list"></div>
+                    <button class="btn btn-sm btn-outline" onclick="showView('create-view')" style="margin-top:15px;">+ NEW OFFER</button>
+                </div>
+                
+                <!-- Pending Trades Section for Security -->
+                <div class="dashboard-card" style="grid-column: 1 / -1;">
+                    <h3>TRADES MANAGEMENT</h3>
+                    <p style="font-size:12px; color:var(--text-dim); margin-bottom:15px;">Manage your active trades.</p>
+                    <div id="trade-management-list"></div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>HISTORY</h3>
+                    <div id="trade-history-list"></div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <h3>MY STORE</h3>
+                    <div id="store-info"></div>
+                    <button class="btn btn-sm btn-success" onclick="openStoreModal()" style="margin-top:15px;" id="store-btn">CREATE STORE (30 TND)</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div class="notification-panel" id="notif-panel">
+        <div class="notification-header">
+            <h3 style="color:#fff;">NOTIFICATIONS</h3>
+            <button class="close-btn" onclick="closeNotifPanel()"><i class="ri-close-line"></i></button>
+        </div>
+        <div id="notif-list"></div>
+    </div>
+
+    <div class="modal" id="store-modal">
+        <div class="modal-header">
+            <h3 style="color:#fff;">CREATE STORE</h3>
+            <button class="close-btn" onclick="closeModal('store-modal')"><i class="ri-close-line"></i></button>
+        </div>
+        <div class="modal-body">
+            <label>STORE NAME</label>
+            <input type="text" id="store-name" placeholder="Name" />
+            <label>DESCRIPTION</label>
+            <textarea id="store-desc" rows="2" placeholder="What do you offer?"></textarea>
+            <p style="color:var(--warning); font-size:12px; margin:10px 0;">You will be redirected to payment gateway.</p>
+            <button class="btn btn-success" onclick="initiateStorePayment()">PAY 30 TND & CREATE</button>
+        </div>
+    </div>
+
+    <div class="modal" id="trade-modal">
+        <div class="modal-header">
+            <h3 style="color:#fff;" id="trade-title">TRADE</h3>
+            <button class="close-btn" onclick="closeModal('trade-modal')"><i class="ri-close-line"></i></button>
+        </div>
+        <div class="modal-body" id="trade-body"></div>
+    </div>
+
+    <div class="modal" id="release-modal">
+        <div class="modal-header">
+            <h3 style="color:#fff;">RELEASE USDT</h3>
+            <button class="close-btn" onclick="closeModal('release-modal')"><i class="ri-close-line"></i></button>
+        </div>
+        <div class="modal-body" id="release-body"></div>
+    </div>
+
+    <div class="overlay" id="overlay" onclick="closeAllModals()"></div>
+    <div class="toast-container" id="toast-cont"></div>
+
+    <nav class="bottom-nav" style="display:none;">
+        <ul>
+            <li><a href="#" onclick="showView('market-view'); return false;" id="nav-market" class="active"><i class="ri-store-line"></i><span>MARKET</span></a></li>
+            <li><a href="#" onclick="showView('create-view'); return false;" id="nav-create"><i class="ri-add-circle-line"></i><span>SELL</span></a></li>
+            <li><a href="#" onclick="showView('dash-view'); return false;" id="nav-dash"><i class="ri-user-line"></i><span>PROFILE</span></a></li>
+            <li><a href="#" onclick="openNotifPanel(); return false;" style="position:relative;"><i class="ri-notification-line"></i><span>ALERTS</span><span class="nav-badge" id="notif-badge" style="display:none;">0</span></a></li>
+        </ul>
+    </nav>
+
+    <script>
+        // ==========================================
+        // BACKGROUND ANIMATION
+        // ==========================================
+        const bgContainer = document.getElementById('aero-bg');
+        function createOrb() { if (!bgContainer) return; const orb = document.createElement('div'); orb.className = 'orb'; const size = Math.random() * 300 + 50; orb.style.width = size + 'px'; orb.style.height = size + 'px'; orb.style.left = Math.random() * 100 + '%'; orb.style.animationDuration = (Math.random() * 20 + 10) + 's'; orb.style.animationDelay = (Math.random() * 5) + 's'; bgContainer.appendChild(orb); setTimeout(() => { orb.remove(); }, 30000); }
+        setInterval(createOrb, 2000); for(let i=0; i<5; i++) createOrb();
+
+        // ==========================================
+        // NEYDRA P2P SYSTEM - MAJOR LOGIC UPDATE
+        // ==========================================
+        const SUPABASE_URL = 'https://ybrtpasetldpxanrhsle.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlicnRwYXNldGxkcHhhbnJoc2xlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAzMTgyMjksImV4cCI6MjA4NTg5NDIyOX0.Rdj0S0oGV4HmQDERePPbxjQifJ8euDjOTMfgWtdz7gQ';
+        
+        let supabaseClient; let user = null;
+        try { supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY); } catch (e) { console.error("Supabase Init Error", e); }
+
+        function sfx(t) { const a = document.getElementById('snd-' + t); if (a) { a.currentTime = 0; a.play().catch(() => {}); } }
+
+        function showView(id) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.bottom-nav a').forEach(a => a.classList.remove('active'));
+            const map = { 'market-view': 'nav-market', 'create-view': 'nav-create', 'dash-view': 'nav-dash' };
+            if(map[id]) document.getElementById(map[id]).classList.add('active');
+            sfx('tick'); window.scrollTo(0,0);
+            if (id === 'market-view') loadMarket();
+            if (id === 'dash-view') { loadDash(); loadTradeManagement(); }
+        }
+
+        // Auth Handlers (Standard)
+        document.querySelectorAll('.auth-tab').forEach(t => t.addEventListener('click', function() {
+            document.querySelectorAll('.auth-tab').forEach(x => x.classList.remove('active')); this.classList.add('active');
+            document.getElementById('login-form').style.display = this.dataset.tab === 'login' ? 'block' : 'none';
+            document.getElementById('register-form').style.display = this.dataset.tab === 'register' ? 'block' : 'none';
+        }));
+
+        async function handleLogin() {
+            const email = document.getElementById('login-email').value; const pass = document.getElementById('login-password').value; const msg = document.getElementById('login-msg');
+            if(!email || !pass) { msg.textContent = "Fill all fields"; msg.style.color = "var(--danger)"; return; }
+            const { error } = await supabaseClient.auth.signInWithPassword({ email, password: pass });
+            if (error) { msg.textContent = error.message; msg.style.color = "var(--danger)"; sfx('alert'); }
+            else { msg.textContent = "Success"; msg.style.color = "var(--success)"; sfx('engage'); }
+        }
+
+        async function handleRegister() {
+            const username = document.getElementById('reg-username').value; const email = document.getElementById('reg-email').value;
+            const pass = document.getElementById('reg-password').value; const conf = document.getElementById('reg-confirm').value; const msg = document.getElementById('register-msg');
+            if(!username || !email || !pass) { msg.textContent = "Fill all fields"; msg.style.color = "var(--danger)"; return; }
+            if(pass !== conf) { msg.textContent = "Passwords mismatch"; msg.style.color = "var(--danger)"; return; }
+            const { data, error } = await supabaseClient.auth.signUp({ email, password: pass, options: { data: { full_name: username } } });
+            if (error) { msg.textContent = error.message; msg.style.color = "var(--danger)"; sfx('alert'); }
+            else { msg.textContent = "Account created! Check email."; msg.style.color = "var(--success)"; sfx('engage'); }
+        }
+
+        supabaseClient.auth.onAuthStateChange((event, session) => {
+            if (event === 'SIGNED_IN') { user = session.user; updatePresence(); showView('market-view'); document.querySelector('.bottom-nav').style.display = 'flex'; }
+            if (event === 'SIGNED_OUT') { user = null; showView('auth-view'); }
+        });
+
+        async function updatePresence() { if (!user) return; await supabaseClient.from('profiles').update({ last_seen: new Date() }).eq('id', user.id); }
+        setInterval(updatePresence, 60000);
+
+        // ==========================================
+        // MARKET LOGIC (USDT ONLY)
+        // ==========================================
+        async function loadMarket() {
+            const container = document.getElementById('offers-container');
+            container.innerHTML = '<div style="text-align:center; padding:40px; color:var(--text-dim);">Loading...</div>';
+
+            const fiveMinAgo = new Date(new Date().getTime() - 5*60000).toISOString();
+            const { count: onlineCount } = await supabaseClient.from('profiles').select('*', { count: 'exact', head: true }).gt('last_seen', fiveMinAgo);
+            document.getElementById('stat-online').textContent = onlineCount || 0;
+
+            if(user) {
+                const { data: p } = await supabaseClient.from('profiles').select('trades_count, rating').eq('id', user.id).single();
+                document.getElementById('stat-trades').textContent = p?.trades_count || 0;
+                document.getElementById('stat-rating').textContent = p?.rating || '-';
+            }
+
+            // Fixed: Crypto is always USDT, just filter by level
+            let query = supabaseClient.from('offers').select('*, profiles(username, rating, level, last_seen)').eq('is_active', true);
+            const level = document.getElementById('filter-level').value;
+            // Note: Client side filter for level simplicity in this demo
+            
+            const { data: offers, error } = await query.order('created_at', { ascending: false });
+            if (error) { container.innerHTML = 'Error'; return; }
+
+            let filtered = level ? offers.filter(o => o.profiles?.level === level) : offers;
+            if(filtered.length === 0) { container.innerHTML = '<div style="text-align:center; padding:40px; color:var(--text-dim);">No offers found.</div>'; return; }
+
+            container.innerHTML = filtered.map(o => {
+                const isOnline = o.profiles?.last_seen ? (new Date() - new Date(o.profiles.last_seen) < 300000) : false;
+                return `
+                <div class="offer-card" onclick="startTrade('${o.id}')">
+                    <div class="offer-header">
+                        <div class="seller-avatar">${o.profiles?.username ? o.profiles.username[0].toUpperCase() : '?'}</div>
+                        <div>
+                            <div class="seller-name">${o.profiles?.username || 'Unknown'}</div>
+                            <span class="level-badge level-${o.profiles?.level || 'new'}">${(o.profiles?.level || 'new').toUpperCase()}</span>
+                        </div>
+                        <div class="seller-rating"><i class="ri-star-fill" style="color:var(--warning)"></i> ${o.profiles?.rating || 'NEW'}</div>
+                    </div>
+                    <div class="offer-body">
+                        <div style="font-size:22px; color:rgba(255,255,255,0.8);">USDT (TRC20)</div>
+                        <div class="offer-price">${o.price} <span>TND</span></div>
+                        <div style="color:var(--text-dim); font-size:13px; margin-bottom:10px;">Available: ${o.quantity} USDT</div>
+                        <div class="offer-meta">
+                            <div style="font-family:var(--font-code); font-size:11px; color:rgba(255,255,255,0.5);">1 USDT = ${o.price} TND</div>
+                            <div class="status-dot ${isOnline ? 'online' : ''}"></div>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+        
+        document.getElementById('filter-level').addEventListener('change', loadMarket);
+
+        // ==========================================
+        // CREATE OFFER (Updated)
+        // ==========================================
+        async function createOffer() {
+            const qty = parseFloat(document.getElementById('offer-quantity').value);
+            const price = parseFloat(document.getElementById('offer-price').value);
+            const wallet = document.getElementById('offer-wallet').value.trim();
+            const notes = document.getElementById('offer-notes').value;
+            const msg = document.getElementById('offer-msg');
+
+            if(!qty || !price || !wallet) { msg.textContent = "Fill required fields"; msg.style.color="var(--danger)"; return; }
+            if(qty <= 0 || price <= 0) { msg.textContent = "Numbers must be positive"; msg.style.color="var(--danger)"; return; }
+            if(wallet.length < 20) { msg.textContent = "Invalid TRC20 address"; msg.style.color="var(--danger)"; return; }
+
+            const { error } = await supabaseClient.from('offers').insert({
+                seller_id: user.id, 
+                crypto_type: 'USDT', 
+                quantity: qty, 
+                price, 
+                wallet_address: wallet,
+                notes, 
+                is_active: true
+            });
+
+            if(error) { msg.textContent = error.message; msg.style.color="var(--danger)"; }
+            else { msg.textContent = "Offer Published!"; msg.style.color="var(--success)"; sfx('engage'); setTimeout(() => showView('market-view'), 1000); }
+        }
+
+        // ==========================================
+        // TRADE SYSTEM (Secure Flow)
+        // ==========================================
+        async function startTrade(offerId) {
+            const { data: offer } = await supabaseClient.from('offers').select('*, profiles(username)').eq('id', offerId).single();
+            if(!offer) return;
+
+            document.getElementById('trade-title').textContent = `BUY USDT`;
+            document.getElementById('trade-body').innerHTML = `
+                <p style="color:var(--text-main);">Seller: <span style="color:#fff;">${offer.profiles.username}</span></p>
+                <p style="color:var(--text-main);">Rate: <span style="color:var(--success);">1 USDT = ${offer.price} TND</span></p>
+                <hr style="border-color:rgba(255,0,0,0.2); margin:15px 0;">
+                
+                <label>YOUR TRC20 WALLET ADDRESS</label>
+                <input type="text" id="buyer-wallet" placeholder="Enter your USDT TRC20 address" />
+                
+                <label>AMOUNT (TND)</label>
+                <input type="number" id="trade-amount" placeholder="Enter TND amount (Multiple of 5)" step="5" min="5" onchange="calculateCards(this.value, ${offer.price})" />
+                
+                <div style="background:rgba(255,0,0,0.1); padding:10px; border-radius:8px; margin-top:10px;">
+                    <div style="display:flex; justify-content:space-between; color:#fff;">
+                        <span>USDT to receive:</span>
+                        <span id="calc-usdt">0.00</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; color:var(--danger);">
+                        <span>Cards Required (5 TND each):</span>
+                        <span id="calc-cards">0</span>
+                    </div>
+                </div>
+
+                <div id="card-inputs-container" style="margin-top:15px;"></div>
+
+                <button class="btn" onclick="submitTrade('${offer.id}')" id="submit-trade-btn" disabled>ENTER CARD CODES FIRST</button>
+            `;
+            openModal('trade-modal');
+        }
+
+        function calculateCards(tnd, rate) {
+            const amount = parseFloat(tnd);
+            if(amount <= 0 || amount % 5 !== 0) {
+                document.getElementById('calc-cards').textContent = "0";
+                document.getElementById('calc-usdt').textContent = "0.00";
+                document.getElementById('card-inputs-container').innerHTML = '<p style="color:var(--danger); font-size:12px;">Amount must be a multiple of 5</p>';
+                document.getElementById('submit-trade-btn').disabled = true;
+                return;
+            }
+            
+            const cardsNeeded = amount / 5;
+            const usdt = (amount / rate).toFixed(2);
+            
+            document.getElementById('calc-cards').textContent = cardsNeeded;
+            document.getElementById('calc-usdt').textContent = usdt;
+            document.getElementById('submit-trade-btn').disabled = false;
+
+            // Generate Card Inputs
+            let html = '';
+            for(let i=0; i<cardsNeeded; i++) {
+                html += `
+                <div class="card-input-group">
+                    <input type="text" class="card-code" id="card-${i}" maxlength="14" placeholder="Card ${i+1} (14 digits)" onchange="validateCard(${i})" />
+                    <span class="card-status" id="card-status-${i}"></span>
+                </div>`;
+            }
+            document.getElementById('card-inputs-container').innerHTML = html;
+        }
+
+        function validateCard(index) {
+            const input = document.getElementById(`card-${index}`);
+            const status = document.getElementById(`card-status-${index}`);
+            if(input.value.length === 14 && /^\d+$/.test(input.value)) {
+                status.innerHTML = '<i class="ri-check-line" style="color:var(--success);"></i>';
+            } else {
+                status.innerHTML = '<i class="ri-close-line" style="color:var(--danger);"></i>';
+            }
+        }
+
+        async function submitTrade(offerId) {
+            const buyerWallet = document.getElementById('buyer-wallet').value.trim();
+            const amount = parseFloat(document.getElementById('trade-amount').value);
+            
+            if(!buyerWallet || buyerWallet.length < 20) { toast('error', 'Invalid Wallet Address'); return; }
+            
+            // Gather Cards
+            const cardInputs = document.querySelectorAll('.card-code');
+            const cards = [];
+            let valid = true;
+            cardInputs.forEach(input => { if(input.value.length === 14) cards.push(input.value); else valid = false; });
+
+            if(!valid) { toast('error', 'Invalid Card Codes'); return; }
+
+            // Fraud Check: Duplicate Cards in DB
+            const { data: existing } = await supabaseClient.from('trades').select('id').contains('card_codes', [cards[0]]);
+            if(existing && existing.length > 0) { toast('error', 'Duplicate Card Detected'); sfx('alert'); return; }
+
+            // Submit
+            const { data: offer } = await supabaseClient.from('offers').select('seller_id, price').eq('id', offerId).single();
+
+            const { error } = await supabaseClient.from('trades').insert({
+                buyer_id: user.id,
+                seller_id: offer.seller_id,
+                offer_id: offerId,
+                amount_tnd: amount,
+                card_codes: cards,
+                buyer_wallet: buyerWallet,
+                status: 'pending',
+                rate_at_time: offer.price
+            });
+
+            if(error) { toast('error', error.message); }
+            else {
+                toast('success', 'Trade Submitted', 'Cards sent securely.');
+                sfx('engage');
+                closeModal('trade-modal');
+                // Notify Seller (simple alert)
+                addNotification(offer.seller_id, 'NEW TRADE', `${user.email} wants to buy USDT. Check dashboard.`);
+            }
+        }
+
+        // ==========================================
+        // SECURITY: SELLER MANAGEMENT
+        // ==========================================
+        async function loadTradeManagement() {
+            const container = document.getElementById('trade-management-list');
+            // Get pending trades where I am the seller
+            const { data: trades } = await supabaseClient.from('trades').select('*, profiles(username), offers(crypto_type)').eq('seller_id', user.id).eq('status', 'pending');
+            
+            if(!trades || trades.length === 0) {
+                container.innerHTML = '<p style="color:var(--text-dim); text-align:center;">No pending trades.</p>';
+                return;
+            }
+
+            container.innerHTML = trades.map(t => `
+                <div style="background:rgba(0,0,0,0.3); padding:15px; border-radius:8px; margin-bottom:10px; border:1px solid rgba(255,0,0,0.2);">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                        <span style="color:#fff;">Buyer: ${t.profiles?.username || 'Unknown'}</span>
+                        <span style="color:var(--success);">${t.amount_tnd} TND</span>
+                    </div>
+                    <p style="font-size:11px; color:var(--text-dim); margin-bottom:5px;">Cards: ${t.card_codes ? t.card_codes.join(', ') : 'N/A'}</p>
+                    <p style="font-size:11px; color:var(--warning); margin-bottom:10px;">To Wallet: ${t.buyer_wallet}</p>
+                    <div style="display:flex; gap:10px;">
+                        <button class="btn btn-sm btn-success" onclick="releaseUSDT('${t.id}')">RELEASE USDT</button>
+                        <button class="btn btn-sm btn-danger" onclick="disputeTrade('${t.id}')">DISPUTE</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function releaseUSDT(tradeId) {
+            // Seller confirms they sent crypto
+            openReleaseModal(tradeId);
+        }
+
+        function openReleaseModal(tradeId) {
+            document.getElementById('release-body').innerHTML = `
+                <p style="color:var(--text-main);">Confirm that you have sent the USDT to the buyer's wallet.</p>
+                <label>TRANSACTION HASH (TXID)</label>
+                <input type="text" id="release-txid" placeholder="Paste TX Hash here" />
+                <button class="btn btn-success" onclick="confirmRelease('${tradeId}')">CONFIRM RELEASE</button>
+            `;
+            openModal('release-modal');
+        }
+
+        async function confirmRelease(tradeId) {
+            const txid = document.getElementById('release-txid').value.trim();
+            if(!txid) { toast('error', 'TX Hash required'); return; }
+
+            const { error } = await supabaseClient.from('trades').update({ 
+                status: 'completed', 
+                seller_tx_hash: txid 
+            }).eq('id', tradeId);
+
+            if(error) { toast('error', error.message); }
+            else {
+                toast('success', 'Trade Completed', 'USDT Released.');
+                closeModal('release-modal');
+                loadTradeManagement();
+            }
+        }
+
+        async function disputeTrade(tradeId) {
+            if(confirm("Are you sure? This will flag the trade for admin review.")) {
+                await supabaseClient.from('trades').update({ status: 'disputed' }).eq('id', tradeId);
+                toast('warning', 'Dispute Filed', 'Admin will review.');
+                loadTradeManagement();
+            }
+        }
+
+        // ==========================================
+        // STORE SYSTEM (Redirect Logic)
+        // ==========================================
+        function openStoreModal() {
+            if(!user) return;
+            openModal('store-modal');
+        }
+
+        async function initiateStorePayment() {
+            const name = document.getElementById('store-name').value;
+            const desc = document.getElementById('store-desc').value;
+            if(!name || !desc) { toast('error', 'Fill all fields'); return; }
+
+            // Save pending store request to local storage to retrieve after payment (simplified)
+            // In a real system, you would create a 'store_requests' row with status 'pending'
+            localStorage.setItem('pending_store', JSON.stringify({ name, desc }));
+
+            // Redirect to payment
+            window.location.href = "https://nowpayments.io/payment/?iid=5348461549";
+        }
+
+        // ==========================================
+        // DASHBOARD & UTILS
+        // ==========================================
+        async function loadDash() {
+            const { data: p } = await supabaseClient.from('profiles').select('*').eq('id', user.id).single();
+            document.getElementById('profile-info').innerHTML = `
+                <div class="seller-avatar" style="width:70px; height:70px; margin:0 auto; font-size:24px;">${p?.username ? p.username[0].toUpperCase() : '?'}</div>
+                <h2 style="color:#fff; margin:15px 0 5px;">${p?.username}</h2>
+                <span class="level-badge level-${p?.level}">${p?.level?.toUpperCase()}</span>
+            `;
+
+            // Offers
+            const { data: offers } = await supabaseClient.from('offers').select('*').eq('seller_id', user.id);
+            document.getElementById('my-offers-list').innerHTML = offers?.length ? offers.map(o => `
+                <div style="display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid rgba(255,0,0,0.1);">
+                    <span style="color:#fff;">USDT</span>
+                    <span style="color:var(--success);">${o.quantity}</span>
+                </div>
+            `).join('') : '<p style="color:var(--text-dim);">No offers</p>';
+
+            // History
+            const { data: trades } = await supabaseClient.from('trades').select('*').or(`buyer_id.eq.${user.id},seller_id.eq.${user.id}`).order('created_at', { ascending: false }).limit(5);
+            document.getElementById('trade-history-list').innerHTML = trades?.length ? trades.map(t => `
+                <div style="display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid rgba(255,0,0,0.1);">
+                    <span style="color:var(--text-dim);">#${t.id.substring(0,8)}</span>
+                    <span style="color:var(--success);">${t.amount_tnd} TND</span>
+                </div>
+            `).join('') : '<p style="color:var(--text-dim);">No trades</p>';
+
+            // Store check
+            if(p?.store_name) {
+                document.getElementById('store-info').innerHTML = `<p style="color:#fff;">${p.store_name}</p><p style="color:var(--text-dim); font-size:12px;">${p.store_desc}</p>`;
+                document.getElementById('store-btn').style.display = 'none';
+            } else {
+                document.getElementById('store-info').innerHTML = '<p style="color:var(--text-dim);">No store created</p>';
+                document.getElementById('store-btn').style.display = 'block';
+            }
+        }
+
+        async function openNotifPanel() {
+            document.getElementById('notif-panel').classList.add('open'); document.getElementById('overlay').classList.add('active');
+            const { data: n } = await supabaseClient.from('notifications').select('*').eq('user_id', user.id).order('created_at', { ascending: false });
+            document.getElementById('notif-list').innerHTML = n?.length ? n.map(x => `
+                <div class="notification-item ${x.is_read ? '' : 'unread'}" onclick="readNotif('${x.id}')">
+                    <div class="notif-title">${x.message.split(':')[0]}</div>
+                    <div class="notif-desc">${x.message.split(':')[1] || ''}</div>
+                </div>
+            `).join('') : '<p style="padding:20px; text-align:center; color:var(--text-dim);">None</p>';
+        }
+
+        async function readNotif(id) { await supabaseClient.from('notifications').update({ is_read: true }).eq('id', id); updateNotifBadge(); }
+
+        async function updateNotifBadge() {
+            const { count } = await supabaseClient.from('notifications').select('*', { count: 'exact', head: true }).eq('user_id', user.id).eq('is_read', false);
+            const b = document.getElementById('notif-badge');
+            if(count && count > 0) { b.textContent = count; b.style.display = 'flex'; } else b.style.display = 'none';
+        }
+
+        function openModal(id) { document.getElementById(id).classList.add('open'); document.getElementById('overlay').classList.add('active'); sfx('tick'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('open'); document.getElementById('overlay').classList.remove('active'); }
+        function closeAllModals() { closeModal('store-modal'); closeModal('trade-modal'); closeModal('release-modal'); closeNotifPanel(); }
+        function closeNotifPanel() { document.getElementById('notif-panel').classList.remove('open'); document.getElementById('overlay').classList.remove('active'); }
+
+        function toast(type, title, desc) {
+            const c = document.getElementById('toast-cont');
+            const t = document.createElement('div');
+            t.className = `toast ${type}`;
+            t.innerHTML = `<div class="toast-icon"><i class="ri-checkbox-circle-line"></i></div><div class="toast-content"><div class="toast-title">${title}</div><div class="toast-desc">${desc || ''}</div></div>`;
+            c.appendChild(t); sfx('alert');
+            setTimeout(() => t.remove(), 4000);
+        }
+
+        async function checkSession() {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (session) { user = session.user; updatePresence(); showView('market-view'); document.querySelector('.bottom-nav').style.display = 'flex'; }
+            else { showView('auth-view'); }
+        }
+        checkSession();
+
+    </script>
+</body>
+</html>
+
+

@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="NEYDRA - Where Imagination Becomes Reality" />
+  <meta name="keywords" content="NEYDRA, Imagination, Reality, Web Development, Exchange tnd" />
+  <meta property="og:title" content="NEYDRA" />
+  <meta property="og:description" content="NEYDRA - Where Imagination Becomes Reality" />
+  <meta property="og:image" content="assets/og-image.jpg" />
+  <meta property="og:url" content="https://neydra.vercel.app" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="theme-color" content="#000000">
+  <meta name="msapplication-navbutton-color" content="#000000">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- 1. Load Supabase SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- 2. SECURITY GUARD (Prevents unauthorized access) -->
+  <script>
+    // Use 'window.onerror' to catch any remaining silent errors
+    window.onerror = function(message, source, lineno, colno, error) {
+      console.error("System Error:", message);
+      return false;
+    };
+
+    (function() {
+      // CONFIGURATION
+      const SUPABASE_URL = 'https://ybrtpasetldpxanrhsle.supabase.co';
+      const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlicnRwYXNldGxkcHhhbnJoc2xlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAzMTgyMjksImV4cCI6MjA4NTg5NDIyOX0.Rdj0S0oGV4HmQDERePPbxjQifJ8euDjOTMfgWtdz7gQ';
+      
+      // FIX: Use a UNIQUE NAME 'homeGuard' to avoid the "Identifier already declared" error
+      // This prevents crashes even if other scripts are running.
+      let homeGuard;
+      try {
+        homeGuard = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+      } catch (e) {
+        console.error("Security Module Failed:", e);
+        // If security fails, we don't let them in just in case
+        window.location.href = 'CreateAC.html'; 
+        return;
+      }
+
+      // SECURITY CHECK: Is the user logged in?
+      async function checkAccess() {
+        try {
+          const { data: { session } } = await homeGuard.auth.getSession();
+          
+          if (!session) {
+            console.warn("Access Denied: No Session Found. Redirecting to Login...");
+            // Kick them to CreateAC
+            window.location.href = 'CreateAC.html';
+          } else {
+            console.log("Access Granted for:", session.user.email);
+            // User stays on home.html
+          }
+        } catch (err) {
+          console.error("Auth Check Error:", err);
+          // On error, redirect to login to be safe
+          window.location.href = 'CreateAC.html';
+        }
+      }
+
+      // Run the check immediately
+      checkAccess();
+
+    })();
+  </script>
+  
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXXXXXX-X"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-XXXXXXXXX-X');
+  </script>
+
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.0.0/fonts/remixicon.css" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <!-- AOS Animate On Scroll CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+  <link rel="icon" href="assets/icon.png" type="image/png" />
+  <link rel="manifest" href="manifest.json" />
+  <title>  Official site  </title>
+  <!-- EmailJS SDK -->
+  <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function() {
+      emailjs.init("MQKyFZlDIBIMySsjM"); // Replace with your EmailJS Public Key
+    })();
+  </script>
+
+  <style>
+    body { margin: 0; }
+    .gif-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #000;
+      z-index: 9999;
+      transition: opacity 3s ease-in-out;
+    }
+    .gif-container img { max-width: 100%; max-height: 100%; }
+    .gif-container.fade-out { opacity: 0; }
+
+    /* Small neon red download button specifically for the PWA install action */
+    #installBtn {
+      display: none; /* shown only after beforeinstallprompt */
+      margin-top: 1rem;
+      padding: 0.45rem 0.9rem;
+      background: linear-gradient(135deg, #ff0000, #cc0000);
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      box-shadow: 0 0 10px rgba(255,0,0,0.55), 0 0 24px rgba(255,0,0,0.15);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    #installBtn:focus { outline: 2px solid rgba(255,0,0,0.25); }
+
+    /* Sound button at the bottom left */
+    #soundBtn {
+      position: fixed;
+      bottom: 15px;
+      left: 15px;
+      width: 50px;
+      height: 50px;
+      background: none;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      transition: transform 0.2s ease, filter 0.2s ease;
+    }
+    #soundBtn img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      filter: drop-shadow(0 0 8px red) brightness(1);
+    }
+    #soundBtn:hover img {
+      transform: scale(1.1);
+      filter: drop-shadow(0 0 15px red) brightness(1.3);
+    }
+    #soundBtn:active img {
+      transform: scale(0.9);
+      filter: drop-shadow(0 0 5px red) brightness(0.8);
+    }
+  </style>
+</head>
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = 'https://ybrtpasetldpxanrhsle.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlicnRwYXNldGxkcHhhbnJoc2xlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAzMTgyMjksImV4cCI6MjA4NTg5NDIyOX0.Rdj0S0oGV4HmQDERePPbxjQifJ8euDjOTMfgWtdz7gQ';
+  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  // Check Session on Load
+  supabase.auth.getSession().then(({ data: { session } }) => {
+    if (!session) {
+      // Not logged in? Go back to CreateAC
+      window.location.href = 'CreateAC.html';
+    } else {
+      console.log("User Logged In:", session.user.email);
+    }
+  });
+</script>
+  <!-- Loading GIF -->
+  <div class="gif-container" id="loadingGif">
+    <img src="assets/red-earth.gif" alt="Loading..." />
+  </div>
+
+  <!-- Starting Sound -->
+  <audio id="starting-sound" src="assets/starting-sound.mp3" preload="auto"></audio>
+  <audio id="s-sound" src="assets/s-sound.mp3" preload="auto"></audio>
+  <!-- Theme Music -->
+  <audio id="theme-music" src="assets/theme-music.mp3" loop></audio>
+  <audio id="click-sound1" src="click-sound1.mp3" preload="auto"></audio>
+  <audio id="click-sound2" src="click-sound2.mp3" preload="auto"></audio>
+  <audio id="click-sound3" src="click-sound3.mp3" preload="auto"></audio>
+  <audio id="click-sound4" src="click-sound4.mp3" preload="auto"></audio>
+
+  <header style="position:relative;">
+    <!-- Elfsight Cookie Consent | Untitled Cookie Consent -->
+<script src="https://elfsightcdn.com/platform.js" async></script>
+<div class="elfsight-app-5cd0545b-72bf-4fef-9980-423865009ac3" data-elfsight-app-lazy></div>
+    
+
+
+
+      
+
+
+    <!-- NEYDRA Red Particle Fog -->
+    <canvas id="neydra-fog"></canvas>
+
+    <style>
+      #neydra-fog {
+        display: block;
+        background: transparent;   /* شفاف */
+      }
+    </style>
+
+    <script>
+      const isMobile = window.innerHeight > window.innerWidth;
+      const WIDTH = isMobile ? 768 : 1366;
+      const HEIGHT = isMobile ? 1366 : 768;
+
+      const canvas = document.getElementById("neydra-fog");
+      const ctx = canvas.getContext("2d");
+
+      canvas.width = WIDTH;
+      canvas.height = HEIGHT;
+
+      const PARTICLES = 2500;
+      const DRIFT = -0.15;
+      const MOUSE_RADIUS = 60;
+
+      const particles = Array.from({ length: PARTICLES }, () => ({
+        x: Math.random() * WIDTH,
+        y: Math.random() * HEIGHT,
+        r: Math.random() * 1.6 + 0.4,
+        vx: DRIFT * (0.5 + Math.random()),
+        vy: (Math.random() - 0.5) * 0.05,
+        a: Math.random() * 0.25 + 0.05
+      }));
+
+      const mouse = { x: -9999, y: -9999 };
+
+      canvas.addEventListener("mousemove", e => {
+        const rect = canvas.getBoundingClientRect();
+        mouse.x = e.clientX - rect.left;
+        mouse.y = e.clientY - rect.top;
+      });
+
+      canvas.addEventListener("mouseleave", () => {
+        mouse.x = -9999;
+        mouse.y = -9999;
+      });
+
+      function render() {
+        ctx.clearRect(0, 0, WIDTH, HEIGHT);
+
+        for (const p of particles) {
+          p.x += p.vx;
+          p.y += p.vy;
+
+          if (p.x < -20) p.x = WIDTH + 20;
+          if (p.y < -20) p.y = HEIGHT + 20;
+          if (p.y > HEIGHT + 20) p.y = -20;
+
+          const dx = p.x - mouse.x;
+          const dy = p.y - mouse.y;
+          const d = Math.sqrt(dx * dx + dy * dy);
+
+          let alpha = p.a;
+          if (d < MOUSE_RADIUS) {
+            const f = (MOUSE_RADIUS - d) / MOUSE_RADIUS;
+            p.x += dx * f * 0.03;
+            p.y += dy * f * 0.03;
+            alpha += f * 0.15;
+          }
+
+          ctx.beginPath();
+          ctx.fillStyle = `rgba(255, 0, 0, ${alpha})`;
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        requestAnimationFrame(render);
+      }
+
+      render();
+    </script>
+    
+
+    
+
+    <!-- Navigation bar positioned at the bottom center of the header -->
+    <nav class="bottom-nav">
+      <ul>
+        <li><a href="home.html"><img src="assets/home-icon.png" alt="Home" /></a></li>
+        <li><a href="about.html"><img src="assets/about-icon.png" alt="About" /></a></li>
+        <li><a href="nexhub.html"><img src="assets/neydra-icon.png" alt="Neydra" /></a></li>
+        <li><a href="Shop.html"><img src="assets/shop.png" alt="shop" /></a></li>
+      </ul>
+    </nav>
+    <br><br>
+
+
+  </header>
+
+  <section class="about">
+    <div class="section__container about__container">
+      <div class="about__content">
+        <h2 class="section__title">About <span class="fade-in-effect">Me</span></h2>
+        <p class="section__subtitle">The CEO and founder of NEYDRA !</p>
+        <p class="about__details">
+          Welcome to NEYDRA – Where Imagination Becomes Reality.<br><br>
+          I am ILYES JARRAY the founder of NEYDRA, an organization born from the relentless pursuit of breaking limits and reshaping reality itself.
+          We stand on the edge of a new era—where the impossible is no longer just a dream but a challenge waiting to be conquered.<br><br>
+          At NEYDRA, we refuse to be confined by the ordinary. We are visionaries, creators, and pioneers on a mission to bring imagination to life
+          to craft a world beyond the mundane, and to revolutionize the way we experience existence. This is not just an idea; this is the beginning of a new world.<br><br>
+          Are you ready to step beyond the boundaries of reality and build the future with us? Join NEYDRA. Become part of the revolution.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="service">
+  <div class="section__container service__container">
+    <p class="section__subtitle">What We Offer! </p>
+    <h2 class="section__title"><span class="fade-in-effect">NEYDRA</span> Services</h2>
+
+    <div class="service__grid">
+      
+      <!-- SERVICE 1: SAFE EXCHANGE (FREE - Always Unlocked) -->
+      <div class="service__card free-feature">
+        <div class="service-header">
+          <h4>Neydra Safe Exchange</h4>
+          <span class="plan-badge free">FREE</span>
+        </div>
+        <p class="service-description">
+          Fast, secure, and transparent conversion of Tunisian Dinar (TND) to digital assets. No registration required for basic exchanges.
+        </p>
+        <div class="service-features">
+          <ul>
+            <li> Instant TND to Crypto conversion</li>
+            <li> Low fees (1/3 transaction cost)</li>
+            <li> No KYC required</li>
+            <li> 24/7 availability</li>
+          </ul>
+        </div>
+        <button class="service-btn unlock-btn" id="btn-exchange" onclick="window.location.href='exchange.html'">
+          <img src="assets/free_button.png" alt="Access Exchange Service" class="btn-icon" />
+          <span class="btn-label">Access Now</span>
+        </button>
+        <br><br>
+      </div>
+      <br><br>
+      <br><br>
+      <!-- SERVICE 1.1: NEYDRA P2P MARKETPLACE (FREE - Always Unlocked) -->
+      <div class="service__card free-feature">
+        <div class="service-header">
+          <h4>Neydra P2P Marketplace <strong>COMING SOON</strong></h4>
+          <span class="plan-badge free">FREE</span>
+        </div>
+        <p class="service-description">
+          Fast, secure, and transparent conversion of Cryptocurrency from the open Market.
+        </p>
+        <div class="service-features">
+          <ul>
+            <li> Instant TND to Crypto conversion</li>
+            <li> Real-time offer display with featured deals</li>
+            <li> Advanced filtering</li>
+            <li> Live statistics</li>
+          </ul>
+        </div>
+        <button class="service-btn unlock-btn" id="btn-exchange" onclick="window.location.href='neydrap2pcryptoexchange.html'">
+          <img src="assets/p2pmarket.png" alt="Access Exchange Service" class="btn-icon" />
+          <span class="btn-label">Access Now</span>
+        </button>
+        <br><br>
+      </div>
+      <br><br>
+      <br><br>
+
+      <!-- SERVICE 1.2: global_neydra_news (FREE - Always Unlocked) -->
+      <div class="service__card free-feature">
+        <div class="service-header">
+          <h4>Global Neydra News</h4>
+          <span class="plan-badge free">FREE</span>
+        </div>
+        <p class="service-description">
+          Fast news of The world . No registration required .<br><br>
+          Use PC for better experience
+        </p>
+        <div class="service-features">
+          <ul>
+            <li> Earth map</li>
+            <li> Live global news</li>
+            <li> No KYC required</li>
+            <li> 24/24 availability</li>
+          </ul>
+        </div>
+        <button class="service-btn unlock-btn" id="btn-exchange" onclick="window.location.href='global_neydra_news.html'">
+          <img src="assets/gl-neydra-news.png" alt="Access Exchange Service" class="btn-icon" />
+          <span class="btn-label">Access Now</span>
+        </button>
+        <br><br>
+      </div>
+      <br><br>
+      <br><br>
+      
+
+      <!-- SERVICE 2: AI PREDICTIVE ANALYTICS (STANDARD PLAN - $15/44TND) -->
+      <div class="service__card locked-feature" id="pae-service">
+        <div class="service-header">
+          <h4>AI-Driven Predictive Analytics Engine</h4>
+          <span class="plan-badge standard">STANDARD</span>
+        </div>
+        <p class="service-description">
+          Advanced machine learning models forecast XAU/USD price movements with 87%+ accuracy. Receive actionable trading signals before market shifts.<br><br>
+          Use PC for better experience
+        </p>
+        <div class="service-features">
+          <ul>
+            <li> Real-time AI predictions (1-hour, 4-hour, daily)</li>
+            <li> 99.9% data accuracy from institutional sources</li>
+            <li> Smart alerts on bullish/bearish signals</li>
+            <li> Historical backtesting & performance metrics</li>
+          </ul>
+        </div>
+        <button class="service-btn locked-btn" id="btn-pae" onclick="goToPayment('standard', '15', '44')">
+          <img src="assets/Predictive_Analytics.png" alt="Unlock Predictive Analytics" class="btn-icon" />
+          <span class="btn-label"> Unlock $15
+           </span>
+        </button>
+        <br><br>
+      </div>
+      <br><br>
+      <br><br>
+
+      <!-- SERVICE 3: INSTITUTIONAL LIQUIDITY DECODER (PREMIUM PLAN - $40/100TND) -->
+      <div class="service__card locked-feature" id="ail-service">
+        <div class="service-header">
+          <h4>Institutional Liquidity Decoder</h4>
+          <span class="plan-badge premium">PREMIUM</span>
+        </div>
+        <p class="service-description">
+          Visualize hidden whale orders, market depth layers, and liquidity flows invisible to retail traders. Execute with institutional-level precision.<br><br>
+          Use PC for better experience
+        </p>
+        <div class="service-features">
+          <ul>
+            <li> Whale order detection & tracking</li>
+            <li> Real-time liquidity pool analysis</li>
+            <li> Support/resistance level identification</li>
+            <li> Live order book depth visualization</li>
+          </ul>
+        </div>
+        <button class="service-btn locked-btn" id="btn-ail" onclick="goToPayment('premium', '40', '115')">
+          <img src="assets/Liquidity_Decoder.png" alt="Unlock Liquidity Decoder" class="btn-icon" />
+          <span class="btn-label"> Unlock $40
+          </span>
+        </button>
+        <br><br>
+      </div>
+      <br><br>
+      <br><br>
+
+      <!-- SERVICE 4: REAL-TIME NLP SENTIMENT ANALYZER (ULTRA PLAN - $90/262TND) -->
+      <div class="service__card locked-feature" id="nlp-service">
+        <div class="service-header">
+          <h4>Real-Time NLP Sentiment Analyzer</h4>
+          <span class="plan-badge ultra">ULTRA</span>
+        </div>
+        <p class="service-description">
+          Harness global news streams with AI-powered NLP to predict volatility spikes and market regime shifts before the crowd reacts.<br><br>
+          Use PC for better experience 
+        </p>
+        <div class="service-features">
+          <ul>
+            <li> Multi-language news aggregation (150+ sources)</li>
+            <li> AI sentiment scoring (-100 to +100)</li>
+            <li> Volatility prediction (24-48 hours ahead)</li>
+            <li> Trending topics & market catalysts tracking</li>
+          </ul>
+        </div>
+        <button class="service-btn locked-btn" id="btn-nlp" onclick="goToPayment('ultra', '90', '262')">
+          <img src="assets/NLP_Analysis.png" alt="Unlock Sentiment Analyzer" class="btn-icon" />
+          <span class="btn-label"> Unlock $90
+          </span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</section>
+  <br><br>
+
+  <footer>
+    <div class="section__container footer__container">
+      <div class="footer__content">
+        <h2 class="section__title">Contact <span class="fade-in-effect">Me!</span></h2>
+        <p class="section__subtitle">If you have any project in your mind</p>
+        <div class="footer__details">
+          <p>
+            You can reach me through the contact form provided on this
+            website. Simply fill out the form with your name, email address,
+            and message, and I will get back to you as soon as possible.
+          </p>
+        </div>
+        <div class="social__icons">
+          <a href="https://www.facebook.com/share/1BkYPhTFjX/" class="icon"><i class="ri-facebook-fill"></i></a>
+          <a href="https://www.instagram.com/neydra_org?igsh=MW55Zmp3bm9qejRlaA==" class="icon"><i class="ri-instagram-fill"></i></a>
+          <!-- Neon red one-click "Download" install button (hidden until PWA install is available) -->
+          <button id="installBtn" aria-hidden="true" title="Install NEYDRA PWA">Download</button>
+        </div>
+      </div>
+      <form class="footer__form" id="contact-form">
+        <input type="text" placeholder="Your Name" name="user_name" id="user_name" required />
+        <input type="email" placeholder="Your Email Address" name="user_email" id="user_email" required />
+        <input type="text" placeholder="Your Phone Number" name="user_phone" id="user_phone" required />
+        <textarea cols="30" rows="10" placeholder="Your Idea" name="message" id="message" required></textarea>
+        <div class="action__btns">
+          <button type="submit" class="btn">Send Message</button>
+        </div>
+      </form>
+    </div>
+  </footer>
+
+  <!-- Sound button -->
+  <button id="soundBtn">
+    <img src="assets/s-sound.png" alt="Sound Button" />
+  </button>
+
+<script>
+  // Select the button
+  const button = document.getElementById('soundBtn');
+
+  // Add click event listener
+  button.addEventListener('click', function() {
+    
+    // Set a 3-second timer (3000 milliseconds)
+    setTimeout(function() {
+      window.location.href = "https://h1n3j2ssdj71-d.space.z.ai";
+    }, 1000);
+    
+  });
+</script>
+
+  <script type="text/javascript">
+    // Function to play a random click sound
+    function playClickSound() {
+      var sounds = [
+        document.getElementById("click-sound1"),
+        document.getElementById("click-sound2"),
+        document.getElementById("click-sound3"),
+        document.getElementById("click-sound4")
+      ];
+      var sound = sounds[Math.floor(Math.random() * sounds.length)];
+      if (sound && sound.play) sound.play();
+    }
+
+    // Add event listeners for click and touch events
+    document.querySelectorAll('button, a').forEach(function(element) {
+      element.addEventListener('click', playClickSound);
+      element.addEventListener('touchstart', playClickSound);
+    });
+
+    document.getElementById('contact-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      // Form validation
+      var name = document.getElementById('user_name').value.trim();
+      var email = document.getElementById('user_email').value.trim();
+      var phone = document.getElementById('user_phone').value.trim();
+      var message = document.getElementById('message').value.trim();
+
+      if (!name || !email || !phone || !message) {
+        alert('Please fill in all fields correctly.');
+        return;
+      }
+
+      emailjs.sendForm('service_089jv67', 'template_e41ehk8', this)
+        .then(function() {
+          alert('Email sent successfully!');
+        }, function(error) {
+          console.log('Failed to send email:', error);
+        });
+    });
+
+    // Function to play theme music
+    function playThemeMusic() {
+      const themeMusic = document.getElementById("theme-music");
+      themeMusic.play();
+    }
+
+    // Ensure the music stops when the site is closed
+    window.addEventListener("beforeunload", function () {
+      const themeMusic = document.getElementById("theme-music");
+      themeMusic.pause();
+      themeMusic.currentTime = 0;
+    });
+
+    // Register service worker
+    if ('serviceWorker' in navigator && 'PushManager' in window) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(function(registration) {
+          console.log('Service Worker registered with scope:', registration.scope);
+
+          // Request permission for push notifications
+          return Notification.requestPermission().then(function(permission) {
+            if (permission === 'granted') {
+              // Subscribe to push notifications
+              return registration.pushManager.subscribe({ userVisibleOnly: true });
+            }
+          });
+        });
+
+      // Register for background sync
+      navigator.serviceWorker.ready.then(function(registration) {
+        registration.sync.register('my-background-sync');
+      });
+    }
+
+    // PWA install: capture beforeinstallprompt and show a custom "Download" button
+    let deferredPrompt = null;
+    const installBtn = document.getElementById('installBtn');
+
+    // Show/hide helper (for accessibility)
+    function showInstallButton() {
+      if (installBtn) {
+        installBtn.style.display = 'inline-block';
+        installBtn.setAttribute('aria-hidden', 'false');
+      }
+    }
+    function hideInstallButton() {
+      if (installBtn) {
+        installBtn.style.display = 'none';
+        installBtn.setAttribute('aria-hidden', 'true');
+      }
+    }
+
+    // Listen for the beforeinstallprompt event and save the event
+    window.addEventListener('beforeinstallprompt', (e) => {
+      // Prevent the mini-infobar from appearing on mobile
+      e.preventDefault();
+      // Stash the event so it can be triggered later.
+      deferredPrompt = e;
+      // Update UI to notify the user they can install the PWA
+      showInstallButton();
+      console.log('beforeinstallprompt captured');
+    });
+
+    // When the user clicks our button, show the install prompt
+    if (installBtn) {
+      installBtn.addEventListener('click', async () => {
+        if (!deferredPrompt) {
+          // No install prompt saved, nothing to do
+          console.log('No deferred prompt available');
+          return;
+        }
+        // Show the install prompt
+        deferredPrompt.prompt();
+
+        // Wait for the user's response
+        const choiceResult = await deferredPrompt.userChoice;
+        console.log('User choice', choiceResult.outcome);
+
+        // Clear the saved prompt since it can't be used again
+        deferredPrompt = null;
+        // Hide our custom install button after prompt used
+        hideInstallButton();
+      });
+    }
+
+    // Optional: detect install event
+    window.addEventListener('appinstalled', (evt) => {
+      console.log('PWA was installed.', evt);
+      hideInstallButton();
+    });
+
+    // Set the duration of the GIF in milliseconds
+    var gifDuration = 8000; // Example: 8000ms (8 seconds)
+
+    // Play the starting sound and theme music immediately
+    var startingSound = document.getElementById("starting-sound");
+    var themeMusic = document.getElementById("theme-music");
+    if (startingSound && startingSound.play) startingSound.play();
+    if (themeMusic && themeMusic.play) themeMusic.play();
+
+    window.addEventListener('load', function () {
+      setTimeout(function () {
+        var loadingGif = document.getElementById('loadingGif');
+        loadingGif.classList.add('fade-out');
+        setTimeout(function () {
+          loadingGif.style.display = 'none';
+        }, 3000); // Fade-out transition duration
+      }, gifDuration);
+    });
+
+    // Function to request fullscreen
+    function requestFullscreen() {
+      const elem = document.documentElement;
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.mozRequestFullScreen) { // Firefox
+        elem.mozRequestFullScreen();
+      } else if (elem.webkitRequestFullscreen) { // Chrome, Safari and Opera
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) { // IE/Edge
+        elem.msRequestFullscreen();
+      }
+    }
+
+    // Request fullscreen on load
+    window.addEventListener('load', function () {
+      requestFullscreen();
+    });
+  </script>
+  <!-- AOS Animate On Scroll JS -->
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 9000,
+      once: true
+    });
+  </script>
+  <!-- Elfsight Age Verification | Untitled Age Verification -->
+  <script src="https://elfsightcdn.com/platform.js" async></script>
+  <div class="elfsight-app-d014008a-6eb4-4c15-9d7e-1b5ea1a3779f" data-elfsight-app-lazy></div>
+  <script>
+  // Add this function to your home.html script section
+  function goToPayment(planType, priceUsd, priceTnd) {
+    // Redirects to payment.html with plan details in URL
+    window.location.href = `payment.html?plan=${planType}&price=${priceUsd}&priceTnd=${priceTnd}`;
+  }
+  </script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

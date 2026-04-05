@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEYDRA | RED PROTOCOL [ULTRA NLP]</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    (function() {
+      const SUPABASE_URL = 'https://ybrtpasetldpxanrhsle.supabase.co';
+      const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlicnRwYXNldGxkcHhhbnJoc2xlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAzMTgyMjksImV4cCI6MjA4NTg5NDIyOX0.Rdj0S0oGV4HmQDERePPbxjQifJ8euDjOTMfgWtdz7gQ';
+      let serviceGuard = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+      // Page Requirements
+      const pageName = window.location.pathname;
+      let requiredPlan = 'STANDARD';
+      if (pageName.includes('AIL.html')) requiredPlan = 'PREMIUM';
+      if (pageName.includes('RT-NLP-SA.html')) requiredPlan = 'ULTRA';
+
+      async function verifyAccess() {
+        // 1. Check Session
+        const { data: { session } } = await serviceGuard.auth.getSession();
+        if (!session) return window.location.href = 'CreateAC.html';
+
+        // 2. Check Subscription
+        const { data, error } = await serviceGuard
+          .from('subscribers')
+          .select('plan_type, expires_at, status')
+          .eq('email', session.user.email)
+          .single();
+
+        if (error || !data || data.status !== 'active' || new Date(data.expires_at) < new Date()) {
+          return window.location.href = 'home.html'; // Send back to buy plan
+        }
+
+        // 3. Check Plan Tier
+        if (data.plan_type === 'ULTRA') return; // Ultra accesses everything
+        if (data.plan_type !== requiredPlan) {
+           alert(`Your current plan (${data.plan_type}) does not support this feature. Upgrade to ${requiredPlan}.`);
+           return window.location.href = 'home.html';
+        }
+      }
+      verifyAccess();
+    })();
+  </script>
+    
+    <style>
+        /* * =========================================
+         * CORE SYSTEM ARCHITECTURE [CSS - RED PROTOCOL]
+         * =========================================
+         */
+        :root {
+            --primary: #ff0000;       /* BLOOD RED */
+            --dim-red: #550000;       /* DRIED BLOOD */
+            --dark-red: #220000;      /* DARKNESS */
+            --bg-solid: #000000;      /* VOID */
+            --bg-panel: rgba(10, 0, 0, 0.85);
+            --text-main: #ffcccc;
+            --scan-line: rgba(255, 0, 0, 0.05);
+            --grid-line: rgba(255, 0, 0, 0.1);
+            
+            --font-ui: 'Rajdhani', sans-serif;
+            --font-code: 'Share Tech Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            outline: none;
+            user-select: none;
+            scrollbar-width: none; /* Firefox */
+        }
+
+        body {
+            background-color: var(--bg-solid);
+            color: var(--primary);
+            font-family: var(--font-ui);
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            /* Infinite Grid Background */
+            background-image: 
+                linear-gradient(var(--grid-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size: 30px 30px;
+            perspective: 1000px;
+        }
+
+        /* --- POST-PROCESSING FILTERS --- */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, transparent 50%, #000 100%);
+            z-index: 900;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(255, 0, 0, 0.02), rgba(255, 0, 0, 0.06));
+            z-index: 999;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+            animation: flicker 0.15s infinite;
+        }
+
+        /* --- LAYOUT GRID --- */
+        .viewport {
+            display: grid;
+            grid-template-columns: 250px 1fr 250px; /* Left Sidebar, Center, Right Sidebar */
+            grid-template-rows: 80px 1fr 150px;     /* Header, Main, Footer */
+            width: 100%;
+            height: 100%;
+            padding: 10px;
+            gap: 10px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* --- GLOBAL PANEL STYLING --- */
+        .panel {
+            background: var(--bg-panel);
+            border: 1px solid var(--dark-red);
+            position: relative;
+            backdrop-filter: blur(4px);
+            box-shadow: inset 0 0 20px rgba(0,0,0,1);
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .panel:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.2), inset 0 0 20px rgba(0,0,0,1);
+        }
+
+        .panel-header {
+            background: var(--dark-red);
+            color: var(--primary);
+            font-family: var(--font-code);
+            font-size: 11px;
+            padding: 4px 8px;
+            border-bottom: 1px solid var(--primary);
+            letter-spacing: 2px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* --- TOP HEADER --- */
+        .header-section {
+            grid-column: 1 / -1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            border-bottom: 2px solid var(--primary);
+            background: linear-gradient(90deg, #000 0%, var(--dark-red) 50%, #000 100%);
+        }
+
+        h1 {
+            font-size: 48px;
+            margin: 0;
+            letter-spacing: 10px;
+            color: #fff;
+            text-shadow: 4px 4px 0px var(--primary);
+            font-weight: 800;
+            font-style: italic;
+            position: relative;
+        }
+        
+        h1 span { color: var(--primary); text-shadow: none; }
+
+        .sys-info {
+            font-family: var(--font-code);
+            text-align: right;
+            font-size: 12px;
+            color: var(--primary);
+            line-height: 1.4;
+        }
+
+        /* --- LEFT SIDEBAR: HEX DUMP --- */
+        .sidebar-left {
+            grid-row: 2 / 3;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        #hex-dump {
+            flex: 1;
+            overflow: hidden;
+            font-family: var(--font-code);
+            font-size: 10px;
+            color: var(--dim-red);
+            padding: 10px;
+            opacity: 0.7;
+            mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+        }
+
+        /* --- CENTER: VISUALIZER & NEWS --- */
+        .main-display {
+            grid-column: 2 / 3;
+            grid-row: 2 / 3;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Sentiment Container (Replaces Chart) */
+        .sentiment-container {
+            flex: 1;
+            background: #000;
+            border: 1px solid var(--primary);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .overlay-text {
+            position: absolute;
+            top: 20px; left: 20px;
+            pointer-events: none;
+        }
+        .big-price {
+            font-size: 80px; /* Bigger for Sentiment */
+            font-family: var(--font-code);
+            color: #fff;
+            text-shadow: 0 0 20px var(--primary);
+            font-weight: 800;
+            z-index: 2;
+        }
+        .regime-display {
+            font-size: 18px;
+            letter-spacing: 4px;
+            margin-top: 10px;
+            color: #888;
+            text-transform: uppercase;
+            z-index: 2;
+        }
+
+        /* News Feed (Replaces Metrics) */
+        .news-feed-container {
+            flex: 1.5; /* Give more space to news */
+            background: rgba(20,0,0,0.9);
+            border: 1px solid var(--dark-red);
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        /* --- RIGHT SIDEBAR: VOLATILITY & KEYWORDS --- */
+        .sidebar-right {
+            grid-row: 2 / 3;
+            grid-column: 3 / 4;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .metric-card {
+            background: rgba(20,0,0,0.9);
+            border-left: 4px solid var(--dim-red);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+        }
+        .m-label { color: #888; font-size: 10px; letter-spacing: 2px; margin-bottom: 5px; }
+        .m-val { color: var(--primary); font-size: 32px; font-family: var(--font-code); text-shadow: 0 0 5px var(--primary); }
+
+        .keywords-list {
+            height: 100%;
+            overflow: hidden;
+            padding: 10px;
+            font-family: var(--font-code);
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        /* --- FOOTER: LOGS & CONTROLS --- */
+        .footer-section {
+            grid-column: 1 / -1;
+            grid-row: 3 / 4;
+            display: grid;
+            grid-template-columns: 1fr 200px;
+            gap: 10px;
+        }
+
+        .terminal {
+            background: #020000;
+            border: 1px solid var(--primary);
+            padding: 10px;
+            font-family: var(--font-code);
+            font-size: 12px;
+            overflow-y: auto;
+            color: #aaa;
+            box-shadow: inset 0 0 20px #000;
+        }
+        .log-line { margin-bottom: 2px; }
+        .log-err { color: var(--primary); background: rgba(255,0,0,0.1); }
+        .log-suc { color: #fff; text-shadow: 0 0 5px #fff; }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        button {
+            flex: 1;
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            font-family: var(--font-ui);
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            cursor: pointer;
+            transition: 0.2s;
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+        }
+
+        button:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 20px var(--primary);
+        }
+        
+        button.engaged {
+            background: var(--primary);
+            color: black;
+            animation: pulse-btn 1s infinite;
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes pulse-btn { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
+        @keyframes flicker { 0% { opacity: 0.97; } 50% { opacity: 1; } 100% { opacity: 0.98; } }
+        
+        /* Decoration lines */
+        .deco-line {
+            position: absolute;
+            background: var(--primary);
+            opacity: 0.3;
+        }
+        .dl-1 { top: 0; left: 0; width: 20px; height: 1px; }
+        .dl-2 { top: 0; left: 0; width: 1px; height: 20px; }
+        .dl-3 { bottom: 0; right: 0; width: 20px; height: 1px; }
+        .dl-4 { bottom: 0; right: 0; width: 1px; height: 20px; }
+
+        /* --- TARGET LOGIC STYLES (Red Protocol Skinned) --- */
+        
+        /* News Items */
+        .news-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed var(--dim-red);
+            font-size: 11px;
+        }
+        .news-meta { 
+            display: flex; 
+            justify-content: space-between; 
+            color: #666; 
+            font-family: var(--font-code); 
+            margin-bottom: 4px; 
+        }
+        .news-title { color: #ccc; line-height: 1.4; }
+        .news-score { font-weight: bold; }
+        
+        /* Red Protocol Specific Overrides */
+        .bullish { color: #fff; text-shadow: 0 0 8px var(--primary); } /* Was Green */
+        .bearish { color: var(--dim-red); } /* Was Red */
+
+        /* Keyword Tags */
+        .kw-tag {
+            display: inline-block;
+            background: #220000;
+            border: 1px solid var(--primary);
+            padding: 2px 6px;
+            margin: 2px;
+            border-radius: 2px;
+            font-size: 10px;
+        }
+
+        /* Volatility Alert */
+        .vol-alert {
+            margin-top: 10px;
+            padding: 8px;
+            border-left: 3px solid #444;
+            font-size: 10px;
+            text-align: left;
+            font-family: var(--font-code);
+            background: rgba(0,0,0,0.3);
+        }
+        .vol-alert.critical {
+            border-left-color: #fff;
+            color: #fff;
+            background: rgba(255, 0, 0, 0.2);
+            animation: flicker 0.5s infinite;
+        }
+
+        /* =========================================
+         * HOW TO USE & CONNECTION MODAL STYLES
+         * =========================================
+         */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-panel);
+            border: 2px solid var(--primary);
+            width: 90%;
+            max-width: 700px;
+            max-height: 85vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 0 50px rgba(255, 0, 0, 0.3), inset 0 0 30px rgba(0,0,0,1);
+            clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
+        }
+
+        .modal-header {
+            background: var(--dark-red);
+            border-bottom: 2px solid var(--primary);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 24px;
+            letter-spacing: 5px;
+            color: var(--primary);
+            text-transform: uppercase;
+            font-family: var(--font-ui);
+        }
+
+        .modal-close {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            width: 35px;
+            height: 35px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            clip-path: polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px);
+        }
+
+        .modal-close:hover {
+            background: var(--primary);
+            color: #000;
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .step-container {
+            margin-bottom: 25px;
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            color: #000;
+            font-size: 20px;
+            font-weight: bold;
+            font-family: var(--font-code);
+            margin-right: 15px;
+            clip-path: polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px);
+        }
+
+        .step-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .step-description {
+            font-family: var(--font-code);
+            font-size: 13px;
+            color: var(--text-main);
+            line-height: 1.8;
+            margin-left: 55px;
+            padding: 10px;
+            background: rgba(255, 0, 0, 0.05);
+            border-left: 2px solid var(--dim-red);
+        }
+
+        .step-description a {
+            color: var(--primary);
+            text-decoration: none;
+            border-bottom: 1px dashed var(--primary);
+        }
+
+        .step-description a:hover {
+            color: #fff;
+            border-bottom-color: #fff;
+        }
+
+        .download-section {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid var(--primary);
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .download-title {
+            font-size: 14px;
+            color: var(--primary);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            font-family: var(--font-code);
+        }
+
+        .btn-download {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--primary);
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: var(--font-ui);
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+        }
+
+        .btn-download:hover {
+            background: #fff;
+            color: var(--primary);
+            box-shadow: 0 0 30px var(--primary);
+            transform: scale(1.02);
+        }
+
+        .btn-download svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .requirements-list {
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px dashed var(--dim-red);
+        }
+
+        .requirements-list h4 {
+            color: var(--primary);
+            margin: 0 0 10px 0;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .requirements-list ul {
+            margin: 0;
+            padding-left: 20px;
+            color: var(--text-main);
+            font-family: var(--font-code);
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        .requirements-list code, .step-description code {
+            background: var(--dark-red);
+            color: var(--primary);
+            padding: 2px 6px;
+            font-family: var(--font-code);
+        }
+        
+        .cmd-box {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+            align-items: center;
+        }
+        
+        .cmd-box code {
+            flex: 1;
+            background: #110000;
+            border: 1px solid #330000;
+            padding: 8px 12px;
+            color: #ff6666;
+            display: block;
+        }
+
+        .warning-box {
+            background: rgba(255, 0, 0, 0.15);
+            border: 1px solid var(--primary);
+            padding: 15px;
+            margin-top: 20px;
+            font-family: var(--font-code);
+            font-size: 11px;
+            color: var(--primary);
+        }
+
+        .warning-box::before {
+            content: "⚠ WARNING:";
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            letter-spacing: 2px;
+        }
+        
+        /* Connection Specific Styles */
+        .connection-panel h2 { margin: 0; padding: 15px 20px; background: linear-gradient(90deg, var(--primary), var(--dark-red)); color: #000; }
+        .connection-panel { padding: 0; text-align: center; }
+        .connection-panel .inner { padding: 30px; }
+        .connection-panel p { color: #aaa; font-size: 13px; margin-bottom: 20px; font-family: var(--font-code); }
+        .connection-panel input { width: 100%; background: #000; border: 1px solid var(--primary); color: #fff; padding: 15px; font-family: var(--font-code); font-size: 16px; margin-bottom: 20px; text-align: center; }
+        .connection-panel input::placeholder { color: #550000; }
+
+    </style>
+</head>
+<body>
+
+    <!-- LOCAL AUDIO ASSETS (RED PROTOCOL) -->
+    <audio id="snd-engage" src="assets/engage.wav" preload="auto"></audio>
+    <audio id="snd-alert" src="assets/alert.wav" preload="auto"></audio>
+    <audio id="snd-tick" src="assets/tick.wav" preload="auto"></audio>
+    <audio id="snd-ambient" src="assets/ambient.wav" preload="auto"></audio>
+    <audio id="snd-glitch" src="assets/glitch.wav" preload="auto"></audio>
+
+    <!-- CONNECTION MODAL -->
+    <div class="modal-overlay" id="connection-modal">
+        <div class="modal-content connection-panel">
+            <h2>CONNECT TO NLP ENGINE</h2>
+            <div class="inner">
+                <p>Enter your LocalTunnel URL to connect to the Sentiment Decoder.</p>
+                <input type="text" id="url-input" placeholder="https://your-url.loca.lt">
+                <button onclick="initializeConnection()" style="width: 100%; padding: 15px; font-size: 16px;">CONNECT</button>
+                <p style="margin-top: 15px; font-size: 11px; color: #666;">
+                    Run <span style="color: var(--primary);">npx localtunnel --port 8000</span> in your terminal to generate a URL.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- HOW TO USE MODAL -->
+    <div class="modal-overlay active" id="howto-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>⚙ HOW TO USE</h2>
+                <button class="modal-close" onclick="closeHowToModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <!-- STEP 1 -->
+                <div class="step-container">
+                    <div class="step-title">
+                        <span class="step-number">1</span>
+                        Install Node.js
+                    </div>
+                    <div class="step-description">
+                        Node.js is required to create the tunnel link. Download the LTS version for your system.<br>
+                        <a href="https://nodejs.org/en/download/" target="_blank">https://nodejs.org/en/download/</a>
+                    </div>
+                </div>
+
+                <!-- STEP 2 -->
+                <div class="step-container">
+                    <div class="step-title">
+                        <span class="step-number">2</span>
+                        Download & Run Backend
+                    </div>
+                    <div class="step-description">
+                        Download the Python script below. Open a terminal in the download folder and run:
+                        <div class="requirements-list">
+                            <h4>Run Command</h4>
+                            <ul>
+                                <li><code>pip install fastapi uvicorn feedparser vaderSentiment</code></li>
+                                <li><code>python ultra_nlp_backend.py</code></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 3 -->
+                <div class="step-container">
+                    <div class="step-title">
+                        <span class="step-number">3</span>
+                        Create Public URL
+                    </div>
+                    <div class="step-description">
+                        Open a <strong>NEW</strong> terminal and run the tunnel command:
+                         <div class="cmd-box">
+                            <code>npx localtunnel --port 8000</code>
+                            <button class="btn-download" style="padding: 8px 15px; font-size: 12px;" onclick="copyCommand('npx localtunnel --port 8000')">COPY</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 4 -->
+                <div class="step-container">
+                    <div class="step-title">
+                        <span class="step-number">4</span>
+                        Unlock Tunnel (Password)
+                    </div>
+                    <div class="step-description">
+                        Open the generated URL in your browser. It will ask for a password.
+                        <br><strong>Password = Your Public IP.</strong> 
+                        <br><br>Click below to find your IP, then paste it into the tunnel page.
+                         <div style="margin-top:8px;">
+                            <a href="https://www.whatismyip.com/" target="_blank" class="btn-download" style="padding: 10px 20px; font-size: 12px; background: #660000;">
+                                🔍 FIND MY IP ADDRESS
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 5 -->
+                <div class="step-container">
+                    <div class="step-title">
+                        <span class="step-number">5</span>
+                        Connect Dashboard
+                    </div>
+                    <div class="step-description">
+                        Once the tunnel page shows "status": "ONLINE", paste the URL into the connection panel and click Connect.
+                    </div>
+                </div>
+
+                <!-- DOWNLOAD SECTION -->
+                <div class="download-section">
+                    <div class="download-title">📥 Download Backend Script</div>
+                    <button class="btn-download" onclick="downloadAPI()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="7 10 12 15 17 10"/>
+                            <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                        DOWNLOAD ultra_nlp_backend.py
+                    </button>
+                </div>
+
+                <!-- WARNING -->
+                <div class="warning-box">
+                    If the backend fails to start, ensure all dependencies (vaderSentiment) are installed correctly.
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <button onclick="closeHowToModal()" style="width: auto; padding: 15px 50px; font-size: 18px;">CONTINUE TO DASHBOARD</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="viewport">
+        <div class="header-section">
+            <h1>NEYDRA <span>GLOBAL NLP</span></h1>
+            <div class="sys-info">
+                CORE: NLP ENGINE<br>
+                LATENCY: 12ms<br>
+                SECURE CONN: TRUE<br>
+                <span id="clock">--:--:--</span>
+            </div>
+        </div>
+
+        <div class="sidebar-left">
+            <div class="panel" style="height: 100%; display: flex; flex-direction: column;">
+                <div class="panel-header">MEMORY STREAM</div>
+                <div id="hex-dump"></div>
+                <div class="deco-line dl-1"></div><div class="deco-line dl-2"></div>
+                <div class="deco-line dl-3"></div><div class="deco-line dl-4"></div>
+            </div>
+        </div>
+
+        <div class="main-display">
+            <!-- Sentiment Meter (Replaces Chart) -->
+            <div class="sentiment-container panel">
+                <div class="overlay-text">
+                    <div style="font-size: 14px; color: #888;">GLOBAL SENTIMENT</div>
+                </div>
+                <div class="big-price" id="sentimentScore">0</div>
+                <div class="regime-display" id="marketRegime">ANALYZING...</div>
+            </div>
+            
+            <!-- News Feed (Replaces Metrics) -->
+            <div class="panel news-feed-container">
+                <div class="panel-header">LIVE GLOBAL NEWS WIRE</div>
+                <div id="newsFeed">Loading stream...</div>
+            </div>
+        </div>
+
+        <div class="sidebar-right">
+            <!-- Volatility Panel -->
+            <div class="panel metric-card">
+                <span class="m-label">PREDICTED ATR SHIFT</span>
+                <span class="m-val" id="volValue">0.0%</span>
+                <div id="volAlert" class="vol-alert">STABLE</div>
+            </div>
+
+            <!-- Keywords Panel -->
+            <div class="panel" style="height: 100%;">
+                <div class="panel-header">TOP KEYWORDS</div>
+                <div class="keywords-list" id="keywordsList">
+                    Scanning...
+                </div>
+                <div class="deco-line dl-3"></div><div class="deco-line dl-4"></div>
+            </div>
+        </div>
+
+        <div class="footer-section">
+            <div class="terminal" id="sys-log">
+                <div class="log-line">> SYSTEM INITIALIZED</div>
+                <div class="log-line">> NLP MODULE READY</div>
+                <div class="log-line">> AWAITING CONNECTION...</div>
+            </div>
+            <div class="controls">
+                <button id="btn-start" onclick="toggleEngine()">ACTIVATE</button>
+                <button id="btn-kill" onclick="killSwitch()" style="border-color: #555; color: #555;">KILL</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /** * =========================================
+         * NEYDRA CORE ENGINE [ULTRA NLP]
+         * VISUALS: RED PROTOCOL
+         * LOGIC: TARGET API
+         * AUDIO: LOCAL FILES
+         * =========================================
+         */
+
+        // --- CONFIGURATION ---
+        let API_URL = null; // Set by user input
+        let isRunning = false;
+        let clockInterval = null;
+        
+        // --- DOM ELEMENTS ---
+        const elSentiment = document.getElementById('sentimentScore');
+        const elRegime = document.getElementById('marketRegime');
+        const elNews = document.getElementById('newsFeed');
+        const elVol = document.getElementById('volValue');
+        const elVolAlert = document.getElementById('volAlert');
+        const elKeywords = document.getElementById('keywordsList');
+        const elLog = document.getElementById('sys-log');
+        const elHex = document.getElementById('hex-dump');
+        const btnStart = document.getElementById('btn-start');
+        
+        // --- AUDIO SYSTEM (LOCAL FILES) ---
+        function sfx(type) {
+            const el = document.getElementById('snd-' + type);
+            if (el) {
+                el.currentTime = 0; 
+                el.play().catch(e => { console.log("Audio play failed:", e); });
+            }
+        }
+
+        // --- MODAL FUNCTIONS ---
+        function openHowToModal() {
+            document.getElementById('howto-modal').classList.add('active');
+            sfx('tick');
+        }
+
+        function closeHowToModal() {
+            document.getElementById('howto-modal').classList.remove('active');
+            document.getElementById('connection-modal').classList.add('active');
+        }
+
+        function copyCommand(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert("Command copied to clipboard: " + text);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+        
+        document.getElementById('connection-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                // do nothing, force user to connect or close tab
+            }
+        });
+
+        // --- CONNECTION LOGIC ---
+        function initializeConnection() {
+            const urlInput = document.getElementById('url-input');
+            let url = urlInput.value.trim();
+
+            if (!url) {
+                alert("Please enter a valid URL.");
+                return;
+            }
+
+            if (url.endsWith("/")) {
+                url = url.slice(0, -1);
+            }
+
+            if (!url.startsWith("http")) {
+                alert("URL must start with http:// or https://");
+                return;
+            }
+
+            API_URL = url;
+            
+            log(`Connecting to ${API_URL}...`);
+            
+            // Test connection
+            fetch(`${API_URL}/`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === "ONLINE" || data.name) {
+                        log("NLP ENGINE CONNECTION ESTABLISHED", "suc");
+                        document.getElementById('connection-modal').classList.remove('active');
+                        sfx('engage');
+                    } else {
+                        alert("Connected but server status unknown.");
+                        document.getElementById('connection-modal').classList.remove('active');
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("Could not connect. Check URL and Tunnel status.");
+                });
+        }
+
+        // --- DOWNLOAD API FUNCTION ---
+        function downloadAPI() {
+            // The Python API script content
+            const pythonScript = `#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+================================================================================
+                    NEYDRA ULTRA NLP BACKEND
+================================================================================
+        Real-Time Global Sentiment Analysis Engine
+                  "RED PROTOCOL ACTIVATED"
+================================================================================
+REQUIREMENTS:
+- pip install fastapi uvicorn feedparser vaderSentiment pandas
+================================================================================
+"""
+
+import uvicorn
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+from typing import List, Optional
+from datetime import datetime
+import feedparser
+import time
+import re
+import asyncio
+import threading
+import random
+
+# NLP Specific Imports
+try:
+    from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+    NLP_AVAILABLE = True
+except ImportError:
+    NLP_AVAILABLE = False
+    print("[WARNING] vaderSentiment not installed. Run: pip install vaderSentiment")
+
+# ============================================================================
+#                         CONFIGURATION
+# ============================================================================
+
+SYSTEM_NAME = "NEYDRA ULTRA NLP"
+VERSION = "1.0.0"
+
+# RSS Feeds for Global Financial News
+RSS_FEEDS = [
+    "https://www.reuters.com/feed/business",
+    "https://www.investing.com/rss/news.rss",
+    "https://www.forexlive.com/feed",
+    "https://www.coindesk.com/arc/outboundfeeds/rss/",
+    "https://cointelegraph.com/rss",
+    "https://www.cnbc.com/id/10000664/device/rss/rss.html",
+    "https://www.zerohedge.com/fullrss2.xml",
+    "https://www.bloomberg.com/feed/podcast/bloomberg-markets.xml",
+]
+
+# Keywords to track for the "KEYWORDS" panel
+TRACKED_KEYWORDS = [
+    "FED", "ECB", "INFLATION", "RATES", "GOLD", "XAUUSD", "BITCOIN", "BTC",
+    "OIL", "WAR", "GDP", "EMPLOYMENT", "JOBS", "RECESSION", "RALLY", "CRASH",
+    "BULL", "BEAR", "CHINA", "USA", "DOLLAR", "EUR", "YEN", "YIELD"
+]
+
+# ============================================================================
+#                         DATA STRUCTURES
+# ============================================================================
+
+class NewsItem(BaseModel):
+    datetime: str
+    source: str
+    title: str
+    score: float
+    ticker: str
+    keywords: List[str]
+
+class UltraData(BaseModel):
+    global_sentiment: float
+    market_regime: str
+    volatility_forecast: float
+    latest_headlines: List[NewsItem]
+
+# ============================================================================
+#                         FASTAPI APPLICATION
+# ============================================================================
+
+app = FastAPI(title=SYSTEM_NAME, version=VERSION)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# --- GLOBAL STATE ---
+state = {
+    "global_sentiment": 0.0,
+    "market_regime": "INITIALIZING",
+    "volatility_forecast": 0.0,
+    "latest_headlines": [],
+    "last_update": 0
+}
+
+# Initialize NLP Analyzer
+analyzer = SentimentIntensityAnalyzer() if NLP_AVAILABLE else None
+
+# ============================================================================
+#                         NLP ENGINE CORE
+# ============================================================================
+
+def clean_html(raw_html):
+    """Remove HTML tags from string"""
+    cleanr = re.compile('<.*?>')
+    cleantext = re.sub(cleanr, '', raw_html)
+    return cleantext
+
+def analyze_sentiment(text):
+    """Analyze text sentiment using VADER"""
+    if not NLP_AVAILABLE:
+        # Fallback random if library missing
+        return random.uniform(-1, 1)
+    
+    vs = analyzer.polarity_scores(text)
+    # VADER compound score ranges from -1 (Most Negative) to +1 (Most Positive)
+    return vs['compound']
+
+def extract_keywords(text):
+    """Extract relevant keywords from text"""
+    found_keywords = []
+    text_upper = text.upper()
+    for kw in TRACKED_KEYWORDS:
+        if kw in text_upper:
+            found_keywords.append(kw)
+    return list(set(found_keywords)) # Unique keywords
+
+def determine_market_regime(sentiment_score):
+    """Determine market regime based on aggregate sentiment"""
+    if sentiment_score > 0.4:
+        return "EXTREME GREED"
+    elif sentiment_score > 0.15:
+        return "BULLISH TREND"
+    elif sentiment_score > 0.05:
+        return "OPTIMISM"
+    elif sentiment_score < -0.4:
+        return "EXTREME FEAR"
+    elif sentiment_score < -0.15:
+        return "BEARISH TREND"
+    elif sentiment_score < -0.05:
+        return "CAUTION"
+    else:
+        return "NEUTRAL / CONSOLIDATION"
+
+def map_ticker(title, source):
+    """Infer ticker symbol from content"""
+    title_upper = title.upper()
+    if "GOLD" in title_upper or "XAU" in title_upper:
+        return "XAUUSD"
+    if "BITCOIN" in title_upper or "BTC" in title_upper:
+        return "BTCUSD"
+    if "OIL" in title_upper or "CRUDE" in title_upper:
+        return "USOIL"
+    if "EUR" in title_upper or "EURO" in title_upper:
+        return "EURUSD"
+    if "STOCK" in title_upper or "S&P" in title_upper or "DOW" in title_upper:
+        return "SPX500"
+    if "DOLLAR" in title_upper or "DXY" in title_upper:
+        return "DXY"
+    if "ETHEREUM" in title_upper or "ETH" in title_upper:
+        return "ETHUSD"
+    
+    # Default based on source type
+    if "COIN" in source.upper() or "CRYPTO" in source.upper():
+        return "CRYPTO"
+    
+    return "GLOBAL"
+
+def process_news():
+    """Fetch and process news from RSS feeds"""
+    global state
+    all_headlines = []
+    total_sentiment = 0.0
+    count = 0
+    
+    print(f"[{SYSTEM_NAME}] Updating news feed...")
+    
+    for url in RSS_FEEDS:
+        try:
+            feed = feedparser.parse(url)
+            source_name = feed.feed.get("title", url.split("//")[1].split("/")[0])
+            
+            for entry in feed.entries[:10]: # Top 10 per feed
+                title = entry.get("title", "No Title")
+                description = entry.get("description", "")
+                content = clean_html(title + " " + description)
+                
+                # Analyze
+                score = analyze_sentiment(content)
+                total_sentiment += score
+                count += 1
+                
+                # Extract Data
+                kw = extract_keywords(content)
+                ticker = map_ticker(title, source_name)
+                
+                # Time formatting
+                published = entry.get("published_parsed", entry.get("updated_parsed", None))
+                if published:
+                    dt = datetime(*published[:6])
+                    time_str = dt.strftime("%H:%M")
+                else:
+                    time_str = datetime.now().strftime("%H:%M")
+                
+                item = {
+                    "datetime": time_str,
+                    "source": source_name[:20], # Truncate long names
+                    "title": title[:100] + "..." if len(title) > 100 else title,
+                    "score": round(score, 2),
+                    "ticker": ticker,
+                    "keywords": kw
+                }
+                all_headlines.append(item)
+                
+        except Exception as e:
+            # Silent fail for individual feeds
+            continue
+
+    # Sort by absolute score (most impactful news first)
+    all_headlines.sort(key=lambda x: abs(x['score']), reverse=True)
+    
+    # Calculate Global Sentiment
+    if count > 0:
+        avg_sentiment = total_sentiment / count
+    else:
+        avg_sentiment = 0.0
+    
+    # Determine Regime
+    regime = determine_market_regime(avg_sentiment)
+    
+    # Simulate Volatility Forecast (Based on sentiment divergence or random for demo)
+    # In real scenario, this would be ATR or VIX analysis
+    volatility = round(random.uniform(-3.5, 6.5), 2) 
+    if abs(avg_sentiment) > 0.3:
+        volatility = round(random.uniform(4.0, 9.0), 2) # High sentiment = high vol
+    
+    # Update State
+    state["global_sentiment"] = round(avg_sentiment, 3)
+    state["market_regime"] = regime
+    state["volatility_forecast"] = volatility
+    state["latest_headlines"] = all_headlines[:50] # Keep top 50
+    state["last_update"] = time.time()
+    
+    print(f"[{SYSTEM_NAME}] Processed {count} articles. Global Sentiment: {avg_sentiment:.2f}")
+
+def background_processor():
+    """Background thread to process news every 60 seconds"""
+    while True:
+        try:
+            process_news()
+        except Exception as e:
+            print(f"[ERROR] Background Processor: {e}")
+        time.sleep(60) # Update every minute
+
+# Start Background Thread
+threading.Thread(target=background_processor, daemon=True).start()
+
+# ============================================================================
+#                         API ENDPOINTS
+# ============================================================================
+
+@app.get("/")
+async def root():
+    return {
+        "name": SYSTEM_NAME,
+        "version": VERSION,
+        "status": "ONLINE",
+        "nlp_engine": "VADER" if NLP_AVAILABLE else "SIMULATION"
+    }
+
+@app.get("/ultra_data", response_model=UltraData)
+async def get_ultra_data():
+    """Main endpoint for the NLP Dashboard"""
+    return state
+
+if __name__ == "__main__":
+    print(f"\\n{'='*60}")
+    print(f"    Starting {SYSTEM_NAME}")
+    print(f"    'We trade the news, not the price.'")
+    print(f"{'='*60}\\n")
+    
+    print("╔════════════════════════════════════════════════════════╗")
+    print("║           LOCALTUNNEL CONNECTION GUIDE                 ║")
+    print("╠════════════════════════════════════════════════════════╣")
+    print("║ 1. Install Node.js (if not installed)                  ║")
+    print("║ 2. Open NEW terminal: npx localtunnel --port 8000      ║")
+    print("║ 3. Copy the URL (e.g: https://xx.loca.lt)              ║")
+    print("║ 4. Paste URL in HTML Dashboard connection box.         ║")
+    print("╚════════════════════════════════════════════════════════╝")
+    print("\\n[INFO] Starting API Server on port 8000...\\n")
+    
+    uvicorn.run(app, host="0.0.0.0", port=8000)
+`;
+
+            const blob = new Blob([pythonScript], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'ultra_nlp_backend.py';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            
+            sfx('tick');
+            log("NLP BACKEND DOWNLOADED", "suc");
+        }
+
+        // --- VISUAL GENERATORS (DESIGN ONLY) ---
+        function generateHex() {
+            const chars = "0123456789ABCDEF";
+            let str = "0x";
+            for(let i=0; i<8; i++) str += chars[Math.floor(Math.random()*16)];
+            const div = document.createElement('div');
+            div.innerText = `${str} :: ${Math.random() > 0.5 ? 'READ' : 'WRITE'}`;
+            elHex.prepend(div);
+            if(elHex.children.length > 20) elHex.lastChild.remove();
+        }
+
+        function log(msg, type="norm") {
+            const d = new Date();
+            const ts = `${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}.${d.getMilliseconds()}`;
+            const line = document.createElement('div');
+            line.className = "log-line";
+            if(type==="err") line.className += " log-err";
+            if(type==="suc") line.className += " log-suc";
+            line.innerText = `[${ts}] ${msg}`;
+            elLog.appendChild(line);
+            elLog.scrollTop = elLog.scrollHeight;
+        }
+
+        // --- CLOCK ---
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('clock').innerText = now.toLocaleTimeString();
+        }
+
+        // --- MAIN TARGET API LOGIC ---
+        async function fetchUltraData() {
+            if(!isRunning || !API_URL) return;
+
+            try {
+                const response = await fetch(`${API_URL}/ultra_data`);
+                if (!response.ok) throw new Error("API Error");
+                const data = await response.json();
+
+                // 1. UPDATE SENTIMENT METER (Center Top)
+                elSentiment.innerText = data.global_sentiment > 0 ? "+" + data.global_sentiment : data.global_sentiment;
+                elRegime.innerText = data.market_regime;
+                
+                // Color Logic: Red Protocol
+                if(data.global_sentiment > 0) {
+                    elSentiment.style.color = "#fff"; // Bright White/Red for Bull
+                    elSentiment.style.textShadow = "0 0 20px #ff0000";
+                    elRegime.style.color = "var(--primary)";
+                } else if(data.global_sentiment < 0) {
+                    elSentiment.style.color = "var(--dim-red)"; // Dark Red for Bear
+                    elSentiment.style.textShadow = "none";
+                    elRegime.style.color = "var(--dim-red)";
+                } else {
+                    elSentiment.style.color = "#888";
+                    elRegime.style.color = "#888";
+                }
+
+                // 2. UPDATE NEWS FEED (Center Bottom)
+                elNews.innerHTML = "";
+                let allKeywords = [];
+                
+                data.latest_headlines.slice(0, 20).forEach(news => {
+                    const item = document.createElement('div');
+                    item.className = 'news-item';
+                    
+                    let scoreClass = "neutral"; 
+                    if(news.score > 0) scoreClass = "bullish";
+                    if(news.score < 0) scoreClass = "bearish";
+                    
+                    allKeywords.push(...news.keywords);
+
+                    item.innerHTML = `
+                        <div class="news-meta">
+                            <span>${news.datetime} | ${news.source}</span>
+                            <span class="${scoreClass}">SENT: ${news.score}</span>
+                        </div>
+                        <div class="news-title">
+                            <span style="color:var(--dim-red)">[${news.ticker}]</span> ${news.title}
+                        </div>
+                    `;
+                    elNews.appendChild(item);
+                });
+
+                // 3. UPDATE VOLATILITY (Right Sidebar Top)
+                elVol.innerText = data.volatility_forecast + "%";
+                if (data.volatility_forecast > 5.0) {
+                    elVol.style.color = "#fff";
+                    elVolAlert.innerText = "VOLATILITY EXPANSION IMMINENT.";
+                    elVolAlert.className = "vol-alert critical";
+                    sfx('alert');
+                } else if (data.volatility_forecast < -5.0) {
+                    elVol.style.color = "var(--dim-red)";
+                    elVolAlert.innerText = "VOLATILITY CONTRACTION.";
+                    elVolAlert.className = "vol-alert";
+                } else {
+                    elVol.style.color = "var(--primary)";
+                    elVolAlert.innerText = "MARKET STABILITY NOMINAL.";
+                    elVolAlert.className = "vol-alert";
+                }
+
+                // 4. UPDATE KEYWORDS (Right Sidebar Bottom)
+                elKeywords.innerHTML = "";
+                const counts = {};
+                allKeywords.forEach(x => { counts[x] = (counts[x] || 0) + 1; });
+                const sortedKw = Object.keys(counts).sort((a,b) => counts[b] - counts[a]).slice(0, 15);
+                
+                sortedKw.forEach(k => {
+                    const span = document.createElement('span');
+                    span.className = 'kw-tag';
+                    span.innerText = `${k} (${counts[k]})`;
+                    elKeywords.appendChild(span);
+                });
+
+                // 5. Generators
+                generateHex();
+                if(Math.random() > 0.95) sfx('tick');
+
+            } catch (error) {
+                if(Math.random() > 0.95) log("NLP CONNECTION UNSTABLE", "err");
+            }
+        }
+
+        // --- CONTROLS ---
+        function toggleEngine() {
+            if(!API_URL) {
+                alert("Please connect to a server URL first.");
+                return;
+            }
+
+            if(isRunning) {
+                isRunning = false;
+                btnStart.innerText = "ACTIVATE";
+                btnStart.classList.remove("engaged");
+                log("PROCESS SUSPENDED BY USER");
+                clearInterval(clockInterval);
+            } else {
+                isRunning = true;
+                btnStart.innerText = "RUNNING";
+                btnStart.classList.add("engaged");
+                log("ULTRA NLP PROTOCOL ENGAGED", "suc");
+                sfx('engage');
+                
+                // Start Clock
+                updateClock();
+                clockInterval = setInterval(updateClock, 1000);
+
+                // Start the loop
+                setInterval(fetchUltraData, 5000);
+                fetchUltraData(); // Initial fetch
+            }
+        }
+
+        function killSwitch() {
+            isRunning = false;
+            clearInterval(clockInterval);
+            document.body.innerHTML = "<h1 style='color:red; text-align:center; padding-top:20%; font-family:monospace;'>SYSTEM PURGED</h1>";
+            sfx('glitch');
+        }
+
+    </script>
+</body>
+</html>
+
+
+
+

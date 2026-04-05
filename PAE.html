@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEYDRA ULTRA | PHOENIX PROTOCOL [V4.0]</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    (function() {
+      const SUPABASE_URL = 'https://ybrtpasetldpxanrhsle.supabase.co';
+      const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlicnRwYXNldGxkcHhhbnJoc2xlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAzMTgyMjksImV4cCI6MjA4NTg5NDIyOX0.Rdj0S0oGV4HmQDERePPbxjQifJ8euDjOTMfgWtdz7gQ';
+      let serviceGuard = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+      // Page Requirements
+      const pageName = window.location.pathname;
+      let requiredPlan = 'STANDARD';
+      if (pageName.includes('AIL.html')) requiredPlan = 'PREMIUM';
+      if (pageName.includes('RT-NLP-SA.html')) requiredPlan = 'ULTRA';
+
+      async function verifyAccess() {
+        // 1. Check Session
+        const { data: { session } } = await serviceGuard.auth.getSession();
+        if (!session) return window.location.href = 'CreateAC.html';
+
+        // 2. Check Subscription
+        const { data, error } = await serviceGuard
+          .from('subscribers')
+          .select('plan_type, expires_at, status')
+          .eq('email', session.user.email)
+          .single();
+
+        if (error || !data || data.status !== 'active' || new Date(data.expires_at) < new Date()) {
+          return window.location.href = 'home.html'; // Send back to buy plan
+        }
+
+        // 3. Check Plan Tier
+        if (data.plan_type === 'ULTRA') return; // Ultra accesses everything
+        if (data.plan_type !== requiredPlan) {
+           alert(`Your current plan (${data.plan_type}) does not support this feature. Upgrade to ${requiredPlan}.`);
+           return window.location.href = 'home.html';
+        }
+      }
+      verifyAccess();
+    })();
+  </script>
+    
+    <style>
+        /* * =========================================
+         * CORE SYSTEM ARCHITECTURE [CSS]
+         * =========================================
+         */
+        :root {
+            --primary: #ff0000;       /* BLOOD RED */
+            --dim-red: #550000;       /* DRIED BLOOD */
+            --dark-red: #220000;      /* DARKNESS */
+            --bg-solid: #000000;      /* VOID */
+            --bg-panel: rgba(10, 0, 0, 0.85);
+            --text-main: #ffcccc;
+            --scan-line: rgba(255, 0, 0, 0.05);
+            --grid-line: rgba(255, 0, 0, 0.1);
+            
+            --font-ui: 'Rajdhani', sans-serif;
+            --font-code: 'Share Tech Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            outline: none;
+            user-select: none;
+            scrollbar-width: none; /* Firefox */
+        }
+
+        body {
+            background-color: var(--bg-solid);
+            color: var(--primary);
+            font-family: var(--font-ui);
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            /* Infinite Grid Background */
+            background-image: 
+                linear-gradient(var(--grid-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size: 30px 30px;
+            perspective: 1000px;
+        }
+
+        /* --- POST-PROCESSING FILTERS --- */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, transparent 50%, #000 100%);
+            z-index: 900;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(255, 0, 0, 0.02), rgba(255, 0, 0, 0.06));
+            z-index: 999;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+            animation: flicker 0.15s infinite;
+        }
+
+        /* --- LAYOUT GRID --- */
+        .viewport {
+            display: grid;
+            grid-template-columns: 250px 1fr 250px; /* Left Sidebar, Center, Right Sidebar */
+            grid-template-rows: 80px 1fr 150px;     /* Header, Main, Footer */
+            width: 100%;
+            height: 100%;
+            padding: 10px;
+            gap: 10px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* --- GLOBAL PANEL STYLING --- */
+        .panel {
+            background: var(--bg-panel);
+            border: 1px solid var(--dark-red);
+            position: relative;
+            backdrop-filter: blur(4px);
+            box-shadow: inset 0 0 20px rgba(0,0,0,1);
+            transition: all 0.2s ease;
+        }
+        
+        .panel:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.2), inset 0 0 20px rgba(0,0,0,1);
+        }
+
+        .panel-header {
+            background: var(--dark-red);
+            color: var(--primary);
+            font-family: var(--font-code);
+            font-size: 11px;
+            padding: 4px 8px;
+            border-bottom: 1px solid var(--primary);
+            letter-spacing: 2px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* --- TOP HEADER --- */
+        .header-section {
+            grid-column: 1 / -1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            border-bottom: 2px solid var(--primary);
+            background: linear-gradient(90deg, #000 0%, var(--dark-red) 50%, #000 100%);
+        }
+
+        h1 {
+            font-size: 48px;
+            margin: 0;
+            letter-spacing: 10px;
+            color: #fff;
+            text-shadow: 4px 4px 0px var(--primary);
+            font-weight: 800;
+            font-style: italic;
+            position: relative;
+        }
+        
+        h1 span { color: var(--primary); text-shadow: none; }
+
+        .sys-info {
+            font-family: var(--font-code);
+            text-align: right;
+            font-size: 12px;
+            color: var(--primary);
+            line-height: 1.4;
+        }
+
+        /* --- LEFT SIDEBAR: HEX DUMP & TARGETS --- */
+        .sidebar-left {
+            grid-row: 2 / 3;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        #hex-dump {
+            flex: 1;
+            overflow: hidden;
+            font-family: var(--font-code);
+            font-size: 10px;
+            color: var(--dim-red);
+            padding: 10px;
+            opacity: 0.7;
+            mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+        }
+
+        /* --- CENTER: VISUALIZER --- */
+        .main-display {
+            grid-column: 2 / 3;
+            grid-row: 2 / 3;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* The Canvas Chart */
+        .chart-container {
+            flex: 2;
+            background: #000;
+            border: 1px solid var(--primary);
+            position: relative;
+            overflow: hidden;
+        }
+        canvas { display: block; width: 100%; height: 100%; }
+
+        .overlay-text {
+            position: absolute;
+            top: 20px; left: 20px;
+            pointer-events: none;
+        }
+        .big-price {
+            font-size: 64px;
+            font-family: var(--font-code);
+            color: #fff;
+            text-shadow: 0 0 10px var(--primary);
+        }
+
+        /* Metric Cards below chart */
+        .metrics-grid {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        
+        .metric-card {
+            background: rgba(20,0,0,0.9);
+            border-left: 4px solid var(--dim-red);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .metric-card.active { border-left-color: var(--primary); background: rgba(50,0,0,0.3); }
+        .m-label { color: #888; font-size: 10px; letter-spacing: 2px; margin-bottom: 5px; }
+        .m-val { color: var(--primary); font-size: 24px; font-family: var(--font-code); text-shadow: 0 0 5px var(--primary); }
+
+        /* --- RIGHT SIDEBAR: ORDER BOOK --- */
+        .sidebar-right {
+            grid-row: 2 / 3;
+            grid-column: 3 / 4;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .order-book {
+            height: 100%;
+            overflow: hidden;
+            padding: 5px;
+            font-family: var(--font-code);
+            font-size: 12px;
+        }
+        .ob-row { display: flex; justify-content: space-between; padding: 2px 0; border-bottom: 1px dashed #220; }
+        .ob-ask { color: #ff4444; }
+        .ob-bid { color: #aa0000; }
+
+        /* --- FOOTER: LOGS & CONTROLS --- */
+        .footer-section {
+            grid-column: 1 / -1;
+            grid-row: 3 / 4;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 10px;
+        }
+
+        .terminal {
+            background: #020000;
+            border: 1px solid var(--primary);
+            padding: 10px;
+            font-family: var(--font-code);
+            font-size: 12px;
+            overflow-y: auto;
+            color: #aaa;
+            box-shadow: inset 0 0 20px #000;
+        }
+        .log-line { margin-bottom: 2px; }
+        .log-err { color: var(--primary); background: rgba(255,0,0,0.1); }
+        .log-suc { color: #fff; text-shadow: 0 0 5px #fff; }
+        .log-warn { color: #ffaa00; }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .controls-row {
+            display: flex;
+            gap: 5px;
+        }
+
+        button {
+            flex: 1;
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            font-family: var(--font-ui);
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: 0.2s;
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+            padding: 10px 5px;
+        }
+
+        button:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 20px var(--primary);
+        }
+        
+        button.engaged {
+            background: var(--primary);
+            color: black;
+            animation: pulse-btn 1s infinite;
+        }
+
+        button.info-btn {
+            border-color: #660000;
+            color: #660000;
+        }
+
+        button.info-btn:hover {
+            background: #660000;
+            color: #fff;
+            box-shadow: 0 0 20px rgba(102, 0, 0, 0.5);
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes pulse-btn { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
+        @keyframes flicker { 0% { opacity: 0.97; } 50% { opacity: 1; } 100% { opacity: 0.98; } }
+        
+        /* Decoration lines */
+        .deco-line {
+            position: absolute;
+            background: var(--primary);
+            opacity: 0.3;
+        }
+        .dl-1 { top: 0; left: 0; width: 20px; height: 1px; }
+        .dl-2 { top: 0; left: 0; width: 1px; height: 20px; }
+        .dl-3 { bottom: 0; right: 0; width: 20px; height: 1px; }
+        .dl-4 { bottom: 0; right: 0; width: 1px; height: 20px; }
+
+        /* --- CONNECTION PANEL --- */
+        .connection-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 2000;
+            display: none; /* Hidden by default now */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .connection-panel {
+            background: var(--bg-panel);
+            border: 2px solid var(--primary);
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 0 50px rgba(255, 0, 0, 0.3);
+            clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
+        }
+
+        .connection-panel h2 {
+            color: #fff;
+            font-size: 28px;
+            margin: 0 0 10px 0;
+            text-shadow: 0 0 10px var(--primary);
+        }
+
+        .connection-panel p {
+            color: #aaa;
+            font-size: 13px;
+            margin-bottom: 20px;
+            font-family: var(--font-code);
+        }
+
+        .connection-panel input {
+            width: 100%;
+            background: #000;
+            border: 1px solid var(--primary);
+            color: #fff;
+            padding: 15px;
+            font-family: var(--font-code);
+            font-size: 16px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .connection-panel input::placeholder {
+            color: #550000;
+        }
+
+        /* --- HOW TO USE PANEL --- */
+        .how-to-use-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 3000; /* Higher than connection overlay */
+            display: flex; /* Visible by default */
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .how-to-use-panel {
+            background: var(--bg-panel);
+            border: 2px solid var(--primary);
+            padding: 40px;
+            max-width: 650px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 0 50px rgba(255, 0, 0, 0.3);
+            clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .how-to-use-panel h2 {
+            color: #fff;
+            font-size: 32px;
+            margin: 0 0 30px 0;
+            text-align: center;
+            text-shadow: 0 0 10px var(--primary);
+            letter-spacing: 5px;
+        }
+
+        .how-to-use-panel h2 span {
+            color: var(--primary);
+        }
+
+        .instruction-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .instruction-list li {
+            font-family: var(--font-code);
+            font-size: 14px;
+            color: var(--text-main);
+            padding: 15px 0;
+            border-bottom: 1px solid var(--dark-red);
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .instruction-list li:last-child {
+            border-bottom: none;
+        }
+
+        .step-number {
+            background: var(--primary);
+            color: #000;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .instruction-content {
+            flex: 1;
+        }
+
+        .instruction-content strong {
+            color: #fff;
+            font-size: 16px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .instruction-content p {
+            margin: 5px 0 0 0;
+            color: #aaa;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+        
+        .instruction-content .cmd-box {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            align-items: center;
+        }
+
+        .instruction-content code {
+            background: #110000;
+            border: 1px solid #330000;
+            padding: 8px 12px;
+            color: #ff6666;
+            font-size: 12px;
+            flex: 1;
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .download-btn-container {
+            margin-top: 10px;
+        }
+
+        .download-btn {
+            display: inline-block;
+            background: var(--primary);
+            color: #000;
+            font-family: var(--font-ui);
+            font-size: 12px;
+            font-weight: bold;
+            padding: 8px 15px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.2s;
+            clip-path: polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px);
+            white-space: nowrap;
+        }
+
+        .download-btn:hover {
+            background: #fff;
+            box-shadow: 0 0 15px var(--primary);
+        }
+        
+        .download-btn.secondary {
+             background: #333;
+             color: #fff;
+             border: 1px solid #555;
+        }
+        
+        .download-btn.secondary:hover {
+             background: #555;
+        }
+
+        .close-panel-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            width: 40px;
+            height: 40px;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            clip-path: none;
+            padding: 0;
+        }
+
+        .close-panel-btn:hover {
+            background: var(--primary);
+            color: #000;
+        }
+
+        /* --- STATS PANEL IN LEFT SIDEBAR --- */
+        .stats-mini {
+            padding: 10px;
+            font-family: var(--font-code);
+            font-size: 11px;
+        }
+
+        .stats-mini .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 3px 0;
+            border-bottom: 1px dashed #220;
+        }
+
+        .stats-mini .stat-label {
+            color: #666;
+        }
+
+        .stats-mini .stat-value {
+            color: var(--primary);
+        }
+
+        .stats-mini .stat-value.positive {
+            color: #00ff00;
+        }
+
+        .stats-mini .stat-value.negative {
+            color: #ff4444;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- CONNECTION OVERLAY -->
+    <div class="connection-overlay" id="connection-overlay">
+        <div class="connection-panel">
+            <h2>CONNECT TO SERVER</h2>
+            <p>Enter your LocalTunnel URL to connect to the Phoenix Engine.</p>
+            <input type="text" id="url-input" placeholder="https://your-url.loca.lt">
+            <button onclick="initializeConnection()" style="width: 100%; padding: 15px;">CONNECT</button>
+            <p style="margin-top: 15px; font-size: 11px; color: #666;">
+                Run <span style="color: var(--primary);">npx localtunnel --port 8000</span> in your terminal to generate a URL.
+            </p>
+        </div>
+    </div>
+
+    <!-- HOW TO USE PANEL (VISIBLE FIRST) -->
+    <div class="how-to-use-overlay" id="how-to-use-overlay">
+        <div class="how-to-use-panel">
+            <button class="close-panel-btn" onclick="hideHowToUse()">×</button>
+            <h2>HOW TO <span>USE</span></h2>
+            <ul class="instruction-list">
+                <li>
+                    <span class="step-number">1</span>
+                    <div class="instruction-content">
+                        <strong>Install Node.js</strong>
+                        <p>Node.js is required to create the tunnel link. Download the LTS version for your system.</p>
+                        <div class="download-btn-container">
+                            <a href="https://nodejs.org/en/download/" target="_blank" class="download-btn">
+                                ⬇ DOWNLOAD NODE.JS
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <span class="step-number">2</span>
+                    <div class="instruction-content">
+                        <strong>Download NEYDRA Package</strong>
+                        <p>Download the bot files and extract them to a folder on your PC.</p>
+                        <div class="download-btn-container">
+                            <a href="neydra-ultra-package.rar" class="download-btn" download>
+                                ⬇ DOWNLOAD NEYDRA PACKAGE
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <span class="step-number">3</span>
+                    <div class="instruction-content">
+                        <strong>Run Python Backend</strong>
+                        <p>Open a Command Prompt in the extracted folder and run the command below:</p>
+                        <div class="cmd-box">
+                            <code>python neydra_ultra.py</code>
+                            <button class="download-btn secondary" onclick="copyCommand('python neydra_ultra.py')">COPY</button>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <span class="step-number">4</span>
+                    <div class="instruction-content">
+                        <strong>Create Public URL</strong>
+                        <p>Open a <strong>NEW</strong> Command Prompt and run the tunnel command. Copy the URL it gives you.</p>
+                        <div class="cmd-box">
+                            <code>npx localtunnel --port 8000</code>
+                            <button class="download-btn secondary" onclick="copyCommand('npx localtunnel --port 8000')">COPY</button>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <span class="step-number">5</span>
+                    <div class="instruction-content">
+                        <strong>Unlock Tunnel (Password)</strong>
+                        <p>Open the generated URL in your browser. It will ask for a password.</p>
+                        <p><strong>Password = Your Public IP.</strong> Click the button below to find your IP, then paste it into the tunnel page.</p>
+                        <div class="download-btn-container">
+                            <a href="https://www.whatismyip.com/" target="_blank" class="download-btn" style="background: #660000;">
+                                🔍 FIND MY IP ADDRESS
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <span class="step-number">6</span>
+                    <div class="instruction-content">
+                        <strong>Connect Dashboard</strong>
+                        <p>Once the tunnel page shows "status: ONLINE", paste the URL here and click Connect.</p>
+                    </div>
+                </li>
+            </ul>
+            <div style="text-align: center; margin-top: 30px;">
+                <button onclick="hideHowToUse()" style="width: auto; padding: 15px 50px; font-size: 18px;">CONTINUE TO DASHBOARD</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOCAL AUDIO ASSETS -->
+    <audio id="snd-engage" src="assets/engage.wav" preload="auto"></audio>
+    <audio id="snd-alert" src="assets/alert.wav" preload="auto"></audio>
+    <audio id="snd-tick" src="assets/tick.wav" preload="auto"></audio>
+    <audio id="snd-ambient" src="assets/ambient.wav" preload="auto"></audio>
+    <audio id="snd-glitch" src="assets/glitch.wav" preload="auto"></audio>
+
+    <div class="viewport">
+        <div class="header-section">
+            <h1>NEYDRA <span>ULTRA</span></h1>
+            <div class="sys-info">
+                CORE: <span id="core-status">OFFLINE</span><br>
+                LATENCY: <span id="latency">--</span>ms<br>
+                VERSION: V4.0 PHOENIX
+            </div>
+        </div>
+
+        <div class="sidebar-left">
+            <div class="panel" style="height: 50%; display: flex; flex-direction: column;">
+                <div class="panel-header">STATISTICS</div>
+                <div class="stats-mini" id="stats-panel">
+                    <div class="stat-row">
+                        <span class="stat-label">EQUITY</span>
+                        <span class="stat-value" id="stat-equity">$0.00</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">DAILY P&L</span>
+                        <span class="stat-value" id="stat-pnl">$0.00</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">TRADES</span>
+                        <span class="stat-value" id="stat-trades">0</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">WIN RATE</span>
+                        <span class="stat-value" id="stat-winrate">0%</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">RECOVERY</span>
+                        <span class="stat-value" id="stat-recovery">OFF</span>
+                    </div>
+                </div>
+                <div class="deco-line dl-1"></div><div class="deco-line dl-2"></div>
+            </div>
+            <div class="panel" style="height: 50%; display: flex; flex-direction: column;">
+                <div class="panel-header">MEMORY STREAM</div>
+                <div id="hex-dump"></div>
+                <div class="deco-line dl-3"></div><div class="deco-line dl-4"></div>
+            </div>
+        </div>
+
+        <div class="main-display">
+            <div class="chart-container panel">
+                <canvas id="marketChart"></canvas>
+                <div class="overlay-text">
+                    <div style="font-size: 14px; color: #888;">XAUUSD :]</div>
+                    <div class="big-price" id="main-price">0.00</div>
+                </div>
+            </div>
+            
+            <div class="metrics-grid">
+                <div class="panel metric-card">
+                    <span class="m-label">CONFIDENCE</span>
+                    <span class="m-val" id="val-conf">0%</span>
+                </div>
+                <div class="panel metric-card">
+                    <span class="m-label">RSI</span>
+                    <span class="m-val" id="val-rsi">50</span>
+                </div>
+                <div class="panel metric-card">
+                    <span class="m-label">TREND</span>
+                    <span class="m-val" id="val-trend">NEUTRAL</span>
+                </div>
+                <div class="panel metric-card">
+                    <span class="m-label">SESSION PNL</span>
+                    <span class="m-val" id="val-pnl">$0.00</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar-right">
+            <div class="panel" style="height: 100%;">
+                <div class="panel-header">DEPTH OF MARKET</div>
+                <div class="order-book" id="order-book-list">
+                </div>
+                <div class="deco-line dl-3"></div><div class="deco-line dl-4"></div>
+            </div>
+        </div>
+
+        <div class="footer-section">
+            <div class="terminal" id="sys-log">
+                <div class="log-line">> NEYDRA ULTRA V4.0 PHOENIX PROTOCOL</div>
+                <div class="log-line">> SYSTEM INITIALIZED</div>
+                <div class="log-line">> AWAITING CONNECTION...</div>
+            </div>
+            <div class="controls">
+                <div class="controls-row">
+                    <button id="btn-start" onclick="toggleEngine()">ACTIVATE</button>
+                    <button class="info-btn" onclick="showHowToUse()">HOW TO USE</button>
+                </div>
+                <button id="btn-kill" onclick="killSwitch()" style="border-color: #555; color: #555;">KILL SWITCH</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * =========================================
+         * NEYDRA ULTRA ENGINE V4 [JAVASCRIPT]
+         * PHOENIX PROTOCOL
+         * =========================================
+         */
+
+        // --- CONFIGURATION ---
+        const ENGINE_SPEED = 200; // ms update rate
+        let API_URL = null; // Will be set by user input
+        
+        let isRunning = false;
+        let price = 0;
+        let sessionPnL = 0;
+        let loopInterval = null;
+        
+        // --- DOM ELEMENTS ---
+        const elPrice = document.getElementById('main-price');
+        const elConf = document.getElementById('val-conf');
+        const elRSI = document.getElementById('val-rsi');
+        const elTrend = document.getElementById('val-trend');
+        const elPnL = document.getElementById('val-pnl');
+        const elLog = document.getElementById('sys-log');
+        const elHex = document.getElementById('hex-dump');
+        const elBook = document.getElementById('order-book-list');
+        const btnStart = document.getElementById('btn-start');
+        const coreStatus = document.getElementById('core-status');
+        const latencyEl = document.getElementById('latency');
+        const connectionOverlay = document.getElementById('connection-overlay');
+        
+        // Stats elements
+        const statEquity = document.getElementById('stat-equity');
+        const statPnL = document.getElementById('stat-pnl');
+        const statTrades = document.getElementById('stat-trades');
+        const statWinrate = document.getElementById('stat-winrate');
+        const statRecovery = document.getElementById('stat-recovery');
+        
+        // --- AUDIO SYSTEM ---
+        function sfx(type) {
+            const el = document.getElementById('snd-' + type);
+            if (el) {
+                el.currentTime = 0;
+                el.play().catch(e => {
+                    console.log("Audio play failed:", e);
+                });
+            }
+        }
+
+        // --- HELPER FUNCTIONS ---
+        function copyCommand(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert("Command copied to clipboard: " + text);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+
+        // --- CONNECTION LOGIC ---
+        function initializeConnection() {
+            const urlInput = document.getElementById('url-input');
+            let url = urlInput.value.trim();
+
+            if (!url) {
+                alert("Please enter a valid URL.");
+                return;
+            }
+
+            // Remove trailing slash if present
+            if (url.endsWith("/")) {
+                url = url.slice(0, -1);
+            }
+
+            // Validate basic structure
+            if (!url.startsWith("http")) {
+                alert("URL must start with http:// or https://");
+                return;
+            }
+
+            API_URL = url;
+            
+            log(`Connecting to ${API_URL}...`);
+            
+            // Test connection
+            fetch(`${API_URL}/`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === "ONLINE") {
+                        log("CONNECTION ESTABLISHED", "suc");
+                        connectionOverlay.style.display = 'none';
+                        sfx('engage');
+                    } else {
+                        log("Connected but server status unknown.", "warn");
+                        connectionOverlay.style.display = 'none';
+                    }
+                })
+                .catch(err => {
+                    log("Connection failed. Check URL and tunnel status.", "err");
+                    console.error(err);
+                    alert("Could not connect to the server. Make sure LocalTunnel is running.");
+                });
+        }
+
+        // --- HOW TO USE PANEL ---
+        function showHowToUse() {
+            document.getElementById('how-to-use-overlay').style.display = 'flex';
+            sfx('tick');
+        }
+
+        function hideHowToUse() {
+            document.getElementById('how-to-use-overlay').style.display = 'none';
+            // Show connection panel when How-To is closed
+            document.getElementById('connection-overlay').style.display = 'flex';
+            sfx('tick');
+        }
+
+        // --- CANVAS GRAPHING ---
+        const canvas = document.getElementById('marketChart');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let dataPoints = [];
+        let latencyHistory = [];
+
+        function resizeCanvas() {
+            width = canvas.parentElement.clientWidth;
+            height = canvas.parentElement.clientHeight;
+            canvas.width = width;
+            canvas.height = height;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function drawGraph() {
+            // Clear with fade
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+            ctx.fillRect(0, 0, width, height);
+
+            // Draw grid
+            ctx.strokeStyle = '#220000';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            for(let i=0; i<width; i+=40) { ctx.moveTo(i,0); ctx.lineTo(i,height); }
+            for(let i=0; i<height; i+=40) { ctx.moveTo(0,i); ctx.lineTo(width,i); }
+            ctx.stroke();
+
+            // Draw price line
+            if(dataPoints.length > 0) {
+                ctx.strokeStyle = '#ff0000';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                
+                if(dataPoints.length > width/2) dataPoints.shift();
+                
+                const minPrice = Math.min(...dataPoints);
+                const maxPrice = Math.max(...dataPoints);
+                const priceRange = maxPrice - minPrice || 1;
+                
+                for (let i = 0; i < dataPoints.length; i++) {
+                    const x = i * 2;
+                    const y = height - ((dataPoints[i] - minPrice) / priceRange) * (height - 40) - 20;
+                    if(i===0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+                
+                // Glow effect
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = "red";
+                ctx.stroke();
+                ctx.shadowBlur = 0;
+            }
+            
+            requestAnimationFrame(drawGraph);
+        }
+        drawGraph();
+
+        // --- GENERATORS ---
+
+        function generateHex() {
+            const chars = "0123456789ABCDEF";
+            let str = "0x";
+            for(let i=0; i<8; i++) str += chars[Math.floor(Math.random()*16)];
+            
+            const div = document.createElement('div');
+            div.innerText = `${str} :: ${Math.random() > 0.5 ? 'READ' : 'WRITE'}`;
+            elHex.prepend(div);
+            if(elHex.children.length > 20) elHex.lastChild.remove();
+        }
+
+        function updateOrderBook(currentPrice) {
+            elBook.innerHTML = "";
+            if(!currentPrice) currentPrice = 2000;
+            
+            // Asks (sell orders above current price)
+            for(let i=0; i<8; i++) {
+                let p = (currentPrice + (i*0.5) + Math.random()*0.3).toFixed(2);
+                let q = (Math.random() * 5).toFixed(2);
+                elBook.innerHTML += `<div class="ob-row ob-ask"><span>${p}</span><span>${q}</span></div>`;
+            }
+            elBook.innerHTML += `<div style="border-top: 1px solid red; margin: 5px 0; padding-top:5px;"></div>`;
+            // Bids (buy orders below current price)
+            for(let i=0; i<8; i++) {
+                let p = (currentPrice - (i*0.5) - Math.random()*0.3).toFixed(2);
+                let q = (Math.random() * 5).toFixed(2);
+                elBook.innerHTML += `<div class="ob-row ob-bid"><span>${p}</span><span>${q}</span></div>`;
+            }
+        }
+
+        function log(msg, type="norm") {
+            const d = new Date();
+            const ts = `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')}`;
+            const line = document.createElement('div');
+            line.className = "log-line";
+            if(type==="err") line.className += " log-err";
+            if(type==="suc") line.className += " log-suc";
+            if(type==="warn") line.className += " log-warn";
+            line.innerText = `[${ts}] ${msg}`;
+            elLog.appendChild(line);
+            elLog.scrollTop = elLog.scrollHeight;
+            
+            // Limit log lines
+            while(elLog.children.length > 50) {
+                elLog.removeChild(elLog.firstChild);
+            }
+        }
+
+        // --- STATS UPDATE ---
+        async function updateStats() {
+            if (!API_URL) return;
+            try {
+                const response = await fetch(`${API_URL}/stats`);
+                if (!response.ok) return;
+                const data = await response.json();
+                
+                // Update stats panel
+                statEquity.textContent = `$${data.equity.toFixed(2)}`;
+                statPnL.textContent = `$${data.daily_pnl.toFixed(2)}`;
+                statPnL.className = `stat-value ${data.daily_pnl >= 0 ? 'positive' : 'negative'}`;
+                statTrades.textContent = data.trades_today;
+                statWinrate.textContent = `${data.win_rate}%`;
+                statRecovery.textContent = data.recovery_mode ? `LVL ${data.recovery_level}` : 'OFF';
+                statRecovery.className = `stat-value ${data.recovery_mode ? 'negative' : ''}`;
+                
+                // Update session PnL
+                elPnL.textContent = `$${data.daily_pnl.toFixed(2)}`;
+                elPnL.style.color = data.daily_pnl >= 0 ? '#00ff00' : '#ff4444';
+                
+            } catch (error) {
+                // Silent fail
+            }
+        }
+
+        // --- MAIN API LOGIC LOOP ---
+        let lastRequestTime = 0;
+        
+        async function fetchSystemState() {
+            if(!isRunning || !API_URL) return;
+
+            const now = Date.now();
+            const latency = now - lastRequestTime;
+            lastRequestTime = now;
+
+            try {
+                const startTime = Date.now();
+                const response = await fetch(`${API_URL}/scan`);
+                const requestTime = Date.now() - startTime;
+                
+                if (!response.ok) throw new Error("API Error");
+                const data = await response.json();
+                
+                // Update latency display
+                latencyEl.textContent = requestTime;
+                coreStatus.textContent = 'ONLINE';
+                coreStatus.style.color = '#00ff00';
+                
+                // 1. Update Price
+                if(data.price) {
+                    price = data.price;
+                    elPrice.innerText = price.toFixed(2);
+                    dataPoints.push(price);
+                }
+
+                // 2. Update Metrics
+                if(data.confidence !== undefined) {
+                    elConf.innerText = data.confidence + "%";
+                    elConf.style.color = data.confidence > 70 ? "#fff" : "var(--primary)";
+                }
+                
+                if(data.rsi !== undefined) {
+                    elRSI.innerText = data.rsi.toFixed(0);
+                    elRSI.style.color = data.rsi < 30 ? '#00ff00' : (data.rsi > 70 ? '#ff4444' : 'var(--primary)');
+                }
+                
+                if(data.trend !== undefined) {
+                    const trendLabels = ['BEARISH', 'NEUTRAL', 'BULLISH'];
+                    elTrend.innerText = trendLabels[data.trend + 1] || 'NEUTRAL';
+                    elTrend.style.color = data.trend > 0 ? '#00ff00' : (data.trend < 0 ? '#ff4444' : 'var(--primary)');
+                }
+
+                // 3. Handle Status
+                const status = data.status;
+                
+                // SCANNING STATE
+                if (status === "SCANNING") {
+                    // Visual scanning state
+                    document.querySelectorAll('.metric-card').forEach(c => c.classList.remove('active'));
+                }
+
+                // BLOCKED STATE
+                else if (typeof status === 'string' && status.includes("BLOCKED")) {
+                    log(`BLOCKED: ${status.replace('BLOCKED: ', '')}`, "warn");
+                }
+
+                // EXECUTED STATE
+                else if (status === "EXECUTED") {
+                    log(`>>> ENTRY EXECUTED: ${data.signal} @ ${data.price?.toFixed(2)} | Conf: ${data.confidence}%`, "suc");
+                    log(`>>> REASON: ${data.reason || 'N/A'}`, "suc");
+                    sfx('engage');
+                    sfx('alert');
+                }
+
+                // HOLDING STATE
+                else if (typeof status === 'string' && status.includes("HOLDING")) {
+                    // Parse PnL from status
+                    const pnlMatch = status.match(/P:([-\d.]+)/);
+                    if (pnlMatch) {
+                        const pnl = parseFloat(pnlMatch[1]);
+                        elPnL.textContent = `$${pnl.toFixed(2)}`;
+                        elPnL.style.color = pnl >= 0 ? '#00ff00' : '#ff4444';
+                    }
+                    
+                    if(Math.random() > 0.97) sfx('tick');
+                    
+                    document.getElementById('val-pnl').parentElement.classList.add('active');
+                }
+
+                // CLOSED STATES
+                else if (typeof status === 'string' && status.includes("CLOSED")) {
+                    document.getElementById('val-pnl').parentElement.classList.remove('active');
+                    
+                    if (status === "CLOSED_TARGET") {
+                        log(`>>> TARGET HIT! Profit secured.`, "suc");
+                        sfx('engage');
+                    } else if (status === "CLOSED_PROTECTED") {
+                        log(`>>> PROFIT PROTECTED - Trailing exit triggered.`, "suc");
+                        sfx('tick');
+                    } else if (status === "CLOSED_SCALP") {
+                        log(`>>> SCALP EXIT - Quick profit taken.`, "suc");
+                        sfx('tick');
+                    } else if (status === "CLOSED_SL") {
+                        log(`>>> STOP LOSS HIT - Loss limited.`, "err");
+                        sfx('glitch');
+                    } else if (status === "CLOSED_TIME") {
+                        log(`>>> TIME LIMIT - Position closed.`, "warn");
+                        sfx('ambient');
+                    } else {
+                        log(`>>> POSITION CLOSED: ${status}`, "warn");
+                        sfx('glitch');
+                    }
+                    
+                    // Update stats after close
+                    setTimeout(updateStats, 500);
+                }
+
+                // 4. Generators
+                generateHex();
+                updateOrderBook(price);
+
+            } catch (error) {
+                coreStatus.textContent = 'OFFLINE';
+                coreStatus.style.color = '#ff0000';
+                latencyEl.textContent = '--';
+                if(Math.random() > 0.98) log("API CONNECTION UNSTABLE - Check Python backend", "err");
+            }
+        }
+
+        // --- CONTROLS ---
+        function toggleEngine() {
+            if(!API_URL) {
+                alert("Please connect to a server URL first.");
+                return;
+            }
+
+            if(isRunning) {
+                isRunning = false;
+                btnStart.innerText = "ACTIVATE";
+                btnStart.classList.remove("engaged");
+                log("PROCESS SUSPENDED BY USER");
+                if(loopInterval) clearInterval(loopInterval);
+            } else {
+                isRunning = true;
+                btnStart.innerText = "RUNNING";
+                btnStart.classList.add("engaged");
+                log("PHOENIX PROTOCOL ENGAGED", "suc");
+                sfx('engage');
+                
+                // Start the main loop
+                lastRequestTime = Date.now();
+                loopInterval = setInterval(fetchSystemState, ENGINE_SPEED);
+                
+                // Stats update loop (slower)
+                setInterval(updateStats, 2000);
+                
+                // Seed chart
+                for(let i=0; i<100; i++) dataPoints.push(price || 2000);
+                
+                // Initial fetch
+                fetchSystemState();
+                updateStats();
+            }
+        }
+
+        function killSwitch() {
+            isRunning = false;
+            sfx('glitch');
+            document.body.innerHTML = `
+                <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;background:#000;font-family:monospace;">
+                    <h1 style="color:red;font-size:60px;text-shadow:0 0 20px red;">SYSTEM PURGED</h1>
+                    <p style="color:#440000;font-size:20px;margin-top:20px;">NEYDRA ULTRA TERMINATED</p>
+                    <p style="color:#220000;font-size:14px;margin-top:10px;">Refresh page to restart</p>
+                </div>
+            `;
+        }
+
+    </script>
+</body>
+</html>
+
+
+
+
+

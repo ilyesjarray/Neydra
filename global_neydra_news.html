@@ -1,0 +1,1884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>GLOBAL NEYDRA NEWS | Earth News System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700;800&family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <style>
+        :root {
+            --primary: #ff0000;
+            --primary-light: #ff3333;
+            --primary-dark: #990000;
+            --dim-red: #550000;
+            --dark-red: #220000;
+            --bg-solid: #000000;
+            --bg-panel: rgba(10, 0, 0, 0.92);
+            --text-main: #ffcccc;
+            --text-dim: #888888;
+            --grid-line: rgba(255, 0, 0, 0.06);
+        }
+
+        * { box-sizing: border-box; outline: none; user-select: none; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            background-color: var(--bg-solid);
+            color: var(--primary);
+            font-family: 'Rajdhani', sans-serif;
+            margin: 0;
+            overflow: hidden;
+            position: fixed; 
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(var(--grid-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: var(--dark-red); }
+        ::-webkit-scrollbar-thumb { background: var(--dim-red); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, transparent 30%, #000 100%);
+            z-index: 900;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(255, 0, 0, 0.015), rgba(255, 0, 0, 0.03));
+            z-index: 999;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+            animation: flicker 0.15s infinite;
+        }
+
+        @keyframes flicker { 0% { opacity: 0.97; } 50% { opacity: 1; } 100% { opacity: 0.98; } }
+
+        .app-container {
+            display: grid;
+            grid-template-columns: 280px 1fr 320px;
+            grid-template-rows: 70px 1fr 40px;
+            width: 100%;
+            height: 100%;
+            padding: 8px;
+            gap: 8px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .header {
+            grid-column: 1 / -1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            border-bottom: 2px solid var(--primary);
+            background: linear-gradient(90deg, #000 0%, var(--dark-red) 50%, #000 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            animation: header-scan 3s linear infinite;
+        }
+
+        @keyframes header-scan { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+
+        .logo-section { display: flex; align-items: center; gap: 15px; }
+
+        .logo-globe {
+            width: 50px; height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--dark-red));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: globe-pulse 3s infinite;
+            box-shadow: 0 0 20px var(--primary), inset 0 0 20px rgba(0,0,0,0.5);
+            border: 2px solid var(--primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-globe::before {
+            content: "";
+            position: absolute;
+            width: 100%; height: 100%;
+            background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255, 0, 0, 0.3) 3px, rgba(255, 0, 0, 0.3) 4px);
+            animation: scanlines 2s linear infinite;
+        }
+
+        @keyframes scanlines { 0% { transform: translateY(0); } 100% { transform: translateY(10px); } }
+        @keyframes globe-pulse {
+            0%, 100% { box-shadow: 0 0 20px var(--primary), inset 0 0 20px rgba(0,0,0,0.5); }
+            50% { box-shadow: 0 0 40px var(--primary), 0 0 60px var(--primary), inset 0 0 20px rgba(0,0,0,0.5); }
+        }
+
+        .header-title { display: flex; flex-direction: column; }
+
+        h1 {
+            font-size: 26px; margin: 0; letter-spacing: 6px;
+            color: #fff;
+            text-shadow: 2px 2px 0px var(--primary);
+            font-weight: 800; font-style: italic;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        h1 span { color: var(--primary); text-shadow: none; }
+
+        .header-subtitle {
+            font-size: 10px;
+            color: var(--primary-light);
+            letter-spacing: 3px;
+            font-family: 'Amiri', serif;
+        }
+
+        .header-stats { display: flex; gap: 25px; font-family: 'Share Tech Mono', monospace; font-size: 10px; }
+
+        .stat-item {
+            text-align: center;
+            padding: 4px 12px;
+            border: 1px solid var(--dim-red);
+            background: rgba(20, 0, 0, 0.8);
+        }
+
+        .stat-value { font-size: 22px; color: var(--primary); text-shadow: 0 0 10px var(--primary); font-weight: bold; }
+        .stat-label { color: var(--text-dim); letter-spacing: 2px; font-size: 8px; }
+
+        .live-badge {
+            display: flex; align-items: center; gap: 6px;
+            background: var(--primary);
+            color: #000;
+            padding: 6px 15px;
+            font-weight: bold; font-size: 12px; letter-spacing: 2px;
+            animation: live-pulse 1s infinite;
+        }
+
+        .live-dot { width: 8px; height: 8px; background: #fff; border-radius: 50%; animation: live-dot-pulse 1s infinite; }
+        @keyframes live-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.8; } }
+        @keyframes live-dot-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+
+        .sidebar-left { display: flex; flex-direction: column; gap: 8px; height: calc(100% - 126px); overflow: hidden; }
+
+        .panel {
+            background: var(--bg-panel);
+            border: 1px solid var(--dark-red);
+            position: relative;
+            backdrop-filter: blur(4px);
+            box-shadow: inset 0 0 30px rgba(0,0,0,1);
+            transition: all 0.2s ease;
+            display: flex; flex-direction: column;
+        }
+
+        .panel:hover { border-color: var(--primary); box-shadow: 0 0 15px rgba(255, 0, 0, 0.2), inset 0 0 30px rgba(0,0,0,1); }
+
+        .panel-header {
+            background: linear-gradient(90deg, var(--dark-red), var(--dim-red));
+            color: var(--primary);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 10px;
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--primary);
+            letter-spacing: 2px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .panel-content { padding: 8px; overflow-y: auto; flex: 1; }
+
+        .country-list { flex: 1; min-height: 0; }
+
+        .country-item {
+            display: flex; align-items: center; gap: 10px;
+            padding: 8px;
+            margin-bottom: 4px;
+            background: rgba(30, 0, 0, 0.5);
+            border-right: 3px solid var(--dim-red);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .country-item:hover { background: rgba(60, 0, 0, 0.5); border-right-color: var(--primary); transform: translateX(3px); }
+        .country-item.selected { background: rgba(100, 0, 0, 0.5); border-right-color: var(--primary); }
+        .country-name { flex: 1; font-size: 12px; color: var(--text-main); }
+
+        .country-count {
+            background: var(--primary);
+            color: #000;
+            padding: 2px 8px;
+            font-size: 10px;
+            font-family: 'Share Tech Mono', monospace;
+            font-weight: bold;
+        }
+
+        .main-view { display: flex; flex-direction: column; gap: 8px; height: calc(100% - 126px); }
+
+        .earth-container {
+            flex: 1;
+            position: relative;
+            border: 2px solid var(--primary);
+            background: #000;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
+            touch-action: none; 
+        }
+
+        #earth-canvas { width: 100%; height: 100%; display: block; }
+
+        .hud-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .hud-corner {
+            position: absolute;
+            width: 60px; height: 60px;
+            border: 2px solid rgba(255, 0, 0, 0.4);
+        }
+
+        .hud-corner.top-left { top: 10px; left: 10px; border-right: none; border-bottom: none; }
+        .hud-corner.top-right { top: 10px; right: 10px; border-left: none; border-bottom: none; }
+        .hud-corner.bottom-left { bottom: 10px; left: 10px; border-right: none; border-top: none; }
+        .hud-corner.bottom-right { bottom: 10px; right: 10px; border-left: none; border-top: none; }
+
+        .hud-crosshair {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px; height: 40px;
+            opacity: 0.3;
+        }
+
+        .hud-crosshair::before, .hud-crosshair::after { content: ""; position: absolute; background: var(--primary); }
+        .hud-crosshair::before { width: 2px; height: 100%; left: 50%; transform: translateX(-50%); }
+        .hud-crosshair::after { width: 100%; height: 2px; top: 50%; transform: translateY(-50%); }
+
+        .hud-data {
+            position: absolute;
+            top: 50px; right: 15px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 9px;
+            color: rgba(255, 0, 0, 0.6);
+            text-align: right;
+            line-height: 1.6;
+        }
+
+        .earth-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .earth-info { position: absolute; top: 15px; left: 15px; font-family: 'Share Tech Mono', monospace; }
+        .earth-info .label { font-size: 9px; color: var(--text-dim); letter-spacing: 2px; }
+        .earth-info .value { font-size: 26px; color: var(--primary); text-shadow: 0 0 15px var(--primary); font-weight: bold; }
+
+        .rotation-indicator { position: absolute; bottom: 15px; left: 15px; display: flex; align-items: center; gap: 10px; }
+        .rotation-speed { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--primary); }
+        .speed-bar { width: 100px; height: 4px; background: var(--dark-red); border-radius: 2px; overflow: hidden; }
+        .speed-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--primary-light)); width: 20%; transition: width 0.3s; }
+
+        .coords-display { position: absolute; bottom: 15px; right: 15px; font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--text-dim); text-align: right; }
+        .coords-display .lat, .coords-display .lon { color: var(--primary); }
+
+        /* Target Indicator */
+        .target-indicator {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px; height: 200px;
+            pointer-events: none;
+            z-index: 20;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .target-indicator.active { opacity: 1; }
+
+        .target-outer {
+            position: absolute;
+            width: 100%; height: 100%;
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            animation: target-pulse 1s ease-out infinite;
+        }
+
+        .target-inner {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px; height: 80px;
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+        }
+
+        .target-cross {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .target-cross::before,
+        .target-cross::after { content: ""; position: absolute; background: var(--primary); }
+        .target-cross::before { width: 2px; height: 200px; left: -1px; top: -100px; }
+        .target-cross::after { width: 200px; height: 2px; left: -100px; top: -1px; }
+
+        .target-corners { position: absolute; width: 100%; height: 100%; }
+
+        .target-corner {
+            position: absolute;
+            width: 30px; height: 30px;
+            border: 3px solid var(--primary);
+        }
+
+        .target-corner.tl { top: 0; left: 0; border-right: none; border-bottom: none; }
+        .target-corner.tr { top: 0; right: 0; border-left: none; border-bottom: none; }
+        .target-corner.bl { bottom: 0; left: 0; border-right: none; border-top: none; }
+        .target-corner.br { bottom: 0; right: 0; border-left: none; border-top: none; }
+
+        .target-coords {
+            position: absolute;
+            top: -30px; left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 10px;
+            color: var(--primary);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 4px 10px;
+            border: 1px solid var(--dim-red);
+        }
+
+        @keyframes target-pulse {
+            0% { transform: scale(0.8); opacity: 1; }
+            100% { transform: scale(1.2); opacity: 0; }
+        }
+
+        .target-label {
+            position: absolute;
+            top: 50%; left: calc(50% + 120px);
+            transform: translateY(-50%);
+            background: var(--primary);
+            color: #000;
+            padding: 5px 15px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            white-space: nowrap;
+        }
+
+        .target-label::before {
+            content: "";
+            position: absolute;
+            left: -20px; top: 50%;
+            transform: translateY(-50%);
+            border: 8px solid transparent;
+            border-right-color: var(--primary);
+        }
+
+        /* Country Image Popup */
+        .country-popup {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .country-popup.active { display: flex; }
+
+        .country-popup-content {
+            background: var(--bg-panel);
+            border: 3px solid var(--primary);
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 0 60px rgba(255, 0, 0, 0.5);
+            animation: popup-appear 0.4s ease;
+        }
+
+        @keyframes popup-appear {
+            0% { opacity: 0; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .country-popup-header {
+            background: linear-gradient(90deg, var(--primary), var(--dark-red));
+            color: #000;
+            padding: 15px 20px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            letter-spacing: 3px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .country-popup-close {
+            background: transparent;
+            border: 2px solid #000;
+            color: #000;
+            width: 30px; height: 30px;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            clip-path: none;
+        }
+
+        .country-popup-close:hover { background: #000; color: var(--primary); }
+
+        .country-popup-image {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            object-position: center;
+            background: var(--dark-red);
+            border-bottom: 2px solid var(--primary);
+            padding: 20px;
+        }
+
+        .country-popup-info {
+            padding: 20px;
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        .country-popup-info h3 {
+            color: var(--primary);
+            font-size: 14px;
+            margin: 0 0 10px 0;
+            letter-spacing: 2px;
+        }
+
+        .country-popup-info p {
+            color: var(--text-main);
+            font-size: 13px;
+            line-height: 1.6;
+            margin: 5px 0;
+        }
+
+        .country-popup-info .coord {
+            color: var(--primary);
+        }
+
+        .breaking-alert {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.98);
+            border: 3px solid var(--primary);
+            padding: 0;
+            width: 90%; max-width: 700px;
+            z-index: 100;
+            display: none;
+            animation: alert-appear 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 0 80px var(--primary), 0 0 150px rgba(255, 0, 0, 0.5);
+        }
+
+        .breaking-alert.visible { display: block; }
+
+        @keyframes alert-appear {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.3) rotate(-5deg); }
+            50% { transform: translate(-50%, -50%) scale(1.05) rotate(1deg); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+        }
+
+        .breaking-banner {
+            background: linear-gradient(90deg, var(--primary), var(--primary-dark), var(--primary));
+            color: #000;
+            padding: 12px 20px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            animation: banner-flash 0.3s infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            letter-spacing: 4px;
+        }
+
+        @keyframes banner-flash {
+            0%, 100% { background: linear-gradient(90deg, var(--primary), var(--primary-dark), var(--primary)); }
+            50% { background: linear-gradient(90deg, var(--primary-light), var(--primary), var(--primary-light)); }
+        }
+
+        .breaking-content { display: flex; gap: 20px; padding: 20px; }
+
+        .breaking-image { width: 200px; height: 120px; background: var(--dark-red); flex-shrink: 0; overflow: hidden; border: 2px solid var(--primary); }
+        .breaking-image img { width: 100%; height: 100%; object-fit: cover; }
+
+        .breaking-text { flex: 1; }
+        .breaking-title { font-size: 20px; color: #fff; line-height: 1.3; margin-bottom: 12px; text-shadow: 0 0 15px var(--primary); font-weight: bold; }
+        .breaking-summary { font-size: 13px; color: var(--text-main); line-height: 1.6; margin-bottom: 15px; }
+        .breaking-meta { display: flex; gap: 20px; font-size: 11px; color: var(--text-dim); font-family: 'Share Tech Mono', monospace; }
+        .breaking-country { color: var(--primary); font-weight: bold; }
+
+        .breaking-close {
+            position: absolute;
+            top: 50px; right: 12px;
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            width: 30px; height: 30px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .breaking-close:hover { background: var(--primary); color: #000; }
+
+        .breaking-timer { height: 3px; background: var(--dark-red); }
+        .breaking-timer-fill { height: 100%; background: var(--primary); width: 100%; animation: timer-countdown 20s linear; }
+        @keyframes timer-countdown { from { width: 100%; } to { width: 0%; } }
+
+        .sidebar-right { display: flex; flex-direction: column; gap: 8px; height: calc(100% - 126px); overflow: hidden; }
+
+        .news-feed { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+
+        .news-item {
+            background: rgba(20, 0, 0, 0.6);
+            border-right: 3px solid var(--dim-red);
+            padding: 10px;
+            margin-bottom: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-left: 1px solid var(--dark-red);
+        }
+
+        .news-item:hover { background: rgba(40, 0, 0, 0.6); border-right-color: var(--primary); transform: translateX(3px); }
+        .news-item.breaking { border-right-color: var(--primary); border-left: 2px solid var(--primary); animation: news-flash 1s infinite; }
+        @keyframes news-flash { 0%, 100% { background: rgba(50, 0, 0, 0.6); } 50% { background: rgba(80, 0, 0, 0.6); } }
+
+        .news-priority { font-size: 9px; font-family: 'Share Tech Mono', monospace; letter-spacing: 2px; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+        .news-priority.breaking { color: var(--primary); animation: priority-flash 0.5s infinite; }
+        .news-priority.breaking::before { content: "[!]"; animation: blink 0.5s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        @keyframes priority-flash { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+        .news-priority.high { color: var(--primary-light); }
+        .news-priority.normal { color: var(--text-dim); }
+
+        .news-title { font-size: 13px; color: #fff; line-height: 1.4; margin-bottom: 8px; font-weight: 500; }
+        .news-meta { display: flex; gap: 12px; font-size: 9px; color: var(--text-dim); font-family: 'Share Tech Mono', monospace; }
+        .news-country { color: var(--primary); }
+        .news-source { color: var(--primary-light); }
+
+        .news-ticker {
+            grid-column: 1 / -1;
+            background: var(--dark-red);
+            border: 1px solid var(--primary);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+
+        .ticker-label {
+            background: var(--primary);
+            color: #000;
+            padding: 0 15px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            font-size: 11px;
+            letter-spacing: 2px;
+            animation: ticker-label-pulse 2s infinite;
+        }
+
+        @keyframes ticker-label-pulse { 0%, 100% { background: var(--primary); } 50% { background: var(--primary-light); } }
+
+        .ticker-content { flex: 1; overflow: hidden; position: relative; height: 100%; }
+        .ticker-scroll { display: flex; align-items: center; height: 100%; animation: ticker-scroll 60s linear infinite; white-space: nowrap; }
+        .ticker-scroll:hover { animation-play-state: paused; }
+        @keyframes ticker-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .ticker-item { display: inline-flex; align-items: center; gap: 8px; padding: 0 30px; color: #fff; font-size: 12px; }
+        .ticker-item .separator { color: var(--primary); font-weight: bold; }
+        .ticker-item.breaking { color: var(--primary); }
+        .ticker-item.breaking::before { content: "[!]"; }
+
+        .controls { display: flex; flex-direction: column; gap: 6px; padding: 8px; }
+        .control-row { display: flex; gap: 4px; }
+
+        button {
+            flex: 1;
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: 0.2s;
+            clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+            padding: 8px 4px;
+        }
+
+        button:hover { background: var(--primary); color: #000; box-shadow: 0 0 20px var(--primary); }
+        button.active { background: var(--primary); color: #000; }
+        button.secondary { border-color: #444; color: #444; }
+        button.secondary:hover { border-color: var(--primary); color: var(--primary); background: transparent; }
+
+        /* Mobile & Overlay Styles */
+        .how-to-use-overlay, .settings-overlay, .connection-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); z-index: 2000; display: none; justify-content: center; align-items: center; }
+        .how-to-use-overlay.visible, .settings-overlay.visible, .connection-overlay.visible { display: flex; }
+
+        .how-to-use-panel, .settings-panel, .connection-panel {
+            background: var(--bg-panel);
+            border: 2px solid var(--primary);
+            padding: 0;
+            width: 95%; max-width: 650px; max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 0 60px rgba(255, 0, 0, 0.4);
+        }
+
+        .how-to-use-header, .settings-panel h2 {
+            background: linear-gradient(90deg, var(--primary), var(--dark-red));
+            color: #000;
+            padding: 15px 20px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            letter-spacing: 3px;
+        }
+
+        .how-to-use-content { padding: 20px; }
+        .how-to-use-content h3 { color: var(--primary); font-size: 14px; margin: 15px 0 8px 0; letter-spacing: 2px; border-bottom: 1px solid var(--dim-red); padding-bottom: 6px; }
+        .how-to-use-content h3:first-child { margin-top: 0; }
+        .how-to-use-content p, .how-to-use-content li { color: var(--text-main); font-size: 13px; line-height: 1.7; margin-bottom: 8px; }
+        .how-to-use-content ul { padding-left: 0; list-style: none; }
+        .how-to-use-content li { margin-bottom: 6px; display: flex; align-items: flex-start; gap: 15px; }
+        .how-to-use-content li .step-number { background: var(--primary); color: #000; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; flex-shrink: 0; }
+        .how-to-use-content pre { background: #0a0000; border: 1px solid var(--dim-red); padding: 12px; overflow-x: auto; font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--text-main); line-height: 1.5; }
+        
+        .instruction-content strong { color: #fff; display: block; margin-bottom: 4px; }
+        .instruction-content p { margin: 0; color: var(--text-dim); }
+        .cmd-box { display: flex; gap: 10px; margin-top: 8px; align-items: center; }
+        .cmd-box code { flex: 1; background: #110000; border: 1px solid #330000; padding: 8px 12px; color: #ff6666; font-family: 'Share Tech Mono', monospace; font-size: 11px; display: block; }
+
+        .download-section { background: var(--dark-red); border: 2px solid var(--primary); padding: 15px; margin-top: 15px; text-align: center; }
+        .download-section h4 { color: #fff; margin: 0 0 12px 0; font-size: 12px; letter-spacing: 2px; }
+        .download-btn { display: inline-block; background: var(--primary); color: #000; padding: 12px 30px; font-size: 14px; font-weight: bold; letter-spacing: 2px; border: none; cursor: pointer; transition: all 0.3s; margin: 4px; text-decoration: none; text-transform: uppercase; }
+        .download-btn:hover { background: var(--primary-light); box-shadow: 0 0 25px var(--primary); transform: scale(1.05); }
+        .download-btn.secondary { background: #333; color: #fff; border: 1px solid #555; }
+        .download-btn.secondary:hover { background: #555; box-shadow: none; transform: none; }
+
+        .close-btn { position: absolute; top: 12px; right: 12px; background: transparent; border: 2px solid #000; color: #000; width: 30px; height: 30px; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; }
+        .close-btn:hover { background: #000; color: var(--primary); }
+
+        .settings-panel { padding: 25px; }
+        .settings-panel h2 span { color: var(--primary); }
+        .setting-group { margin-bottom: 15px; }
+        .setting-label { font-size: 11px; color: var(--text-dim); margin-bottom: 6px; display: block; letter-spacing: 1px; }
+
+        select, input { background: var(--bg-solid); border: 1px solid var(--dim-red); color: var(--text-main); padding: 8px; font-family: 'Rajdhani', sans-serif; font-size: 13px; width: 100%; }
+        select:focus, input:focus { border-color: var(--primary); }
+
+        .loading-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 500; }
+        .loading-overlay.hidden { display: none; }
+        .loading-spinner { width: 60px; height: 60px; border: 3px solid var(--dark-red); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loading-text { margin-top: 20px; font-family: 'Share Tech Mono', monospace; color: var(--primary); letter-spacing: 2px; font-size: 12px; }
+
+        .country-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+        .country-tag { background: var(--dark-red); border: 1px solid var(--primary); color: var(--text-main); padding: 4px 8px; font-size: 11px; display: flex; align-items: center; gap: 4px; }
+        .country-tag .remove { cursor: pointer; color: var(--primary); }
+
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none;
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            padding: 0;
+            clip-path: none;
+        }
+
+        /* Connection Panel Specific */
+        .connection-panel h2 { margin: 0; padding: 15px 20px; background: linear-gradient(90deg, var(--primary), var(--dark-red)); color: #000; }
+        .connection-panel { padding: 0; text-align: center; }
+        .connection-panel .inner { padding: 30px; }
+        .connection-panel p { color: #aaa; font-size: 13px; margin-bottom: 20px; font-family: 'Share Tech Mono', monospace; }
+        .connection-panel input { width: 100%; background: #000; border: 1px solid var(--primary); color: #fff; padding: 15px; font-family: var(--font-code); font-size: 16px; margin-bottom: 20px; text-align: center; }
+        .connection-panel input::placeholder { color: #550000; }
+
+        /* Mobile Specific Styles */
+        @media (max-width: 900px) {
+            .app-container {
+                grid-template-columns: 1fr;
+                grid-template-rows: 55px 1fr 35px;
+                padding: 0;
+                gap: 0;
+            }
+
+            .header {
+                height: 55px;
+                padding: 0 10px;
+            }
+
+            .logo-globe { width: 36px; height: 36px; }
+            h1 { font-size: 16px; letter-spacing: 2px; }
+            .header-subtitle { display: none; }
+            .header-stats { display: none; }
+            
+            .mobile-menu-btn { display: flex; align-items: center; justify-content: center; }
+            
+            .sidebar-left { display: none; }
+            
+            .main-view { height: calc(100% - 90px); } 
+            .earth-container { border: none; border-top: 1px solid var(--primary); border-bottom: 1px solid var(--primary); }
+            
+            /* Sidebar becomes a slide-out panel on mobile */
+            .sidebar-right {
+                position: fixed;
+                top: 0;
+                right: 0;
+                width: 85%;
+                max-width: 320px;
+                height: 100%;
+                z-index: 1500;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+                background: rgba(5, 0, 0, 0.98);
+                box-shadow: -5px 0 20px rgba(0,0,0,0.8);
+                padding-top: 10px;
+            }
+            
+            .sidebar-right.mobile-open {
+                transform: translateX(0);
+            }
+
+            .news-ticker { height: 35px; }
+            .ticker-label { padding: 0 10px; font-size: 10px; }
+            .ticker-item { font-size: 10px; padding: 0 15px; }
+
+            /* Adjust overlays for mobile */
+            .breaking-content { flex-direction: column; padding: 10px; }
+            .breaking-image { width: 100%; height: 150px; }
+            .breaking-title { font-size: 16px; }
+            .breaking-summary { font-size: 12px; }
+
+            .country-popup-content { width: 95%; max-height: 80vh; }
+            .country-popup-header { font-size: 14px; padding: 10px; }
+            .country-popup-image { height: 150px; }
+            
+            /* HUD adjustments */
+            .earth-info .value { font-size: 18px; }
+            .rotation-indicator { display: none; }
+            .hud-data { top: 15px; font-size: 8px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; } }
+    </style>
+</head>
+<body>
+
+    <audio id="snd-engage" src="assets/ambient.wav" preload="auto"></audio>
+    <audio id="snd-alert" src="assets/alert.wav" preload="auto"></audio>
+    <audio id="snd-tick" src="assets/tick.wav" preload="auto"></audio>
+    <audio id="snd-target" src="assets/tick.wav" preload="auto"></audio>
+
+    <div class="app-container">
+        <div class="header">
+            <div class="logo-section">
+                <div class="logo-globe"></div>
+                <div class="header-title">
+                    <h1>GLOBAL <span>NEYDRA</span> NEWS</h1>
+                    <div class="header-subtitle">[ beta version ! ]</div>
+                </div>
+            </div>
+            <div class="header-stats">
+                <div class="stat-item"><div class="stat-value" id="stat-breaking">0</div><div class="stat-label">BREAKING</div></div>
+                <div class="stat-item"><div class="stat-value" id="stat-total">0</div><div class="stat-label">ARTICLES</div></div>
+                <div class="stat-item"><div class="stat-value" id="stat-countries">0</div><div class="stat-label">COUNTRIES</div></div>
+            </div>
+            <div class="live-badge"><div class="live-dot"></div>LIVE</div>
+            <!-- Mobile Menu Button -->
+            <button class="mobile-menu-btn" onclick="toggleMobileSidebar()">☰</button>
+        </div>
+
+        <div class="sidebar-left">
+            <div class="panel country-list">
+                <div class="panel-header"><span>WATCHED REGIONS</span><span id="watched-count">0</span></div>
+                <div class="panel-content" id="watched-countries"><div style="color: var(--text-dim); text-align: center; padding: 15px; font-size: 11px;">[ NO REGIONS SELECTED ]</div></div>
+            </div>
+            <div class="panel">
+                <div class="panel-header"><span>NEWS CATEGORIES</span></div>
+                <div class="panel-content">
+                    <div class="control-row" style="flex-wrap: wrap; gap: 4px;">
+                        <button id="cat-world" class="active" onclick="toggleCategory('world')">WORLD</button>
+                        <button id="cat-tech" onclick="toggleCategory('technology')">TECH</button>
+                        <button id="cat-business" onclick="toggleCategory('business')">BIZ</button>
+                        <button id="cat-science" onclick="toggleCategory('science')">SCI</button>
+                        <button id="cat-health" onclick="toggleCategory('health')">HEALTH</button>
+                        <button id="cat-politics" onclick="toggleCategory('politics')">POL</button>
+                        <button id="cat-sports" onclick="toggleCategory('sports')">SPORT</button>
+                    </div>
+                </div>
+            </div>
+            <div class="panel">
+                <div class="panel-header">SYSTEM STATUS</div>
+                <div class="controls">
+                    <div class="control-row"><button onclick="refreshNews()">REFRESH</button><button class="secondary" onclick="showSettings()">SETTINGS</button></div>
+                    <div class="control-row"><button id="btn-breaking" onclick="toggleBreakingOnly()">BREAKING ONLY</button></div>
+                    <div class="control-row"><button onclick="showHowToUse()">HOW TO USE</button></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-view">
+            <div class="earth-container panel">
+                <canvas id="earth-canvas"></canvas>
+                
+                <div class="hud-overlay">
+                    <div class="hud-corner top-left"></div>
+                    <div class="hud-corner top-right"></div>
+                    <div class="hud-corner bottom-left"></div>
+                    <div class="hud-corner bottom-right"></div>
+                    <div class="hud-crosshair"></div>
+                    <div class="hud-data" id="hud-data">SAT: NEYDRA-1<br>RES: 15m<br>MODE: THERMAL-IR<br>SEC: CLASSIFIED</div>
+                </div>
+                
+                <div class="earth-overlay">
+                    <div class="earth-info"><div class="label">CURRENT FOCUS</div><div class="value" id="current-country">GLOBAL</div></div>
+                    <div class="rotation-indicator"><div class="rotation-speed">ZOOM: <span id="rotation-speed">1x</span></div><div class="speed-bar"><div class="speed-fill" id="speed-fill"></div></div></div>
+                    <div class="coords-display"><div>LAT: <span class="lat" id="coord-lat">0.00</span></div><div>LON: <span class="lon" id="coord-lon">0.00</span></div></div>
+                </div>
+
+                <!-- Target Indicator -->
+                <div class="target-indicator" id="target-indicator">
+                    <div class="target-outer"></div>
+                    <div class="target-inner"></div>
+                    <div class="target-cross"></div>
+                    <div class="target-corners">
+                        <div class="target-corner tl"></div>
+                        <div class="target-corner tr"></div>
+                        <div class="target-corner bl"></div>
+                        <div class="target-corner br"></div>
+                    </div>
+                    <div class="target-coords" id="target-coords">LAT: 0.00 | LON: 0.00</div>
+                    <div class="target-label" id="target-label">TARGET LOCKED</div>
+                </div>
+
+                <div class="breaking-alert" id="breaking-alert">
+                    <div class="breaking-banner">[ BREAKING NEWS ]</div>
+                    <button class="breaking-close" onclick="closeAlert()">X</button>
+                    <div class="breaking-content">
+                        <div class="breaking-image"><img id="alert-image" src="" alt="News Image" onerror="this.style.display='none'"></div>
+                        <div class="breaking-text">
+                            <div class="breaking-title" id="alert-title">Loading...</div>
+                            <div class="breaking-summary" id="alert-summary">Please wait...</div>
+                            <div class="breaking-meta">
+                                <span class="breaking-country" id="alert-country">[ Country ]</span>
+                                <span id="alert-source">[ Source ]</span>
+                                <span id="alert-time">[ Time ]</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="breaking-timer"><div class="breaking-timer-fill" id="alert-timer"></div></div>
+                </div>
+
+                <div class="loading-overlay" id="loading-overlay">
+                    <div class="loading-spinner"></div>
+                    <div class="loading-text">INITIALIZING NEYDRA EARTH PROJECTION...</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar-right" id="sidebar-right">
+            <div class="panel news-feed">
+                <div class="panel-header">
+                    <span>LIVE NEWS FEED</span>
+                    <span id="news-count">0</span>
+                    <!-- Close button for mobile sidebar -->
+                    <button class="close-btn" style="display:none; position:absolute; right:5px; top:5px; width:25px; height:25px; border-color:var(--primary); color:var(--primary);" onclick="toggleMobileSidebar()">X</button>
+                </div>
+                <div class="panel-content" id="news-feed"><div style="color: var(--text-dim); text-align: center; padding: 15px; font-size: 11px;">[ CONNECTING TO NEWS NETWORK... ]</div></div>
+            </div>
+        </div>
+
+        <div class="news-ticker">
+            <div class="ticker-label">[ LIVE ]</div>
+            <div class="ticker-content"><div class="ticker-scroll" id="ticker-scroll"><span class="ticker-item">[ CONNECTING TO GLOBAL NEWS NETWORK... ]</span></div></div>
+        </div>
+    </div>
+
+    <!-- Country Image Popup -->
+    <div class="country-popup" id="country-popup">
+        <div class="country-popup-content">
+            <div class="country-popup-header">
+                <span id="popup-country-name">COUNTRY</span>
+                <button class="country-popup-close" onclick="closeCountryPopup()">X</button>
+            </div>
+            <img class="country-popup-image" id="popup-country-image" src="" alt="Country Image">
+            <div class="country-popup-info">
+                <h3>[ COORDINATES ]</h3>
+                <p>LATITUDE: <span class="coord" id="popup-lat">0.00</span></p>
+                <p>LONGITUDE: <span class="coord" id="popup-lon">0.00</span></p>
+                <h3>[ REGION STATUS ]</h3>
+                <p id="popup-status">SCANNING...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONNECTION OVERLAY -->
+    <div class="connection-overlay" id="connection-overlay">
+        <div class="connection-panel">
+            <h2>CONNECT TO SERVER</h2>
+            <div class="inner">
+                <p>Enter your LocalTunnel URL to connect to the Global News Engine.</p>
+                <input type="text" id="url-input" placeholder="https://your-url.loca.lt">
+                <button onclick="initializeConnection()" style="width: 100%; padding: 15px;">CONNECT</button>
+                <p style="margin-top: 15px; font-size: 11px; color: #666;">
+                    Run <span style="color: var(--primary);">npx localtunnel --port 8000</span> in your terminal to generate a URL.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="how-to-use-overlay" id="how-to-use-overlay">
+        <div class="how-to-use-panel">
+            <div class="how-to-use-header">[ HOW TO USE - GLOBAL NEYDRA NEWS ]</div>
+            <button class="close-btn" onclick="hideHowToUse()">X</button>
+            <div class="how-to-use-content">
+                <ul>
+                    <li>
+                        <span class="step-number">1</span>
+                        <div class="instruction-content">
+                            <strong>Install Node.js</strong>
+                            <p>Node.js is required to create the tunnel link. Download the LTS version for your system.</p>
+                            <div style="margin-top:8px;">
+                                <a href="https://nodejs.org/en/download/" target="_blank" class="download-btn secondary">
+                                    ⬇ DOWNLOAD NODE.JS
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="step-number">2</span>
+                        <div class="instruction-content">
+                            <strong>Download NEYDRA NEWS Package</strong>
+                            <p>Download the bot files and extract them to a folder on your PC.</p>
+                            <div style="margin-top:8px;">
+                                <a href="neydra-news-package.rar" class="download-btn secondary" download>
+                                    ⬇ DOWNLOAD NEWS PACKAGE
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="step-number">3</span>
+                        <div class="instruction-content">
+                            <strong>Run Python Backend</strong>
+                            <p>Open a Command Prompt in the extracted folder and run the command below:</p>
+                            <div class="cmd-box">
+                                <code>python global_neydra_news.py</code>
+                                <button class="download-btn secondary" onclick="copyCommand('python global_neydra_news.py')">COPY</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="step-number">4</span>
+                        <div class="instruction-content">
+                            <strong>Create Public URL</strong>
+                            <p>Open a <strong>NEW</strong> Command Prompt and run the tunnel command. Copy the URL it gives you.</p>
+                            <div class="cmd-box">
+                                <code>npx localtunnel --port 8000</code>
+                                <button class="download-btn secondary" onclick="copyCommand('npx localtunnel --port 8000')">COPY</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="step-number">5</span>
+                        <div class="instruction-content">
+                            <strong>Unlock Tunnel (Password)</strong>
+                            <p>Open the generated URL in your browser. It will ask for a password.</p>
+                            <p><strong>Password = Your Public IP.</strong> Click the button below to find your IP, then paste it into the tunnel page.</p>
+                            <div style="margin-top:8px;">
+                                <a href="https://www.whatismyip.com/" target="_blank" class="download-btn secondary" style="background: #660000;">
+                                    🔍 FIND MY IP ADDRESS
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="step-number">6</span>
+                        <div class="instruction-content">
+                            <strong>Connect Dashboard</strong>
+                            <p>Once the tunnel page shows "status: ONLINE", paste the URL here and click Connect.</p>
+                        </div>
+                    </li>
+                </ul>
+                <div style="text-align: center; margin-top: 30px;">
+                    <button onclick="hideHowToUse()" style="width: auto; padding: 15px 50px; font-size: 18px;">CONTINUE TO DASHBOARD</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="settings-overlay" id="settings-overlay">
+        <div class="settings-panel">
+            <button class="close-btn" onclick="hideSettings()" style="color: var(--primary); border-color: var(--primary);">X</button>
+            <h2>NEWS <span>SETTINGS</span></h2>
+            <div class="setting-group"><label class="setting-label">Add Watched Country</label><select id="add-country-select"><option value="">-- Select Country --</option></select></div>
+            <div class="setting-group"><label class="setting-label">Currently Watching</label><div class="country-tags" id="country-tags"></div></div>
+            <button onclick="saveSettings()" style="width: 100%; margin-top: 8px;">SAVE SETTINGS</button>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * =========================================
+         * GLOBAL NEYDRA NEWS
+         * Clean Wireframe Earth - Red Lines Only
+         * Mobile Fullscreen Optimized
+         * =========================================
+         */
+
+        let API_URL = null; 
+        
+        let watchedCountries = [];
+        let categories = ["world"];
+        let breakingOnly = false;
+        let currentArticles = [];
+        let alertTimeout = null;
+        let lastBreakingId = null;
+
+        // Three.js variables
+        let scene, camera, renderer, earth, atmosphere;
+        let isDragging = false;
+        let previousMousePosition = { x: 0, y: 0 };
+        let autoRotate = true;
+        let earthMarkers = [];
+
+        // Country coordinates
+        window.countryCoords = {
+            "united states": {"lat": 38.0, "lon": -97.0, "code": "US"},
+            "usa": {"lat": 38.0, "lon": -97.0, "code": "US"},
+            "america": {"lat": 38.0, "lon": -97.0, "code": "US"},
+            "china": {"lat": 35.0, "lon": 105.0, "code": "CN"},
+            "russia": {"lat": 60.0, "lon": 100.0, "code": "RU"},
+            "japan": {"lat": 36.0, "lon": 138.0, "code": "JP"},
+            "germany": {"lat": 51.0, "lon": 9.0, "code": "DE"},
+            "france": {"lat": 46.0, "lon": 2.0, "code": "FR"},
+            "united kingdom": {"lat": 54.0, "lon": -2.0, "code": "GB"},
+            "uk": {"lat": 54.0, "lon": -2.0, "code": "GB"},
+            "britain": {"lat": 54.0, "lon": -2.0, "code": "GB"},
+            "india": {"lat": 20.0, "lon": 77.0, "code": "IN"},
+            "brazil": {"lat": -10.0, "lon": -55.0, "code": "BR"},
+            "australia": {"lat": -25.0, "lon": 135.0, "code": "AU"},
+            "canada": {"lat": 56.0, "lon": -106.0, "code": "CA"},
+            "south korea": {"lat": 37.0, "lon": 127.0, "code": "KR"},
+            "korea": {"lat": 37.0, "lon": 127.0, "code": "KR"},
+            "italy": {"lat": 42.0, "lon": 12.0, "code": "IT"},
+            "spain": {"lat": 40.0, "lon": -4.0, "code": "ES"},
+            "mexico": {"lat": 23.0, "lon": -102.0, "code": "MX"},
+            "indonesia": {"lat": -5.0, "lon": 120.0, "code": "ID"},
+            "turkey": {"lat": 39.0, "lon": 35.0, "code": "TR"},
+            "saudi arabia": {"lat": 25.0, "lon": 45.0, "code": "SA"},
+            "iran": {"lat": 32.0, "lon": 53.0, "code": "IR"},
+            "israel": {"lat": 31.0, "lon": 35.0, "code": "IL"},
+            "egypt": {"lat": 26.0, "lon": 30.0, "code": "EG"},
+            "south africa": {"lat": -29.0, "lon": 24.0, "code": "ZA"},
+            "nigeria": {"lat": 10.0, "lon": 8.0, "code": "NG"},
+            "ukraine": {"lat": 49.0, "lon": 32.0, "code": "UA"},
+            "poland": {"lat": 52.0, "lon": 20.0, "code": "PL"},
+            "argentina": {"lat": -34.0, "lon": -64.0, "code": "AR"},
+            "pakistan": {"lat": 30.0, "lon": 70.0, "code": "PK"},
+            "iraq": {"lat": 33.0, "lon": 44.0, "code": "IQ"},
+            "syria": {"lat": 35.0, "lon": 39.0, "code": "SY"},
+            "tunisia": {"lat": 34.0, "lon": 9.0, "code": "TN"},
+            "morocco": {"lat": 32.0, "lon": -6.0, "code": "MA"},
+            "algeria": {"lat": 28.0, "lon": 2.0, "code": "DZ"},
+            "uae": {"lat": 24.0, "lon": 54.0, "code": "AE"},
+            "dubai": {"lat": 25.0, "lon": 55.0, "code": "AE"},
+            "qatar": {"lat": 25.0, "lon": 51.0, "code": "QA"},
+            "greece": {"lat": 39.0, "lon": 22.0, "code": "GR"},
+            "thailand": {"lat": 15.0, "lon": 100.0, "code": "TH"},
+            "vietnam": {"lat": 14.0, "lon": 108.0, "code": "VN"},
+            "philippines": {"lat": 13.0, "lon": 122.0, "code": "PH"},
+            "new zealand": {"lat": -41.0, "lon": 174.0, "code": "NZ"},
+            "kenya": {"lat": -1.0, "lon": 38.0, "code": "KE"},
+            "afghanistan": {"lat": 34.0, "lon": 66.0, "code": "AF"},
+            "gaza": {"lat": 31.0, "lon": 34.0, "code": "PS"},
+            "palestine": {"lat": 31.0, "lon": 35.0, "code": "PS"}
+        };
+
+        function sfx(type) {
+            const el = document.getElementById('snd-' + type);
+            if (el) { el.currentTime = 0; el.play().catch(function() {}); }
+        }
+
+        function copyCommand(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert("Command copied to clipboard: " + text);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+
+        function initializeConnection() {
+            const urlInput = document.getElementById('url-input');
+            let url = urlInput.value.trim();
+
+            if (!url) {
+                alert("Please enter a valid URL.");
+                return;
+            }
+
+            if (url.endsWith("/")) {
+                url = url.slice(0, -1);
+            }
+
+            if (!url.startsWith("http")) {
+                alert("URL must start with http:// or https://");
+                return;
+            }
+
+            API_URL = url;
+            
+            console.log(`Connecting to ${API_URL}...`);
+            
+            fetch(`${API_URL}/`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === "ONLINE") {
+                        console.log("CONNECTION ESTABLISHED");
+                        document.getElementById('connection-overlay').classList.remove('visible');
+                        sfx('engage');
+                        // Start news fetching now that we have a URL
+                        fetchNews();
+                        setInterval(fetchNews, 30000);
+                    } else {
+                        alert("Connected but server status unknown.");
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("Could not connect to the server. Make sure LocalTunnel is running and URL is correct.");
+                });
+        }
+
+        // =====================================================
+        // THREE.JS EARTH - CLEAN WIREFRAME ONLY
+        // =====================================================
+
+        function initEarth() {
+            const container = document.getElementById('earth-canvas');
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x000000);
+
+            camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+            camera.position.z = 3;
+
+            renderer = new THREE.WebGLRenderer({ canvas: container, antialias: true, alpha: false });
+            renderer.setSize(width, height);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            createWireframeEarth();
+            createAtmosphere();
+            createStars();
+
+            const ambientLight = new THREE.AmbientLight(0x220000, 0.5);
+            scene.add(ambientLight);
+
+            const pointLight = new THREE.PointLight(0xff0000, 1.0, 100);
+            pointLight.position.set(5, 3, 5);
+            scene.add(pointLight);
+
+            container.addEventListener('mousedown', onMouseDown);
+            container.addEventListener('mousemove', onMouseMove);
+            container.addEventListener('mouseup', onMouseUp);
+            container.addEventListener('mouseleave', onMouseUp);
+            container.addEventListener('touchstart', onTouchStart, { passive: false });
+            container.addEventListener('touchmove', onTouchMove, { passive: false });
+            container.addEventListener('touchend', onTouchEnd);
+            container.addEventListener('wheel', onWheel, { passive: false });
+            
+            window.addEventListener('resize', onWindowResize);
+
+            setTimeout(function() {
+                document.getElementById('loading-overlay').classList.add('hidden');
+            }, 1500);
+
+            animate();
+        }
+
+        function createWireframeEarth() {
+            const geometry = new THREE.SphereGeometry(1, 64, 64);
+            const material = new THREE.MeshBasicMaterial({
+                color: 0x050000,
+                transparent: true,
+                opacity: 0.9
+            });
+            earth = new THREE.Mesh(geometry, material);
+            scene.add(earth);
+
+            for (let lat = -80; lat <= 80; lat += 10) {
+                const latRad = lat * Math.PI / 180;
+                const radius = Math.cos(latRad) * 1.001;
+                const y = Math.sin(latRad) * 1.001;
+                
+                const points = [];
+                for (let lon = 0; lon <= 360; lon += 5) {
+                    const lonRad = lon * Math.PI / 180;
+                    points.push(new THREE.Vector3(
+                        -radius * Math.cos(lonRad),
+                        y,
+                        radius * Math.sin(lonRad)
+                    ));
+                }
+                
+                const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
+                const lineMaterial = new THREE.LineBasicMaterial({
+                    color: 0xff0000,
+                    transparent: true,
+                    opacity: lat === 0 ? 0.5 : 0.15
+                });
+                const line = new THREE.Line(lineGeometry, lineMaterial);
+                earth.add(line);
+            }
+
+            for (let lon = -180; lon < 180; lon += 15) {
+                const points = [];
+                const lonRad = lon * Math.PI / 180;
+                
+                for (let lat = -90; lat <= 90; lat += 5) {
+                    const latRad = lat * Math.PI / 180;
+                    const radius = Math.cos(latRad) * 1.001;
+                    const y = Math.sin(latRad) * 1.001;
+                    
+                    points.push(new THREE.Vector3(
+                        -radius * Math.cos(lonRad),
+                        y,
+                        radius * Math.sin(lonRad)
+                    ));
+                }
+                
+                const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
+                const lineMaterial = new THREE.LineBasicMaterial({
+                    color: 0xff0000,
+                    transparent: true,
+                    opacity: lon === 0 ? 0.5 : 0.15
+                });
+                const line = new THREE.Line(lineGeometry, lineMaterial);
+                earth.add(line);
+            }
+
+            const equatorGeometry = new THREE.RingGeometry(0.98, 1.02, 64);
+            const equatorMaterial = new THREE.MeshBasicMaterial({
+                color: 0xff0000,
+                transparent: true,
+                opacity: 0.4,
+                side: THREE.DoubleSide
+            });
+            const equator = new THREE.Mesh(equatorGeometry, equatorMaterial);
+            equator.rotation.x = Math.PI / 2;
+            earth.add(equator);
+
+            const meridianGeometry = new THREE.RingGeometry(0.98, 1.02, 64);
+            const meridianMaterial = new THREE.MeshBasicMaterial({
+                color: 0xff0000,
+                transparent: true,
+                opacity: 0.4,
+                side: THREE.DoubleSide
+            });
+            const meridian = new THREE.Mesh(meridianGeometry, meridianMaterial);
+            meridian.rotation.y = Math.PI / 2;
+            earth.add(meridian);
+
+            const wireGeometry = new THREE.SphereGeometry(1.005, 32, 32);
+            const wireMaterial = new THREE.MeshBasicMaterial({
+                color: 0xff0000,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.08
+            });
+            const wireframe = new THREE.Mesh(wireGeometry, wireMaterial);
+            earth.add(wireframe);
+        }
+
+        function createAtmosphere() {
+            const glowGeometry = new THREE.SphereGeometry(1.2, 32, 32);
+            const glowMaterial = new THREE.ShaderMaterial({
+                vertexShader: [
+                    'varying vec3 vNormal;',
+                    'void main() {',
+                    '    vNormal = normalize(normalMatrix * normal);',
+                    '    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);',
+                    '}'
+                ].join('\n'),
+                fragmentShader: [
+                    'varying vec3 vNormal;',
+                    'void main() {',
+                    '    float intensity = pow(0.4 - dot(vNormal, vec3(0, 0, 1.0)), 3.0);',
+                    '    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0) * intensity;',
+                    '}'
+                ].join('\n'),
+                blending: THREE.AdditiveBlending,
+                side: THREE.BackSide,
+                transparent: true
+            });
+            const glow = new THREE.Mesh(glowGeometry, glowMaterial);
+            scene.add(glow);
+        }
+
+        function createStars() {
+            const geometry = new THREE.BufferGeometry();
+            const positions = [];
+
+            for (let i = 0; i < 5000; i++) {
+                const x = (Math.random() - 0.5) * 300;
+                const y = (Math.random() - 0.5) * 300;
+                const z = (Math.random() - 0.5) * 300;
+                positions.push(x, y, z);
+            }
+
+            geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+
+            const material = new THREE.PointsMaterial({
+                size: 0.15,
+                color: 0xff3333,
+                transparent: true,
+                opacity: 0.4
+            });
+
+            const stars = new THREE.Points(geometry, material);
+            scene.add(stars);
+        }
+
+        function onMouseDown(event) {
+            isDragging = true;
+            autoRotate = false;
+            previousMousePosition = { x: event.clientX, y: event.clientY };
+        }
+
+        function onMouseMove(event) {
+            if (!isDragging || !earth) return;
+
+            const deltaX = event.clientX - previousMousePosition.x;
+            const deltaY = event.clientY - previousMousePosition.y;
+
+            earth.rotation.y += deltaX * 0.005;
+            earth.rotation.x += deltaY * 0.005;
+            earth.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, earth.rotation.x));
+
+            previousMousePosition = { x: event.clientX, y: event.clientY };
+
+            updateCoordinates();
+        }
+
+        function onMouseUp() {
+            isDragging = false;
+            setTimeout(function() { autoRotate = true; }, 3000);
+        }
+
+        function onTouchStart(event) {
+            if (event.touches.length === 1) {
+                isDragging = true;
+                autoRotate = false;
+                previousMousePosition = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+            }
+        }
+
+        function onTouchMove(event) {
+            if (!isDragging || !earth) return;
+            event.preventDefault();
+
+            const touch = event.touches[0];
+            const deltaX = touch.clientX - previousMousePosition.x;
+            const deltaY = touch.clientY - previousMousePosition.y;
+
+            earth.rotation.y += deltaX * 0.005;
+            earth.rotation.x += deltaY * 0.005;
+            earth.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, earth.rotation.x));
+
+            previousMousePosition = { x: touch.clientX, y: touch.clientY };
+            updateCoordinates();
+        }
+
+        function onTouchEnd() {
+            isDragging = false;
+            setTimeout(function() { autoRotate = true; }, 3000);
+        }
+
+        function onWheel(event) {
+            event.preventDefault();
+            camera.position.z += event.deltaY * 0.003;
+            camera.position.z = Math.max(1.5, Math.min(8, camera.position.z));
+
+            const zoomLevel = Math.round((8 - camera.position.z) / 6.5 * 10);
+            document.getElementById('rotation-speed').textContent = zoomLevel + 'x';
+            document.getElementById('speed-fill').style.width = (zoomLevel * 10) + '%';
+        }
+
+        function onWindowResize() {
+            const container = document.getElementById('earth-canvas');
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+            renderer.setSize(width, height);
+        }
+
+        function updateCoordinates() {
+            if (!earth) return;
+            const lat = -earth.rotation.x * (180 / Math.PI);
+            const lon = earth.rotation.y * (180 / Math.PI);
+            document.getElementById('coord-lat').textContent = lat.toFixed(2);
+            document.getElementById('coord-lon').textContent = lon.toFixed(2);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            if (earth && autoRotate) {
+                earth.rotation.y += 0.001;
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        function latLonToVector3(lat, lon, radius) {
+            radius = radius || 1.02;
+            const phi = (90 - lat) * (Math.PI / 180);
+            const theta = (lon + 180) * (Math.PI / 180);
+            return new THREE.Vector3(
+                -radius * Math.sin(phi) * Math.cos(theta),
+                radius * Math.cos(phi),
+                radius * Math.sin(phi) * Math.sin(theta)
+            );
+        }
+
+        function addNewsMarker(lat, lon, isBreaking) {
+            if (!earth) return;
+
+            const position = latLonToVector3(lat, lon);
+            const color = isBreaking ? 0xff0000 : 0xff6600;
+
+            const markerGeometry = new THREE.SphereGeometry(0.015, 16, 16);
+            const markerMaterial = new THREE.MeshBasicMaterial({ color: color });
+            const marker = new THREE.Mesh(markerGeometry, markerMaterial);
+            marker.position.copy(position);
+            earth.add(marker);
+            earthMarkers.push(marker);
+        }
+
+        function clearMarkers() {
+            if (!earth) return;
+            earthMarkers.forEach(function(m) { earth.remove(m); });
+            earthMarkers = [];
+        }
+
+        // =====================================================
+        // TARGET INDICATOR SYSTEM
+        // =====================================================
+
+        function showTargetIndicator(lat, lon, country, title) {
+            const indicator = document.getElementById('target-indicator');
+            const coordsEl = document.getElementById('target-coords');
+            const labelEl = document.getElementById('target-label');
+
+            coordsEl.textContent = 'LAT: ' + lat.toFixed(2) + ' | LON: ' + lon.toFixed(2);
+            labelEl.textContent = country ? country.toUpperCase() : 'TARGET';
+
+            indicator.classList.add('active');
+            sfx('target');
+
+            setTimeout(function() {
+                hideTargetIndicator();
+            }, 5000);
+        }
+
+        function hideTargetIndicator() {
+            document.getElementById('target-indicator').classList.remove('active');
+        }
+
+        // =====================================================
+        // COUNTRY POPUP SYSTEM
+        // =====================================================
+
+        function showCountryPopup(country, imageUrl) {
+            const coords = window.countryCoords[country.toLowerCase()];
+            if (!coords) return;
+
+            const popup = document.getElementById('country-popup');
+            const countryCode = coords.code ? coords.code.toLowerCase() : 'xx';
+            const imgElement = document.getElementById('popup-country-image');
+            
+            document.getElementById('popup-country-name').textContent = country.toUpperCase();
+            
+            if (imageUrl && imageUrl.length > 0 && imageUrl.indexOf('picsum.photos') === -1) {
+                imgElement.src = imageUrl;
+                imgElement.onerror = function() {
+                    this.src = 'https://flagcdn.com/w640/' + countryCode + '.png';
+                    this.onerror = function() {
+                        this.src = 'https://flagsapi.com/' + countryCode.toUpperCase() + '/flat/64.png';
+                        this.onerror = null;
+                    };
+                };
+            } else {
+                imgElement.src = 'https://flagcdn.com/w640/' + countryCode + '.png';
+                imgElement.onerror = function() {
+                    this.src = 'https://flagsapi.com/' + countryCode.toUpperCase() + '/flat/64.png';
+                    this.onerror = null;
+                };
+            }
+            
+            document.getElementById('popup-lat').textContent = coords.lat.toFixed(4);
+            document.getElementById('popup-lon').textContent = coords.lon.toFixed(2);
+            document.getElementById('popup-status').textContent = 'REGION IDENTIFIED | MONITORING ACTIVE | NEWS FEED ENABLED';
+
+            popup.classList.add('active');
+            sfx('alert');
+        }
+
+        function closeCountryPopup() {
+            document.getElementById('country-popup').classList.remove('active');
+        }
+
+        function flyToCountry(country, imageUrl) {
+            const coords = window.countryCoords[country.toLowerCase()];
+            if (coords && earth) {
+                sfx('engage');
+                autoRotate = false;
+                hideTargetIndicator();
+
+                const targetY = -coords.lon * (Math.PI / 180) - Math.PI / 2;
+                const targetX = coords.lat * (Math.PI / 180) * 0.5;
+
+                const startY = earth.rotation.y;
+                const startX = earth.rotation.x;
+                const duration = 2500;
+                const startTime = Date.now();
+
+                function animateRotation() {
+                    const elapsed = Date.now() - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const easeProgress = 1 - Math.pow(1 - progress, 4);
+
+                    earth.rotation.y = startY + (targetY - startY) * easeProgress;
+                    earth.rotation.x = startX + (targetX - startX) * easeProgress;
+
+                    camera.position.z = 3 + (1.8 - 3) * easeProgress;
+
+                    if (progress < 1) {
+                        requestAnimationFrame(animateRotation);
+                    } else {
+                        document.getElementById('current-country').textContent = country.toUpperCase();
+                        
+                        showTargetIndicator(coords.lat, coords.lon, country, null);
+                        showCountryPopup(country, imageUrl);
+                        
+                        setTimeout(function() { 
+                            autoRotate = true; 
+                            camera.position.z = 3; 
+                        }, 5000);
+                    }
+                }
+
+                animateRotation();
+
+                document.getElementById('rotation-speed').textContent = '10x';
+                document.getElementById('speed-fill').style.width = '100%';
+                document.getElementById('hud-data').innerHTML = 'TARGET: ' + country.toUpperCase() + '<br>LOCK: ACQUIRED<br>MODE: SURVEILLANCE<br>SEC: PRIORITY';
+
+                setTimeout(function() {
+                    document.getElementById('rotation-speed').textContent = '1x';
+                    document.getElementById('speed-fill').style.width = '20%';
+                    document.getElementById('hud-data').innerHTML = 'SAT: NEYDRA-1<br>RES: 15m<br>MODE: THERMAL-IR<br>SEC: CLASSIFIED';
+                }, 3000);
+            }
+        }
+
+        // =====================================================
+        // NEWS API
+        // =====================================================
+
+        async function fetchNews() {
+            if (!API_URL) return; // Don't fetch if not connected
+
+            try {
+                const response = await fetch(API_URL + '/api/news?limit=50');
+                const data = await response.json();
+
+                if (data.success && data.articles.length > 0) {
+                    currentArticles = data.articles;
+                    updateNewsFeed(data.articles);
+                    updateStats(data.articles);
+                    updateTicker(data.articles);
+
+                    const breakingNews = data.articles.filter(function(a) { return a.priority === 'BREAKING'; });
+                    if (breakingNews.length > 0 && breakingNews[0].id !== lastBreakingId) {
+                        showBreakingAlert(breakingNews[0]);
+                        lastBreakingId = breakingNews[0].id;
+                    }
+
+                    clearMarkers();
+                    data.articles.slice(0, 20).forEach(function(article) {
+                        if (article.latitude !== 0 || article.longitude !== 0) {
+                            addNewsMarker(article.latitude, article.longitude, article.priority === 'BREAKING');
+                        }
+                    });
+                } else {
+                    showNoNews();
+                }
+            } catch (error) {
+                showNoNews();
+            }
+        }
+
+        function showNoNews() {
+            document.getElementById('news-feed').innerHTML = '<div style="color: var(--text-dim); text-align: center; padding: 20px; font-size: 11px;">[ BACKEND OFFLINE OR CONNECTION LOST ]<br><br>Check How To Use for setup instructions.</div>';
+            document.getElementById('ticker-scroll').innerHTML = '<span class="ticker-item">[ BACKEND OFFLINE ]</span>';
+        }
+
+        function updateNewsFeed(articles) {
+            const container = document.getElementById('news-feed');
+            container.innerHTML = articles.map(function(article) {
+                return '<div class="news-item ' + (article.priority === 'BREAKING' ? 'breaking' : '') + '" onclick="selectNews(\'' + article.id + '\')">' +
+                    '<div class="news-priority ' + article.priority.toLowerCase() + '">' + (article.priority === 'BREAKING' ? 'BREAKING' : article.priority) + '</div>' +
+                    '<div class="news-title">' + article.title + '</div>' +
+                    '<div class="news-meta">' +
+                        '<span class="news-country">[' + article.country + ']</span>' +
+                        '<span class="news-source">[' + article.source + ']</span>' +
+                        '<span>' + formatTime(article.published) + '</span>' +
+                    '</div>' +
+                '</div>';
+            }).join('');
+            document.getElementById('news-count').textContent = articles.length;
+        }
+
+        function updateTicker(articles) {
+            const items = articles.slice(0, 15).map(function(a) {
+                return '<span class="ticker-item ' + (a.priority === 'BREAKING' ? 'breaking' : '') + '"><span class="separator">|</span>' + a.title + '</span>';
+            }).join('');
+            document.getElementById('ticker-scroll').innerHTML = items + items;
+        }
+
+        function updateStats(articles) {
+            document.getElementById('stat-breaking').textContent = articles.filter(function(a) { return a.priority === 'BREAKING'; }).length;
+            document.getElementById('stat-total').textContent = articles.length;
+            document.getElementById('stat-countries').textContent = (function() {
+                const countries = new Set();
+                articles.forEach(function(a) { if (a.country !== 'Global') countries.add(a.country); });
+                return countries.size;
+            })();
+        }
+
+        function selectNews(id) {
+            const article = currentArticles.find(function(a) { return a.id === id; });
+            if (article) {
+                const coords = window.countryCoords[article.country.toLowerCase()] || { lat: 0, lon: 0 };
+                closeMobileSidebar();
+
+                if (article.priority === 'BREAKING') {
+                    showBreakingAlert(article);
+                } else {
+                    showTargetIndicator(coords.lat, coords.lon, article.country, article.title);
+                    flyToCountry(article.country, article.image_url);
+                }
+            }
+        }
+
+        function showBreakingAlert(article) {
+            const alert = document.getElementById('breaking-alert');
+            document.getElementById('alert-image').src = article.image_url || '';
+            document.getElementById('alert-image').style.display = article.image_url ? 'block' : 'none';
+            document.getElementById('alert-title').textContent = article.title;
+            document.getElementById('alert-summary').textContent = article.summary || '';
+            document.getElementById('alert-country').textContent = '[' + article.country + ']';
+            document.getElementById('alert-source').textContent = '[' + article.source + ']';
+            document.getElementById('alert-time').textContent = formatTime(article.published);
+
+            const timer = document.getElementById('alert-timer');
+            timer.style.animation = 'none';
+            timer.offsetHeight;
+            timer.style.animation = 'timer-countdown 20s linear';
+
+            alert.classList.add('visible');
+            
+            const coords = window.countryCoords[article.country.toLowerCase()] || { lat: 0, lon: 0 };
+            showTargetIndicator(coords.lat, coords.lon, article.country, article.title);
+            
+            flyToCountry(article.country, article.image_url);
+            sfx('alert');
+
+            if (alertTimeout) clearTimeout(alertTimeout);
+            alertTimeout = setTimeout(closeAlert, 20000);
+        }
+
+        function closeAlert() {
+            document.getElementById('breaking-alert').classList.remove('visible');
+            if (alertTimeout) clearTimeout(alertTimeout);
+        }
+
+        function formatTime(dateStr) {
+            const date = new Date(dateStr);
+            const now = new Date();
+            const diff = (now - date) / 1000;
+            if (diff < 60) return 'NOW';
+            if (diff < 3600) return Math.floor(diff / 60) + 'm';
+            if (diff < 86400) return Math.floor(diff / 3600) + 'h';
+            return date.toLocaleDateString();
+        }
+
+        // =====================================================
+        // UI FUNCTIONS
+        // =====================================================
+
+        function toggleCategory(cat) {
+            const btn = document.getElementById('cat-' + cat);
+            if (btn.classList.contains('active')) {
+                btn.classList.remove('active');
+                categories = categories.filter(function(c) { return c !== cat; });
+            } else {
+                btn.classList.add('active');
+                categories.push(cat);
+            }
+            fetchNews();
+        }
+
+        function toggleBreakingOnly() {
+            breakingOnly = !breakingOnly;
+            document.getElementById('btn-breaking').classList.toggle('active', breakingOnly);
+            fetchNews();
+        }
+
+        async function refreshNews() {
+            if(!API_URL) return;
+            try { await fetch(API_URL + '/api/refresh', { method: 'POST' }); } catch (e) {}
+            fetchNews();
+            sfx('tick');
+        }
+
+        function showSettings() {
+            document.getElementById('settings-overlay').classList.add('visible');
+            const select = document.getElementById('add-country-select');
+            select.innerHTML = '<option value="">-- Select Country --</option>' + 
+                Object.keys(window.countryCoords).map(function(c) { 
+                    return '<option value="' + c + '">' + c.charAt(0).toUpperCase() + c.slice(1) + '</option>'; 
+                }).join('');
+            select.onchange = function() {
+                if (this.value && watchedCountries.indexOf(this.value) === -1) {
+                    watchedCountries.push(this.value);
+                    updateWatchedCountries();
+                }
+                this.value = '';
+            };
+        }
+
+        function hideSettings() { document.getElementById('settings-overlay').classList.remove('visible'); }
+        function showHowToUse() { document.getElementById('how-to-use-overlay').classList.add('visible'); sfx('tick'); }
+        function hideHowToUse() { 
+            document.getElementById('how-to-use-overlay').classList.remove('visible'); 
+            document.getElementById('connection-overlay').classList.add('visible');
+        }
+
+        function updateWatchedCountries() {
+            const list = document.getElementById('watched-countries');
+            const tags = document.getElementById('country-tags');
+            tags.innerHTML = watchedCountries.map(function(c) {
+                return '<div class="country-tag">' + c + '<span class="remove" onclick="removeCountry(\'' + c + '\')">X</span></div>';
+            }).join('');
+            list.innerHTML = watchedCountries.length === 0 ? 
+                '<div style="color: var(--text-dim); text-align: center; padding: 15px; font-size: 11px;">[ NO REGIONS SELECTED ]</div>' :
+                watchedCountries.map(function(c) {
+                    return '<div class="country-item" onclick="flyToCountry(\'' + c + '\')"><span class="country-name">' + c.charAt(0).toUpperCase() + c.slice(1) + '</span></div>';
+                }).join('');
+            document.getElementById('watched-count').textContent = watchedCountries.length;
+        }
+
+        function removeCountry(country) {
+            watchedCountries = watchedCountries.filter(function(c) { return c !== country; });
+            updateWatchedCountries();
+        }
+
+        function saveSettings() { hideSettings(); sfx('tick'); }
+
+        function downloadPackage() {
+            const link = document.createElement('a');
+            link.href = API_URL + '/download/package';
+            link.download = 'neydra-news-package.zip';
+            link.click();
+            sfx('tick');
+        }
+
+        // Mobile Sidebar Toggle
+        function toggleMobileSidebar() {
+            const sidebar = document.getElementById('sidebar-right');
+            sidebar.classList.toggle('mobile-open');
+            
+            const closeBtn = sidebar.querySelector('.close-btn');
+            if (window.innerWidth <= 900) {
+                closeBtn.style.display = 'flex';
+            }
+        }
+
+        function closeMobileSidebar() {
+            const sidebar = document.getElementById('sidebar-right');
+            if (sidebar.classList.contains('mobile-open')) {
+                sidebar.classList.remove('mobile-open');
+            }
+        }
+
+        // Initialize
+        window.addEventListener('load', initEarth);
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') { 
+                closeAlert(); 
+                hideSettings(); 
+                hideHowToUse(); 
+                hideTargetIndicator(); 
+                closeCountryPopup();
+                closeMobileSidebar();
+            }
+        });
+    </script>
+</body>
+</html>
+
+
