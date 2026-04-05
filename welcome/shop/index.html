@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -859,21 +859,21 @@
   <!-- INTRO SCENE OVERLAY -->
   <div id="intro-overlay" class="blur-active">
     <audio id="intro-sound" preload="auto">
-      <source src="assets/guide.wav" type="audio/wav">
+      <source src="/assets/guide.wav" type="audio/wav">
     </audio>
     <div id="intro-guide-container">
       <div id="intro-text-container">
         <p id="intro-text"></p>
         <span id="intro-cursor"></span>
       </div>
-      <img id="intro-guide-img" src="assets/guide.png" alt="Guide" onerror="this.src='https://placehold.co/250x350/1a0000/ff0000?text=GUIDE'">
+      <img id="intro-guide-img" src="/assets/guide.png" alt="Guide" onerror="this.src='https://placehold.co/250x350/1a0000/ff0000?text=GUIDE'">
     </div>
   </div>
 
   <!-- WARNING POPUP -->
   <div id="warning-popup" class="popup-overlay">
     <div class="popup-content">
-      <img src="assets/warning.png" alt="Warning" onerror="this.src='https://placehold.co/300x200/1a0000/ff0000?text=WARNING'">
+      <img src="/assets/warning.png" alt="Warning" onerror="this.src='https://placehold.co/300x200/1a0000/ff0000?text=WARNING'">
       <h3 class="font-display text-xl glow-red mb-4">PAYMENT REQUIRED</h3>
       <p class="text-gray-400 text-sm mb-4">You need to complete the payment to download this item. Please try again!</p>
       <button class="popup-close-btn" onclick="closeWarningPopup()">CLOSE</button>
@@ -903,12 +903,12 @@
 
   <!-- Alert Sound -->
   <audio id="alert-sound" preload="auto">
-    <source src="assets/alert2.wav" type="audio/wav">
+    <source src="/assets/alert2.wav" type="audio/wav">
   </audio>
 
   <!-- Background Music -->
   <audio id="bg-music" loop>
-    <source src="assets/theme-music3.mp3" type="audio/mpeg">
+    <source src="/assets/theme-music3.mp3" type="audio/mpeg">
   </audio>
 
   <!-- Main Content -->
@@ -929,7 +929,7 @@
           </div>
         </div>
         
-        <button class="exit-btn" onclick="location.href='home.html'">EXIT</button>
+        <button class="exit-btn" onclick="location.href='/welcome/home'">EXIT</button>
       </div>
       
       <!-- Category Navigation -->
@@ -964,7 +964,7 @@
           <div class="mystery-content">
             <!-- Character Mascot -->
             <div class="character-mascot">
-              <img src="assets/character_mascot.png" alt="Mascot" class="character-img" onerror="this.src='https://placehold.co/300x500/1a0000/ff0000?text=MASCOT'">
+              <img src="/assets/character_mascot.png" alt="Mascot" class="character-img" onerror="this.src='https://placehold.co/300x500/1a0000/ff0000?text=MASCOT'">
             </div>
             
             <!-- Mystery Items -->
@@ -990,7 +990,7 @@
         <div class="fashion-featured">
           <div class="featured-character" id="fashion-featured">
             <div class="new-badge">NEW</div>
-            <img src="assets/fashion_character.png" alt="Fashion Model" onerror="this.src='https://placehold.co/200x300/1a0000/ff0000?text=OUTFIT'">
+            <img src="/assets/fashion_character.png" alt="Fashion Model" onerror="this.src='https://placehold.co/200x300/1a0000/ff0000?text=OUTFIT'">
           </div>
         </div>
       </section>
@@ -1026,12 +1026,12 @@
     
     // Mystery Shop Items - Add your payment links and download .rar files
     const mysteryItems = [
-      { id: 1, name: "ITEM 1", oldPrice: 0, newPrice: 0, discount: 90, paymentLink: "https://neydra.vercel.app/nexhub.html", downloadFile: "downloads/item1.rar" },
-      { id: 2, name: "ITEM 2", oldPrice: 0, newPrice: 0, discount: 90, paymentLink: "https://neydra.vercel.app/nexhub.html", downloadFile: "downloads/item2.rar" },
-      { id: 3, name: "ITEM 3", oldPrice: 0, newPrice: 0, discount: 90, paymentLink: "https://neydra.vercel.app/nexhub.html", downloadFile: "downloads/item3.rar" },
-      { id: 4, name: "ITEM 4", oldPrice: 0, newPrice: 0, discount: 90, paymentLink: "https://neydra.vercel.app/nexhub.html", downloadFile: "downloads/item4.rar" },
-      { id: 5, name: "ITEM 5", oldPrice: 0, newPrice: 0, discount: 90, paymentLink: "https://neydra.vercel.app/nexhub.html", downloadFile: "downloads/item5.rar" },
-      { id: 6, name: "ITEM 6", oldPrice: 0, newPrice: 0, discount: 90, paymentLink: "https://neydra.vercel.app/nexhub.html", downloadFile: "downloads/item6.rar" }
+      { id: 1, name: "ITEM 1", oldPrice: 0, newPrice: 0, discount: 90, paymentLink: "/welcome/nexhub", downloadFile: "downloads/item1.rar" },
+      { id: 2, name: "ITEM 2", oldPrice: 0, newPrice: 0, discount: 90, paymentLink: "/welcome/nexhub", downloadFile: "downloads/item2.rar" },
+      { id: 3, name: "ITEM 3", oldPrice: 0, newPrice: 0, discount: 90, paymentLink: "/welcome/nexhub", downloadFile: "downloads/item3.rar" },
+      { id: 4, name: "ITEM 4", oldPrice: 0, newPrice: 0, discount: 90, paymentLink: "/welcome/nexhub", downloadFile: "downloads/item4.rar" },
+      { id: 5, name: "ITEM 5", oldPrice: 0, newPrice: 0, discount: 90, paymentLink: "/welcome/nexhub", downloadFile: "downloads/item5.rar" },
+      { id: 6, name: "ITEM 6", oldPrice: 0, newPrice: 0, discount: 90, paymentLink: "/welcome/nexhub", downloadFile: "downloads/item6.rar" }
     ];
 
     // Main Products - Add your payment links and download .rar files
@@ -1039,13 +1039,13 @@
       { id: 1, name: "AI-Driven Predictive Analytics Engine", price: 180, category: "Category1", paymentLink: "https://nowpayments.io/payment/?iid=5243638577", downloadFile: "downloads/product1.rar" },
       { id: 2, name: "Institutional Liquidity Decoder", price: 480, category: "Category1", paymentLink: "https://nowpayments.io/payment/?iid=5721330888", downloadFile: "downloads/product2.rar" },
       { id: 3, name: "Real-Time NLP Sentiment Analyzer", price: 1080, category: "Category1", paymentLink: "https://nowpayments.io/payment/?iid=4844348279", downloadFile: "downloads/product3.rar" },
-      { id: 4, name: "PRODUCT 4", price: 0, category: "Category2", paymentLink: "https://neydra.vercel.app/nexhub.html", downloadFile: "downloads/product4.rar" },
-      { id: 5, name: "PRODUCT 5", price: 0, category: "Category2", paymentLink: "https://neydra.vercel.app/nexhub.html", downloadFile: "downloads/product5.rar" },
-      { id: 6, name: "PRODUCT 6", price: 0, category: "Category2", paymentLink: "https://neydra.vercel.app/nexhub.html", downloadFile: "downloads/product6.rar" },
-      { id: 7, name: "PRODUCT 7", price: 0, category: "Category3", paymentLink: "https://neydra.vercel.app/nexhub.html", downloadFile: "downloads/product7.rar" },
-      { id: 8, name: "PRODUCT 8", price: 0, category: "Category3", paymentLink: "https://neydra.vercel.app/nexhub.html", downloadFile: "downloads/product8.rar" },
-      { id: 9, name: "PRODUCT 9", price: 0, category: "Category3", paymentLink: "https://neydra.vercel.app/nexhub.html", downloadFile: "downloads/product9.rar" },
-      { id: 10, name: "PRODUCT 10", price: 0, category: "Category4", paymentLink: "https://neydra.vercel.app/nexhub.html", downloadFile: "downloads/product10.rar" }
+      { id: 4, name: "PRODUCT 4", price: 0, category: "Category2", paymentLink: "/welcome/nexhub", downloadFile: "downloads/product4.rar" },
+      { id: 5, name: "PRODUCT 5", price: 0, category: "Category2", paymentLink: "/welcome/nexhub", downloadFile: "downloads/product5.rar" },
+      { id: 6, name: "PRODUCT 6", price: 0, category: "Category2", paymentLink: "/welcome/nexhub", downloadFile: "downloads/product6.rar" },
+      { id: 7, name: "PRODUCT 7", price: 0, category: "Category3", paymentLink: "/welcome/nexhub", downloadFile: "downloads/product7.rar" },
+      { id: 8, name: "PRODUCT 8", price: 0, category: "Category3", paymentLink: "/welcome/nexhub", downloadFile: "downloads/product8.rar" },
+      { id: 9, name: "PRODUCT 9", price: 0, category: "Category3", paymentLink: "/welcome/nexhub", downloadFile: "downloads/product9.rar" },
+      { id: 10, name: "PRODUCT 10", price: 0, category: "Category4", paymentLink: "/welcome/nexhub", downloadFile: "downloads/product10.rar" }
     ];
 
     // ========================================
@@ -1322,7 +1322,7 @@
       mysteryGrid.innerHTML = mysteryItems.map(item => `
         <div class="mystery-item" onclick="startPurchase(mysteryItems[${item.id - 1}], 'mystery', ${item.id})">
           <div class="discount-tag">${item.discount}%</div>
-          <img src="assets/mystery_item_${item.id}.png" alt="${item.name}" class="mystery-item-img" 
+          <img src="/assets/mystery_item_${item.id}.png" alt="${item.name}" class="mystery-item-img" 
                onerror="this.src='https://placehold.co/60x60/1a0000/ff0000?text=${item.id}'">
           <div class="mystery-item-name">${item.name}</div>
           <div class="mystery-item-price">
@@ -1345,7 +1345,7 @@
             <span>NEW</span>
           </div>
           <div class="product-img-box">
-            <img src="assets/product${item.id}.png" alt="${item.name}"
+            <img src="/assets/product${item.id}.png" alt="${item.name}"
                  onerror="this.src='https://placehold.co/120x120/1a0000/ff0000?text=${item.name}'">
           </div>
           <div class="product-info">

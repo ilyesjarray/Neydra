@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -15,13 +15,13 @@
       // Page Requirements
       const pageName = window.location.pathname;
       let requiredPlan = 'STANDARD';
-      if (pageName.includes('AIL.html')) requiredPlan = 'PREMIUM';
-      if (pageName.includes('RT-NLP-SA.html')) requiredPlan = 'ULTRA';
+      if (pageName.includes('/welcome/ail')) requiredPlan = 'PREMIUM';
+      if (pageName.includes('/welcome/nlp')) requiredPlan = 'ULTRA';
 
       async function verifyAccess() {
         // 1. Check Session
         const { data: { session } } = await serviceGuard.auth.getSession();
-        if (!session) return window.location.href = 'CreateAC.html';
+        if (!session) return window.location.href = '/welcome/account';
 
         // 2. Check Subscription
         const { data, error } = await serviceGuard
@@ -31,14 +31,14 @@
           .single();
 
         if (error || !data || data.status !== 'active' || new Date(data.expires_at) < new Date()) {
-          return window.location.href = 'home.html'; // Send back to buy plan
+          return window.location.href = '/welcome/home'; // Send back to buy plan
         }
 
         // 3. Check Plan Tier
         if (data.plan_type === 'ULTRA') return; // Ultra accesses everything
         if (data.plan_type !== requiredPlan) {
            alert(`Your current plan (${data.plan_type}) does not support this feature. Upgrade to ${requiredPlan}.`);
-           return window.location.href = 'home.html';
+           return window.location.href = '/welcome/home';
         }
       }
       verifyAccess();
@@ -659,7 +659,7 @@
                         <strong>Download NEYDRA Package</strong>
                         <p>Download the bot files and extract them to a folder on your PC.</p>
                         <div class="download-btn-container">
-                            <a href="neydra-ultra-package.rar" class="download-btn" download>
+                            <a href="/neydra-ultra-package.rar" class="download-btn" download>
                                 ⬇ DOWNLOAD NEYDRA PACKAGE
                             </a>
                         </div>
@@ -715,11 +715,11 @@
     </div>
 
     <!-- LOCAL AUDIO ASSETS -->
-    <audio id="snd-engage" src="assets/engage.wav" preload="auto"></audio>
-    <audio id="snd-alert" src="assets/alert.wav" preload="auto"></audio>
-    <audio id="snd-tick" src="assets/tick.wav" preload="auto"></audio>
-    <audio id="snd-ambient" src="assets/ambient.wav" preload="auto"></audio>
-    <audio id="snd-glitch" src="assets/glitch.wav" preload="auto"></audio>
+    <audio id="snd-engage" src="/assets/engage.wav" preload="auto"></audio>
+    <audio id="snd-alert" src="/assets/alert.wav" preload="auto"></audio>
+    <audio id="snd-tick" src="/assets/tick.wav" preload="auto"></audio>
+    <audio id="snd-ambient" src="/assets/ambient.wav" preload="auto"></audio>
+    <audio id="snd-glitch" src="/assets/glitch.wav" preload="auto"></audio>
 
     <div class="viewport">
         <div class="header-section">

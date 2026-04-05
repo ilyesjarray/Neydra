@@ -1,0 +1,129 @@
+{
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/welcome",
+      "statusCode": 302
+    },
+    {
+      "source": "/index.html",
+      "destination": "/welcome",
+      "statusCode": 301
+    },
+    {
+      "source": "/home.html",
+      "destination": "/welcome/home",
+      "statusCode": 301
+    },
+    {
+      "source": "/CreateAC.html",
+      "destination": "/welcome/account",
+      "statusCode": 301
+    },
+    {
+      "source": "/exchange.html",
+      "destination": "/welcome/exchange",
+      "statusCode": 301
+    },
+    {
+      "source": "/about.html",
+      "destination": "/welcome/about",
+      "statusCode": 301
+    },
+    {
+      "source": "/nexhub.html",
+      "destination": "/welcome/nexhub",
+      "statusCode": 301
+    },
+    {
+      "source": "/Shop.html",
+      "destination": "/welcome/shop",
+      "statusCode": 301
+    },
+    {
+      "source": "/payment.html",
+      "destination": "/welcome/payment",
+      "statusCode": 301
+    },
+    {
+      "source": "/PAE.html",
+      "destination": "/welcome/pae",
+      "statusCode": 301
+    },
+    {
+      "source": "/AIL.html",
+      "destination": "/welcome/ail",
+      "statusCode": 301
+    },
+    {
+      "source": "/RT-NLP-SA.html",
+      "destination": "/welcome/nlp",
+      "statusCode": 301
+    },
+    {
+      "source": "/global_neydra_news.html",
+      "destination": "/welcome/news",
+      "statusCode": 301
+    },
+    {
+      "source": "/neydrap2pcryptoexchange.html",
+      "destination": "/welcome/p2p",
+      "statusCode": 301
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/welcome",
+      "destination": "/welcome/index.html"
+    },
+    {
+      "source": "/welcome/home",
+      "destination": "/welcome/home/index.html"
+    },
+    {
+      "source": "/welcome/account",
+      "destination": "/welcome/account/index.html"
+    },
+    {
+      "source": "/welcome/exchange",
+      "destination": "/welcome/exchange/index.html"
+    },
+    {
+      "source": "/welcome/about",
+      "destination": "/welcome/about/index.html"
+    },
+    {
+      "source": "/welcome/nexhub",
+      "destination": "/welcome/nexhub/index.html"
+    },
+    {
+      "source": "/welcome/shop",
+      "destination": "/welcome/shop/index.html"
+    },
+    {
+      "source": "/welcome/payment",
+      "destination": "/welcome/payment/index.html"
+    },
+    {
+      "source": "/welcome/pae",
+      "destination": "/welcome/pae/index.html"
+    },
+    {
+      "source": "/welcome/ail",
+      "destination": "/welcome/ail/index.html"
+    },
+    {
+      "source": "/welcome/nlp",
+      "destination": "/welcome/nlp/index.html"
+    },
+    {
+      "source": "/welcome/news",
+      "destination": "/welcome/news/index.html"
+    },
+    {
+      "source": "/welcome/p2p",
+      "destination": "/welcome/p2p/index.html"
+    }
+  ]
+}

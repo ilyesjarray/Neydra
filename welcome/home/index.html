@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -40,7 +40,7 @@
       } catch (e) {
         console.error("Security Module Failed:", e);
         // If security fails, we don't let them in just in case
-        window.location.href = 'CreateAC.html'; 
+        window.location.href = '/welcome/account'; 
         return;
       }
 
@@ -52,7 +52,7 @@
           if (!session) {
             console.warn("Access Denied: No Session Found. Redirecting to Login...");
             // Kick them to CreateAC
-            window.location.href = 'CreateAC.html';
+            window.location.href = '/welcome/account';
           } else {
             console.log("Access Granted for:", session.user.email);
             // User stays on home.html
@@ -60,7 +60,7 @@
         } catch (err) {
           console.error("Auth Check Error:", err);
           // On error, redirect to login to be safe
-          window.location.href = 'CreateAC.html';
+          window.location.href = '/welcome/account';
         }
       }
 
@@ -81,11 +81,11 @@
   </script>
 
   <link href="https://cdn.jsdelivr.net/npm/remixicon@3.0.0/fonts/remixicon.css" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="/styles.css" />
   <!-- AOS Animate On Scroll CSS -->
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
-  <link rel="icon" href="assets/icon.png" type="image/png" />
-  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="/assets/icon.png" type="image/png" />
+  <link rel="manifest" href="/manifest.json" />
   <title>  Official site  </title>
   <!-- EmailJS SDK -->
   <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
@@ -174,7 +174,7 @@
   supabase.auth.getSession().then(({ data: { session } }) => {
     if (!session) {
       // Not logged in? Go back to CreateAC
-      window.location.href = 'CreateAC.html';
+      window.location.href = '/welcome/account';
     } else {
       console.log("User Logged In:", session.user.email);
     }
@@ -182,18 +182,18 @@
 </script>
   <!-- Loading GIF -->
   <div class="gif-container" id="loadingGif">
-    <img src="assets/red-earth.gif" alt="Loading..." />
+    <img src="/assets/red-earth.gif" alt="Loading..." />
   </div>
 
   <!-- Starting Sound -->
-  <audio id="starting-sound" src="assets/starting-sound.mp3" preload="auto"></audio>
-  <audio id="s-sound" src="assets/s-sound.mp3" preload="auto"></audio>
+  <audio id="starting-sound" src="/assets/starting-sound.mp3" preload="auto"></audio>
+  <audio id="s-sound" src="/assets/s-sound.mp3" preload="auto"></audio>
   <!-- Theme Music -->
-  <audio id="theme-music" src="assets/theme-music.mp3" loop></audio>
-  <audio id="click-sound1" src="click-sound1.mp3" preload="auto"></audio>
-  <audio id="click-sound2" src="click-sound2.mp3" preload="auto"></audio>
-  <audio id="click-sound3" src="click-sound3.mp3" preload="auto"></audio>
-  <audio id="click-sound4" src="click-sound4.mp3" preload="auto"></audio>
+  <audio id="theme-music" src="/assets/theme-music.mp3" loop></audio>
+  <audio id="click-sound1" src="/click-sound1.mp3" preload="auto"></audio>
+  <audio id="click-sound2" src="/click-sound2.mp3" preload="auto"></audio>
+  <audio id="click-sound3" src="/click-sound3.mp3" preload="auto"></audio>
+  <audio id="click-sound4" src="/click-sound4.mp3" preload="auto"></audio>
 
   <header style="position:relative;">
     <!-- Elfsight Cookie Consent | Untitled Cookie Consent -->
@@ -294,10 +294,10 @@
     <!-- Navigation bar positioned at the bottom center of the header -->
     <nav class="bottom-nav">
       <ul>
-        <li><a href="home.html"><img src="assets/home-icon.png" alt="Home" /></a></li>
-        <li><a href="about.html"><img src="assets/about-icon.png" alt="About" /></a></li>
-        <li><a href="nexhub.html"><img src="assets/neydra-icon.png" alt="Neydra" /></a></li>
-        <li><a href="Shop.html"><img src="assets/shop.png" alt="shop" /></a></li>
+        <li><a href="/welcome/home"><img src="/assets/home-icon.png" alt="Home" /></a></li>
+        <li><a href="/welcome/about"><img src="/assets/about-icon.png" alt="About" /></a></li>
+        <li><a href="/welcome/nexhub"><img src="/assets/neydra-icon.png" alt="Neydra" /></a></li>
+        <li><a href="/welcome/shop"><img src="/assets/shop.png" alt="shop" /></a></li>
       </ul>
     </nav>
     <br><br>
@@ -346,8 +346,8 @@
             <li> 24/7 availability</li>
           </ul>
         </div>
-        <button class="service-btn unlock-btn" id="btn-exchange" onclick="window.location.href='exchange.html'">
-          <img src="assets/free_button.png" alt="Access Exchange Service" class="btn-icon" />
+        <button class="service-btn unlock-btn" id="btn-exchange" onclick="window.location.href = '/welcome/exchange'">
+          <img src="/assets/free_button.png" alt="Access Exchange Service" class="btn-icon" />
           <span class="btn-label">Access Now</span>
         </button>
         <br><br>
@@ -371,8 +371,8 @@
             <li> Live statistics</li>
           </ul>
         </div>
-        <button class="service-btn unlock-btn" id="btn-exchange" onclick="window.location.href='neydrap2pcryptoexchange.html'">
-          <img src="assets/p2pmarket.png" alt="Access Exchange Service" class="btn-icon" />
+        <button class="service-btn unlock-btn" id="btn-exchange" onclick="window.location.href = '/welcome/p2p'">
+          <img src="/assets/p2pmarket.png" alt="Access Exchange Service" class="btn-icon" />
           <span class="btn-label">Access Now</span>
         </button>
         <br><br>
@@ -398,8 +398,8 @@
             <li> 24/24 availability</li>
           </ul>
         </div>
-        <button class="service-btn unlock-btn" id="btn-exchange" onclick="window.location.href='global_neydra_news.html'">
-          <img src="assets/gl-neydra-news.png" alt="Access Exchange Service" class="btn-icon" />
+        <button class="service-btn unlock-btn" id="btn-exchange" onclick="window.location.href = '/welcome/news'">
+          <img src="/assets/gl-neydra-news.png" alt="Access Exchange Service" class="btn-icon" />
           <span class="btn-label">Access Now</span>
         </button>
         <br><br>
@@ -427,7 +427,7 @@
           </ul>
         </div>
         <button class="service-btn locked-btn" id="btn-pae" onclick="goToPayment('standard', '15', '44')">
-          <img src="assets/Predictive_Analytics.png" alt="Unlock Predictive Analytics" class="btn-icon" />
+          <img src="/assets/Predictive_Analytics.png" alt="Unlock Predictive Analytics" class="btn-icon" />
           <span class="btn-label"> Unlock $15
            </span>
         </button>
@@ -455,7 +455,7 @@
           </ul>
         </div>
         <button class="service-btn locked-btn" id="btn-ail" onclick="goToPayment('premium', '40', '115')">
-          <img src="assets/Liquidity_Decoder.png" alt="Unlock Liquidity Decoder" class="btn-icon" />
+          <img src="/assets/Liquidity_Decoder.png" alt="Unlock Liquidity Decoder" class="btn-icon" />
           <span class="btn-label"> Unlock $40
           </span>
         </button>
@@ -483,7 +483,7 @@
           </ul>
         </div>
         <button class="service-btn locked-btn" id="btn-nlp" onclick="goToPayment('ultra', '90', '262')">
-          <img src="assets/NLP_Analysis.png" alt="Unlock Sentiment Analyzer" class="btn-icon" />
+          <img src="/assets/NLP_Analysis.png" alt="Unlock Sentiment Analyzer" class="btn-icon" />
           <span class="btn-label"> Unlock $90
           </span>
         </button>
@@ -527,7 +527,7 @@
 
   <!-- Sound button -->
   <button id="soundBtn">
-    <img src="assets/s-sound.png" alt="Sound Button" />
+    <img src="/assets/s-sound.png" alt="Sound Button" />
   </button>
 
 <script>
@@ -601,7 +601,7 @@
 
     // Register service worker
     if ('serviceWorker' in navigator && 'PushManager' in window) {
-      navigator.serviceWorker.register('service-worker.js')
+      navigator.serviceWorker.register('/service-worker.js')
         .then(function(registration) {
           console.log('Service Worker registered with scope:', registration.scope);
 
@@ -730,7 +730,7 @@
   // Add this function to your home.html script section
   function goToPayment(planType, priceUsd, priceTnd) {
     // Redirects to payment.html with plan details in URL
-    window.location.href = `payment.html?plan=${planType}&price=${priceUsd}&priceTnd=${priceTnd}`;
+    window.location.href = `/welcome/payment?plan=${planType}&price=${priceUsd}&priceTnd=${priceTnd}`;
   }
   </script>
 

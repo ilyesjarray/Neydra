@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -398,7 +398,7 @@
           switchMode('signin');
         } else if (data.session) {
           // If this happens, email confirmation is OFF (fallback)
-          window.location.href = 'home.html';
+          window.location.href = '/welcome/home';
         } else {
           throw new Error("Unknown error occurred.");
         }
@@ -441,7 +441,7 @@
         }
 
         console.log("Sign in successful, redirecting...");
-        window.location.href = 'home.html';
+        window.location.href = '/welcome/home';
 
       } catch (err) {
         console.error("Sign In Error:", err);

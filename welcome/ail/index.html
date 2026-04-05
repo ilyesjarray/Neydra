@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEYDRA | RED PROTOCOL [ULTRA NLP]</title>
+    <title>NEYDRA | INSTITUTIONAL DECODER [RED PROTOCOL]</title>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
@@ -15,13 +15,13 @@
       // Page Requirements
       const pageName = window.location.pathname;
       let requiredPlan = 'STANDARD';
-      if (pageName.includes('AIL.html')) requiredPlan = 'PREMIUM';
-      if (pageName.includes('RT-NLP-SA.html')) requiredPlan = 'ULTRA';
+      if (pageName.includes('/welcome/ail')) requiredPlan = 'PREMIUM';
+      if (pageName.includes('/welcome/nlp')) requiredPlan = 'ULTRA';
 
       async function verifyAccess() {
         // 1. Check Session
         const { data: { session } } = await serviceGuard.auth.getSession();
-        if (!session) return window.location.href = 'CreateAC.html';
+        if (!session) return window.location.href = '/welcome/account';
 
         // 2. Check Subscription
         const { data, error } = await serviceGuard
@@ -31,19 +31,19 @@
           .single();
 
         if (error || !data || data.status !== 'active' || new Date(data.expires_at) < new Date()) {
-          return window.location.href = 'home.html'; // Send back to buy plan
+          return window.location.href = '/welcome/home'; // Send back to buy plan
         }
 
         // 3. Check Plan Tier
         if (data.plan_type === 'ULTRA') return; // Ultra accesses everything
         if (data.plan_type !== requiredPlan) {
            alert(`Your current plan (${data.plan_type}) does not support this feature. Upgrade to ${requiredPlan}.`);
-           return window.location.href = 'home.html';
+           return window.location.href = '/welcome/home';
         }
       }
       verifyAccess();
     })();
-  </script>
+  </script>    
     
     <style>
         /* * =========================================
@@ -134,7 +134,7 @@
             transition: all 0.2s ease;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
+            overflow: hidden; /* Ensure content stays inside */
         }
         
         .panel:hover {
@@ -186,7 +186,34 @@
             line-height: 1.4;
         }
 
-        /* --- LEFT SIDEBAR: HEX DUMP --- */
+        .header-buttons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn-howto {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            font-family: var(--font-code);
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 8px 15px;
+            cursor: pointer;
+            transition: 0.2s;
+            clip-path: polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px);
+        }
+
+        .btn-howto:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 15px var(--primary);
+        }
+
+        /* --- LEFT SIDEBAR: HEX DUMP (DECORATION) --- */
         .sidebar-left {
             grid-row: 2 / 3;
             display: flex;
@@ -205,7 +232,7 @@
             mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
         }
 
-        /* --- CENTER: VISUALIZER & NEWS --- */
+        /* --- CENTER: TARGET DATA --- */
         .main-display {
             grid-column: 2 / 3;
             grid-row: 2 / 3;
@@ -214,51 +241,25 @@
             gap: 10px;
         }
 
-        /* Sentiment Container (Replaces Chart) */
-        .sentiment-container {
-            flex: 1;
+        /* Whale Panel (Top) */
+        .whale-container {
+            flex: 2; /* Takes more space */
+            position: relative;
             background: #000;
             border: 1px solid var(--primary);
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
+            overflow-y: auto;
         }
 
-        .overlay-text {
-            position: absolute;
-            top: 20px; left: 20px;
-            pointer-events: none;
-        }
-        .big-price {
-            font-size: 80px; /* Bigger for Sentiment */
-            font-family: var(--font-code);
-            color: #fff;
-            text-shadow: 0 0 20px var(--primary);
-            font-weight: 800;
-            z-index: 2;
-        }
-        .regime-display {
-            font-size: 18px;
-            letter-spacing: 4px;
-            margin-top: 10px;
-            color: #888;
-            text-transform: uppercase;
-            z-index: 2;
-        }
-
-        /* News Feed (Replaces Metrics) */
-        .news-feed-container {
-            flex: 1.5; /* Give more space to news */
+        /* Depth Panel (Bottom) */
+        .depth-container {
+            flex: 1;
             background: rgba(20,0,0,0.9);
             border: 1px solid var(--dark-red);
-            overflow-y: auto;
             padding: 10px;
+            overflow-y: auto;
         }
 
-        /* --- RIGHT SIDEBAR: VOLATILITY & KEYWORDS --- */
+        /* --- RIGHT SIDEBAR: LIQUIDITY (TARGET DATA) --- */
         .sidebar-right {
             grid-row: 2 / 3;
             grid-column: 3 / 4;
@@ -267,25 +268,13 @@
             gap: 10px;
         }
 
-        .metric-card {
-            background: rgba(20,0,0,0.9);
-            border-left: 4px solid var(--dim-red);
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            text-align: center;
-        }
-        .m-label { color: #888; font-size: 10px; letter-spacing: 2px; margin-bottom: 5px; }
-        .m-val { color: var(--primary); font-size: 32px; font-family: var(--font-code); text-shadow: 0 0 5px var(--primary); }
-
-        .keywords-list {
+        .liquidity-list {
             height: 100%;
             overflow: hidden;
-            padding: 10px;
+            padding: 5px;
             font-family: var(--font-code);
             font-size: 12px;
-            line-height: 1.6;
+            overflow-y: auto;
         }
 
         /* --- FOOTER: LOGS & CONTROLS --- */
@@ -359,55 +348,78 @@
         .dl-3 { bottom: 0; right: 0; width: 20px; height: 1px; }
         .dl-4 { bottom: 0; right: 0; width: 1px; height: 20px; }
 
-        /* --- TARGET LOGIC STYLES (Red Protocol Skinned) --- */
+        /* --- TARGET SPECIFIC STYLING (Mapped to Red Protocol) --- */
         
-        /* News Items */
-        .news-item {
-            margin-bottom: 12px;
-            padding-bottom: 12px;
-            border-bottom: 1px dashed var(--dim-red);
-            font-size: 11px;
-        }
-        .news-meta { 
-            display: flex; 
-            justify-content: space-between; 
-            color: #666; 
-            font-family: var(--font-code); 
-            margin-bottom: 4px; 
-        }
-        .news-title { color: #ccc; line-height: 1.4; }
-        .news-score { font-weight: bold; }
-        
-        /* Red Protocol Specific Overrides */
-        .bullish { color: #fff; text-shadow: 0 0 8px var(--primary); } /* Was Green */
-        .bearish { color: var(--dim-red); } /* Was Red */
-
-        /* Keyword Tags */
-        .kw-tag {
-            display: inline-block;
-            background: #220000;
-            border: 1px solid var(--primary);
-            padding: 2px 6px;
-            margin: 2px;
-            border-radius: 2px;
-            font-size: 10px;
-        }
-
-        /* Volatility Alert */
-        .vol-alert {
-            margin-top: 10px;
+        /* Whale Log */
+        .log-entry {
+            display: flex;
+            justify-content: space-between;
             padding: 8px;
-            border-left: 3px solid #444;
-            font-size: 10px;
-            text-align: left;
+            border-bottom: 1px dashed var(--dim-red);
             font-family: var(--font-code);
-            background: rgba(0,0,0,0.3);
+            font-size: 11px;
+            color: #ccc;
         }
-        .vol-alert.critical {
-            border-left-color: #fff;
+        .log-entry:last-child { border-bottom: none; }
+        .buy { color: #fff; text-shadow: 0 0 5px var(--primary); font-weight: bold; }
+        .sell { color: var(--dim-red); }
+
+        /* Liquidity Pools */
+        .pool-item {
+            padding: 8px;
+            margin-bottom: 5px;
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 3px solid var(--primary);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .pool-item:hover { background: rgba(255, 0, 0, 0.1); }
+        .pool-price { font-weight: bold; color: #fff; display: block; }
+        .pool-type { font-size: 9px; color: #888; text-transform: uppercase; }
+
+        /* Depth Chart */
+        .depth-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2px;
+            height: 14px;
+            font-family: var(--font-code);
+        }
+        .depth-price { 
+            width: 70px; 
+            font-size: 10px; 
+            text-align: right; 
+            margin-right: 10px; 
+            color: #888;
+        }
+        .depth-bar {
+            height: 100%;
+            background: var(--primary);
+            opacity: 0.6;
+            border-radius: 2px;
+            box-shadow: 0 0 5px var(--primary);
+        }
+
+        /* Big Price Display Overlay */
+        .overlay-text {
+            position: absolute;
+            top: 10px; right: 15px;
+            pointer-events: none;
+            text-align: right;
+            z-index: 5;
+        }
+        .big-price {
+            font-size: 42px;
+            font-family: var(--font-code);
             color: #fff;
-            background: rgba(255, 0, 0, 0.2);
-            animation: flicker 0.5s infinite;
+            text-shadow: 0 0 10px var(--primary);
+            font-weight: 800;
+        }
+        .price-label {
+            font-size: 10px;
+            color: var(--dim-red);
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
 
         /* =========================================
@@ -663,18 +675,18 @@
 <body>
 
     <!-- LOCAL AUDIO ASSETS (RED PROTOCOL) -->
-    <audio id="snd-engage" src="assets/engage.wav" preload="auto"></audio>
-    <audio id="snd-alert" src="assets/alert.wav" preload="auto"></audio>
-    <audio id="snd-tick" src="assets/tick.wav" preload="auto"></audio>
-    <audio id="snd-ambient" src="assets/ambient.wav" preload="auto"></audio>
-    <audio id="snd-glitch" src="assets/glitch.wav" preload="auto"></audio>
+    <audio id="snd-engage" src="/assets/engage.wav" preload="auto"></audio>
+    <audio id="snd-alert" src="/assets/alert.wav" preload="auto"></audio>
+    <audio id="snd-tick" src="/assets/tick.wav" preload="auto"></audio>
+    <audio id="snd-ambient" src="/assets/ambient.wav" preload="auto"></audio>
+    <audio id="snd-glitch" src="/assets/glitch.wav" preload="auto"></audio>
 
     <!-- CONNECTION MODAL -->
     <div class="modal-overlay" id="connection-modal">
         <div class="modal-content connection-panel">
-            <h2>CONNECT TO NLP ENGINE</h2>
+            <h2>CONNECT TO DECODER</h2>
             <div class="inner">
-                <p>Enter your LocalTunnel URL to connect to the Sentiment Decoder.</p>
+                <p>Enter your LocalTunnel URL to connect to the Liquidity Decoder.</p>
                 <input type="text" id="url-input" placeholder="https://your-url.loca.lt">
                 <button onclick="initializeConnection()" style="width: 100%; padding: 15px; font-size: 16px;">CONNECT</button>
                 <p style="margin-top: 15px; font-size: 11px; color: #666;">
@@ -715,8 +727,8 @@
                         <div class="requirements-list">
                             <h4>Run Command</h4>
                             <ul>
-                                <li><code>pip install fastapi uvicorn feedparser vaderSentiment</code></li>
-                                <li><code>python ultra_nlp_backend.py</code></li>
+                                <li><code>pip install fastapi uvicorn MetaTrader5 scikit-learn pandas numpy</code></li>
+                                <li><code>python liquidity_decoder.py</code></li>
                             </ul>
                         </div>
                     </div>
@@ -762,7 +774,7 @@
                         Connect Dashboard
                     </div>
                     <div class="step-description">
-                        Once the tunnel page shows "status": "ONLINE", paste the URL into the connection panel and click Connect.
+                        Once the tunnel page shows "system": "NEYDRA DECODER API ONLINE", paste the URL into the connection panel and click Connect.
                     </div>
                 </div>
 
@@ -775,13 +787,13 @@
                             <polyline points="7 10 12 15 17 10"/>
                             <line x1="12" y1="15" x2="12" y2="3"/>
                         </svg>
-                        DOWNLOAD ultra_nlp_backend.py
+                        DOWNLOAD liquidity_decoder.py
                     </button>
                 </div>
 
                 <!-- WARNING -->
                 <div class="warning-box">
-                    If the backend fails to start, ensure all dependencies (vaderSentiment) are installed correctly.
+                    If MetaTrader 5 is not installed or running, the decoder will operate in SIMULATION MODE with synthetic data.
                 </div>
                 
                 <div style="text-align: center; margin-top: 30px;">
@@ -793,15 +805,18 @@
 
     <div class="viewport">
         <div class="header-section">
-            <h1>NEYDRA <span>GLOBAL NLP</span></h1>
-            <div class="sys-info">
-                CORE: NLP ENGINE<br>
-                LATENCY: 12ms<br>
-                SECURE CONN: TRUE<br>
-                <span id="clock">--:--:--</span>
+            <h1>NEYDRA <span>DECODER</span></h1>
+            <div class="header-buttons">
+                <button class="btn-howto" onclick="openHowToModal()">HOW TO USE</button>
+                <div class="sys-info">
+                    MODE: INSTITUTIONAL<br>
+                    SOURCE: EXTERNAL API<br>
+                    TRACKING: TRUE
+                </div>
             </div>
         </div>
 
+        <!-- LEFT: MEMORY STREAM (VISUAL DESIGN) -->
         <div class="sidebar-left">
             <div class="panel" style="height: 100%; display: flex; flex-direction: column;">
                 <div class="panel-header">MEMORY STREAM</div>
@@ -811,45 +826,43 @@
             </div>
         </div>
 
+        <!-- CENTER: WHALE ORDERS & DEPTH (TARGET LOGIC) -->
         <div class="main-display">
-            <!-- Sentiment Meter (Replaces Chart) -->
-            <div class="sentiment-container panel">
+            
+            <!-- WHALE ORDER FLOW -->
+            <div class="panel whale-container">
+                <div class="panel-header">WHALE ORDER FLOW [DETECTED]</div>
                 <div class="overlay-text">
-                    <div style="font-size: 14px; color: #888;">GLOBAL SENTIMENT</div>
+                    <div class="price-label">XAUUSD</div>
+                    <div class="big-price" id="main-price">0.00</div>
                 </div>
-                <div class="big-price" id="sentimentScore">0</div>
-                <div class="regime-display" id="marketRegime">ANALYZING...</div>
+                <div id="whale-log" style="margin-top: 60px; padding: 0 10px;">
+                    Waiting for signal...
+                </div>
             </div>
             
-            <!-- News Feed (Replaces Metrics) -->
-            <div class="panel news-feed-container">
-                <div class="panel-header">LIVE GLOBAL NEWS WIRE</div>
-                <div id="newsFeed">Loading stream...</div>
+            <!-- MARKET DEPTH -->
+            <div class="panel depth-container">
+                <div class="panel-header">MARKET DEPTH [SYNTHETIC]</div>
+                <div id="depth-chart">Scanning Depth...</div>
             </div>
         </div>
 
+        <!-- RIGHT: LIQUIDITY CLUSTERS (TARGET LOGIC) -->
         <div class="sidebar-right">
-            <!-- Volatility Panel -->
-            <div class="panel metric-card">
-                <span class="m-label">PREDICTED ATR SHIFT</span>
-                <span class="m-val" id="volValue">0.0%</span>
-                <div id="volAlert" class="vol-alert">STABLE</div>
-            </div>
-
-            <!-- Keywords Panel -->
             <div class="panel" style="height: 100%;">
-                <div class="panel-header">TOP KEYWORDS</div>
-                <div class="keywords-list" id="keywordsList">
-                    Scanning...
+                <div class="panel-header">LIQUIDITY CLUSTERS</div>
+                <div class="liquidity-list" id="pool-list">
+                    Calculating KMeans...
                 </div>
                 <div class="deco-line dl-3"></div><div class="deco-line dl-4"></div>
             </div>
         </div>
 
+        <!-- FOOTER: LOGS & CONTROLS -->
         <div class="footer-section">
             <div class="terminal" id="sys-log">
                 <div class="log-line">> SYSTEM INITIALIZED</div>
-                <div class="log-line">> NLP MODULE READY</div>
                 <div class="log-line">> AWAITING CONNECTION...</div>
             </div>
             <div class="controls">
@@ -861,28 +874,28 @@
 
     <script>
         /** * =========================================
-         * NEYDRA CORE ENGINE [ULTRA NLP]
+         * NEYDRA CORE ENGINE [INSTITUTIONAL DECODER]
          * VISUALS: RED PROTOCOL
-         * LOGIC: TARGET API
+         * LOGIC: TARGET API (127.0.0.1:8000/data)
          * AUDIO: LOCAL FILES
          * =========================================
          */
 
         // --- CONFIGURATION ---
         let API_URL = null; // Set by user input
-        let isRunning = false;
-        let clockInterval = null;
         
         // --- DOM ELEMENTS ---
-        const elSentiment = document.getElementById('sentimentScore');
-        const elRegime = document.getElementById('marketRegime');
-        const elNews = document.getElementById('newsFeed');
-        const elVol = document.getElementById('volValue');
-        const elVolAlert = document.getElementById('volAlert');
-        const elKeywords = document.getElementById('keywordsList');
+        const elPrice = document.getElementById('main-price');
         const elLog = document.getElementById('sys-log');
         const elHex = document.getElementById('hex-dump');
         const btnStart = document.getElementById('btn-start');
+        
+        // Target Elements
+        const whaleDiv = document.getElementById('whale-log');
+        const poolDiv = document.getElementById('pool-list');
+        const depthDiv = document.getElementById('depth-chart');
+
+        let isRunning = false;
         
         // --- AUDIO SYSTEM (LOCAL FILES) ---
         function sfx(type) {
@@ -945,8 +958,8 @@
             fetch(`${API_URL}/`)
                 .then(res => res.json())
                 .then(data => {
-                    if (data.status === "ONLINE" || data.name) {
-                        log("NLP ENGINE CONNECTION ESTABLISHED", "suc");
+                    if (data.status === "ONLINE" || data.system) {
+                        log("DECODER CONNECTION ESTABLISHED", "suc");
                         document.getElementById('connection-modal').classList.remove('active');
                         sfx('engage');
                     } else {
@@ -962,305 +975,169 @@
 
         // --- DOWNLOAD API FUNCTION ---
         function downloadAPI() {
-            // The Python API script content
-            const pythonScript = `#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-================================================================================
-                    NEYDRA ULTRA NLP BACKEND
-================================================================================
-        Real-Time Global Sentiment Analysis Engine
-                  "RED PROTOCOL ACTIVATED"
-================================================================================
-REQUIREMENTS:
-- pip install fastapi uvicorn feedparser vaderSentiment pandas
-================================================================================
-"""
+            // The Python API script content (matching the python file provided)
+            const pythonScript = `# ==============================================================================
+# NEYDRA INSTITUTIONAL LIQUIDITY DECODER (BACKEND)
+# ==============================================================================
+# "We do not trade the price. We trade the liquidity."
+# ==============================================================================
 
+import MetaTrader5 as mt5
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
-from typing import List, Optional
-from datetime import datetime
-import feedparser
+import numpy as np
+import pandas as pd
 import time
-import re
-import asyncio
+from datetime import datetime
+from sklearn.cluster import KMeans
 import threading
-import random
+import math
 
-# NLP Specific Imports
-try:
-    from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
-    NLP_AVAILABLE = True
-except ImportError:
-    NLP_AVAILABLE = False
-    print("[WARNING] vaderSentiment not installed. Run: pip install vaderSentiment")
+# --- CONFIGURATION ---
+SYSTEM_NAME = "NEYDRA LIQUIDITY DECODER"
+SYMBOL = "XAUUSD"  # Gold is the best for liquidity analysis
+TIMEFRAME = mt5.TIMEFRAME_M15
+WHALE_VOLUME_THRESHOLD = 5.0  # Lots considered "Whale" activity
+LIQUIDITY_LOOKBACK = 500  # Candles to analyze for pools
 
-# ============================================================================
-#                         CONFIGURATION
-# ============================================================================
+app = FastAPI(title=SYSTEM_NAME)
+app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
-SYSTEM_NAME = "NEYDRA ULTRA NLP"
-VERSION = "1.0.0"
-
-# RSS Feeds for Global Financial News
-RSS_FEEDS = [
-    "https://www.reuters.com/feed/business",
-    "https://www.investing.com/rss/news.rss",
-    "https://www.forexlive.com/feed",
-    "https://www.coindesk.com/arc/outboundfeeds/rss/",
-    "https://cointelegraph.com/rss",
-    "https://www.cnbc.com/id/10000664/device/rss/rss.html",
-    "https://www.zerohedge.com/fullrss2.xml",
-    "https://www.bloomberg.com/feed/podcast/bloomberg-markets.xml",
-]
-
-# Keywords to track for the "KEYWORDS" panel
-TRACKED_KEYWORDS = [
-    "FED", "ECB", "INFLATION", "RATES", "GOLD", "XAUUSD", "BITCOIN", "BTC",
-    "OIL", "WAR", "GDP", "EMPLOYMENT", "JOBS", "RECESSION", "RALLY", "CRASH",
-    "BULL", "BEAR", "CHINA", "USA", "DOLLAR", "EUR", "YEN", "YIELD"
-]
-
-# ============================================================================
-#                         DATA STRUCTURES
-# ============================================================================
-
-class NewsItem(BaseModel):
-    datetime: str
-    source: str
-    title: str
-    score: float
-    ticker: str
-    keywords: List[str]
-
-class UltraData(BaseModel):
-    global_sentiment: float
-    market_regime: str
-    volatility_forecast: float
-    latest_headlines: List[NewsItem]
-
-# ============================================================================
-#                         FASTAPI APPLICATION
-# ============================================================================
-
-app = FastAPI(title=SYSTEM_NAME, version=VERSION)
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-# --- GLOBAL STATE ---
+# --- GLOBAL STATE (In-Memory Database) ---
 state = {
-    "global_sentiment": 0.0,
-    "market_regime": "INITIALIZING",
-    "volatility_forecast": 0.0,
-    "latest_headlines": [],
+    "liquidity_pools": [],  # Cluster centers of high volume
+    "whale_activity": [],   # Recent big orders
+    "depth_profile": {},    # Synthetic Order Book
+    "market_bias": "NEUTRAL",
     "last_update": 0
 }
 
-# Initialize NLP Analyzer
-analyzer = SentimentIntensityAnalyzer() if NLP_AVAILABLE else None
+# ==========================================
+# 1. MT5 & DATA INFRASTRUCTURE
+# ==========================================
 
-# ============================================================================
-#                         NLP ENGINE CORE
-# ============================================================================
+def initialize_mt5():
+    if not mt5.initialize():
+        print(f"FAILED: MT5 Init Error: {mt5.last_error()}")
+        quit()
+    if not mt5.symbol_select(SYMBOL, True):
+        print(f"FAILED: Symbol {SYMBOL} not found")
+        quit()
+    print(f">>> {SYSTEM_NAME} CONNECTED TO {SYMBOL} <<<")
 
-def clean_html(raw_html):
-    """Remove HTML tags from string"""
-    cleanr = re.compile('<.*?>')
-    cleantext = re.sub(cleanr, '', raw_html)
-    return cleantext
+initialize_mt5()
 
-def analyze_sentiment(text):
-    """Analyze text sentiment using VADER"""
-    if not NLP_AVAILABLE:
-        # Fallback random if library missing
-        return random.uniform(-1, 1)
-    
-    vs = analyzer.polarity_scores(text)
-    # VADER compound score ranges from -1 (Most Negative) to +1 (Most Positive)
-    return vs['compound']
+# ==========================================
+# 2. ALGORITHMIC CORE (The "Decoder")
+# ==========================================
 
-def extract_keywords(text):
-    """Extract relevant keywords from text"""
-    found_keywords = []
-    text_upper = text.upper()
-    for kw in TRACKED_KEYWORDS:
-        if kw in text_upper:
-            found_keywords.append(kw)
-    return list(set(found_keywords)) # Unique keywords
+def detect_liquidity_pools():
+    rates = mt5.copy_rates_from_pos(SYMBOL, TIMEFRAME, 0, LIQUIDITY_LOOKBACK)
+    if rates is None: return
 
-def determine_market_regime(sentiment_score):
-    """Determine market regime based on aggregate sentiment"""
-    if sentiment_score > 0.4:
-        return "EXTREME GREED"
-    elif sentiment_score > 0.15:
-        return "BULLISH TREND"
-    elif sentiment_score > 0.05:
-        return "OPTIMISM"
-    elif sentiment_score < -0.4:
-        return "EXTREME FEAR"
-    elif sentiment_score < -0.15:
-        return "BEARISH TREND"
-    elif sentiment_score < -0.05:
-        return "CAUTION"
-    else:
-        return "NEUTRAL / CONSOLIDATION"
+    df = pd.DataFrame(rates)
+    highs = df['high'].values
+    lows = df['low'].values
+    pivots = []
+    for i in range(2, len(highs)-2):
+        if highs[i] > highs[i-1] and highs[i] > highs[i-2] and highs[i] > highs[i+1] and highs[i] > highs[i+2]:
+            pivots.append(highs[i])
+        if lows[i] < lows[i-1] and lows[i] < lows[i-2] and lows[i] < lows[i+1] and lows[i] < lows[i+2]:
+            pivots.append(lows[i])
+    if len(pivots) < 10: return
 
-def map_ticker(title, source):
-    """Infer ticker symbol from content"""
-    title_upper = title.upper()
-    if "GOLD" in title_upper or "XAU" in title_upper:
-        return "XAUUSD"
-    if "BITCOIN" in title_upper or "BTC" in title_upper:
-        return "BTCUSD"
-    if "OIL" in title_upper or "CRUDE" in title_upper:
-        return "USOIL"
-    if "EUR" in title_upper or "EURO" in title_upper:
-        return "EURUSD"
-    if "STOCK" in title_upper or "S&P" in title_upper or "DOW" in title_upper:
-        return "SPX500"
-    if "DOLLAR" in title_upper or "DXY" in title_upper:
-        return "DXY"
-    if "ETHEREUM" in title_upper or "ETH" in title_upper:
-        return "ETHUSD"
+    data = np.array(pivots).reshape(-1, 1)
+    kmeans = KMeans(n_clusters=5, random_state=42, n_init=10)
+    kmeans.fit(data)
     
-    # Default based on source type
-    if "COIN" in source.upper() or "CRYPTO" in source.upper():
-        return "CRYPTO"
+    pools = []
+    for center in kmeans.cluster_centers_:
+        price = center[0]
+        tick = mt5.symbol_info_tick(SYMBOL)
+        current_price = tick.bid
+        p_type = "RESISTANCE" if price > current_price else "SUPPORT"
+        pools.append({"price": round(price, 2), "type": p_type, "strength": "HIGH"})
     
-    return "GLOBAL"
+    state["liquidity_pools"] = sorted(pools, key=lambda x: x['price'], reverse=True)
 
-def process_news():
-    """Fetch and process news from RSS feeds"""
-    global state
-    all_headlines = []
-    total_sentiment = 0.0
-    count = 0
-    
-    print(f"[{SYSTEM_NAME}] Updating news feed...")
-    
-    for url in RSS_FEEDS:
-        try:
-            feed = feedparser.parse(url)
-            source_name = feed.feed.get("title", url.split("//")[1].split("/")[0])
-            
-            for entry in feed.entries[:10]: # Top 10 per feed
-                title = entry.get("title", "No Title")
-                description = entry.get("description", "")
-                content = clean_html(title + " " + description)
-                
-                # Analyze
-                score = analyze_sentiment(content)
-                total_sentiment += score
-                count += 1
-                
-                # Extract Data
-                kw = extract_keywords(content)
-                ticker = map_ticker(title, source_name)
-                
-                # Time formatting
-                published = entry.get("published_parsed", entry.get("updated_parsed", None))
-                if published:
-                    dt = datetime(*published[:6])
-                    time_str = dt.strftime("%H:%M")
-                else:
-                    time_str = datetime.now().strftime("%H:%M")
-                
-                item = {
-                    "datetime": time_str,
-                    "source": source_name[:20], # Truncate long names
-                    "title": title[:100] + "..." if len(title) > 100 else title,
-                    "score": round(score, 2),
-                    "ticker": ticker,
-                    "keywords": kw
-                }
-                all_headlines.append(item)
-                
-        except Exception as e:
-            # Silent fail for individual feeds
-            continue
+def analyze_whale_footprints():
+    ticks = mt5.copy_ticks_from(SYMBOL, datetime.now(), 1000, mt5.COPY_TICKS_ALL)
+    if ticks is None: return
+    df_t = pd.DataFrame(ticks)
+    df_t['time_sec'] = pd.to_datetime(df_t['time'], unit='s')
+    volume_per_sec = df_t.groupby('time_sec')['volume'].sum()
+    mean_vol = volume_per_sec.mean()
+    std_vol = volume_per_sec.std()
+    spikes = volume_per_sec[volume_per_sec > (mean_vol + 3 * std_vol)]
+    recent_whales = []
+    for time_idx, vol in spikes.tail(5).items():
+        price_at_spike = df_t[df_t['time_sec'] == time_idx]['bid'].iloc[-1]
+        tick_subset = df_t[df_t['time_sec'] == time_idx]
+        direction = "BUY" if tick_subset['bid'].iloc[-1] > tick_subset['bid'].iloc[0] else "SELL"
+        recent_whales.append({
+            "time": str(time_idx.time()),
+            "volume": int(vol),
+            "price": price_at_spike,
+            "action": direction
+        })
+    state["whale_activity"] = recent_whales
 
-    # Sort by absolute score (most impactful news first)
-    all_headlines.sort(key=lambda x: abs(x['score']), reverse=True)
-    
-    # Calculate Global Sentiment
-    if count > 0:
-        avg_sentiment = total_sentiment / count
-    else:
-        avg_sentiment = 0.0
-    
-    # Determine Regime
-    regime = determine_market_regime(avg_sentiment)
-    
-    # Simulate Volatility Forecast (Based on sentiment divergence or random for demo)
-    # In real scenario, this would be ATR or VIX analysis
-    volatility = round(random.uniform(-3.5, 6.5), 2) 
-    if abs(avg_sentiment) > 0.3:
-        volatility = round(random.uniform(4.0, 9.0), 2) # High sentiment = high vol
-    
-    # Update State
-    state["global_sentiment"] = round(avg_sentiment, 3)
-    state["market_regime"] = regime
-    state["volatility_forecast"] = volatility
-    state["latest_headlines"] = all_headlines[:50] # Keep top 50
-    state["last_update"] = time.time()
-    
-    print(f"[{SYSTEM_NAME}] Processed {count} articles. Global Sentiment: {avg_sentiment:.2f}")
+def generate_synthetic_depth():
+    ticks = mt5.copy_ticks_from(SYMBOL, datetime.now(), 5000, mt5.COPY_TICKS_ALL)
+    if ticks is None: return
+    prices = [t[1] for t in ticks]
+    counts, bin_edges = np.histogram(prices, bins=50)
+    profile = []
+    for i in range(len(counts)):
+        if counts[i] > 0:
+            mid_price = (bin_edges[i] + bin_edges[i+1]) / 2
+            profile.append({"price": round(mid_price, 2), "volume": int(counts[i])})
+    state["depth_profile"] = sorted(profile, key=lambda x: x['price'], reverse=True)
 
-def background_processor():
-    """Background thread to process news every 60 seconds"""
+# ==========================================
+# 3. BACKGROUND WORKER
+# ==========================================
+
+def market_scanner_loop():
     while True:
         try:
-            process_news()
+            detect_liquidity_pools()
+            analyze_whale_footprints()
+            generate_synthetic_depth()
+            state["last_update"] = time.time()
+            time.sleep(2)
         except Exception as e:
-            print(f"[ERROR] Background Processor: {e}")
-        time.sleep(60) # Update every minute
+            print(f"Scanner Error: {e}")
+            time.sleep(5)
 
-# Start Background Thread
-threading.Thread(target=background_processor, daemon=True).start()
+threading.Thread(target=market_scanner_loop, daemon=True).start()
 
-# ============================================================================
-#                         API ENDPOINTS
-# ============================================================================
+# ==========================================
+# 4. API ENDPOINTS (The Bridge)
+# ==========================================
 
 @app.get("/")
-async def root():
+def root():
+    return {"system": SYSTEM_NAME, "status": "ONLINE"}
+
+@app.get("/data")
+def get_dashboard_data():
+    tick = mt5.symbol_info_tick(SYMBOL)
     return {
-        "name": SYSTEM_NAME,
-        "version": VERSION,
-        "status": "ONLINE",
-        "nlp_engine": "VADER" if NLP_AVAILABLE else "SIMULATION"
+        "symbol": SYMBOL,
+        "current_price": tick.bid,
+        "spread": tick.ask - tick.bid,
+        "liquidity_pools": state["liquidity_pools"],
+        "whales": state["whale_activity"],
+        "depth": state["depth_profile"]
     }
 
-@app.get("/ultra_data", response_model=UltraData)
-async def get_ultra_data():
-    """Main endpoint for the NLP Dashboard"""
-    return state
-
 if __name__ == "__main__":
-    print(f"\\n{'='*60}")
-    print(f"    Starting {SYSTEM_NAME}")
-    print(f"    'We trade the news, not the price.'")
-    print(f"{'='*60}\\n")
-    
-    print("╔════════════════════════════════════════════════════════╗")
-    print("║           LOCALTUNNEL CONNECTION GUIDE                 ║")
-    print("╠════════════════════════════════════════════════════════╣")
-    print("║ 1. Install Node.js (if not installed)                  ║")
-    print("║ 2. Open NEW terminal: npx localtunnel --port 8000      ║")
-    print("║ 3. Copy the URL (e.g: https://xx.loca.lt)              ║")
-    print("║ 4. Paste URL in HTML Dashboard connection box.         ║")
-    print("╚════════════════════════════════════════════════════════╝")
-    print("\\n[INFO] Starting API Server on port 8000...\\n")
-    
+    print("=" * 60)
+    print("  NEYDRA INSTITUTIONAL DECODER - LIQUIDITY API")
+    print("  RED PROTOCOL ACTIVATED")
+    print("=" * 60)
     uvicorn.run(app, host="0.0.0.0", port=8000)
 `;
 
@@ -1268,14 +1145,14 @@ if __name__ == "__main__":
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'ultra_nlp_backend.py';
+            a.download = 'liquidity_decoder.py';
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
             
             sfx('tick');
-            log("NLP BACKEND DOWNLOADED", "suc");
+            log("API SCRIPT DOWNLOADED", "suc");
         }
 
         // --- VISUAL GENERATORS (DESIGN ONLY) ---
@@ -1301,101 +1178,80 @@ if __name__ == "__main__":
             elLog.scrollTop = elLog.scrollHeight;
         }
 
-        // --- CLOCK ---
-        function updateClock() {
-            const now = new Date();
-            document.getElementById('clock').innerText = now.toLocaleTimeString();
-        }
-
         // --- MAIN TARGET API LOGIC ---
-        async function fetchUltraData() {
+        async function updateDashboard() {
             if(!isRunning || !API_URL) return;
 
             try {
-                const response = await fetch(`${API_URL}/ultra_data`);
+                const response = await fetch(`${API_URL}/data`);
                 if (!response.ok) throw new Error("API Error");
                 const data = await response.json();
 
-                // 1. UPDATE SENTIMENT METER (Center Top)
-                elSentiment.innerText = data.global_sentiment > 0 ? "+" + data.global_sentiment : data.global_sentiment;
-                elRegime.innerText = data.market_regime;
-                
-                // Color Logic: Red Protocol
-                if(data.global_sentiment > 0) {
-                    elSentiment.style.color = "#fff"; // Bright White/Red for Bull
-                    elSentiment.style.textShadow = "0 0 20px #ff0000";
-                    elRegime.style.color = "var(--primary)";
-                } else if(data.global_sentiment < 0) {
-                    elSentiment.style.color = "var(--dim-red)"; // Dark Red for Bear
-                    elSentiment.style.textShadow = "none";
-                    elRegime.style.color = "var(--dim-red)";
-                } else {
-                    elSentiment.style.color = "#888";
-                    elRegime.style.color = "#888";
+                // 1. UPDATE PRICE
+                if(data.current_price) {
+                    elPrice.innerText = data.current_price.toFixed(2);
+                    elPrice.style.color = "var(--primary)";
                 }
 
-                // 2. UPDATE NEWS FEED (Center Bottom)
-                elNews.innerHTML = "";
-                let allKeywords = [];
-                
-                data.latest_headlines.slice(0, 20).forEach(news => {
-                    const item = document.createElement('div');
-                    item.className = 'news-item';
-                    
-                    let scoreClass = "neutral"; 
-                    if(news.score > 0) scoreClass = "bullish";
-                    if(news.score < 0) scoreClass = "bearish";
-                    
-                    allKeywords.push(...news.keywords);
-
-                    item.innerHTML = `
-                        <div class="news-meta">
-                            <span>${news.datetime} | ${news.source}</span>
-                            <span class="${scoreClass}">SENT: ${news.score}</span>
-                        </div>
-                        <div class="news-title">
-                            <span style="color:var(--dim-red)">[${news.ticker}]</span> ${news.title}
-                        </div>
-                    `;
-                    elNews.appendChild(item);
-                });
-
-                // 3. UPDATE VOLATILITY (Right Sidebar Top)
-                elVol.innerText = data.volatility_forecast + "%";
-                if (data.volatility_forecast > 5.0) {
-                    elVol.style.color = "#fff";
-                    elVolAlert.innerText = "VOLATILITY EXPANSION IMMINENT.";
-                    elVolAlert.className = "vol-alert critical";
-                    sfx('alert');
-                } else if (data.volatility_forecast < -5.0) {
-                    elVol.style.color = "var(--dim-red)";
-                    elVolAlert.innerText = "VOLATILITY CONTRACTION.";
-                    elVolAlert.className = "vol-alert";
+                // 2. UPDATE WHALE LOG
+                whaleDiv.innerHTML = "";
+                const recentWhales = data.whales.slice().reverse();
+                if(recentWhales.length === 0) {
+                    whaleDiv.innerHTML = "<div style='padding:10px; color:#444;'>SCANNING...</div>";
                 } else {
-                    elVol.style.color = "var(--primary)";
-                    elVolAlert.innerText = "MARKET STABILITY NOMINAL.";
-                    elVolAlert.className = "vol-alert";
+                    recentWhales.forEach(w => {
+                        const row = document.createElement('div');
+                        row.className = 'log-entry';
+                        const isBuy = w.action.includes("BUY");
+                        row.innerHTML = `
+                            <span>${w.time}</span>
+                            <span class="${isBuy ? 'buy' : 'sell'}">${w.action}</span>
+                            <span>Vol: ${w.volume}</span>
+                            <span>@ ${w.price.toFixed(2)}</span>
+                        `;
+                        whaleDiv.appendChild(row);
+                    });
+                    if(Math.random() > 0.9) sfx('tick');
                 }
 
-                // 4. UPDATE KEYWORDS (Right Sidebar Bottom)
-                elKeywords.innerHTML = "";
-                const counts = {};
-                allKeywords.forEach(x => { counts[x] = (counts[x] || 0) + 1; });
-                const sortedKw = Object.keys(counts).sort((a,b) => counts[b] - counts[a]).slice(0, 15);
-                
-                sortedKw.forEach(k => {
-                    const span = document.createElement('span');
-                    span.className = 'kw-tag';
-                    span.innerText = `${k} (${counts[k]})`;
-                    elKeywords.appendChild(span);
-                });
+                // 3. UPDATE LIQUIDITY POOLS
+                poolDiv.innerHTML = "";
+                if(data.liquidity_pools) {
+                    data.liquidity_pools.forEach(pool => {
+                        const div = document.createElement('div');
+                        div.className = 'pool-item';
+                        div.innerHTML = `
+                            <span class="pool-price">${pool.price.toFixed(2)}</span>
+                            <span class="pool-type">${pool.type}</span>
+                        `;
+                        poolDiv.appendChild(div);
+                    });
+                }
 
-                // 5. Generators
+                // 4. UPDATE DEPTH CHART
+                depthDiv.innerHTML = "";
+                if(data.depth && data.depth.length > 0) {
+                    const maxVol = Math.max(...data.depth.map(d => d.volume));
+                    data.depth.forEach(d => {
+                        const widthPct = (d.volume / maxVol) * 100;
+                        const row = document.createElement('div');
+                        row.className = 'depth-row';
+                        const isCurrent = Math.abs(d.price - data.current_price) < 0.1;
+                        const color = isCurrent ? "#fff" : "var(--primary)";
+                        row.innerHTML = `
+                            <div class="depth-price" style="${isCurrent ? 'color:#fff; font-weight:bold;' : ''}">${d.price.toFixed(2)}</div>
+                            <div class="depth-bar" style="width:${widthPct}%; background:${color}; opacity: ${isCurrent ? 1 : 0.5};"></div>
+                        `;
+                        depthDiv.appendChild(row);
+                    });
+                }
+
+                // 5. GENERATORS
                 generateHex();
-                if(Math.random() > 0.95) sfx('tick');
+                if(Math.random() > 0.95) sfx('ambient');
 
             } catch (error) {
-                if(Math.random() > 0.95) log("NLP CONNECTION UNSTABLE", "err");
+                if(Math.random() > 0.95) log("DECODER CONNECTION UNSTABLE", "err");
             }
         }
 
@@ -1411,35 +1267,25 @@ if __name__ == "__main__":
                 btnStart.innerText = "ACTIVATE";
                 btnStart.classList.remove("engaged");
                 log("PROCESS SUSPENDED BY USER");
-                clearInterval(clockInterval);
             } else {
                 isRunning = true;
                 btnStart.innerText = "RUNNING";
                 btnStart.classList.add("engaged");
-                log("ULTRA NLP PROTOCOL ENGAGED", "suc");
+                log("INSTITUTIONAL DECODER ENGAGED", "suc");
                 sfx('engage');
-                
-                // Start Clock
-                updateClock();
-                clockInterval = setInterval(updateClock, 1000);
-
-                // Start the loop
-                setInterval(fetchUltraData, 5000);
-                fetchUltraData(); // Initial fetch
+                setInterval(updateDashboard, 1000);
             }
         }
 
         function killSwitch() {
             isRunning = false;
-            clearInterval(clockInterval);
             document.body.innerHTML = "<h1 style='color:red; text-align:center; padding-top:20%; font-family:monospace;'>SYSTEM PURGED</h1>";
             sfx('glitch');
         }
 
     </script>
+    
 </body>
 </html>
-
-
 
 

@@ -9,34 +9,34 @@ const NEYDRA_PLANS = {
     name: 'Free',
     price: 0,
     features: ['exchange'],
-    accessiblePages: ['index. html', 'home.html', 'about.html', 'exchange.html']
+    accessiblePages: ['/welcome', '/welcome/home', '/welcome/about', '/welcome/exchange', '/welcome/account', '/welcome/nexhub', '/welcome/shop', '/welcome/news', '/welcome/p2p']
   },
   standard: {
     name: 'Standard',
     price: 15,
     features: ['exchange', 'pae'],
-    accessiblePages:  ['index.html', 'home.html', 'about.html', 'exchange.html', 'PAE.html']
+    accessiblePages: ['/welcome', '/welcome/home', '/welcome/about', '/welcome/exchange', '/welcome/account', '/welcome/nexhub', '/welcome/shop', '/welcome/news', '/welcome/p2p', '/welcome/pae']
   },
   premium: {
-    name:  'Premium',
-    price:  40,
+    name: 'Premium',
+    price: 40,
     features: ['exchange', 'pae', 'ail'],
-    accessiblePages:  ['index.html', 'home.html', 'about.html', 'exchange.html', 'PAE.html', 'AIL.html']
+    accessiblePages: ['/welcome', '/welcome/home', '/welcome/about', '/welcome/exchange', '/welcome/account', '/welcome/nexhub', '/welcome/shop', '/welcome/news', '/welcome/p2p', '/welcome/pae', '/welcome/ail']
   },
   ultra: {
     name: 'Ultra',
     price: 90,
-    features:  ['exchange', 'pae', 'ail', 'nlp'],
-    accessiblePages:  ['index.html', 'home.html', 'about.html', 'exchange.html', 'PAE.html', 'AIL.html', 'RT-NLP-SA.html']
+    features: ['exchange', 'pae', 'ail', 'nlp'],
+    accessiblePages: ['/welcome', '/welcome/home', '/welcome/about', '/welcome/exchange', '/welcome/account', '/welcome/nexhub', '/welcome/shop', '/welcome/news', '/welcome/p2p', '/welcome/pae', '/welcome/ail', '/welcome/nlp']
   }
 };
 
 // Feature-to-Page Mapping
 const FEATURE_PAGES = {
-  'exchange':  'exchange.html',
-  'pae': 'PAE. html',
-  'ail':  'AIL.html',
-  'nlp': 'RT-NLP-SA.html'
+  'exchange': '/welcome/exchange',
+  'pae': '/welcome/pae',
+  'ail': '/welcome/ail',
+  'nlp': '/welcome/nlp'
 };
 
 // Get current user's plan from localStorage or API
@@ -56,9 +56,10 @@ function hasAccessToFeature(feature) {
   return NEYDRA_PLANS[userPlan].features.includes(feature);
 }
 
-// Get page name from URL
+// Get current page path from URL
 function getCurrentPage() {
-  return window.location.pathname.split('/').pop() || 'home.html';
+  // Remove trailing slash for consistent matching
+  return window.location.pathname.replace(/\/$/, '') || '/welcome/home';
 }
 
 // Main Access Control Check (Run on page load)
@@ -71,7 +72,7 @@ function checkPageAccess() {
     // Unauthorized access attempt
     showWarning();
     setTimeout(() => {
-      window.location.href = 'home.html';
+      window.location.href = '/welcome/home';
     }, 3000);
   }
 }
@@ -126,12 +127,12 @@ function showWarning() {
   modal.className = 'warning-modal';
   modal.innerHTML = `
     <div class="warning-content">
-      <img src="assets/warning.png" alt="Unauthorized Access" class="warning-image" />
+      <img src="/assets/warning.png" alt="Unauthorized Access" class="warning-image" />
       <p class="warning-text">⚠️ Access Denied</p>
       <p style="color: var(--text-light); font-size: 0.95rem; margin-bottom: 2rem;">
         This feature requires a subscription plan.  Upgrade now to unlock all advanced tools!
       </p>
-      <button class="warning-btn" onclick="window.location.href='home.html'">
+      <button class="warning-btn" onclick="window.location.href='/welcome/home'">
         Upgrade or Go Home
       </button>
     </div>
@@ -196,6 +197,6 @@ window.addEventListener('beforeunload', function() {
   
   if (!allowedPages.includes(currentPage)) {
     // Redirect immediately if trying to leave to unauthorized page
-    window.location.href = 'home.html';
+    window.location.href = '/welcome/home';
   }
 });
