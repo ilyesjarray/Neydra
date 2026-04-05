@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <link rel="icon" href="/assets/icon.png" type="image/png" />
@@ -90,10 +90,69 @@
       transform: scale(0.95);
       filter: brightness(0.9);
     }
+
+    /* Premium Loading Bar CSS */
+    .loader-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .neydra-text {
+      color: #ff0000;
+      font-size: 2rem;
+      font-family: 'Courier New', Courier, monospace;
+      letter-spacing: 10px;
+      text-transform: uppercase;
+      font-weight: bold;
+      text-shadow: 0 0 10px #ff0000, 0 0 20px #8b0000;
+      animation: pulse 1.5s infinite alternate;
+    }
+
+    @keyframes pulse {
+      from { text-shadow: 0 0 10px #ff0000, 0 0 20px #8b0000; }
+      to { text-shadow: 0 0 20px #ff0000, 0 0 40px #ff0000, 0 0 60px #8b0000; }
+    }
+
+    .progress-bar-bg {
+      width: 300px;
+      height: 4px;
+      background: #111;
+      border-radius: 2px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: #ff0000;
+      box-shadow: 0 0 15px #ff0000, 0 0 30px #ff0000;
+      transition: width 0.2s ease-out;
+    }
+
+    .progress-text {
+      color: #ff0000;
+      font-family: monospace;
+      font-size: 1rem;
+      letter-spacing: 2px;
+      text-shadow: 0 0 5px #ff0000;
+    }
   </style>
 </head>
 <body>
-  <div class="black-screen" id="blackScreen"></div>
+  <div class="black-screen" id="blackScreen">
+    <div class="loader-container">
+      <div class="neydra-text">NEYDRA</div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="progressFill"></div>
+      </div>
+      <div class="progress-text" id="progressText">0%</div>
+    </div>
+  </div>
 
   <div id="readyScene" class="ready-scene">
     <img src="/assets/are-you-ready.gif" alt="Are you ready?" class="ready-img">
@@ -120,28 +179,92 @@
       }
     }
 
-    // Black screen handling
+    // Black screen handling & Asset Preloading
     window.addEventListener('load', () => {
       requestFullscreen();
 
       const blackScreen = document.getElementById('blackScreen');
       const readyScene = document.getElementById('readyScene');
+      const progressFill = document.getElementById('progressFill');
+      const progressText = document.getElementById('progressText');
 
-      // Simulate a 10-second black screen loading delay
-      setTimeout(() => {
-        // Fade out and hide the black screen
-        blackScreen.classList.add('fade-out');
+      // Heavy assets to preload silently
+      const heavyAssets = [
+        '/assets/are-you-ready.gif',
+        '/assets/continue-btn.gif',
+        '/assets/theme-music2.mp3',
+        '/click-sound5.mp3',
+        '/assets/theme-music.mp3',
+        '/assets/starting-sound.mp3',
+        '/assets/red-earth.gif',
+        '/styles.css',
+        '/assets/og-image.jpg'
+      ];
+
+      let loadedCount = 0;
+      const totalAssets = heavyAssets.length;
+      let finished = false;
+      const startTime = Date.now();
+      const MIN_LOADING_TIME = 2500; // Force exact premium feel (2.5 seconds minimum)
+
+      function finishLoading() {
+        if (finished) return;
+        finished = true;
+        progressFill.style.width = '100%';
+        progressText.innerText = '100%';
+        
         setTimeout(() => {
-          blackScreen.style.display = 'none';
+          // Fade out and hide the black screen
+          blackScreen.classList.add('fade-out');
+          setTimeout(() => {
+            blackScreen.style.display = 'none';
 
-          // Fade-in effect for the ready scene
-          readyScene.classList.add('fade-in');
+            // Fade-in effect for the ready scene
+            readyScene.classList.add('fade-in');
 
-          // Play theme music
-          const themeMusic = document.getElementById('theme-music2');
-          if (themeMusic) themeMusic.play();
-        }, 1000); // Match this delay to fade-out transition
-      }, 10000); // 10 seconds black screen delay
+            // Play theme music
+            const themeMusic = document.getElementById('theme-music2');
+            if (themeMusic) themeMusic.play().catch(e => console.log('Audio autoplay prevented'));
+          }, 1000); // Match fade-out transition
+        }, 500); // 500ms pause at 100% just to show completion
+      }
+
+      function updateProgress() {
+        if (finished) return;
+        loadedCount++;
+        const percent = Math.floor((loadedCount / totalAssets) * 100);
+        progressFill.style.width = percent + '%';
+        progressText.innerText = percent + '%';
+
+        if (loadedCount >= totalAssets) {
+          // All loaded, calculate how long we've been loading
+          const elapsedTime = Date.now() - startTime;
+          const remainingTime = Math.max(0, MIN_LOADING_TIME - elapsedTime);
+
+          setTimeout(() => {
+            finishLoading();
+          }, remainingTime);
+        }
+      }
+
+      if (totalAssets === 0) {
+        finishLoading();
+      } else {
+        // Start preloading
+        heavyAssets.forEach(url => {
+          fetch(url, { mode: 'no-cors' })
+            .then(updateProgress)
+            .catch(updateProgress); // Continue progress even on failure
+        });
+
+        // Fallback: If network hangs, let them in after max 15 seconds
+        setTimeout(() => {
+          if (!finished) {
+            console.warn("Preload timeout reached. Proceeding...");
+            finishLoading();
+          }
+        }, 15000);
+      }
     });
 
     // Fade helpers
