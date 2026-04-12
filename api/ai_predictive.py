@@ -1172,10 +1172,20 @@ if __name__ == "__main__":
     print(f"    Starting {SYSTEM_NAME}")
     print(f"{'='*60}\n")
     
+    # Instructions for Tunneling
+    print("╔════════════════════════════════════════════════════════╗")
+    print("║           LOCALTUNNEL CONNECTION GUIDE                 ║")
+    print("╠════════════════════════════════════════════════════════╣")
+    print("║ 1. Open a NEW terminal window.                         ║")
+    print("║ 2. Run: npx localtunnel --port 8000                   ║")
+    print("║ 3. Copy the 'your url is: https://xx-xx-xx.loca.lt'    ║")
+    print("║ 4. Paste that URL into the HTML Dashboard prompt.      ║")
+    print("╚════════════════════════════════════════════════════════╝")
+    print("\n[INFO] Starting API Server on port 8000...\n")
+    
     uvicorn.run(
         app,
-        host="127.0.0.1",
+        host="0.0.0.0",
         port=8000,
         log_level="info"
     )
-  

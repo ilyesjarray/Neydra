@@ -10,7 +10,6 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import numpy as np
 import pandas as pd
-import talib
 import time
 from datetime import datetime
 from sklearn.cluster import KMeans
@@ -211,4 +210,18 @@ def get_dashboard_data():
     }
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    print(f"\n{'='*60}")
+    print(f"    Starting {SYSTEM_NAME}")
+    print(f"{'='*60}\n")
+    
+    print("╔════════════════════════════════════════════════════════╗")
+    print("║           LOCALTUNNEL CONNECTION GUIDE                 ║")
+    print("╠════════════════════════════════════════════════════════╣")
+    print("║ 1. Open a NEW terminal window.                         ║")
+    print("║ 2. Run: npx localtunnel --port 8000                   ║")
+    print("║ 3. Copy the 'your url is: https://xx-xx-xx.loca.lt'    ║")
+    print("║ 4. Paste that URL into the HTML Dashboard prompt.      ║")
+    print("╚════════════════════════════════════════════════════════╝")
+    print("\n[INFO] Starting API Server on port 8000...\n")
+    
+    uvicorn.run(app, host="0.0.0.0", port=8000)

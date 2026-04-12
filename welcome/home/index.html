@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <script src="/js/security.js"></script>
   <meta charset="UTF-8" />
@@ -17,22 +18,22 @@
   <meta name="msapplication-navbutton-color" content="#000000">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <!-- 1. Load Supabase SDK -->
+  <!-- 1. Load Supabase SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <!-- 2. SECURITY GUARD (Prevents unauthorized access) -->
   <script>
     // Use 'window.onerror' to catch any remaining silent errors
-    window.onerror = function(message, source, lineno, colno, error) {
+    window.onerror = function (message, source, lineno, colno, error) {
       console.error("System Error:", message);
       return false;
     };
 
-    (function() {
+    (function () {
       // CONFIGURATION
       const SUPABASE_URL = 'https://ybrtpasetldpxanrhsle.supabase.co';
       const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlicnRwYXNldGxkcHhhbnJoc2xlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAzMTgyMjksImV4cCI6MjA4NTg5NDIyOX0.Rdj0S0oGV4HmQDERePPbxjQifJ8euDjOTMfgWtdz7gQ';
-      
+
       // FIX: Use a UNIQUE NAME 'homeGuard' to avoid the "Identifier already declared" error
       // This prevents crashes even if other scripts are running.
       let homeGuard;
@@ -41,7 +42,7 @@
       } catch (e) {
         console.error("Security Module Failed:", e);
         // If security fails, we don't let them in just in case
-        window.location.href = '/welcome/account'; 
+        window.location.href = '/welcome/account';
         return;
       }
 
@@ -49,7 +50,7 @@
       async function checkAccess() {
         try {
           const { data: { session } } = await homeGuard.auth.getSession();
-          
+
           if (!session) {
             console.warn("Access Denied: No Session Found. Redirecting to Login...");
             // Kick them to CreateAC
@@ -70,13 +71,13 @@
 
     })();
   </script>
-  
+
 
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXXXXXX-X"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
     gtag('config', 'UA-XXXXXXXXX-X');
   </script>
@@ -87,17 +88,20 @@
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
   <link rel="icon" href="/assets/icon.png" type="image/png" />
   <link rel="manifest" href="/manifest.json" />
-  <title>  Official site  </title>
+  <title> Official site </title>
   <!-- EmailJS SDK -->
   <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
   <script type="text/javascript">
-    (function() {
+    (function () {
       emailjs.init("MQKyFZlDIBIMySsjM"); // Replace with your EmailJS Public Key
     })();
   </script>
 
   <style>
-    body { margin: 0; }
+    body {
+      margin: 0;
+    }
+
     .gif-container {
       display: flex;
       justify-content: center;
@@ -111,12 +115,20 @@
       z-index: 9999;
       transition: opacity 3s ease-in-out;
     }
-    .gif-container img { max-width: 100%; max-height: 100%; }
-    .gif-container.fade-out { opacity: 0; }
+
+    .gif-container img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    .gif-container.fade-out {
+      opacity: 0;
+    }
 
     /* Small neon red download button specifically for the PWA install action */
     #installBtn {
-      display: none; /* shown only after beforeinstallprompt */
+      display: none;
+      /* shown only after beforeinstallprompt */
       margin-top: 1rem;
       padding: 0.45rem 0.9rem;
       background: linear-gradient(135deg, #ff0000, #cc0000);
@@ -125,11 +137,14 @@
       border-radius: 8px;
       cursor: pointer;
       font-weight: 700;
-      box-shadow: 0 0 10px rgba(255,0,0,0.55), 0 0 24px rgba(255,0,0,0.15);
+      box-shadow: 0 0 10px rgba(255, 0, 0, 0.55), 0 0 24px rgba(255, 0, 0, 0.15);
       text-transform: uppercase;
       letter-spacing: 1px;
     }
-    #installBtn:focus { outline: 2px solid rgba(255,0,0,0.25); }
+
+    #installBtn:focus {
+      outline: 2px solid rgba(255, 0, 0, 0.25);
+    }
 
     /* Sound button at the bottom left */
     #soundBtn {
@@ -148,39 +163,43 @@
       border-radius: 50%;
       transition: transform 0.2s ease, filter 0.2s ease;
     }
+
     #soundBtn img {
       width: 100%;
       height: 100%;
       border-radius: 50%;
       filter: drop-shadow(0 0 8px red) brightness(1);
     }
+
     #soundBtn:hover img {
       transform: scale(1.1);
       filter: drop-shadow(0 0 15px red) brightness(1.3);
     }
+
     #soundBtn:active img {
       transform: scale(0.9);
       filter: drop-shadow(0 0 5px red) brightness(0.8);
     }
   </style>
 </head>
+
 <body>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-  const SUPABASE_URL = 'https://ybrtpasetldpxanrhsle.supabase.co';
-  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlicnRwYXNldGxkcHhhbnJoc2xlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAzMTgyMjksImV4cCI6MjA4NTg5NDIyOX0.Rdj0S0oGV4HmQDERePPbxjQifJ8euDjOTMfgWtdz7gQ';
-  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  <script>
+    const SUPABASE_URL = 'https://ybrtpasetldpxanrhsle.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlicnRwYXNldGxkcHhhbnJoc2xlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAzMTgyMjksImV4cCI6MjA4NTg5NDIyOX0.Rdj0S0oGV4HmQDERePPbxjQifJ8euDjOTMfgWtdz7gQ';
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  // Check Session on Load
-  supabase.auth.getSession().then(({ data: { session } }) => {
-    if (!session) {
-      // Not logged in? Go back to CreateAC
-      window.location.href = '/welcome/account';
-    } else {
-      console.log("User Logged In:", session.user.email);
-    }
-  });
-</script>
+    // Check Session on Load
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (!session) {
+        // Not logged in? Go back to CreateAC
+        window.location.href = '/welcome/account';
+      } else {
+        console.log("User Logged In:", session.user.email);
+      }
+    });
+  </script>
   <!-- Loading GIF -->
   <div class="gif-container" id="loadingGif">
     <img src="/assets/red-earth.gif" alt="Loading..." />
@@ -198,13 +217,13 @@
 
   <header style="position:relative;">
     <!-- Elfsight Cookie Consent | Untitled Cookie Consent -->
-<script src="https://elfsightcdn.com/platform.js" async></script>
-<div class="elfsight-app-5cd0545b-72bf-4fef-9980-423865009ac3" data-elfsight-app-lazy></div>
-    
+    <script src="https://elfsightcdn.com/platform.js" async></script>
+    <div class="elfsight-app-5cd0545b-72bf-4fef-9980-423865009ac3" data-elfsight-app-lazy></div>
 
 
 
-      
+
+
 
 
     <!-- NEYDRA Red Particle Fog -->
@@ -213,7 +232,8 @@
     <style>
       #neydra-fog {
         display: block;
-        background: transparent;   /* شفاف */
+        background: transparent;
+        /* شفاف */
       }
     </style>
 
@@ -288,9 +308,9 @@
 
       render();
     </script>
-    
 
-    
+
+
 
     <!-- Navigation bar positioned at the bottom center of the header -->
     <nav class="bottom-nav">
@@ -313,186 +333,195 @@
         <p class="section__subtitle">The CEO and founder of NEYDRA !</p>
         <p class="about__details">
           Welcome to NEYDRA – Where Imagination Becomes Reality.<br><br>
-          I am ILYES JARRAY the founder of NEYDRA, an organization born from the relentless pursuit of breaking limits and reshaping reality itself.
-          We stand on the edge of a new era—where the impossible is no longer just a dream but a challenge waiting to be conquered.<br><br>
-          At NEYDRA, we refuse to be confined by the ordinary. We are visionaries, creators, and pioneers on a mission to bring imagination to life
-          to craft a world beyond the mundane, and to revolutionize the way we experience existence. This is not just an idea; this is the beginning of a new world.<br><br>
-          Are you ready to step beyond the boundaries of reality and build the future with us? Join NEYDRA. Become part of the revolution.
+          I am ILYES JARRAY the founder of NEYDRA, an organization born from the relentless pursuit of breaking limits
+          and reshaping reality itself.
+          We stand on the edge of a new era—where the impossible is no longer just a dream but a challenge waiting to be
+          conquered.<br><br>
+          At NEYDRA, we refuse to be confined by the ordinary. We are visionaries, creators, and pioneers on a mission
+          to bring imagination to life
+          to craft a world beyond the mundane, and to revolutionize the way we experience existence. This is not just an
+          idea; this is the beginning of a new world.<br><br>
+          Are you ready to step beyond the boundaries of reality and build the future with us? Join NEYDRA. Become part
+          of the revolution.
         </p>
       </div>
     </div>
   </section>
 
   <section class="service">
-  <div class="section__container service__container">
-    <p class="section__subtitle">What We Offer! </p>
-    <h2 class="section__title"><span class="fade-in-effect">NEYDRA</span> Services</h2>
+    <div class="section__container service__container">
+      <p class="section__subtitle">What We Offer! </p>
+      <h2 class="section__title"><span class="fade-in-effect">NEYDRA</span> Services</h2>
 
-    <div class="service__grid">
-      
-      <!-- SERVICE 1: SAFE EXCHANGE (FREE - Always Unlocked) -->
-      <div class="service__card free-feature">
-        <div class="service-header">
-          <h4>Neydra Safe Exchange</h4>
-          <span class="plan-badge free">FREE</span>
+      <div class="service__grid">
+
+        <!-- SERVICE 1: SAFE EXCHANGE (FREE - Always Unlocked) -->
+        <div class="service__card free-feature">
+          <div class="service-header">
+            <h4>Neydra Safe Exchange</h4>
+            <span class="plan-badge free">FREE</span>
+          </div>
+          <p class="service-description">
+            Fast, secure, and transparent conversion of Tunisian Dinar (TND) to digital assets. No registration required
+            for basic exchanges.
+          </p>
+          <div class="service-features">
+            <ul>
+              <li> Instant TND to Crypto conversion</li>
+              <li> Low fees (1/3 transaction cost)</li>
+              <li> No KYC required</li>
+              <li> 24/7 availability</li>
+            </ul>
+          </div>
+          <button class="service-btn unlock-btn" id="btn-exchange" onclick="window.location.href = '/welcome/exchange'">
+            <img src="/assets/free_button.png" alt="Access Exchange Service" class="btn-icon" />
+            <span class="btn-label">Access Now</span>
+          </button>
+          <br><br>
         </div>
-        <p class="service-description">
-          Fast, secure, and transparent conversion of Tunisian Dinar (TND) to digital assets. No registration required for basic exchanges.
-        </p>
-        <div class="service-features">
-          <ul>
-            <li> Instant TND to Crypto conversion</li>
-            <li> Low fees (1/3 transaction cost)</li>
-            <li> No KYC required</li>
-            <li> 24/7 availability</li>
-          </ul>
-        </div>
-        <button class="service-btn unlock-btn" id="btn-exchange" onclick="window.location.href = '/welcome/exchange'">
-          <img src="/assets/free_button.png" alt="Access Exchange Service" class="btn-icon" />
-          <span class="btn-label">Access Now</span>
-        </button>
         <br><br>
-      </div>
-      <br><br>
-      <br><br>
-      <!-- SERVICE 1.1: NEYDRA P2P MARKETPLACE (FREE - Always Unlocked) -->
-      <div class="service__card free-feature">
-        <div class="service-header">
-          <h4>Neydra P2P Marketplace <strong>COMING SOON</strong></h4>
-          <span class="plan-badge free">FREE</span>
-        </div>
-        <p class="service-description">
-          Fast, secure, and transparent conversion of Cryptocurrency from the open Market.
-        </p>
-        <div class="service-features">
-          <ul>
-            <li> Instant TND to Crypto conversion</li>
-            <li> Real-time offer display with featured deals</li>
-            <li> Advanced filtering</li>
-            <li> Live statistics</li>
-          </ul>
-        </div>
-        <button class="service-btn unlock-btn" id="btn-exchange" onclick="window.location.href = '/welcome/p2p'">
-          <img src="/assets/p2pmarket.png" alt="Access Exchange Service" class="btn-icon" />
-          <span class="btn-label">Access Now</span>
-        </button>
         <br><br>
-      </div>
-      <br><br>
-      <br><br>
-
-      <!-- SERVICE 1.2: global_neydra_news (FREE - Always Unlocked) -->
-      <div class="service__card free-feature">
-        <div class="service-header">
-          <h4>Global Neydra News</h4>
-          <span class="plan-badge free">FREE</span>
+        <!-- SERVICE 1.1: NEYDRA P2P MARKETPLACE (FREE - Always Unlocked) -->
+        <div class="service__card free-feature">
+          <div class="service-header">
+            <h4>Neydra P2P Marketplace <strong>COMING SOON</strong></h4>
+            <span class="plan-badge free">FREE</span>
+          </div>
+          <p class="service-description">
+            Fast, secure, and transparent conversion of Cryptocurrency from the open Market.
+          </p>
+          <div class="service-features">
+            <ul>
+              <li> Instant TND to Crypto conversion</li>
+              <li> Real-time offer display with featured deals</li>
+              <li> Advanced filtering</li>
+              <li> Live statistics</li>
+            </ul>
+          </div>
+          <button class="service-btn unlock-btn" id="btn-exchange" onclick="window.location.href = '/welcome/p2p'">
+            <img src="/assets/p2pmarket.png" alt="Access Exchange Service" class="btn-icon" />
+            <span class="btn-label">Access Now</span>
+          </button>
+          <br><br>
         </div>
-        <p class="service-description">
-          Fast news of The world . No registration required .<br><br>
-          Use PC for better experience
-        </p>
-        <div class="service-features">
-          <ul>
-            <li> Earth map</li>
-            <li> Live global news</li>
-            <li> No KYC required</li>
-            <li> 24/24 availability</li>
-          </ul>
-        </div>
-        <button class="service-btn unlock-btn" id="btn-exchange" onclick="window.location.href = '/welcome/news'">
-          <img src="/assets/gl-neydra-news.png" alt="Access Exchange Service" class="btn-icon" />
-          <span class="btn-label">Access Now</span>
-        </button>
         <br><br>
-      </div>
-      <br><br>
-      <br><br>
-      
-
-      <!-- SERVICE 2: AI PREDICTIVE ANALYTICS (STANDARD PLAN - $15/44TND) -->
-      <div class="service__card locked-feature" id="pae-service">
-        <div class="service-header">
-          <h4>AI-Driven Predictive Analytics Engine</h4>
-          <span class="plan-badge standard">STANDARD</span>
-        </div>
-        <p class="service-description">
-          Advanced machine learning models forecast XAU/USD price movements with 87%+ accuracy. Receive actionable trading signals before market shifts.<br><br>
-          Use PC for better experience
-        </p>
-        <div class="service-features">
-          <ul>
-            <li> Real-time AI predictions (1-hour, 4-hour, daily)</li>
-            <li> 99.9% data accuracy from institutional sources</li>
-            <li> Smart alerts on bullish/bearish signals</li>
-            <li> Historical backtesting & performance metrics</li>
-          </ul>
-        </div>
-        <button class="service-btn locked-btn" id="btn-pae" onclick="goToPayment('standard', '15', '44')">
-          <img src="/assets/Predictive_Analytics.png" alt="Unlock Predictive Analytics" class="btn-icon" />
-          <span class="btn-label"> Unlock $15
-           </span>
-        </button>
         <br><br>
-      </div>
-      <br><br>
-      <br><br>
 
-      <!-- SERVICE 3: INSTITUTIONAL LIQUIDITY DECODER (PREMIUM PLAN - $40/100TND) -->
-      <div class="service__card locked-feature" id="ail-service">
-        <div class="service-header">
-          <h4>Institutional Liquidity Decoder</h4>
-          <span class="plan-badge premium">PREMIUM</span>
+        <!-- SERVICE 1.2: global_neydra_news (FREE - Always Unlocked) -->
+        <div class="service__card free-feature">
+          <div class="service-header">
+            <h4>Global Neydra News</h4>
+            <span class="plan-badge free">FREE</span>
+          </div>
+          <p class="service-description">
+            Fast news of The world . No registration required .<br><br>
+            Use PC for better experience
+          </p>
+          <div class="service-features">
+            <ul>
+              <li> Earth map</li>
+              <li> Live global news</li>
+              <li> No KYC required</li>
+              <li> 24/24 availability</li>
+            </ul>
+          </div>
+          <button class="service-btn unlock-btn" id="btn-exchange" onclick="window.location.href = '/welcome/news'">
+            <img src="/assets/gl-neydra-news.png" alt="Access Exchange Service" class="btn-icon" />
+            <span class="btn-label">Access Now</span>
+          </button>
+          <br><br>
         </div>
-        <p class="service-description">
-          Visualize hidden whale orders, market depth layers, and liquidity flows invisible to retail traders. Execute with institutional-level precision.<br><br>
-          Use PC for better experience
-        </p>
-        <div class="service-features">
-          <ul>
-            <li> Whale order detection & tracking</li>
-            <li> Real-time liquidity pool analysis</li>
-            <li> Support/resistance level identification</li>
-            <li> Live order book depth visualization</li>
-          </ul>
-        </div>
-        <button class="service-btn locked-btn" id="btn-ail" onclick="goToPayment('premium', '40', '115')">
-          <img src="/assets/Liquidity_Decoder.png" alt="Unlock Liquidity Decoder" class="btn-icon" />
-          <span class="btn-label"> Unlock $40
-          </span>
-        </button>
         <br><br>
-      </div>
-      <br><br>
-      <br><br>
+        <br><br>
 
-      <!-- SERVICE 4: REAL-TIME NLP SENTIMENT ANALYZER (ULTRA PLAN - $90/262TND) -->
-      <div class="service__card locked-feature" id="nlp-service">
-        <div class="service-header">
-          <h4>Real-Time NLP Sentiment Analyzer</h4>
-          <span class="plan-badge ultra">ULTRA</span>
-        </div>
-        <p class="service-description">
-          Harness global news streams with AI-powered NLP to predict volatility spikes and market regime shifts before the crowd reacts.<br><br>
-          Use PC for better experience 
-        </p>
-        <div class="service-features">
-          <ul>
-            <li> Multi-language news aggregation (150+ sources)</li>
-            <li> AI sentiment scoring (-100 to +100)</li>
-            <li> Volatility prediction (24-48 hours ahead)</li>
-            <li> Trending topics & market catalysts tracking</li>
-          </ul>
-        </div>
-        <button class="service-btn locked-btn" id="btn-nlp" onclick="goToPayment('ultra', '90', '262')">
-          <img src="/assets/NLP_Analysis.png" alt="Unlock Sentiment Analyzer" class="btn-icon" />
-          <span class="btn-label"> Unlock $90
-          </span>
-        </button>
-      </div>
 
+        <!-- SERVICE 2: AI PREDICTIVE ANALYTICS (STANDARD PLAN - $15/44TND) -->
+        <div class="service__card locked-feature" id="pae-service">
+          <div class="service-header">
+            <h4>AI-Driven Predictive Analytics Engine</h4>
+            <span class="plan-badge standard">STANDARD</span>
+          </div>
+          <p class="service-description">
+            Advanced machine learning models forecast XAU/USD price movements with 87%+ accuracy. Receive actionable
+            trading signals before market shifts.<br><br>
+            Use PC for better experience
+          </p>
+          <div class="service-features">
+            <ul>
+              <li> Real-time AI predictions (1-hour, 4-hour, daily)</li>
+              <li> 99.9% data accuracy from institutional sources</li>
+              <li> Smart alerts on bullish/bearish signals</li>
+              <li> Historical backtesting & performance metrics</li>
+            </ul>
+          </div>
+          <button class="service-btn locked-btn" id="btn-pae" onclick="goToPayment('standard', '15', '44')">
+            <img src="/assets/Predictive_Analytics.png" alt="Unlock Predictive Analytics" class="btn-icon" />
+            <span class="btn-label"> Unlock $15
+            </span>
+          </button>
+          <br><br>
+        </div>
+        <br><br>
+        <br><br>
+
+        <!-- SERVICE 3: INSTITUTIONAL LIQUIDITY DECODER (PREMIUM PLAN - $40/100TND) -->
+        <div class="service__card locked-feature" id="ail-service">
+          <div class="service-header">
+            <h4>Institutional Liquidity Decoder</h4>
+            <span class="plan-badge premium">PREMIUM</span>
+          </div>
+          <p class="service-description">
+            Visualize hidden whale orders, market depth layers, and liquidity flows invisible to retail traders. Execute
+            with institutional-level precision.<br><br>
+            Use PC for better experience
+          </p>
+          <div class="service-features">
+            <ul>
+              <li> Whale order detection & tracking</li>
+              <li> Real-time liquidity pool analysis</li>
+              <li> Support/resistance level identification</li>
+              <li> Live order book depth visualization</li>
+            </ul>
+          </div>
+          <button class="service-btn locked-btn" id="btn-ail" onclick="goToPayment('premium', '40', '115')">
+            <img src="/assets/Liquidity_Decoder.png" alt="Unlock Liquidity Decoder" class="btn-icon" />
+            <span class="btn-label"> Unlock $40
+            </span>
+          </button>
+          <br><br>
+        </div>
+        <br><br>
+        <br><br>
+
+        <!-- SERVICE 4: REAL-TIME NLP SENTIMENT ANALYZER (ULTRA PLAN - $90/262TND) -->
+        <div class="service__card locked-feature" id="nlp-service">
+          <div class="service-header">
+            <h4>Real-Time NLP Sentiment Analyzer</h4>
+            <span class="plan-badge ultra">ULTRA</span>
+          </div>
+          <p class="service-description">
+            Harness global news streams with AI-powered NLP to predict volatility spikes and market regime shifts before
+            the crowd reacts.<br><br>
+            Use PC for better experience
+          </p>
+          <div class="service-features">
+            <ul>
+              <li> Multi-language news aggregation (150+ sources)</li>
+              <li> AI sentiment scoring (-100 to +100)</li>
+              <li> Volatility prediction (24-48 hours ahead)</li>
+              <li> Trending topics & market catalysts tracking</li>
+            </ul>
+          </div>
+          <button class="service-btn locked-btn" id="btn-nlp" onclick="goToPayment('ultra', '90', '262')">
+            <img src="/assets/NLP_Analysis.png" alt="Unlock Sentiment Analyzer" class="btn-icon" />
+            <span class="btn-label"> Unlock $90
+            </span>
+          </button>
+        </div>
+
+      </div>
     </div>
-  </div>
-</section>
+  </section>
   <br><br>
 
   <footer>
@@ -508,8 +537,8 @@
           </p>
         </div>
         <div class="social__icons">
-          <a href="https://www.facebook.com/share/1BkYPhTFjX/" class="icon"><i class="ri-facebook-fill"></i></a>
-          <a href="https://www.instagram.com/neydra_org?igsh=MW55Zmp3bm9qejRlaA==" class="icon"><i class="ri-instagram-fill"></i></a>
+          <a href="https://www.facebook.com/share/1DeEz6XT3E/" class="icon"><i class="ri-facebook-fill"></i></a>
+          <a href="https://www.instagram.com/neydra_org" class="icon"><i class="ri-instagram-fill"></i></a>
           <!-- Neon red one-click "Download" install button (hidden until PWA install is available) -->
           <button id="installBtn" aria-hidden="true" title="Install NEYDRA PWA">Download</button>
         </div>
@@ -531,20 +560,20 @@
     <img src="/assets/s-sound.png" alt="Sound Button" />
   </button>
 
-<script>
-  // Select the button
-  const button = document.getElementById('soundBtn');
+  <script>
+    // Select the button
+    const button = document.getElementById('soundBtn');
 
-  // Add click event listener
-  button.addEventListener('click', function() {
-    
-    // Set a 3-second timer (3000 milliseconds)
-    setTimeout(function() {
-      window.location.href = "https://h1n3j2ssdj71-d.space.z.ai";
-    }, 1000);
-    
-  });
-</script>
+    // Add click event listener
+    button.addEventListener('click', function () {
+
+      // Set a 3-second timer (3000 milliseconds)
+      setTimeout(function () {
+        window.location.href = "https://h1n3j2ssdj71-d.space.z.ai";
+      }, 1000);
+
+    });
+  </script>
 
   <script type="text/javascript">
     // Function to play a random click sound
@@ -560,12 +589,12 @@
     }
 
     // Add event listeners for click and touch events
-    document.querySelectorAll('button, a').forEach(function(element) {
+    document.querySelectorAll('button, a').forEach(function (element) {
       element.addEventListener('click', playClickSound);
       element.addEventListener('touchstart', playClickSound);
     });
 
-    document.getElementById('contact-form').addEventListener('submit', function(event) {
+    document.getElementById('contact-form').addEventListener('submit', function (event) {
       event.preventDefault();
 
       // Form validation
@@ -580,9 +609,9 @@
       }
 
       emailjs.sendForm('service_089jv67', 'template_e41ehk8', this)
-        .then(function() {
+        .then(function () {
           alert('Email sent successfully!');
-        }, function(error) {
+        }, function (error) {
           console.log('Failed to send email:', error);
         });
     });
@@ -603,11 +632,11 @@
     // Register service worker
     if ('serviceWorker' in navigator && 'PushManager' in window) {
       navigator.serviceWorker.register('/service-worker.js')
-        .then(function(registration) {
+        .then(function (registration) {
           console.log('Service Worker registered with scope:', registration.scope);
 
           // Request permission for push notifications
-          return Notification.requestPermission().then(function(permission) {
+          return Notification.requestPermission().then(function (permission) {
             if (permission === 'granted') {
               // Subscribe to push notifications
               return registration.pushManager.subscribe({ userVisibleOnly: true });
@@ -616,7 +645,7 @@
         });
 
       // Register for background sync
-      navigator.serviceWorker.ready.then(function(registration) {
+      navigator.serviceWorker.ready.then(function (registration) {
         registration.sync.register('my-background-sync');
       });
     }
@@ -728,44 +757,13 @@
   <script src="https://elfsightcdn.com/platform.js" async></script>
   <div class="elfsight-app-d014008a-6eb4-4c15-9d7e-1b5ea1a3779f" data-elfsight-app-lazy></div>
   <script>
-  // Add this function to your home.html script section
-  function goToPayment(planType, priceUsd, priceTnd) {
-    // Redirects to payment.html with plan details in URL
-    window.location.href = `/welcome/payment?plan=${planType}&price=${priceUsd}&priceTnd=${priceTnd}`;
-  }
+    // Add this function to your home.html script section
+    function goToPayment(planType, priceUsd, priceTnd) {
+      // Redirects to payment.html with plan details in URL
+      window.location.href = `/welcome/payment?plan=${planType}&price=${priceUsd}&priceTnd=${priceTnd}`;
+    }
   </script>
 
 </body>
+
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

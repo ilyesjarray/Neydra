@@ -5,7 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>GLOBAL NEYDRA NEWS | Earth News System</title>
+    <meta name="description" content="Global Neydra News — Real-time 3D Earth news monitoring system with live TV streams, multi-source intelligence feed, and urgent alert system.">
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700;800&family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <!-- CesiumJS -->
+    <script>window.CESIUM_BASE_URL = 'https://cesium.com/downloads/cesiumjs/releases/1.109/Build/Cesium/';</script>
+    <script src="https://cesium.com/downloads/cesiumjs/releases/1.109/Build/Cesium/Cesium.js"></script>
+    <link href="https://cesium.com/downloads/cesiumjs/releases/1.109/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+    <!-- Three.js (Legacy - kept for optional wireframe mode) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     
     <style>
@@ -70,8 +76,8 @@
 
         .app-container {
             display: grid;
-            grid-template-columns: 280px 1fr 320px;
-            grid-template-rows: 70px 1fr 40px;
+            grid-template-columns: 280px 1fr 360px;
+            grid-template-rows: 70px 1fr auto 40px;
             width: 100%;
             height: 100%;
             padding: 8px;
@@ -176,7 +182,7 @@
         @keyframes live-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.8; } }
         @keyframes live-dot-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
 
-        .sidebar-left { display: flex; flex-direction: column; gap: 8px; height: calc(100% - 126px); overflow: hidden; }
+        .sidebar-left { display: flex; flex-direction: column; gap: 8px; height: calc(100% - 126px); overflow-y: auto; overflow-x: hidden; }
 
         .panel {
             background: var(--bg-panel);
@@ -243,7 +249,61 @@
             touch-action: none; 
         }
 
-        #earth-canvas { width: 100%; height: 100%; display: block; }
+        #cesium-container {
+            width: 100%; height: 100%;
+            filter: saturate(0.3) brightness(0.6) contrast(1.2) sepia(0.4) hue-rotate(-30deg);
+        }
+        #cesium-container .cesium-viewer,
+        #cesium-container .cesium-viewer-cesiumWidgetContainer,
+        #cesium-container .cesium-widget,
+        #cesium-container .cesium-widget canvas {
+            width: 100% !important; height: 100% !important;
+        }
+        /* Hide all Cesium default UI */
+        .cesium-viewer-toolbar,
+        .cesium-viewer-animationContainer,
+        .cesium-viewer-timelineContainer,
+        .cesium-viewer-bottom,
+        .cesium-viewer-fullscreenContainer,
+        .cesium-viewer-vrContainer,
+        .cesium-viewer-geocoderContainer,
+        .cesium-viewer-infoBoxContainer,
+        .cesium-viewer-selectionIndicatorContainer,
+        .cesium-navigationHelpButton-wrapper,
+        .cesium-baseLayerPicker-dropDown,
+        .cesium-credit-logoContainer,
+        .cesium-credit-textContainer,
+        .cesium-widget-credits { display: none !important; }
+
+        /* Red overlay on top of Cesium for the red tint */
+        .cesium-red-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 0, 0, 0.08);
+            pointer-events: none;
+            z-index: 2;
+            mix-blend-mode: overlay;
+        }
+
+        #earth-canvas { width: 100%; height: 100%; display: none; }
+
+        .earth-mode-toggle {
+            position: absolute;
+            bottom: 10px; left: 50%;
+            transform: translateX(-50%);
+            z-index: 30;
+            background: rgba(0,0,0,0.8) !important;
+            border: 1px solid var(--primary) !important;
+            color: var(--primary) !important;
+            font-size: 9px !important;
+            padding: 4px 12px !important;
+            letter-spacing: 2px;
+            font-family: 'Share Tech Mono', monospace;
+            cursor: pointer;
+            clip-path: none !important;
+            flex: none !important;
+        }
+        .earth-mode-toggle:hover { background: var(--primary) !important; color: #000 !important; }
 
         .hud-overlay {
             position: absolute;
@@ -260,8 +320,8 @@
 
         .hud-corner.top-left { top: 10px; left: 10px; border-right: none; border-bottom: none; }
         .hud-corner.top-right { top: 10px; right: 10px; border-left: none; border-bottom: none; }
-        .hud-corner.bottom-left { bottom: 10px; left: 10px; border-right: none; border-top: none; }
-        .hud-corner.bottom-right { bottom: 10px; right: 10px; border-left: none; border-top: none; }
+        .hud-corner.bottom-left { bottom: 40px; left: 10px; border-right: none; border-top: none; }
+        .hud-corner.bottom-right { bottom: 40px; right: 10px; border-left: none; border-top: none; }
 
         .hud-crosshair {
             position: absolute;
@@ -296,12 +356,12 @@
         .earth-info .label { font-size: 9px; color: var(--text-dim); letter-spacing: 2px; }
         .earth-info .value { font-size: 26px; color: var(--primary); text-shadow: 0 0 15px var(--primary); font-weight: bold; }
 
-        .rotation-indicator { position: absolute; bottom: 15px; left: 15px; display: flex; align-items: center; gap: 10px; }
+        .rotation-indicator { position: absolute; bottom: 40px; left: 15px; display: flex; align-items: center; gap: 10px; }
         .rotation-speed { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--primary); }
         .speed-bar { width: 100px; height: 4px; background: var(--dark-red); border-radius: 2px; overflow: hidden; }
         .speed-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--primary-light)); width: 20%; transition: width 0.3s; }
 
-        .coords-display { position: absolute; bottom: 15px; right: 15px; font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--text-dim); text-align: right; }
+        .coords-display { position: absolute; bottom: 40px; right: 15px; font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--text-dim); text-align: right; }
         .coords-display .lat, .coords-display .lon { color: var(--primary); }
 
         /* Target Indicator */
@@ -569,6 +629,53 @@
 
         .news-feed { flex: 1; min-height: 0; display: flex; flex-direction: column; }
 
+        /* ===== BIG IMAGE NEWS CARDS ===== */
+        .news-card {
+            background: rgba(20, 0, 0, 0.6);
+            border: 1px solid var(--dark-red);
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            overflow: hidden;
+            position: relative;
+        }
+        .news-card:hover { border-color: var(--primary); box-shadow: 0 0 20px rgba(255,0,0,0.3); transform: translateY(-2px); }
+        .news-card.breaking-card { border-color: var(--primary); animation: news-flash 1s infinite; }
+        @keyframes news-flash { 0%, 100% { background: rgba(50, 0, 0, 0.6); } 50% { background: rgba(80, 0, 0, 0.6); } }
+
+        .news-card-image {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            display: block;
+            border-bottom: 2px solid var(--dim-red);
+            background: #0a0000;
+        }
+        .news-card-image.no-image {
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Orbitron', sans-serif; font-size: 40px; color: var(--dim-red);
+            background: linear-gradient(135deg, #0a0000 0%, #1a0000 100%);
+        }
+
+        .news-card-body { padding: 10px; }
+        .news-card-priority {
+            font-size: 9px; font-family: 'Share Tech Mono', monospace;
+            letter-spacing: 2px; margin-bottom: 6px;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .news-card-priority.breaking { color: var(--primary); animation: priority-flash 0.5s infinite; }
+        .news-card-priority.breaking::before { content: "[!]"; animation: blink 0.5s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        @keyframes priority-flash { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+        .news-card-priority.high { color: var(--primary-light); }
+        .news-card-priority.normal { color: var(--text-dim); }
+
+        .news-card-title { font-size: 14px; color: #fff; line-height: 1.4; margin-bottom: 8px; font-weight: 600; }
+        .news-card-meta { display: flex; gap: 12px; font-size: 9px; color: var(--text-dim); font-family: 'Share Tech Mono', monospace; flex-wrap: wrap; }
+        .news-card-source { color: var(--primary); font-weight: bold; }
+        .news-card-country { color: var(--primary-light); }
+
+        /* Legacy news items (kept for old mode) */
         .news-item {
             background: rgba(20, 0, 0, 0.6);
             border-right: 3px solid var(--dim-red);
@@ -577,17 +684,15 @@
             cursor: pointer;
             transition: all 0.3s;
             border-left: 1px solid var(--dark-red);
+            display: none;
         }
 
         .news-item:hover { background: rgba(40, 0, 0, 0.6); border-right-color: var(--primary); transform: translateX(3px); }
         .news-item.breaking { border-right-color: var(--primary); border-left: 2px solid var(--primary); animation: news-flash 1s infinite; }
-        @keyframes news-flash { 0%, 100% { background: rgba(50, 0, 0, 0.6); } 50% { background: rgba(80, 0, 0, 0.6); } }
 
         .news-priority { font-size: 9px; font-family: 'Share Tech Mono', monospace; letter-spacing: 2px; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
         .news-priority.breaking { color: var(--primary); animation: priority-flash 0.5s infinite; }
         .news-priority.breaking::before { content: "[!]"; animation: blink 0.5s infinite; }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-        @keyframes priority-flash { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
         .news-priority.high { color: var(--primary-light); }
         .news-priority.normal { color: var(--text-dim); }
 
@@ -596,6 +701,101 @@
         .news-country { color: var(--primary); }
         .news-source { color: var(--primary-light); }
 
+        /* ===== URGENT BAR ===== */
+        .urgent-bar {
+            grid-column: 1 / -1;
+            background: #000;
+            border: 2px solid var(--primary);
+            display: none;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+            min-height: 44px;
+            box-shadow: 0 0 30px #ff0000, 0 0 60px rgba(255,0,0,0.5), 0 0 100px rgba(255,0,0,0.3), inset 0 0 20px rgba(255,0,0,0.1);
+            animation: urgent-neon 1.5s ease-in-out infinite;
+        }
+        .urgent-bar.active { display: flex; }
+
+        @keyframes urgent-neon {
+            0%, 100% { box-shadow: 0 0 30px #ff0000, 0 0 60px rgba(255,0,0,0.5), 0 0 100px rgba(255,0,0,0.3); border-color: #ff0000; }
+            50% { box-shadow: 0 0 50px #ff0000, 0 0 90px rgba(255,0,0,0.7), 0 0 140px rgba(255,0,0,0.5); border-color: #ff3333; }
+        }
+
+        .urgent-label {
+            background: var(--primary);
+            color: #000;
+            padding: 0 15px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            font-weight: 900;
+            font-size: 13px;
+            letter-spacing: 3px;
+            font-family: 'Orbitron', sans-serif;
+            animation: urgent-label-flash 0.5s infinite;
+            white-space: nowrap;
+            min-height: 44px;
+        }
+        @keyframes urgent-label-flash {
+            0%, 100% { background: #ff0000; }
+            50% { background: #cc0000; }
+        }
+
+        .urgent-content {
+            flex: 1; overflow: hidden; position: relative; height: 100%;
+        }
+        .urgent-scroll {
+            display: flex; align-items: center; height: 100%;
+            animation: urgent-ticker-scroll 30s linear infinite;
+            white-space: nowrap;
+        }
+        @keyframes urgent-ticker-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .urgent-text {
+            color: #fff; font-size: 14px; font-weight: bold;
+            padding: 0 40px; display: inline-flex; align-items: center; gap: 10px;
+            text-shadow: 0 0 10px rgba(255,0,0,0.5);
+        }
+        .urgent-text::before { content: "⚠"; color: var(--primary); font-size: 16px; }
+        .urgent-text .urgent-separator { color: var(--primary); margin: 0 10px; }
+
+        /* ===== LIVE TV PANEL ===== */
+        .live-tv-panel { flex-shrink: 0; }
+        .tv-tabs { display: flex; gap: 2px; padding: 4px; flex-wrap: wrap; }
+        .tv-tab {
+            flex: 1;
+            background: transparent;
+            border: 1px solid var(--dim-red);
+            color: var(--text-dim);
+            font-size: 8px;
+            padding: 4px 2px;
+            cursor: pointer;
+            text-align: center;
+            font-family: 'Share Tech Mono', monospace;
+            letter-spacing: 1px;
+            transition: all 0.2s;
+            clip-path: none;
+            min-width: 60px;
+        }
+        .tv-tab:hover { border-color: var(--primary); color: var(--primary); }
+        .tv-tab.active { background: var(--primary); color: #000; border-color: var(--primary); }
+        .tv-frame-container { position: relative; width: 100%; padding-top: 56.25%; background: #000; }
+        .tv-frame-container iframe {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;
+        }
+        .tv-offline {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            color: var(--dim-red); font-family: 'Share Tech Mono', monospace; font-size: 11px;
+            background: #050000;
+        }
+        .tv-offline .tv-static {
+            width: 40px; height: 40px; margin-bottom: 8px;
+            background: repeating-linear-gradient(0deg, #111 0px, #111 2px, #000 2px, #000 4px);
+            animation: tv-static 0.1s steps(3) infinite;
+        }
+        @keyframes tv-static { 0% { opacity: 0.8; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
+
+        /* ===== NEWS TICKER ===== */
         .news-ticker {
             grid-column: 1 / -1;
             background: var(--dark-red);
@@ -653,6 +853,22 @@
         button.secondary { border-color: #444; color: #444; }
         button.secondary:hover { border-color: var(--primary); color: var(--primary); background: transparent; }
 
+        /* Language switcher */
+        .lang-switcher { display: flex; gap: 2px; padding: 4px 8px; }
+        .lang-btn {
+            flex: none;
+            background: transparent;
+            border: 1px solid var(--dim-red);
+            color: var(--text-dim);
+            font-size: 9px;
+            padding: 3px 6px;
+            cursor: pointer;
+            font-family: 'Share Tech Mono', monospace;
+            clip-path: none;
+        }
+        .lang-btn:hover { border-color: var(--primary); color: var(--primary); background: transparent; }
+        .lang-btn.active { background: var(--primary); color: #000; border-color: var(--primary); }
+
         /* Mobile & Overlay Styles */
         .how-to-use-overlay, .settings-overlay, .connection-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); z-index: 2000; display: none; justify-content: center; align-items: center; }
         .how-to-use-overlay.visible, .settings-overlay.visible, .connection-overlay.visible { display: flex; }
@@ -699,7 +915,7 @@
         .download-btn.secondary { background: #333; color: #fff; border: 1px solid #555; }
         .download-btn.secondary:hover { background: #555; box-shadow: none; transform: none; }
 
-        .close-btn { position: absolute; top: 12px; right: 12px; background: transparent; border: 2px solid #000; color: #000; width: 30px; height: 30px; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; }
+        .close-btn { position: absolute; top: 12px; right: 12px; background: transparent; border: 2px solid #000; color: #000; width: 30px; height: 30px; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; clip-path: none; flex: none; }
         .close-btn:hover { background: #000; color: var(--primary); }
 
         .settings-panel { padding: 25px; }
@@ -731,6 +947,7 @@
             font-size: 20px;
             padding: 0;
             clip-path: none;
+            flex: none;
         }
 
         /* Connection Panel Specific */
@@ -738,14 +955,20 @@
         .connection-panel { padding: 0; text-align: center; }
         .connection-panel .inner { padding: 30px; }
         .connection-panel p { color: #aaa; font-size: 13px; margin-bottom: 20px; font-family: 'Share Tech Mono', monospace; }
-        .connection-panel input { width: 100%; background: #000; border: 1px solid var(--primary); color: #fff; padding: 15px; font-family: var(--font-code); font-size: 16px; margin-bottom: 20px; text-align: center; }
+        .connection-panel input { width: 100%; background: #000; border: 1px solid var(--primary); color: #fff; padding: 15px; font-family: 'Share Tech Mono', monospace; font-size: 16px; margin-bottom: 20px; text-align: center; }
         .connection-panel input::placeholder { color: #550000; }
+
+        /* News source status */
+        .source-status { font-family: 'Share Tech Mono', monospace; font-size: 9px; color: var(--text-dim); padding: 4px 8px; }
+        .source-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 4px; }
+        .source-dot.online { background: var(--primary); box-shadow: 0 0 6px var(--primary); }
+        .source-dot.offline { background: #333; }
 
         /* Mobile Specific Styles */
         @media (max-width: 900px) {
             .app-container {
                 grid-template-columns: 1fr;
-                grid-template-rows: 55px 1fr 35px;
+                grid-template-rows: 55px 1fr auto 35px;
                 padding: 0;
                 gap: 0;
             }
@@ -805,6 +1028,9 @@
             .earth-info .value { font-size: 18px; }
             .rotation-indicator { display: none; }
             .hud-data { top: 15px; font-size: 8px; }
+
+            .news-card-image { height: 120px; }
+            .urgent-label { font-size: 10px; padding: 0 8px; letter-spacing: 1px; }
         }
 
         @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; } }
@@ -816,6 +1042,8 @@
     <audio id="snd-alert" src="/assets/alert.wav" preload="auto"></audio>
     <audio id="snd-tick" src="/assets/tick.wav" preload="auto"></audio>
     <audio id="snd-target" src="/assets/tick.wav" preload="auto"></audio>
+    <audio id="snd-urgent" src="../assets/urgent.wav" preload="auto"></audio>
+    <audio id="snd-theme" src="../../assets/urgenttheme.mp3" preload="auto" loop></audio>
 
     <div class="app-container">
         <div class="header">
@@ -823,13 +1051,14 @@
                 <div class="logo-globe"></div>
                 <div class="header-title">
                     <h1>GLOBAL <span>NEYDRA</span> NEWS</h1>
-                    <div class="header-subtitle">[ beta version ! ]</div>
+                    <div class="header-subtitle">[ LIVE INTELLIGENCE FEED ]</div>
                 </div>
             </div>
             <div class="header-stats">
                 <div class="stat-item"><div class="stat-value" id="stat-breaking">0</div><div class="stat-label">BREAKING</div></div>
                 <div class="stat-item"><div class="stat-value" id="stat-total">0</div><div class="stat-label">ARTICLES</div></div>
                 <div class="stat-item"><div class="stat-value" id="stat-countries">0</div><div class="stat-label">COUNTRIES</div></div>
+                <div class="stat-item"><div class="stat-value" id="stat-sources">0</div><div class="stat-label">SOURCES</div></div>
             </div>
             <div class="live-badge"><div class="live-dot"></div>LIVE</div>
             <!-- Mobile Menu Button -->
@@ -837,11 +1066,11 @@
         </div>
 
         <div class="sidebar-left">
-            <div class="panel country-list">
+            <div class="panel country-list" style="flex: 0 0 auto; max-height: 140px;">
                 <div class="panel-header"><span>WATCHED REGIONS</span><span id="watched-count">0</span></div>
                 <div class="panel-content" id="watched-countries"><div style="color: var(--text-dim); text-align: center; padding: 15px; font-size: 11px;">[ NO REGIONS SELECTED ]</div></div>
             </div>
-            <div class="panel">
+            <div class="panel" style="flex: 0 0 auto;">
                 <div class="panel-header"><span>NEWS CATEGORIES</span></div>
                 <div class="panel-content">
                     <div class="control-row" style="flex-wrap: wrap; gap: 4px;">
@@ -855,18 +1084,42 @@
                     </div>
                 </div>
             </div>
-            <div class="panel">
-                <div class="panel-header">SYSTEM STATUS</div>
+            <!-- LIVE TV PANEL -->
+            <div class="panel live-tv-panel" style="flex: 1; min-height: 0;">
+                <div class="panel-header"><span>📡 LIVE TV</span><span id="tv-status">STREAMING</span></div>
+                <div class="tv-tabs" id="tv-tabs">
+                    <div class="tv-tab active" onclick="switchTV(0)">AJ EN</div>
+                    <div class="tv-tab" onclick="switchTV(1)">FR24 EN</div>
+                    <div class="tv-tab" onclick="switchTV(2)">DW</div>
+                    <div class="tv-tab" onclick="switchTV(3)">AJ AR</div>
+                </div>
+                <div class="tv-frame-container" id="tv-container">
+                    <iframe id="tv-frame" src="https://www.youtube.com/embed/live_stream?channel=UCNye-wNBqNL5ZzHSJj3l8Bg&autoplay=1&mute=1&playsinline=1" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
+                </div>
+            </div>
+            <!-- SYSTEM CONTROLS -->
+            <div class="panel" style="flex: 0 0 auto;">
+                <div class="panel-header">SYSTEM CONTROLS</div>
                 <div class="controls">
-                    <div class="control-row"><button onclick="refreshNews()">REFRESH</button><button class="secondary" onclick="showSettings()">SETTINGS</button></div>
+                    <div class="control-row"><button onclick="refreshNews()">⟳ REFRESH</button><button class="secondary" onclick="showSettings()">⚙ SETTINGS</button></div>
                     <div class="control-row"><button id="btn-breaking" onclick="toggleBreakingOnly()">BREAKING ONLY</button></div>
-                    <div class="control-row"><button onclick="showHowToUse()">HOW TO USE</button></div>
+                    <div class="control-row"><button onclick="showHowToUse()">? HOW TO USE</button><button class="secondary" onclick="showLegacyConnect()">LEGACY MODE</button></div>
+                </div>
+                <div class="source-status" id="source-status">
+                    <span class="source-dot online"></span> GDELT 
+                    <span class="source-dot online"></span> RSS 
+                    <span class="source-dot online"></span> AUTO-REFRESH: 60s
                 </div>
             </div>
         </div>
 
         <div class="main-view">
             <div class="earth-container panel">
+                <!-- CesiumJS Globe (New) -->
+                <div id="cesium-container"></div>
+                <div class="cesium-red-overlay"></div>
+                
+                <!-- Three.js Canvas (Legacy - hidden by default) -->
                 <canvas id="earth-canvas"></canvas>
                 
                 <div class="hud-overlay">
@@ -883,6 +1136,9 @@
                     <div class="rotation-indicator"><div class="rotation-speed">ZOOM: <span id="rotation-speed">1x</span></div><div class="speed-bar"><div class="speed-fill" id="speed-fill"></div></div></div>
                     <div class="coords-display"><div>LAT: <span class="lat" id="coord-lat">0.00</span></div><div>LON: <span class="lon" id="coord-lon">0.00</span></div></div>
                 </div>
+
+                <!-- Earth Mode Toggle -->
+                <button class="earth-mode-toggle" id="earth-mode-btn" onclick="toggleEarthMode()">⬡ WIREFRAME MODE</button>
 
                 <!-- Target Indicator -->
                 <div class="target-indicator" id="target-indicator">
@@ -932,7 +1188,23 @@
                     <!-- Close button for mobile sidebar -->
                     <button class="close-btn" style="display:none; position:absolute; right:5px; top:5px; width:25px; height:25px; border-color:var(--primary); color:var(--primary);" onclick="toggleMobileSidebar()">X</button>
                 </div>
+                <!-- Language switcher -->
+                <div class="lang-switcher">
+                    <button class="lang-btn active" onclick="switchLang('en')">EN</button>
+                    <button class="lang-btn" onclick="switchLang('fr')">FR</button>
+                    <button class="lang-btn" onclick="switchLang('ar')">AR</button>
+                    <button class="lang-btn" onclick="switchLang('es')">ES</button>
+                    <button class="lang-btn" onclick="switchLang('de')">DE</button>
+                </div>
                 <div class="panel-content" id="news-feed"><div style="color: var(--text-dim); text-align: center; padding: 15px; font-size: 11px;">[ CONNECTING TO NEWS NETWORK... ]</div></div>
+            </div>
+        </div>
+
+        <!-- URGENT BAR -->
+        <div class="urgent-bar" id="urgent-bar">
+            <div class="urgent-label">⚠ URGENT</div>
+            <div class="urgent-content">
+                <div class="urgent-scroll" id="urgent-scroll"></div>
             </div>
         </div>
 
@@ -960,17 +1232,19 @@
         </div>
     </div>
 
-    <!-- CONNECTION OVERLAY -->
+    <!-- CONNECTION OVERLAY (Legacy - kept as optional) -->
     <div class="connection-overlay" id="connection-overlay">
         <div class="connection-panel">
-            <h2>CONNECT TO SERVER</h2>
+            <h2>LEGACY MODE — CONNECT TO SERVER</h2>
+            <button class="close-btn" onclick="hideLegacyConnect()" style="color:#000; border-color:#000;">X</button>
             <div class="inner">
-                <p>Enter your LocalTunnel URL to connect to the Global News Engine.</p>
+                <p>This is the legacy backend connection mode. Enter your LocalTunnel URL to connect to the old backend engine.</p>
                 <input type="text" id="url-input" placeholder="https://your-url.loca.lt">
                 <button onclick="initializeConnection()" style="width: 100%; padding: 15px;">CONNECT</button>
                 <p style="margin-top: 15px; font-size: 11px; color: #666;">
                     Run <span style="color: var(--primary);">npx localtunnel --port 8000</span> in your terminal to generate a URL.
                 </p>
+                <button onclick="hideLegacyConnect()" style="width: 100%; margin-top: 10px; padding: 10px;" class="secondary">CLOSE — USE FREE SOURCES INSTEAD</button>
             </div>
         </div>
     </div>
@@ -980,70 +1254,36 @@
             <div class="how-to-use-header">[ HOW TO USE - GLOBAL NEYDRA NEWS ]</div>
             <button class="close-btn" onclick="hideHowToUse()">X</button>
             <div class="how-to-use-content">
+                <h3>AUTOMATIC MODE (Default)</h3>
+                <p>The news feed automatically fetches news from multiple free sources worldwide. No setup required!</p>
+                <ul>
+                    <li><span class="step-number">1</span><div class="instruction-content"><strong>Browse News</strong><p>Articles load automatically from GDELT, BBC, Reuters, Al Jazeera, and more.</p></div></li>
+                    <li><span class="step-number">2</span><div class="instruction-content"><strong>Interact with the Globe</strong><p>Click and drag the 3D CesiumJS earth. Click news articles to fly to their location.</p></div></li>
+                    <li><span class="step-number">3</span><div class="instruction-content"><strong>Watch Live TV</strong><p>Switch between Al Jazeera, France 24, and DW News live streams in the left panel.</p></div></li>
+                    <li><span class="step-number">4</span><div class="instruction-content"><strong>Filter News</strong><p>Use category buttons (WORLD, TECH, BIZ, etc.) and language switcher (EN, FR, AR, ES, DE).</p></div></li>
+                    <li><span class="step-number">5</span><div class="instruction-content"><strong>Urgent Alerts</strong><p>Breaking news triggers the red URGENT bar at the bottom with an alert sound.</p></div></li>
+                </ul>
+
+                <h3>KEYBOARD SHORTCUTS</h3>
+                <ul>
+                    <li><span class="step-number">R</span><div class="instruction-content"><strong>Refresh</strong><p>Force refresh all news sources.</p></div></li>
+                    <li><span class="step-number">F</span><div class="instruction-content"><strong>Fullscreen</strong><p>Toggle fullscreen mode for the earth view.</p></div></li>
+                    <li><span class="step-number">M</span><div class="instruction-content"><strong>Mute</strong><p>Toggle alert sounds on/off.</p></div></li>
+                    <li><span class="step-number">W</span><div class="instruction-content"><strong>Wireframe</strong><p>Toggle between CesiumJS and legacy wireframe earth.</p></div></li>
+                </ul>
+
+                <h3>LEGACY BACKEND MODE (Optional)</h3>
                 <ul>
                     <li>
-                        <span class="step-number">1</span>
+                        <span class="step-number">!</span>
                         <div class="instruction-content">
-                            <strong>Install Node.js</strong>
-                            <p>Node.js is required to create the tunnel link. Download the LTS version for your system.</p>
-                            <div style="margin-top:8px;">
-                                <a href="https://nodejs.org/en/download/" target="_blank" class="download-btn secondary">
-                                    ⬇ DOWNLOAD NODE.JS
-                                </a>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <span class="step-number">2</span>
-                        <div class="instruction-content">
-                            <strong>Download NEYDRA NEWS Package</strong>
-                            <p>Download the bot files and extract them to a folder on your PC.</p>
+                            <strong>Use Legacy Backend</strong>
+                            <p>Click "LEGACY MODE" in controls to connect to the old backend server via LocalTunnel.</p>
                             <div style="margin-top:8px;">
                                 <a href="/downloads/neydra-news-package.rar" class="download-btn secondary" download>
                                     ⬇ DOWNLOAD NEWS PACKAGE
                                 </a>
                             </div>
-                        </div>
-                    </li>
-                    <li>
-                        <span class="step-number">3</span>
-                        <div class="instruction-content">
-                            <strong>Run Backend Engine</strong>
-                            <p>Open the extracted folder and double-click the application below to start:</p>
-                            <div class="cmd-box">
-                                <code>global_neydra_news.exe</code>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <span class="step-number">4</span>
-                        <div class="instruction-content">
-                            <strong>Create Public URL</strong>
-                            <p>Open a <strong>NEW</strong> Command Prompt and run the tunnel command. Copy the URL it gives you.</p>
-                            <div class="cmd-box">
-                                <code>npx localtunnel --port 8000</code>
-                                <button class="download-btn secondary" onclick="copyCommand('npx localtunnel --port 8000')">COPY</button>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <span class="step-number">5</span>
-                        <div class="instruction-content">
-                            <strong>Unlock Tunnel (Password)</strong>
-                            <p>Open the generated URL in your browser. It will ask for a password.</p>
-                            <p><strong>Password = Your Public IP.</strong> Click the button below to find your IP, then paste it into the tunnel page.</p>
-                            <div style="margin-top:8px;">
-                                <a href="https://www.whatismyip.com/" target="_blank" class="download-btn secondary" style="background: #660000;">
-                                    🔍 FIND MY IP ADDRESS
-                                </a>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <span class="step-number">6</span>
-                        <div class="instruction-content">
-                            <strong>Connect Dashboard</strong>
-                            <p>Once the tunnel page shows "status: ONLINE", paste the URL here and click Connect.</p>
                         </div>
                     </li>
                 </ul>
@@ -1067,27 +1307,78 @@
     <script>
         /**
          * =========================================
-         * GLOBAL NEYDRA NEWS
-         * Clean Wireframe Earth - Red Lines Only
-         * Mobile Fullscreen Optimized
+         * GLOBAL NEYDRA NEWS v2.0
+         * CesiumJS Earth + Free Multi-Source News
+         * Live TV + Urgent Bar + Big Image Cards
          * =========================================
          */
 
-        let API_URL = null; 
-        
+        // =====================================================
+        // CONFIGURATION
+        // =====================================================
+        const CESIUM_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzYmZhZGRhMi1iMzlkLTRmNGQtOTg3YS1jNGUzMTZkYzc4M2UiLCJpZCI6NDE3MjU4LCJpYXQiOjE3NzYwMjk3Nzl9.kz2uZdvgfSlAtfCro3ObpRBaj1u-7ZmgRWh0XK6ECXY';
+
+        const TV_CHANNELS = [
+            { name: 'AJ EN', label: 'Al Jazeera English', src: 'https://www.youtube.com/embed/live_stream?channel=UCNye-wNBqNL5ZzHSJj3l8Bg&autoplay=1&mute=1&playsinline=1' },
+            { name: 'FR24 EN', label: 'France 24 English', src: 'https://www.youtube.com/embed/live_stream?channel=UCQfwfsi5VrQ8yKZ-UWmAEFg&autoplay=1&mute=1&playsinline=1' },
+            { name: 'DW', label: 'DW News', src: 'https://www.youtube.com/embed/live_stream?channel=UCknLrEdhRCp1a-MRaM-28NA&autoplay=1&mute=1&playsinline=1' },
+            { name: 'AJ AR', label: 'Al Jazeera Arabic', src: 'https://www.youtube.com/embed/live_stream?channel=UCBvqHMn1Gj1aA_fXleH-MBw&autoplay=1&mute=1&playsinline=1' }
+        ];
+
+        const RSS_FEEDS = {
+            en: [
+                { name: 'BBC', url: 'https://api.rss2json.com/v1/api.json?rss_url=http://feeds.bbci.co.uk/news/rss.xml' },
+                { name: 'Al Jazeera', url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.aljazeera.com/xml/rss/all.xml' },
+                { name: 'CNN', url: 'https://api.rss2json.com/v1/api.json?rss_url=http://rss.cnn.com/rss/edition.rss' },
+                { name: 'Reuters', url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.reutersagency.com/feed/' },
+                { name: 'DW', url: 'https://api.rss2json.com/v1/api.json?rss_url=https://rss.dw.com/rdf/rss-en-all' },
+            ],
+            fr: [
+                { name: 'France 24', url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.france24.com/fr/rss' },
+                { name: 'RFI', url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.rfi.fr/fr/rss' },
+            ],
+            ar: [
+                { name: 'Al Jazeera AR', url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.aljazeera.net/aljazeerarss/a7c186be-1baa-4bd4-9d80-a84db769f779/73d0e1b4-532f-45ef-b135-bfdff8b8cab9' },
+            ],
+            es: [
+                { name: 'BBC Mundo', url: 'https://api.rss2json.com/v1/api.json?rss_url=https://feeds.bbci.co.uk/mundo/rss.xml' },
+            ],
+            de: [
+                { name: 'DW DE', url: 'https://api.rss2json.com/v1/api.json?rss_url=https://rss.dw.com/rdf/rss-de-all' },
+            ]
+        };
+
+        const URGENT_KEYWORDS = ['breaking', 'urgent', 'just in', 'developing', 'live updates', 'flash', 'alert', 'emergency', 'killed', 'attack', 'explosion', 'earthquake', 'war', 'crisis'];
+
+        // =====================================================
+        // STATE
+        // =====================================================
+        let API_URL = null; // Legacy backend URL
         let watchedCountries = [];
-        let categories = ["world"];
+        let categories = ['world'];
         let breakingOnly = false;
         let currentArticles = [];
         let alertTimeout = null;
         let lastBreakingId = null;
+        let currentLang = 'en';
+        let currentTVChannel = 0;
+        let soundEnabled = true;
+        let earthMode = 'cesium'; // 'cesium' or 'threejs'
+        let lastUrgentTitle = '';
+        let newsRefreshInterval = null;
+        let allFetchedArticles = [];
+        let activeSources = 0;
 
-        // Three.js variables
+        // Three.js legacy variables
         let scene, camera, renderer, earth, atmosphere;
         let isDragging = false;
         let previousMousePosition = { x: 0, y: 0 };
         let autoRotate = true;
         let earthMarkers = [];
+
+        // CesiumJS variables
+        let cesiumViewer = null;
+        let cesiumEntities = [];
 
         // Country coordinates
         window.countryCoords = {
@@ -1139,72 +1430,213 @@
             "kenya": {"lat": -1.0, "lon": 38.0, "code": "KE"},
             "afghanistan": {"lat": 34.0, "lon": 66.0, "code": "AF"},
             "gaza": {"lat": 31.0, "lon": 34.0, "code": "PS"},
-            "palestine": {"lat": 31.0, "lon": 35.0, "code": "PS"}
+            "palestine": {"lat": 31.0, "lon": 35.0, "code": "PS"},
+            "lebanon": {"lat": 33.8, "lon": 35.8, "code": "LB"},
+            "jordan": {"lat": 31.0, "lon": 36.0, "code": "JO"},
+            "libya": {"lat": 27.0, "lon": 17.0, "code": "LY"},
+            "sudan": {"lat": 15.0, "lon": 30.0, "code": "SD"},
+            "yemen": {"lat": 15.5, "lon": 48.0, "code": "YE"},
+            "colombia": {"lat": 4.0, "lon": -72.0, "code": "CO"},
+            "venezuela": {"lat": 7.0, "lon": -66.0, "code": "VE"},
+            "chile": {"lat": -33.0, "lon": -70.0, "code": "CL"},
+            "peru": {"lat": -10.0, "lon": -76.0, "code": "PE"},
+            "ethiopia": {"lat": 9.0, "lon": 38.7, "code": "ET"},
+            "somalia": {"lat": 6.0, "lon": 46.0, "code": "SO"},
+            "myanmar": {"lat": 21.0, "lon": 96.0, "code": "MM"},
+            "taiwan": {"lat": 23.5, "lon": 121.0, "code": "TW"},
+            "netherlands": {"lat": 52.0, "lon": 5.0, "code": "NL"},
+            "belgium": {"lat": 50.8, "lon": 4.3, "code": "BE"},
+            "sweden": {"lat": 62.0, "lon": 15.0, "code": "SE"},
+            "norway": {"lat": 62.0, "lon": 10.0, "code": "NO"},
+            "finland": {"lat": 64.0, "lon": 26.0, "code": "FI"},
+            "switzerland": {"lat": 47.0, "lon": 8.0, "code": "CH"},
+            "austria": {"lat": 47.3, "lon": 13.3, "code": "AT"},
+            "portugal": {"lat": 39.4, "lon": -8.2, "code": "PT"},
+            "cuba": {"lat": 22.0, "lon": -80.0, "code": "CU"},
+            "north korea": {"lat": 40.0, "lon": 127.0, "code": "KP"}
         };
 
+        // =====================================================
+        // SOUND SYSTEM
+        // =====================================================
         function sfx(type) {
+            if (!soundEnabled) return;
             const el = document.getElementById('snd-' + type);
             if (el) { el.currentTime = 0; el.play().catch(function() {}); }
         }
 
+        function playUrgentSound() {
+            if (!soundEnabled) return;
+            const el = document.getElementById('snd-urgent');
+            if (el) { el.currentTime = 0; el.play().catch(function() {}); }
+        }
+
         function copyCommand(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                alert("Command copied to clipboard: " + text);
-            }).catch(err => {
+            navigator.clipboard.writeText(text).then(function() {
+                console.log("Command copied: " + text);
+            }).catch(function(err) {
                 console.error('Failed to copy: ', err);
             });
         }
 
-        function initializeConnection() {
-            const urlInput = document.getElementById('url-input');
-            let url = urlInput.value.trim();
+        // =====================================================
+        // CESIUMJS EARTH (NEW)
+        // =====================================================
+        function initCesium() {
+            try {
+                Cesium.Ion.defaultAccessToken = CESIUM_TOKEN;
 
-            if (!url) {
-                alert("Please enter a valid URL.");
-                return;
-            }
-
-            if (url.endsWith("/")) {
-                url = url.slice(0, -1);
-            }
-
-            if (!url.startsWith("http")) {
-                alert("URL must start with http:// or https://");
-                return;
-            }
-
-            API_URL = url;
-            
-            console.log(`Connecting to ${API_URL}...`);
-            
-            fetch(`${API_URL}/`)
-                .then(res => res.json())
-                .then(data => {
-                    if (data.status === "ONLINE") {
-                        console.log("CONNECTION ESTABLISHED");
-                        document.getElementById('connection-overlay').classList.remove('visible');
-                        sfx('engage');
-                        // Start news fetching now that we have a URL
-                        fetchNews();
-                        setInterval(fetchNews, 30000);
-                    } else {
-                        alert("Connected but server status unknown.");
+                cesiumViewer = new Cesium.Viewer('cesium-container', {
+                    animation: false,
+                    timeline: false,
+                    baseLayerPicker: false,
+                    fullscreenButton: false,
+                    vrButton: false,
+                    geocoder: false,
+                    homeButton: false,
+                    infoBox: false,
+                    selectionIndicator: false,
+                    navigationHelpButton: false,
+                    sceneModePicker: false,
+                    projectionPicker: false,
+                    creditContainer: document.createElement('div'),
+                    skyBox: false,
+                    skyAtmosphere: false,
+                    orderIndependentTranslucency: false,
+                    contextOptions: {
+                        webgl: { alpha: false }
                     }
-                })
-                .catch(err => {
-                    console.error(err);
-                    alert("Could not connect to the server. Make sure LocalTunnel is running and URL is correct.");
                 });
+
+                // Dark sky
+                try { cesiumViewer.scene.backgroundColor = Cesium.Color.BLACK; } catch(e){}
+                try { if (cesiumViewer.scene.sun) cesiumViewer.scene.sun.show = false; } catch(e){}
+                try { if (cesiumViewer.scene.moon) cesiumViewer.scene.moon.show = false; } catch(e){}
+                try { if (cesiumViewer.scene.fog) cesiumViewer.scene.fog.enabled = false; } catch(e){}
+                try {
+                    if (cesiumViewer.scene.globe) {
+                        cesiumViewer.scene.globe.enableLighting = false;
+                        cesiumViewer.scene.globe.showGroundAtmosphere = false;
+                    }
+                } catch(e){}
+
+                // Initial camera position
+                cesiumViewer.camera.setView({
+                    destination: Cesium.Cartesian3.fromDegrees(10, 20, 20000000)
+                });
+
+                // Auto-rotate
+                cesiumViewer.clock.onTick.addEventListener(function() {
+                    if (autoRotate && cesiumViewer) {
+                        cesiumViewer.scene.camera.rotate(Cesium.Cartesian3.UNIT_Z, 0.0003);
+                    }
+                });
+
+                // Update coords on camera move
+                cesiumViewer.camera.changed.addEventListener(function() {
+                    updateCesiumCoords();
+                });
+
+                // Disable auto-rotate on user interaction 
+                var handler = new Cesium.ScreenSpaceEventHandler(cesiumViewer.scene.canvas);
+                handler.setInputAction(function() {
+                    autoRotate = false;
+                    setTimeout(function() { autoRotate = true; }, 5000);
+                }, Cesium.ScreenSpaceEventType.LEFT_DOWN);
+
+                // Double-click for fullscreen
+                handler.setInputAction(function() {
+                    var container = document.querySelector('.earth-container');
+                    if (document.fullscreenElement) {
+                        document.exitFullscreen();
+                    } else {
+                        container.requestFullscreen().catch(function(){});
+                    }
+                }, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
+
+                console.log('[NEYDRA] CesiumJS initialized');
+            } catch (e) {
+                console.error('[NEYDRA] CesiumJS init failed:', e);
+                // Fallback to Three.js
+                toggleEarthMode();
+            }
+        }
+
+        function updateCesiumCoords() {
+            if (!cesiumViewer) return;
+            try {
+                var carto = cesiumViewer.camera.positionCartographic;
+                var lat = Cesium.Math.toDegrees(carto.latitude);
+                var lon = Cesium.Math.toDegrees(carto.longitude);
+                document.getElementById('coord-lat').textContent = lat.toFixed(2);
+                document.getElementById('coord-lon').textContent = lon.toFixed(2);
+            } catch(e) {}
+        }
+
+        function flyToCesium(lat, lon, countryName) {
+            if (!cesiumViewer) return;
+            autoRotate = false;
+            sfx('engage');
+
+            cesiumViewer.camera.flyTo({
+                destination: Cesium.Cartesian3.fromDegrees(lon, lat, 3000000),
+                orientation: {
+                    heading: 0,
+                    pitch: Cesium.Math.toRadians(-45),
+                    roll: 0
+                },
+                duration: 2.5,
+                complete: function() {
+                    document.getElementById('current-country').textContent = countryName ? countryName.toUpperCase() : 'GLOBAL';
+                    document.getElementById('hud-data').innerHTML = 'TARGET: ' + (countryName || 'UNKNOWN').toUpperCase() + '<br>LOCK: ACQUIRED<br>MODE: SURVEILLANCE<br>SEC: PRIORITY';
+                    setTimeout(function() {
+                        autoRotate = true;
+                        document.getElementById('hud-data').innerHTML = 'SAT: NEYDRA-1<br>RES: 15m<br>MODE: THERMAL-IR<br>SEC: CLASSIFIED';
+                    }, 5000);
+                }
+            });
+        }
+
+        function addCesiumMarker(lat, lon, isBreaking, title) {
+            if (!cesiumViewer) return;
+            var entity = cesiumViewer.entities.add({
+                position: Cesium.Cartesian3.fromDegrees(lon, lat),
+                point: {
+                    pixelSize: isBreaking ? 10 : 6,
+                    color: Cesium.Color.RED,
+                    outlineColor: isBreaking ? Cesium.Color.WHITE : Cesium.Color.fromCssColorString('#550000'),
+                    outlineWidth: isBreaking ? 2 : 1,
+                    heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+                    scaleByDistance: new Cesium.NearFarScalar(1.5e2, 2.0, 1.5e7, 0.5)
+                },
+                label: title ? {
+                    text: title.substring(0, 30) + (title.length > 30 ? '...' : ''),
+                    font: '10px Share Tech Mono',
+                    fillColor: Cesium.Color.fromCssColorString('#ff6666'),
+                    outlineColor: Cesium.Color.BLACK,
+                    outlineWidth: 2,
+                    style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+                    pixelOffset: new Cesium.Cartesian2(0, -15),
+                    scaleByDistance: new Cesium.NearFarScalar(1.5e2, 1.0, 1.5e7, 0.0),
+                    distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 8000000)
+                } : undefined
+            });
+            cesiumEntities.push(entity);
+        }
+
+        function clearCesiumMarkers() {
+            if (!cesiumViewer) return;
+            cesiumEntities.forEach(function(e) { cesiumViewer.entities.remove(e); });
+            cesiumEntities = [];
         }
 
         // =====================================================
-        // THREE.JS EARTH - CLEAN WIREFRAME ONLY
+        // THREE.JS EARTH (LEGACY - kept for optional wireframe mode)
         // =====================================================
-
         function initEarth() {
-            const container = document.getElementById('earth-canvas');
-            const width = container.clientWidth;
-            const height = container.clientHeight;
+            var container = document.getElementById('earth-canvas');
+            var width = container.clientWidth || 800;
+            var height = container.clientHeight || 600;
 
             scene = new THREE.Scene();
             scene.background = new THREE.Color(0x000000);
@@ -1220,10 +1652,10 @@
             createAtmosphere();
             createStars();
 
-            const ambientLight = new THREE.AmbientLight(0x220000, 0.5);
+            var ambientLight = new THREE.AmbientLight(0x220000, 0.5);
             scene.add(ambientLight);
 
-            const pointLight = new THREE.PointLight(0xff0000, 1.0, 100);
+            var pointLight = new THREE.PointLight(0xff0000, 1.0, 100);
             pointLight.position.set(5, 3, 5);
             scene.add(pointLight);
 
@@ -1235,19 +1667,13 @@
             container.addEventListener('touchmove', onTouchMove, { passive: false });
             container.addEventListener('touchend', onTouchEnd);
             container.addEventListener('wheel', onWheel, { passive: false });
-            
-            window.addEventListener('resize', onWindowResize);
 
-            setTimeout(function() {
-                document.getElementById('loading-overlay').classList.add('hidden');
-            }, 1500);
-
-            animate();
+            animateThreeJS();
         }
 
         function createWireframeEarth() {
-            const geometry = new THREE.SphereGeometry(1, 64, 64);
-            const material = new THREE.MeshBasicMaterial({
+            var geometry = new THREE.SphereGeometry(1, 64, 64);
+            var material = new THREE.MeshBasicMaterial({
                 color: 0x050000,
                 transparent: true,
                 opacity: 0.9
@@ -1255,281 +1681,197 @@
             earth = new THREE.Mesh(geometry, material);
             scene.add(earth);
 
-            for (let lat = -80; lat <= 80; lat += 10) {
-                const latRad = lat * Math.PI / 180;
-                const radius = Math.cos(latRad) * 1.001;
-                const y = Math.sin(latRad) * 1.001;
-                
-                const points = [];
-                for (let lon = 0; lon <= 360; lon += 5) {
-                    const lonRad = lon * Math.PI / 180;
-                    points.push(new THREE.Vector3(
-                        -radius * Math.cos(lonRad),
-                        y,
-                        radius * Math.sin(lonRad)
-                    ));
+            for (var lat = -80; lat <= 80; lat += 10) {
+                var latRad = lat * Math.PI / 180;
+                var radius = Math.cos(latRad) * 1.001;
+                var y = Math.sin(latRad) * 1.001;
+                var points = [];
+                for (var lon = 0; lon <= 360; lon += 5) {
+                    var lonRad = lon * Math.PI / 180;
+                    points.push(new THREE.Vector3(-radius * Math.cos(lonRad), y, radius * Math.sin(lonRad)));
                 }
-                
-                const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
-                const lineMaterial = new THREE.LineBasicMaterial({
-                    color: 0xff0000,
-                    transparent: true,
-                    opacity: lat === 0 ? 0.5 : 0.15
-                });
-                const line = new THREE.Line(lineGeometry, lineMaterial);
+                var lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
+                var lineMaterial = new THREE.LineBasicMaterial({ color: 0xff0000, transparent: true, opacity: lat === 0 ? 0.5 : 0.15 });
+                var line = new THREE.Line(lineGeometry, lineMaterial);
                 earth.add(line);
             }
 
-            for (let lon = -180; lon < 180; lon += 15) {
-                const points = [];
-                const lonRad = lon * Math.PI / 180;
-                
-                for (let lat = -90; lat <= 90; lat += 5) {
-                    const latRad = lat * Math.PI / 180;
-                    const radius = Math.cos(latRad) * 1.001;
-                    const y = Math.sin(latRad) * 1.001;
-                    
-                    points.push(new THREE.Vector3(
-                        -radius * Math.cos(lonRad),
-                        y,
-                        radius * Math.sin(lonRad)
-                    ));
+            for (var lon2 = -180; lon2 < 180; lon2 += 15) {
+                var points2 = [];
+                var lonRad2 = lon2 * Math.PI / 180;
+                for (var lat2 = -90; lat2 <= 90; lat2 += 5) {
+                    var latRad2 = lat2 * Math.PI / 180;
+                    var radius2 = Math.cos(latRad2) * 1.001;
+                    var y2 = Math.sin(latRad2) * 1.001;
+                    points2.push(new THREE.Vector3(-radius2 * Math.cos(lonRad2), y2, radius2 * Math.sin(lonRad2)));
                 }
-                
-                const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
-                const lineMaterial = new THREE.LineBasicMaterial({
-                    color: 0xff0000,
-                    transparent: true,
-                    opacity: lon === 0 ? 0.5 : 0.15
-                });
-                const line = new THREE.Line(lineGeometry, lineMaterial);
-                earth.add(line);
+                var lineGeometry2 = new THREE.BufferGeometry().setFromPoints(points2);
+                var lineMaterial2 = new THREE.LineBasicMaterial({ color: 0xff0000, transparent: true, opacity: lon2 === 0 ? 0.5 : 0.15 });
+                var line2 = new THREE.Line(lineGeometry2, lineMaterial2);
+                earth.add(line2);
             }
 
-            const equatorGeometry = new THREE.RingGeometry(0.98, 1.02, 64);
-            const equatorMaterial = new THREE.MeshBasicMaterial({
-                color: 0xff0000,
-                transparent: true,
-                opacity: 0.4,
-                side: THREE.DoubleSide
-            });
-            const equator = new THREE.Mesh(equatorGeometry, equatorMaterial);
+            var equatorGeometry = new THREE.RingGeometry(0.98, 1.02, 64);
+            var equatorMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, transparent: true, opacity: 0.4, side: THREE.DoubleSide });
+            var equator = new THREE.Mesh(equatorGeometry, equatorMaterial);
             equator.rotation.x = Math.PI / 2;
             earth.add(equator);
 
-            const meridianGeometry = new THREE.RingGeometry(0.98, 1.02, 64);
-            const meridianMaterial = new THREE.MeshBasicMaterial({
-                color: 0xff0000,
-                transparent: true,
-                opacity: 0.4,
-                side: THREE.DoubleSide
-            });
-            const meridian = new THREE.Mesh(meridianGeometry, meridianMaterial);
+            var meridianGeometry = new THREE.RingGeometry(0.98, 1.02, 64);
+            var meridianMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, transparent: true, opacity: 0.4, side: THREE.DoubleSide });
+            var meridian = new THREE.Mesh(meridianGeometry, meridianMaterial);
             meridian.rotation.y = Math.PI / 2;
             earth.add(meridian);
 
-            const wireGeometry = new THREE.SphereGeometry(1.005, 32, 32);
-            const wireMaterial = new THREE.MeshBasicMaterial({
-                color: 0xff0000,
-                wireframe: true,
-                transparent: true,
-                opacity: 0.08
-            });
-            const wireframe = new THREE.Mesh(wireGeometry, wireMaterial);
+            var wireGeometry = new THREE.SphereGeometry(1.005, 32, 32);
+            var wireMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true, transparent: true, opacity: 0.08 });
+            var wireframe = new THREE.Mesh(wireGeometry, wireMaterial);
             earth.add(wireframe);
         }
 
         function createAtmosphere() {
-            const glowGeometry = new THREE.SphereGeometry(1.2, 32, 32);
-            const glowMaterial = new THREE.ShaderMaterial({
-                vertexShader: [
-                    'varying vec3 vNormal;',
-                    'void main() {',
-                    '    vNormal = normalize(normalMatrix * normal);',
-                    '    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);',
-                    '}'
-                ].join('\n'),
-                fragmentShader: [
-                    'varying vec3 vNormal;',
-                    'void main() {',
-                    '    float intensity = pow(0.4 - dot(vNormal, vec3(0, 0, 1.0)), 3.0);',
-                    '    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0) * intensity;',
-                    '}'
-                ].join('\n'),
+            var glowGeometry = new THREE.SphereGeometry(1.2, 32, 32);
+            var glowMaterial = new THREE.ShaderMaterial({
+                vertexShader: 'varying vec3 vNormal;\nvoid main() {\n    vNormal = normalize(normalMatrix * normal);\n    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\n}',
+                fragmentShader: 'varying vec3 vNormal;\nvoid main() {\n    float intensity = pow(0.4 - dot(vNormal, vec3(0, 0, 1.0)), 3.0);\n    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0) * intensity;\n}',
                 blending: THREE.AdditiveBlending,
                 side: THREE.BackSide,
                 transparent: true
             });
-            const glow = new THREE.Mesh(glowGeometry, glowMaterial);
+            var glow = new THREE.Mesh(glowGeometry, glowMaterial);
             scene.add(glow);
         }
 
         function createStars() {
-            const geometry = new THREE.BufferGeometry();
-            const positions = [];
-
-            for (let i = 0; i < 5000; i++) {
-                const x = (Math.random() - 0.5) * 300;
-                const y = (Math.random() - 0.5) * 300;
-                const z = (Math.random() - 0.5) * 300;
-                positions.push(x, y, z);
+            var geometry = new THREE.BufferGeometry();
+            var positions = [];
+            for (var i = 0; i < 5000; i++) {
+                positions.push((Math.random() - 0.5) * 300, (Math.random() - 0.5) * 300, (Math.random() - 0.5) * 300);
             }
-
             geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-
-            const material = new THREE.PointsMaterial({
-                size: 0.15,
-                color: 0xff3333,
-                transparent: true,
-                opacity: 0.4
-            });
-
-            const stars = new THREE.Points(geometry, material);
+            var material = new THREE.PointsMaterial({ size: 0.15, color: 0xff3333, transparent: true, opacity: 0.4 });
+            var stars = new THREE.Points(geometry, material);
             scene.add(stars);
         }
 
-        function onMouseDown(event) {
-            isDragging = true;
-            autoRotate = false;
-            previousMousePosition = { x: event.clientX, y: event.clientY };
-        }
-
+        function onMouseDown(event) { isDragging = true; autoRotate = false; previousMousePosition = { x: event.clientX, y: event.clientY }; }
         function onMouseMove(event) {
             if (!isDragging || !earth) return;
-
-            const deltaX = event.clientX - previousMousePosition.x;
-            const deltaY = event.clientY - previousMousePosition.y;
-
+            var deltaX = event.clientX - previousMousePosition.x;
+            var deltaY = event.clientY - previousMousePosition.y;
             earth.rotation.y += deltaX * 0.005;
             earth.rotation.x += deltaY * 0.005;
             earth.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, earth.rotation.x));
-
             previousMousePosition = { x: event.clientX, y: event.clientY };
-
             updateCoordinates();
         }
-
-        function onMouseUp() {
-            isDragging = false;
-            setTimeout(function() { autoRotate = true; }, 3000);
-        }
-
-        function onTouchStart(event) {
-            if (event.touches.length === 1) {
-                isDragging = true;
-                autoRotate = false;
-                previousMousePosition = { x: event.touches[0].clientX, y: event.touches[0].clientY };
-            }
-        }
-
+        function onMouseUp() { isDragging = false; setTimeout(function() { autoRotate = true; }, 3000); }
+        function onTouchStart(event) { if (event.touches.length === 1) { isDragging = true; autoRotate = false; previousMousePosition = { x: event.touches[0].clientX, y: event.touches[0].clientY }; } }
         function onTouchMove(event) {
-            if (!isDragging || !earth) return;
-            event.preventDefault();
-
-            const touch = event.touches[0];
-            const deltaX = touch.clientX - previousMousePosition.x;
-            const deltaY = touch.clientY - previousMousePosition.y;
-
-            earth.rotation.y += deltaX * 0.005;
-            earth.rotation.x += deltaY * 0.005;
+            if (!isDragging || !earth) return; event.preventDefault();
+            var touch = event.touches[0]; var deltaX = touch.clientX - previousMousePosition.x; var deltaY = touch.clientY - previousMousePosition.y;
+            earth.rotation.y += deltaX * 0.005; earth.rotation.x += deltaY * 0.005;
             earth.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, earth.rotation.x));
-
-            previousMousePosition = { x: touch.clientX, y: touch.clientY };
-            updateCoordinates();
+            previousMousePosition = { x: touch.clientX, y: touch.clientY }; updateCoordinates();
         }
-
-        function onTouchEnd() {
-            isDragging = false;
-            setTimeout(function() { autoRotate = true; }, 3000);
-        }
-
+        function onTouchEnd() { isDragging = false; setTimeout(function() { autoRotate = true; }, 3000); }
         function onWheel(event) {
-            event.preventDefault();
-            camera.position.z += event.deltaY * 0.003;
+            event.preventDefault(); camera.position.z += event.deltaY * 0.003;
             camera.position.z = Math.max(1.5, Math.min(8, camera.position.z));
-
-            const zoomLevel = Math.round((8 - camera.position.z) / 6.5 * 10);
+            var zoomLevel = Math.round((8 - camera.position.z) / 6.5 * 10);
             document.getElementById('rotation-speed').textContent = zoomLevel + 'x';
             document.getElementById('speed-fill').style.width = (zoomLevel * 10) + '%';
         }
 
-        function onWindowResize() {
-            const container = document.getElementById('earth-canvas');
-            const width = container.clientWidth;
-            const height = container.clientHeight;
-
-            camera.aspect = width / height;
-            camera.updateProjectionMatrix();
-            renderer.setSize(width, height);
-        }
-
         function updateCoordinates() {
             if (!earth) return;
-            const lat = -earth.rotation.x * (180 / Math.PI);
-            const lon = earth.rotation.y * (180 / Math.PI);
+            var lat = -earth.rotation.x * (180 / Math.PI);
+            var lon = earth.rotation.y * (180 / Math.PI);
             document.getElementById('coord-lat').textContent = lat.toFixed(2);
             document.getElementById('coord-lon').textContent = lon.toFixed(2);
         }
 
-        function animate() {
-            requestAnimationFrame(animate);
-
-            if (earth && autoRotate) {
-                earth.rotation.y += 0.001;
-            }
-
-            renderer.render(scene, camera);
+        function animateThreeJS() {
+            if (earthMode !== 'threejs') return;
+            requestAnimationFrame(animateThreeJS);
+            if (earth && autoRotate) { earth.rotation.y += 0.001; }
+            if (renderer && scene && camera) renderer.render(scene, camera);
         }
 
         function latLonToVector3(lat, lon, radius) {
             radius = radius || 1.02;
-            const phi = (90 - lat) * (Math.PI / 180);
-            const theta = (lon + 180) * (Math.PI / 180);
-            return new THREE.Vector3(
-                -radius * Math.sin(phi) * Math.cos(theta),
-                radius * Math.cos(phi),
-                radius * Math.sin(phi) * Math.sin(theta)
-            );
+            var phi = (90 - lat) * (Math.PI / 180);
+            var theta = (lon + 180) * (Math.PI / 180);
+            return new THREE.Vector3(-radius * Math.sin(phi) * Math.cos(theta), radius * Math.cos(phi), radius * Math.sin(phi) * Math.sin(theta));
         }
 
         function addNewsMarker(lat, lon, isBreaking) {
             if (!earth) return;
-
-            const position = latLonToVector3(lat, lon);
-            const color = isBreaking ? 0xff0000 : 0xff6600;
-
-            const markerGeometry = new THREE.SphereGeometry(0.015, 16, 16);
-            const markerMaterial = new THREE.MeshBasicMaterial({ color: color });
-            const marker = new THREE.Mesh(markerGeometry, markerMaterial);
+            var position = latLonToVector3(lat, lon);
+            var markerGeometry = new THREE.SphereGeometry(0.015, 16, 16);
+            var markerMaterial = new THREE.MeshBasicMaterial({ color: isBreaking ? 0xff0000 : 0xff6600 });
+            var marker = new THREE.Mesh(markerGeometry, markerMaterial);
             marker.position.copy(position);
             earth.add(marker);
             earthMarkers.push(marker);
         }
 
-        function clearMarkers() {
-            if (!earth) return;
-            earthMarkers.forEach(function(m) { earth.remove(m); });
-            earthMarkers = [];
+        function clearMarkers() { if (!earth) return; earthMarkers.forEach(function(m) { earth.remove(m); }); earthMarkers = []; }
+
+        // =====================================================
+        // EARTH MODE TOGGLE
+        // =====================================================
+        function toggleEarthMode() {
+            var cesiumEl = document.getElementById('cesium-container');
+            var redOverlay = document.querySelector('.cesium-red-overlay');
+            var threeCanvas = document.getElementById('earth-canvas');
+            var btn = document.getElementById('earth-mode-btn');
+
+            if (earthMode === 'cesium') {
+                earthMode = 'threejs';
+                cesiumEl.style.display = 'none';
+                redOverlay.style.display = 'none';
+                threeCanvas.style.display = 'block';
+                btn.textContent = '🌍 SATELLITE MODE';
+                if (!scene) initEarth();
+                animateThreeJS();
+                onWindowResize();
+            } else {
+                earthMode = 'cesium';
+                cesiumEl.style.display = 'block';
+                redOverlay.style.display = 'block';
+                threeCanvas.style.display = 'none';
+                btn.textContent = '⬡ WIREFRAME MODE';
+                if (!cesiumViewer) initCesium();
+            }
+        }
+
+        function onWindowResize() {
+            if (earthMode === 'threejs' && camera && renderer) {
+                var container = document.getElementById('earth-canvas');
+                var width = container.clientWidth;
+                var height = container.clientHeight;
+                camera.aspect = width / height;
+                camera.updateProjectionMatrix();
+                renderer.setSize(width, height);
+            }
+            if (cesiumViewer) {
+                cesiumViewer.resize();
+            }
         }
 
         // =====================================================
         // TARGET INDICATOR SYSTEM
         // =====================================================
-
         function showTargetIndicator(lat, lon, country, title) {
-            const indicator = document.getElementById('target-indicator');
-            const coordsEl = document.getElementById('target-coords');
-            const labelEl = document.getElementById('target-label');
-
+            var indicator = document.getElementById('target-indicator');
+            var coordsEl = document.getElementById('target-coords');
+            var labelEl = document.getElementById('target-label');
             coordsEl.textContent = 'LAT: ' + lat.toFixed(2) + ' | LON: ' + lon.toFixed(2);
             labelEl.textContent = country ? country.toUpperCase() : 'TARGET';
-
             indicator.classList.add('active');
             sfx('target');
-
-            setTimeout(function() {
-                hideTargetIndicator();
-            }, 5000);
+            setTimeout(function() { hideTargetIndicator(); }, 5000);
         }
 
         function hideTargetIndicator() {
@@ -1539,92 +1881,67 @@
         // =====================================================
         // COUNTRY POPUP SYSTEM
         // =====================================================
-
         function showCountryPopup(country, imageUrl) {
-            const coords = window.countryCoords[country.toLowerCase()];
+            var coords = window.countryCoords[country.toLowerCase()];
             if (!coords) return;
+            var popup = document.getElementById('country-popup');
+            var countryCode = coords.code ? coords.code.toLowerCase() : 'xx';
+            var imgElement = document.getElementById('popup-country-image');
 
-            const popup = document.getElementById('country-popup');
-            const countryCode = coords.code ? coords.code.toLowerCase() : 'xx';
-            const imgElement = document.getElementById('popup-country-image');
-            
             document.getElementById('popup-country-name').textContent = country.toUpperCase();
-            
-            if (imageUrl && imageUrl.length > 0 && imageUrl.indexOf('picsum.photos') === -1) {
+            if (imageUrl && imageUrl.length > 0) {
                 imgElement.src = imageUrl;
                 imgElement.onerror = function() {
                     this.src = 'https://flagcdn.com/w640/' + countryCode + '.png';
-                    this.onerror = function() {
-                        this.src = 'https://flagsapi.com/' + countryCode.toUpperCase() + '/flat/64.png';
-                        this.onerror = null;
-                    };
+                    this.onerror = function() { this.src = 'https://flagsapi.com/' + countryCode.toUpperCase() + '/flat/64.png'; this.onerror = null; };
                 };
             } else {
                 imgElement.src = 'https://flagcdn.com/w640/' + countryCode + '.png';
-                imgElement.onerror = function() {
-                    this.src = 'https://flagsapi.com/' + countryCode.toUpperCase() + '/flat/64.png';
-                    this.onerror = null;
-                };
+                imgElement.onerror = function() { this.src = 'https://flagsapi.com/' + countryCode.toUpperCase() + '/flat/64.png'; this.onerror = null; };
             }
-            
             document.getElementById('popup-lat').textContent = coords.lat.toFixed(4);
             document.getElementById('popup-lon').textContent = coords.lon.toFixed(2);
             document.getElementById('popup-status').textContent = 'REGION IDENTIFIED | MONITORING ACTIVE | NEWS FEED ENABLED';
-
             popup.classList.add('active');
             sfx('alert');
         }
 
-        function closeCountryPopup() {
-            document.getElementById('country-popup').classList.remove('active');
-        }
+        function closeCountryPopup() { document.getElementById('country-popup').classList.remove('active'); }
 
         function flyToCountry(country, imageUrl) {
-            const coords = window.countryCoords[country.toLowerCase()];
-            if (coords && earth) {
+            var coords = window.countryCoords[country.toLowerCase()];
+            if (!coords) return;
+
+            hideTargetIndicator();
+            showTargetIndicator(coords.lat, coords.lon, country, null);
+
+            if (earthMode === 'cesium' && cesiumViewer) {
+                flyToCesium(coords.lat, coords.lon, country);
+                setTimeout(function() { showCountryPopup(country, imageUrl); }, 2600);
+            } else if (earth) {
                 sfx('engage');
                 autoRotate = false;
-                hideTargetIndicator();
-
-                const targetY = -coords.lon * (Math.PI / 180) - Math.PI / 2;
-                const targetX = coords.lat * (Math.PI / 180) * 0.5;
-
-                const startY = earth.rotation.y;
-                const startX = earth.rotation.x;
-                const duration = 2500;
-                const startTime = Date.now();
-
+                var targetY = -coords.lon * (Math.PI / 180) - Math.PI / 2;
+                var targetX = coords.lat * (Math.PI / 180) * 0.5;
+                var startY = earth.rotation.y; var startX = earth.rotation.x;
+                var duration = 2500; var startTime = Date.now();
                 function animateRotation() {
-                    const elapsed = Date.now() - startTime;
-                    const progress = Math.min(elapsed / duration, 1);
-                    const easeProgress = 1 - Math.pow(1 - progress, 4);
-
+                    var elapsed = Date.now() - startTime; var progress = Math.min(elapsed / duration, 1);
+                    var easeProgress = 1 - Math.pow(1 - progress, 4);
                     earth.rotation.y = startY + (targetY - startY) * easeProgress;
                     earth.rotation.x = startX + (targetX - startX) * easeProgress;
-
                     camera.position.z = 3 + (1.8 - 3) * easeProgress;
-
-                    if (progress < 1) {
-                        requestAnimationFrame(animateRotation);
-                    } else {
+                    if (progress < 1) { requestAnimationFrame(animateRotation); }
+                    else {
                         document.getElementById('current-country').textContent = country.toUpperCase();
-                        
-                        showTargetIndicator(coords.lat, coords.lon, country, null);
                         showCountryPopup(country, imageUrl);
-                        
-                        setTimeout(function() { 
-                            autoRotate = true; 
-                            camera.position.z = 3; 
-                        }, 5000);
+                        setTimeout(function() { autoRotate = true; camera.position.z = 3; }, 5000);
                     }
                 }
-
                 animateRotation();
-
                 document.getElementById('rotation-speed').textContent = '10x';
                 document.getElementById('speed-fill').style.width = '100%';
                 document.getElementById('hud-data').innerHTML = 'TARGET: ' + country.toUpperCase() + '<br>LOCK: ACQUIRED<br>MODE: SURVEILLANCE<br>SEC: PRIORITY';
-
                 setTimeout(function() {
                     document.getElementById('rotation-speed').textContent = '1x';
                     document.getElementById('speed-fill').style.width = '20%';
@@ -1634,57 +1951,236 @@
         }
 
         // =====================================================
-        // NEWS API
+        // FREE NEWS FETCHING (GDELT + RSS)
         // =====================================================
+        function detectCountry(title, domain) {
+            var text = (title + ' ' + (domain || '')).toLowerCase();
+            for (var key in window.countryCoords) {
+                if (text.indexOf(key) !== -1) return key;
+            }
+            // Domain-based detection
+            if (domain) {
+                var domainLower = domain.toLowerCase();
+                if (domainLower.indexOf('.uk') !== -1 || domainLower.indexOf('bbc') !== -1) return 'united kingdom';
+                if (domainLower.indexOf('.fr') !== -1 || domainLower.indexOf('france') !== -1) return 'france';
+                if (domainLower.indexOf('.de') !== -1) return 'germany';
+                if (domainLower.indexOf('.ru') !== -1) return 'russia';
+                if (domainLower.indexOf('.cn') !== -1) return 'china';
+                if (domainLower.indexOf('aljazeera') !== -1) return 'qatar';
+                if (domainLower.indexOf('cnn') !== -1 || domainLower.indexOf('.com') !== -1) return 'united states';
+            }
+            return 'Global';
+        }
 
-        async function fetchNews() {
-            if (!API_URL) return; // Don't fetch if not connected
+        function detectPriority(title) {
+            var lower = title.toLowerCase();
+            for (var i = 0; i < URGENT_KEYWORDS.length; i++) {
+                if (lower.indexOf(URGENT_KEYWORDS[i]) !== -1) return 'BREAKING';
+            }
+            return 'NORMAL';
+        }
 
+        async function fetchFromGDELT() {
+            var query = categories.length > 0 ? categories[0] : '';
+            var langFilter = currentLang === 'ar' ? ' sourcelang:arabic' : currentLang === 'fr' ? ' sourcelang:french' : currentLang === 'es' ? ' sourcelang:spanish' : currentLang === 'de' ? ' sourcelang:german' : '';
+            var url = 'https://api.gdeltproject.org/api/v2/doc/doc?query=' + encodeURIComponent(query + langFilter) + '&mode=artlist&maxrecords=75&format=json&sort=DateDesc&timespan=24h';
+            
             try {
-                const response = await fetch(API_URL + '/api/news?limit=50');
-                const data = await response.json();
+                var response = await fetch(url);
+                var data = await response.json();
+                if (data && data.articles) {
+                    return data.articles.map(function(a, i) {
+                        var country = detectCountry(a.title, a.domain);
+                        var coords = window.countryCoords[country.toLowerCase()] || { lat: 0, lon: 0 };
+                        return {
+                            id: 'gdelt-' + i + '-' + Date.now(),
+                            title: a.title || 'Untitled',
+                            url: a.url || '#',
+                            image_url: a.socialimage || '',
+                            source: (a.domain || 'GDELT').replace('www.', '').split('.')[0].toUpperCase(),
+                            country: country,
+                            priority: detectPriority(a.title || ''),
+                            published: a.seendate || new Date().toISOString(),
+                            latitude: coords.lat,
+                            longitude: coords.lon,
+                            summary: '',
+                            lang: a.language || 'English'
+                        };
+                    });
+                }
+            } catch (e) {
+                console.warn('[NEYDRA] GDELT fetch failed:', e);
+            }
+            return [];
+        }
 
+        async function fetchFromRSS(feedConfig) {
+            try {
+                var response = await fetch(feedConfig.url);
+                var data = await response.json();
+                if (data && data.status === 'ok' && data.items) {
+                    return data.items.map(function(item, i) {
+                        var country = detectCountry(item.title || '', feedConfig.name);
+                        var coords = window.countryCoords[country.toLowerCase()] || { lat: 0, lon: 0 };
+                        var image = item.thumbnail || (item.enclosure ? item.enclosure.link : '') || '';
+                        return {
+                            id: 'rss-' + feedConfig.name + '-' + i + '-' + Date.now(),
+                            title: item.title || 'Untitled',
+                            url: item.link || '#',
+                            image_url: image,
+                            source: feedConfig.name,
+                            country: country,
+                            priority: detectPriority(item.title || ''),
+                            published: item.pubDate || new Date().toISOString(),
+                            latitude: coords.lat,
+                            longitude: coords.lon,
+                            summary: (item.description || '').replace(/<[^>]*>/g, '').substring(0, 200),
+                            lang: currentLang
+                        };
+                    });
+                }
+            } catch (e) {
+                console.warn('[NEYDRA] RSS fetch failed for ' + feedConfig.name + ':', e);
+            }
+            return [];
+        }
+
+        async function fetchAllNews() {
+            document.getElementById('source-status').innerHTML = '<span class="source-dot online"></span> FETCHING...';
+            
+            var allArticles = [];
+            var sourcesOnline = 0;
+            var promises = [];
+
+            // GDELT
+            promises.push(fetchFromGDELT().then(function(articles) {
+                if (articles.length > 0) sourcesOnline++;
+                allArticles = allArticles.concat(articles);
+            }));
+
+            // RSS feeds for current language
+            var feeds = RSS_FEEDS[currentLang] || RSS_FEEDS.en;
+            feeds.forEach(function(feed) {
+                promises.push(fetchFromRSS(feed).then(function(articles) {
+                    if (articles.length > 0) sourcesOnline++;
+                    allArticles = allArticles.concat(articles);
+                }));
+            });
+
+            // Also always include English feeds if not already English
+            if (currentLang !== 'en') {
+                RSS_FEEDS.en.forEach(function(feed) {
+                    promises.push(fetchFromRSS(feed).then(function(articles) {
+                        if (articles.length > 0) sourcesOnline++;
+                        allArticles = allArticles.concat(articles);
+                    }));
+                });
+            }
+
+            await Promise.all(promises);
+
+            // Deduplicate by title similarity
+            var seen = {};
+            allArticles = allArticles.filter(function(a) {
+                var key = a.title.toLowerCase().substring(0, 50);
+                if (seen[key]) return false;
+                seen[key] = true;
+                return true;
+            });
+
+            // Sort by date
+            allArticles.sort(function(a, b) { return new Date(b.published) - new Date(a.published); });
+
+            activeSources = sourcesOnline;
+            allFetchedArticles = allArticles;
+
+            // Filter
+            if (breakingOnly) {
+                allArticles = allArticles.filter(function(a) { return a.priority === 'BREAKING'; });
+            }
+
+            currentArticles = allArticles;
+
+            if (allArticles.length > 0) {
+                updateNewsFeed(allArticles);
+                updateStats(allArticles);
+                updateTicker(allArticles);
+                updateUrgentBar(allArticles);
+                updateMapMarkers(allArticles);
+
+                // Show breaking alert for the latest breaking news
+                var breakingNews = allArticles.filter(function(a) { return a.priority === 'BREAKING'; });
+                if (breakingNews.length > 0 && breakingNews[0].id !== lastBreakingId) {
+                    showBreakingAlert(breakingNews[0]);
+                    lastBreakingId = breakingNews[0].id;
+                }
+            } else {
+                showNoNews();
+            }
+
+            document.getElementById('source-status').innerHTML = 
+                '<span class="source-dot ' + (sourcesOnline > 0 ? 'online' : 'offline') + '"></span> SOURCES: ' + sourcesOnline + 
+                ' <span class="source-dot online"></span> ARTICLES: ' + allArticles.length +
+                ' <span class="source-dot online"></span> AUTO: 60s';
+            document.getElementById('stat-sources').textContent = sourcesOnline;
+        }
+
+        // Legacy backend fetch (kept for optional legacy mode)
+        async function fetchNews() {
+            if (!API_URL) {
+                await fetchAllNews();
+                return;
+            }
+            try {
+                var response = await fetch(API_URL + '/api/news?limit=50');
+                var data = await response.json();
                 if (data.success && data.articles.length > 0) {
                     currentArticles = data.articles;
                     updateNewsFeed(data.articles);
                     updateStats(data.articles);
                     updateTicker(data.articles);
-
-                    const breakingNews = data.articles.filter(function(a) { return a.priority === 'BREAKING'; });
+                    var breakingNews = data.articles.filter(function(a) { return a.priority === 'BREAKING'; });
                     if (breakingNews.length > 0 && breakingNews[0].id !== lastBreakingId) {
                         showBreakingAlert(breakingNews[0]);
                         lastBreakingId = breakingNews[0].id;
                     }
-
                     clearMarkers();
                     data.articles.slice(0, 20).forEach(function(article) {
                         if (article.latitude !== 0 || article.longitude !== 0) {
                             addNewsMarker(article.latitude, article.longitude, article.priority === 'BREAKING');
                         }
                     });
-                } else {
-                    showNoNews();
-                }
-            } catch (error) {
-                showNoNews();
+                } else { showNoNews(); }
+            } catch (error) { 
+                // Fallback to free sources
+                await fetchAllNews();
             }
         }
 
         function showNoNews() {
-            document.getElementById('news-feed').innerHTML = '<div style="color: var(--text-dim); text-align: center; padding: 20px; font-size: 11px;">[ BACKEND OFFLINE OR CONNECTION LOST ]<br><br>Check How To Use for setup instructions.</div>';
-            document.getElementById('ticker-scroll').innerHTML = '<span class="ticker-item">[ BACKEND OFFLINE ]</span>';
+            document.getElementById('news-feed').innerHTML = '<div style="color: var(--text-dim); text-align: center; padding: 20px; font-size: 11px;">[ FETCHING FROM FREE SOURCES... ]<br><br>Please wait or click REFRESH.</div>';
+            document.getElementById('ticker-scroll').innerHTML = '<span class="ticker-item">[ LOADING NEWS FEED... ]</span>';
         }
 
+        // =====================================================
+        // NEWS DISPLAY — BIG IMAGE CARDS
+        // =====================================================
         function updateNewsFeed(articles) {
-            const container = document.getElementById('news-feed');
-            container.innerHTML = articles.map(function(article) {
-                return '<div class="news-item ' + (article.priority === 'BREAKING' ? 'breaking' : '') + '" onclick="selectNews(\'' + article.id + '\')">' +
-                    '<div class="news-priority ' + article.priority.toLowerCase() + '">' + (article.priority === 'BREAKING' ? 'BREAKING' : article.priority) + '</div>' +
-                    '<div class="news-title">' + article.title + '</div>' +
-                    '<div class="news-meta">' +
-                        '<span class="news-country">[' + article.country + ']</span>' +
-                        '<span class="news-source">[' + article.source + ']</span>' +
-                        '<span>' + formatTime(article.published) + '</span>' +
+            var container = document.getElementById('news-feed');
+            container.innerHTML = articles.slice(0, 50).map(function(article, idx) {
+                var hasImage = article.image_url && article.image_url.length > 5;
+                var priorityClass = article.priority === 'BREAKING' ? 'breaking' : (article.priority === 'HIGH' ? 'high' : 'normal');
+                
+                return '<div class="news-card ' + (article.priority === 'BREAKING' ? 'breaking-card' : '') + '" onclick="selectNews(\'' + article.id + '\')" data-url="' + (article.url || '#') + '">' +
+                    (hasImage ? '<img class="news-card-image" src="' + article.image_url + '" alt="" loading="lazy" onerror="this.classList.add(\'no-image\');this.outerHTML=\'<div class=\\\'news-card-image no-image\\\'>📰</div>\';">' : '<div class="news-card-image no-image">📰</div>') +
+                    '<div class="news-card-body">' +
+                        '<div class="news-card-priority ' + priorityClass + '">' + (article.priority === 'BREAKING' ? 'BREAKING' : article.priority) + '</div>' +
+                        '<div class="news-card-title">' + article.title + '</div>' +
+                        '<div class="news-card-meta">' +
+                            '<span class="news-card-source">[' + article.source + ']</span>' +
+                            '<span class="news-card-country">[' + article.country + ']</span>' +
+                            '<span>' + formatTime(article.published) + '</span>' +
+                        '</div>' +
                     '</div>' +
                 '</div>';
             }).join('');
@@ -1692,7 +2188,7 @@
         }
 
         function updateTicker(articles) {
-            const items = articles.slice(0, 15).map(function(a) {
+            var items = articles.slice(0, 20).map(function(a) {
                 return '<span class="ticker-item ' + (a.priority === 'BREAKING' ? 'breaking' : '') + '"><span class="separator">|</span>' + a.title + '</span>';
             }).join('');
             document.getElementById('ticker-scroll').innerHTML = items + items;
@@ -1701,17 +2197,60 @@
         function updateStats(articles) {
             document.getElementById('stat-breaking').textContent = articles.filter(function(a) { return a.priority === 'BREAKING'; }).length;
             document.getElementById('stat-total').textContent = articles.length;
-            document.getElementById('stat-countries').textContent = (function() {
-                const countries = new Set();
-                articles.forEach(function(a) { if (a.country !== 'Global') countries.add(a.country); });
-                return countries.size;
-            })();
+            var countries = new Set();
+            articles.forEach(function(a) { if (a.country !== 'Global') countries.add(a.country); });
+            document.getElementById('stat-countries').textContent = countries.size;
         }
 
+        function updateMapMarkers(articles) {
+            if (earthMode === 'cesium') {
+                clearCesiumMarkers();
+                articles.slice(0, 30).forEach(function(a) {
+                    if (a.latitude !== 0 || a.longitude !== 0) {
+                        addCesiumMarker(a.latitude, a.longitude, a.priority === 'BREAKING', a.priority === 'BREAKING' ? a.title : null);
+                    }
+                });
+            } else {
+                clearMarkers();
+                articles.slice(0, 20).forEach(function(a) {
+                    if (a.latitude !== 0 || a.longitude !== 0) {
+                        addNewsMarker(a.latitude, a.longitude, a.priority === 'BREAKING');
+                    }
+                });
+            }
+        }
+
+        // =====================================================
+        // URGENT BAR SYSTEM
+        // =====================================================
+        function updateUrgentBar(articles) {
+            var urgentArticles = articles.filter(function(a) { return a.priority === 'BREAKING'; });
+            var urgentBar = document.getElementById('urgent-bar');
+            
+            if (urgentArticles.length > 0) {
+                urgentBar.classList.add('active');
+                var scrollContent = urgentArticles.map(function(a) {
+                    return '<span class="urgent-text">⚠ ' + a.title + ' <span class="urgent-separator">★</span> [' + a.source + '] <span class="urgent-separator">★</span></span>';
+                }).join('');
+                document.getElementById('urgent-scroll').innerHTML = scrollContent + scrollContent;
+
+                // Play urgent sound for new urgent news
+                if (urgentArticles[0].title !== lastUrgentTitle) {
+                    lastUrgentTitle = urgentArticles[0].title;
+                    playUrgentSound();
+                }
+            } else {
+                urgentBar.classList.remove('active');
+            }
+        }
+
+        // =====================================================
+        // NEWS INTERACTION
+        // =====================================================
         function selectNews(id) {
-            const article = currentArticles.find(function(a) { return a.id === id; });
+            var article = currentArticles.find(function(a) { return a.id === id; });
             if (article) {
-                const coords = window.countryCoords[article.country.toLowerCase()] || { lat: 0, lon: 0 };
+                var coords = window.countryCoords[article.country.toLowerCase()] || { lat: 0, lon: 0 };
                 closeMobileSidebar();
 
                 if (article.priority === 'BREAKING') {
@@ -1720,29 +2259,33 @@
                     showTargetIndicator(coords.lat, coords.lon, article.country, article.title);
                     flyToCountry(article.country, article.image_url);
                 }
+
+                // Open article in new tab
+                if (article.url && article.url !== '#') {
+                    window.open(article.url, '_blank');
+                }
             }
         }
 
         function showBreakingAlert(article) {
-            const alert = document.getElementById('breaking-alert');
-            document.getElementById('alert-image').src = article.image_url || '';
-            document.getElementById('alert-image').style.display = article.image_url ? 'block' : 'none';
+            var alertEl = document.getElementById('breaking-alert');
+            var imgEl = document.getElementById('alert-image');
+            imgEl.src = article.image_url || '';
+            imgEl.style.display = article.image_url ? 'block' : 'none';
             document.getElementById('alert-title').textContent = article.title;
             document.getElementById('alert-summary').textContent = article.summary || '';
             document.getElementById('alert-country').textContent = '[' + article.country + ']';
             document.getElementById('alert-source').textContent = '[' + article.source + ']';
             document.getElementById('alert-time').textContent = formatTime(article.published);
 
-            const timer = document.getElementById('alert-timer');
+            var timer = document.getElementById('alert-timer');
             timer.style.animation = 'none';
             timer.offsetHeight;
             timer.style.animation = 'timer-countdown 20s linear';
 
-            alert.classList.add('visible');
-            
-            const coords = window.countryCoords[article.country.toLowerCase()] || { lat: 0, lon: 0 };
+            alertEl.classList.add('visible');
+            var coords = window.countryCoords[article.country.toLowerCase()] || { lat: 0, lon: 0 };
             showTargetIndicator(coords.lat, coords.lon, article.country, article.title);
-            
             flyToCountry(article.country, article.image_url);
             sfx('alert');
 
@@ -1756,9 +2299,19 @@
         }
 
         function formatTime(dateStr) {
-            const date = new Date(dateStr);
-            const now = new Date();
-            const diff = (now - date) / 1000;
+            if (!dateStr) return 'NOW';
+            var date;
+            // Handle GDELT date format: 20250413T120000Z
+            if (typeof dateStr === 'string' && dateStr.length >= 15 && dateStr.indexOf('T') === 8) {
+                var y = dateStr.substring(0,4), m = dateStr.substring(4,6), d = dateStr.substring(6,8);
+                var h = dateStr.substring(9,11), mi = dateStr.substring(11,13), s = dateStr.substring(13,15);
+                date = new Date(y + '-' + m + '-' + d + 'T' + h + ':' + mi + ':' + s + 'Z');
+            } else {
+                date = new Date(dateStr);
+            }
+            if (isNaN(date.getTime())) return 'NOW';
+            var now = new Date();
+            var diff = (now - date) / 1000;
             if (diff < 60) return 'NOW';
             if (diff < 3600) return Math.floor(diff / 60) + 'm';
             if (diff < 86400) return Math.floor(diff / 3600) + 'h';
@@ -1766,11 +2319,36 @@
         }
 
         // =====================================================
+        // LIVE TV SYSTEM
+        // =====================================================
+        function switchTV(index) {
+            currentTVChannel = index;
+            var tabs = document.querySelectorAll('.tv-tab');
+            tabs.forEach(function(t, i) {
+                t.classList.toggle('active', i === index);
+            });
+            var frame = document.getElementById('tv-frame');
+            frame.src = TV_CHANNELS[index].src;
+            document.getElementById('tv-status').textContent = TV_CHANNELS[index].label.toUpperCase();
+        }
+
+        // =====================================================
+        // LANGUAGE SWITCHER
+        // =====================================================
+        function switchLang(lang) {
+            currentLang = lang;
+            var btns = document.querySelectorAll('.lang-btn');
+            btns.forEach(function(b) {
+                b.classList.toggle('active', b.textContent.toLowerCase() === lang);
+            });
+            fetchAllNews();
+        }
+
+        // =====================================================
         // UI FUNCTIONS
         // =====================================================
-
         function toggleCategory(cat) {
-            const btn = document.getElementById('cat-' + cat);
+            var btn = document.getElementById('cat-' + cat);
             if (btn.classList.contains('active')) {
                 btn.classList.remove('active');
                 categories = categories.filter(function(c) { return c !== cat; });
@@ -1778,25 +2356,28 @@
                 btn.classList.add('active');
                 categories.push(cat);
             }
-            fetchNews();
+            fetchAllNews();
         }
 
         function toggleBreakingOnly() {
             breakingOnly = !breakingOnly;
             document.getElementById('btn-breaking').classList.toggle('active', breakingOnly);
-            fetchNews();
+            fetchAllNews();
         }
 
         async function refreshNews() {
-            if(!API_URL) return;
-            try { await fetch(API_URL + '/api/refresh', { method: 'POST' }); } catch (e) {}
-            fetchNews();
             sfx('tick');
+            if (API_URL) {
+                try { await fetch(API_URL + '/api/refresh', { method: 'POST' }); } catch (e) {}
+                fetchNews();
+            } else {
+                fetchAllNews();
+            }
         }
 
         function showSettings() {
             document.getElementById('settings-overlay').classList.add('visible');
-            const select = document.getElementById('add-country-select');
+            var select = document.getElementById('add-country-select');
             select.innerHTML = '<option value="">-- Select Country --</option>' + 
                 Object.keys(window.countryCoords).map(function(c) { 
                     return '<option value="' + c + '">' + c.charAt(0).toUpperCase() + c.slice(1) + '</option>'; 
@@ -1812,21 +2393,55 @@
 
         function hideSettings() { document.getElementById('settings-overlay').classList.remove('visible'); }
         function showHowToUse() { document.getElementById('how-to-use-overlay').classList.add('visible'); sfx('tick'); }
-        function hideHowToUse() { 
-            document.getElementById('how-to-use-overlay').classList.remove('visible'); 
-            document.getElementById('connection-overlay').classList.add('visible');
+        function hideHowToUse() { document.getElementById('how-to-use-overlay').classList.remove('visible'); }
+
+        function showLegacyConnect() { document.getElementById('connection-overlay').classList.add('visible'); }
+        function hideLegacyConnect() { document.getElementById('connection-overlay').classList.remove('visible'); }
+
+        function initializeConnection() {
+            var urlInput = document.getElementById('url-input');
+            var url = urlInput.value.trim();
+            if (!url) { alert("Please enter a valid URL."); return; }
+            if (url.endsWith("/")) url = url.slice(0, -1);
+            if (!url.startsWith("http")) { alert("URL must start with http:// or https://"); return; }
+            
+            API_URL = url;
+            console.log('Connecting to ' + API_URL + '...');
+            fetch(API_URL + '/')
+                .then(function(res) { return res.json(); })
+                .then(function(data) {
+                    if (data.status === "ONLINE") {
+                        console.log("CONNECTION ESTABLISHED");
+                        document.getElementById('connection-overlay').classList.remove('visible');
+                        sfx('engage');
+                        fetchNews();
+                        if (newsRefreshInterval) clearInterval(newsRefreshInterval);
+                        newsRefreshInterval = setInterval(fetchNews, 30000);
+                    } else {
+                        alert("Connected but server status unknown.");
+                    }
+                })
+                .catch(function(err) {
+                    console.error(err);
+                    alert("Could not connect. Using free sources instead.");
+                    document.getElementById('connection-overlay').classList.remove('visible');
+                    API_URL = null;
+                    fetchAllNews();
+                });
         }
 
         function updateWatchedCountries() {
-            const list = document.getElementById('watched-countries');
-            const tags = document.getElementById('country-tags');
+            var list = document.getElementById('watched-countries');
+            var tags = document.getElementById('country-tags');
             tags.innerHTML = watchedCountries.map(function(c) {
                 return '<div class="country-tag">' + c + '<span class="remove" onclick="removeCountry(\'' + c + '\')">X</span></div>';
             }).join('');
             list.innerHTML = watchedCountries.length === 0 ? 
                 '<div style="color: var(--text-dim); text-align: center; padding: 15px; font-size: 11px;">[ NO REGIONS SELECTED ]</div>' :
                 watchedCountries.map(function(c) {
-                    return '<div class="country-item" onclick="flyToCountry(\'' + c + '\')"><span class="country-name">' + c.charAt(0).toUpperCase() + c.slice(1) + '</span></div>';
+                    return '<div class="country-item" onclick="flyToCountry(\'' + c + '\')">' +
+                        '<span class="country-name">' + c.charAt(0).toUpperCase() + c.slice(1) + '</span>' +
+                    '</div>';
                 }).join('');
             document.getElementById('watched-count').textContent = watchedCountries.length;
         }
@@ -1839,8 +2454,8 @@
         function saveSettings() { hideSettings(); sfx('tick'); }
 
         function downloadPackage() {
-            const link = document.createElement('a');
-            link.href = API_URL + '/download/package';
+            var link = document.createElement('a');
+            link.href = API_URL ? (API_URL + '/download/package') : '/downloads/neydra-news-package.rar';
             link.download = 'neydra-news-package.zip';
             link.click();
             sfx('tick');
@@ -1848,25 +2463,24 @@
 
         // Mobile Sidebar Toggle
         function toggleMobileSidebar() {
-            const sidebar = document.getElementById('sidebar-right');
+            var sidebar = document.getElementById('sidebar-right');
             sidebar.classList.toggle('mobile-open');
-            
-            const closeBtn = sidebar.querySelector('.close-btn');
+            var closeBtn = sidebar.querySelector('.close-btn');
             if (window.innerWidth <= 900) {
                 closeBtn.style.display = 'flex';
             }
         }
 
         function closeMobileSidebar() {
-            const sidebar = document.getElementById('sidebar-right');
+            var sidebar = document.getElementById('sidebar-right');
             if (sidebar.classList.contains('mobile-open')) {
                 sidebar.classList.remove('mobile-open');
             }
         }
 
-        // Initialize
-        window.addEventListener('load', initEarth);
-
+        // =====================================================
+        // KEYBOARD SHORTCUTS
+        // =====================================================
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') { 
                 closeAlert(); 
@@ -1875,10 +2489,82 @@
                 hideTargetIndicator(); 
                 closeCountryPopup();
                 closeMobileSidebar();
+                hideLegacyConnect();
+            }
+            if (e.key === 'r' || e.key === 'R') { if (!e.ctrlKey && !e.metaKey) refreshNews(); }
+            if (e.key === 'f' || e.key === 'F') {
+                if (!e.ctrlKey && !e.metaKey) {
+                    var container = document.querySelector('.earth-container');
+                    if (document.fullscreenElement) { document.exitFullscreen(); }
+                    else { container.requestFullscreen().catch(function(){}); }
+                }
+            }
+            if (e.key === 'm' || e.key === 'M') {
+                if (!e.ctrlKey && !e.metaKey) {
+                    soundEnabled = !soundEnabled;
+                    console.log('[NEYDRA] Sound ' + (soundEnabled ? 'enabled' : 'muted'));
+                }
+            }
+            if (e.key === 'w' || e.key === 'W') {
+                if (!e.ctrlKey && !e.metaKey) toggleEarthMode();
+            }
+            // 1-4 for TV channels
+            if (['1','2','3','4'].indexOf(e.key) !== -1 && !e.ctrlKey && !e.metaKey) {
+                switchTV(parseInt(e.key) - 1);
             }
         });
+
+        // =====================================================
+        // INITIALIZATION
+        // =====================================================
+        window.addEventListener('load', function() {
+            // Initialize CesiumJS
+            try {
+                initCesium();
+            } catch(e) {
+                console.error('[NEYDRA] Cesium failed, falling back to Three.js:', e);
+                earthMode = 'threejs';
+                document.getElementById('cesium-container').style.display = 'none';
+                document.querySelector('.cesium-red-overlay').style.display = 'none';
+                document.getElementById('earth-canvas').style.display = 'block';
+                initEarth();
+            }
+
+            // Hide loading after a short delay
+            setTimeout(function() {
+                document.getElementById('loading-overlay').classList.add('hidden');
+            }, 2000);
+
+            // Start free news fetching immediately
+            fetchAllNews();
+
+            // Auto-refresh every 60 seconds
+            newsRefreshInterval = setInterval(function() {
+                fetchAllNews();
+            }, 60000);
+
+            // Attempt to play background theme
+            var theme = document.getElementById('snd-theme');
+            if (theme) {
+                theme.volume = 0.4; // Set reasonable background volume
+                var playPromise = theme.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(function(error) {
+                        // Auto-play was prevented. Play on first interaction.
+                        console.log('[NEYDRA] Autoplay blocked. Waiting for user interaction to play theme.');
+                        var playOnInteract = function() {
+                            if (soundEnabled) theme.play().catch(function(){});
+                            document.removeEventListener('click', playOnInteract);
+                            document.removeEventListener('keydown', playOnInteract);
+                        };
+                        document.addEventListener('click', playOnInteract);
+                        document.addEventListener('keydown', playOnInteract);
+                    });
+                }
+            }
+        });
+
+        window.addEventListener('resize', onWindowResize);
     </script>
 </body>
 </html>
-
-
