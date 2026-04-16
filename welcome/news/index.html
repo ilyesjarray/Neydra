@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <script src="/js/security.js"></script>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>GLOBAL NEYDRA NEWS | Earth News System</title>
-    <meta name="description" content="Global Neydra News — Real-time 3D Earth news monitoring system with live TV streams, multi-source intelligence feed, and urgent alert system.">
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700;800&family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
-    <!-- CesiumJS -->
-    <script>window.CESIUM_BASE_URL = 'https://cesium.com/downloads/cesiumjs/releases/1.109/Build/Cesium/';</script>
-    <script src="https://cesium.com/downloads/cesiumjs/releases/1.109/Build/Cesium/Cesium.js"></script>
-    <link href="https://cesium.com/downloads/cesiumjs/releases/1.109/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
-    <!-- Three.js (Legacy - kept for optional wireframe mode) -->
+    <meta name="description"
+        content="Global Neydra News — Real-time 3D Earth news monitoring system with live TV streams, multi-source intelligence feed, and urgent alert system.">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700;800&family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Amiri:wght@400;700&display=swap"
+        rel="stylesheet">
+    <!-- Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    
+
     <style>
         :root {
             --primary: #ff0000;
@@ -28,7 +29,12 @@
             --grid-line: rgba(255, 0, 0, 0.06);
         }
 
-        * { box-sizing: border-box; outline: none; user-select: none; -webkit-tap-highlight-color: transparent; }
+        * {
+            box-sizing: border-box;
+            outline: none;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
 
         body {
             background-color: var(--bg-solid);
@@ -36,24 +42,40 @@
             font-family: 'Rajdhani', sans-serif;
             margin: 0;
             overflow: hidden;
-            position: fixed; 
+            position: fixed;
             width: 100%;
             height: 100%;
-            background-image: 
+            background-image:
                 linear-gradient(var(--grid-line) 1px, transparent 1px),
                 linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
             background-size: 50px 50px;
         }
 
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: var(--dark-red); }
-        ::-webkit-scrollbar-thumb { background: var(--dim-red); border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-red);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--dim-red);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
 
         body::before {
             content: "";
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: radial-gradient(circle, transparent 30%, #000 100%);
             z-index: 900;
             pointer-events: none;
@@ -63,16 +85,31 @@
             content: " ";
             display: block;
             position: fixed;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%), 
-                        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(255, 0, 0, 0.015), rgba(255, 0, 0, 0.03));
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%),
+                linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(255, 0, 0, 0.015), rgba(255, 0, 0, 0.03));
             z-index: 999;
             background-size: 100% 2px, 3px 100%;
             pointer-events: none;
             animation: flicker 0.15s infinite;
         }
 
-        @keyframes flicker { 0% { opacity: 0.97; } 50% { opacity: 1; } 100% { opacity: 0.98; } }
+        @keyframes flicker {
+            0% {
+                opacity: 0.97;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0.98;
+            }
+        }
 
         .app-container {
             display: grid;
@@ -101,24 +138,40 @@
         .header::before {
             content: "";
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 2px;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
             background: linear-gradient(90deg, transparent, var(--primary), transparent);
             animation: header-scan 3s linear infinite;
         }
 
-        @keyframes header-scan { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+        @keyframes header-scan {
+            0% {
+                transform: translateX(-100%);
+            }
 
-        .logo-section { display: flex; align-items: center; gap: 15px; }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
 
         .logo-globe {
-            width: 50px; height: 50px;
+            width: 50px;
+            height: 50px;
             background: linear-gradient(135deg, var(--primary), var(--dark-red));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             animation: globe-pulse 3s infinite;
-            box-shadow: 0 0 20px var(--primary), inset 0 0 20px rgba(0,0,0,0.5);
+            box-shadow: 0 0 20px var(--primary), inset 0 0 20px rgba(0, 0, 0, 0.5);
             border: 2px solid var(--primary);
             position: relative;
             overflow: hidden;
@@ -127,28 +180,54 @@
         .logo-globe::before {
             content: "";
             position: absolute;
-            width: 100%; height: 100%;
+            width: 100%;
+            height: 100%;
             background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255, 0, 0, 0.3) 3px, rgba(255, 0, 0, 0.3) 4px);
             animation: scanlines 2s linear infinite;
         }
 
-        @keyframes scanlines { 0% { transform: translateY(0); } 100% { transform: translateY(10px); } }
-        @keyframes globe-pulse {
-            0%, 100% { box-shadow: 0 0 20px var(--primary), inset 0 0 20px rgba(0,0,0,0.5); }
-            50% { box-shadow: 0 0 40px var(--primary), 0 0 60px var(--primary), inset 0 0 20px rgba(0,0,0,0.5); }
+        @keyframes scanlines {
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(10px);
+            }
         }
 
-        .header-title { display: flex; flex-direction: column; }
+        @keyframes globe-pulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 20px var(--primary), inset 0 0 20px rgba(0, 0, 0, 0.5);
+            }
+
+            50% {
+                box-shadow: 0 0 40px var(--primary), 0 0 60px var(--primary), inset 0 0 20px rgba(0, 0, 0, 0.5);
+            }
+        }
+
+        .header-title {
+            display: flex;
+            flex-direction: column;
+        }
 
         h1 {
-            font-size: 26px; margin: 0; letter-spacing: 6px;
+            font-size: 26px;
+            margin: 0;
+            letter-spacing: 6px;
             color: #fff;
             text-shadow: 2px 2px 0px var(--primary);
-            font-weight: 800; font-style: italic;
+            font-weight: 800;
+            font-style: italic;
             font-family: 'Orbitron', sans-serif;
         }
 
-        h1 span { color: var(--primary); text-shadow: none; }
+        h1 span {
+            color: var(--primary);
+            text-shadow: none;
+        }
 
         .header-subtitle {
             font-size: 10px;
@@ -157,7 +236,12 @@
             font-family: 'Amiri', serif;
         }
 
-        .header-stats { display: flex; gap: 25px; font-family: 'Share Tech Mono', monospace; font-size: 10px; }
+        .header-stats {
+            display: flex;
+            gap: 25px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 10px;
+        }
 
         .stat-item {
             text-align: center;
@@ -166,35 +250,88 @@
             background: rgba(20, 0, 0, 0.8);
         }
 
-        .stat-value { font-size: 22px; color: var(--primary); text-shadow: 0 0 10px var(--primary); font-weight: bold; }
-        .stat-label { color: var(--text-dim); letter-spacing: 2px; font-size: 8px; }
+        .stat-value {
+            font-size: 22px;
+            color: var(--primary);
+            text-shadow: 0 0 10px var(--primary);
+            font-weight: bold;
+        }
+
+        .stat-label {
+            color: var(--text-dim);
+            letter-spacing: 2px;
+            font-size: 8px;
+        }
 
         .live-badge {
-            display: flex; align-items: center; gap: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
             background: var(--primary);
             color: #000;
             padding: 6px 15px;
-            font-weight: bold; font-size: 12px; letter-spacing: 2px;
+            font-weight: bold;
+            font-size: 12px;
+            letter-spacing: 2px;
             animation: live-pulse 1s infinite;
         }
 
-        .live-dot { width: 8px; height: 8px; background: #fff; border-radius: 50%; animation: live-dot-pulse 1s infinite; }
-        @keyframes live-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.8; } }
-        @keyframes live-dot-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            border-radius: 50%;
+            animation: live-dot-pulse 1s infinite;
+        }
 
-        .sidebar-left { display: flex; flex-direction: column; gap: 8px; height: calc(100% - 126px); overflow-y: auto; overflow-x: hidden; }
+        @keyframes live-pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes live-dot-pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+        }
+
+        .sidebar-left {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            height: calc(100% - 126px);
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
 
         .panel {
             background: var(--bg-panel);
             border: 1px solid var(--dark-red);
             position: relative;
             backdrop-filter: blur(4px);
-            box-shadow: inset 0 0 30px rgba(0,0,0,1);
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 1);
             transition: all 0.2s ease;
-            display: flex; flex-direction: column;
+            display: flex;
+            flex-direction: column;
         }
 
-        .panel:hover { border-color: var(--primary); box-shadow: 0 0 15px rgba(255, 0, 0, 0.2), inset 0 0 30px rgba(0,0,0,1); }
+        .panel:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.2), inset 0 0 30px rgba(0, 0, 0, 1);
+        }
 
         .panel-header {
             background: linear-gradient(90deg, var(--dark-red), var(--dim-red));
@@ -210,12 +347,21 @@
             flex-shrink: 0;
         }
 
-        .panel-content { padding: 8px; overflow-y: auto; flex: 1; }
+        .panel-content {
+            padding: 8px;
+            overflow-y: auto;
+            flex: 1;
+        }
 
-        .country-list { flex: 1; min-height: 0; }
+        .country-list {
+            flex: 1;
+            min-height: 0;
+        }
 
         .country-item {
-            display: flex; align-items: center; gap: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
             padding: 8px;
             margin-bottom: 4px;
             background: rgba(30, 0, 0, 0.5);
@@ -224,9 +370,22 @@
             transition: all 0.2s;
         }
 
-        .country-item:hover { background: rgba(60, 0, 0, 0.5); border-right-color: var(--primary); transform: translateX(3px); }
-        .country-item.selected { background: rgba(100, 0, 0, 0.5); border-right-color: var(--primary); }
-        .country-name { flex: 1; font-size: 12px; color: var(--text-main); }
+        .country-item:hover {
+            background: rgba(60, 0, 0, 0.5);
+            border-right-color: var(--primary);
+            transform: translateX(3px);
+        }
+
+        .country-item.selected {
+            background: rgba(100, 0, 0, 0.5);
+            border-right-color: var(--primary);
+        }
+
+        .country-name {
+            flex: 1;
+            font-size: 12px;
+            color: var(--text-main);
+        }
 
         .country-count {
             background: var(--primary);
@@ -237,7 +396,12 @@
             font-weight: bold;
         }
 
-        .main-view { display: flex; flex-direction: column; gap: 8px; height: calc(100% - 126px); }
+        .main-view {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            height: calc(100% - 126px);
+        }
 
         .earth-container {
             flex: 1;
@@ -246,53 +410,22 @@
             background: #000;
             overflow: hidden;
             box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
-            touch-action: none; 
+            touch-action: none;
         }
 
-        #cesium-container {
-            width: 100%; height: 100%;
-            filter: saturate(0.3) brightness(0.6) contrast(1.2) sepia(0.4) hue-rotate(-30deg);
+        #earth-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
         }
-        #cesium-container .cesium-viewer,
-        #cesium-container .cesium-viewer-cesiumWidgetContainer,
-        #cesium-container .cesium-widget,
-        #cesium-container .cesium-widget canvas {
-            width: 100% !important; height: 100% !important;
-        }
-        /* Hide all Cesium default UI */
-        .cesium-viewer-toolbar,
-        .cesium-viewer-animationContainer,
-        .cesium-viewer-timelineContainer,
-        .cesium-viewer-bottom,
-        .cesium-viewer-fullscreenContainer,
-        .cesium-viewer-vrContainer,
-        .cesium-viewer-geocoderContainer,
-        .cesium-viewer-infoBoxContainer,
-        .cesium-viewer-selectionIndicatorContainer,
-        .cesium-navigationHelpButton-wrapper,
-        .cesium-baseLayerPicker-dropDown,
-        .cesium-credit-logoContainer,
-        .cesium-credit-textContainer,
-        .cesium-widget-credits { display: none !important; }
-
-        /* Red overlay on top of Cesium for the red tint */
-        .cesium-red-overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 0, 0, 0.08);
-            pointer-events: none;
-            z-index: 2;
-            mix-blend-mode: overlay;
-        }
-
-        #earth-canvas { width: 100%; height: 100%; display: none; }
 
         .earth-mode-toggle {
             position: absolute;
-            bottom: 10px; left: 50%;
+            bottom: 10px;
+            left: 50%;
             transform: translateX(-50%);
             z-index: 30;
-            background: rgba(0,0,0,0.8) !important;
+            background: rgba(0, 0, 0, 0.8) !important;
             border: 1px solid var(--primary) !important;
             color: var(--primary) !important;
             font-size: 9px !important;
@@ -303,41 +436,92 @@
             clip-path: none !important;
             flex: none !important;
         }
-        .earth-mode-toggle:hover { background: var(--primary) !important; color: #000 !important; }
+
+        .earth-mode-toggle:hover {
+            background: var(--primary) !important;
+            color: #000 !important;
+        }
 
         .hud-overlay {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
             z-index: 5;
         }
 
         .hud-corner {
             position: absolute;
-            width: 60px; height: 60px;
+            width: 60px;
+            height: 60px;
             border: 2px solid rgba(255, 0, 0, 0.4);
         }
 
-        .hud-corner.top-left { top: 10px; left: 10px; border-right: none; border-bottom: none; }
-        .hud-corner.top-right { top: 10px; right: 10px; border-left: none; border-bottom: none; }
-        .hud-corner.bottom-left { bottom: 40px; left: 10px; border-right: none; border-top: none; }
-        .hud-corner.bottom-right { bottom: 40px; right: 10px; border-left: none; border-top: none; }
+        .hud-corner.top-left {
+            top: 10px;
+            left: 10px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .hud-corner.top-right {
+            top: 10px;
+            right: 10px;
+            border-left: none;
+            border-bottom: none;
+        }
+
+        .hud-corner.bottom-left {
+            bottom: 40px;
+            left: 10px;
+            border-right: none;
+            border-top: none;
+        }
+
+        .hud-corner.bottom-right {
+            bottom: 40px;
+            right: 10px;
+            border-left: none;
+            border-top: none;
+        }
 
         .hud-crosshair {
             position: absolute;
-            top: 50%; left: 50%;
+            top: 50%;
+            left: 50%;
             transform: translate(-50%, -50%);
-            width: 40px; height: 40px;
+            width: 40px;
+            height: 40px;
             opacity: 0.3;
         }
 
-        .hud-crosshair::before, .hud-crosshair::after { content: ""; position: absolute; background: var(--primary); }
-        .hud-crosshair::before { width: 2px; height: 100%; left: 50%; transform: translateX(-50%); }
-        .hud-crosshair::after { width: 100%; height: 2px; top: 50%; transform: translateY(-50%); }
+        .hud-crosshair::before,
+        .hud-crosshair::after {
+            content: "";
+            position: absolute;
+            background: var(--primary);
+        }
+
+        .hud-crosshair::before {
+            width: 2px;
+            height: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .hud-crosshair::after {
+            width: 100%;
+            height: 2px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
 
         .hud-data {
             position: absolute;
-            top: 50px; right: 15px;
+            top: 50px;
+            right: 15px;
             font-family: 'Share Tech Mono', monospace;
             font-size: 9px;
             color: rgba(255, 0, 0, 0.6);
@@ -347,40 +531,101 @@
 
         .earth-overlay {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
             z-index: 10;
         }
 
-        .earth-info { position: absolute; top: 15px; left: 15px; font-family: 'Share Tech Mono', monospace; }
-        .earth-info .label { font-size: 9px; color: var(--text-dim); letter-spacing: 2px; }
-        .earth-info .value { font-size: 26px; color: var(--primary); text-shadow: 0 0 15px var(--primary); font-weight: bold; }
+        .earth-info {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-family: 'Share Tech Mono', monospace;
+        }
 
-        .rotation-indicator { position: absolute; bottom: 40px; left: 15px; display: flex; align-items: center; gap: 10px; }
-        .rotation-speed { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--primary); }
-        .speed-bar { width: 100px; height: 4px; background: var(--dark-red); border-radius: 2px; overflow: hidden; }
-        .speed-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--primary-light)); width: 20%; transition: width 0.3s; }
+        .earth-info .label {
+            font-size: 9px;
+            color: var(--text-dim);
+            letter-spacing: 2px;
+        }
 
-        .coords-display { position: absolute; bottom: 40px; right: 15px; font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--text-dim); text-align: right; }
-        .coords-display .lat, .coords-display .lon { color: var(--primary); }
+        .earth-info .value {
+            font-size: 26px;
+            color: var(--primary);
+            text-shadow: 0 0 15px var(--primary);
+            font-weight: bold;
+        }
+
+        .rotation-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .rotation-speed {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 10px;
+            color: var(--primary);
+        }
+
+        .speed-bar {
+            width: 100px;
+            height: 4px;
+            background: var(--dark-red);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .speed-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            width: 20%;
+            transition: width 0.3s;
+        }
+
+        .coords-display {
+            position: absolute;
+            bottom: 40px;
+            right: 15px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 10px;
+            color: var(--text-dim);
+            text-align: right;
+        }
+
+        .coords-display .lat,
+        .coords-display .lon {
+            color: var(--primary);
+        }
 
         /* Target Indicator */
         .target-indicator {
             position: absolute;
-            top: 50%; left: 50%;
+            top: 50%;
+            left: 50%;
             transform: translate(-50%, -50%);
-            width: 200px; height: 200px;
+            width: 200px;
+            height: 200px;
             pointer-events: none;
             z-index: 20;
             opacity: 0;
             transition: opacity 0.3s;
         }
 
-        .target-indicator.active { opacity: 1; }
+        .target-indicator.active {
+            opacity: 1;
+        }
 
         .target-outer {
             position: absolute;
-            width: 100%; height: 100%;
+            width: 100%;
+            height: 100%;
             border: 2px solid var(--primary);
             border-radius: 50%;
             animation: target-pulse 1s ease-out infinite;
@@ -388,40 +633,88 @@
 
         .target-inner {
             position: absolute;
-            top: 50%; left: 50%;
+            top: 50%;
+            left: 50%;
             transform: translate(-50%, -50%);
-            width: 80px; height: 80px;
+            width: 80px;
+            height: 80px;
             border: 2px solid var(--primary);
             border-radius: 50%;
         }
 
         .target-cross {
             position: absolute;
-            top: 50%; left: 50%;
+            top: 50%;
+            left: 50%;
             transform: translate(-50%, -50%);
         }
 
         .target-cross::before,
-        .target-cross::after { content: ""; position: absolute; background: var(--primary); }
-        .target-cross::before { width: 2px; height: 200px; left: -1px; top: -100px; }
-        .target-cross::after { width: 200px; height: 2px; left: -100px; top: -1px; }
+        .target-cross::after {
+            content: "";
+            position: absolute;
+            background: var(--primary);
+        }
 
-        .target-corners { position: absolute; width: 100%; height: 100%; }
+        .target-cross::before {
+            width: 2px;
+            height: 200px;
+            left: -1px;
+            top: -100px;
+        }
+
+        .target-cross::after {
+            width: 200px;
+            height: 2px;
+            left: -100px;
+            top: -1px;
+        }
+
+        .target-corners {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
 
         .target-corner {
             position: absolute;
-            width: 30px; height: 30px;
+            width: 30px;
+            height: 30px;
             border: 3px solid var(--primary);
         }
 
-        .target-corner.tl { top: 0; left: 0; border-right: none; border-bottom: none; }
-        .target-corner.tr { top: 0; right: 0; border-left: none; border-bottom: none; }
-        .target-corner.bl { bottom: 0; left: 0; border-right: none; border-top: none; }
-        .target-corner.br { bottom: 0; right: 0; border-left: none; border-top: none; }
+        .target-corner.tl {
+            top: 0;
+            left: 0;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .target-corner.tr {
+            top: 0;
+            right: 0;
+            border-left: none;
+            border-bottom: none;
+        }
+
+        .target-corner.bl {
+            bottom: 0;
+            left: 0;
+            border-right: none;
+            border-top: none;
+        }
+
+        .target-corner.br {
+            bottom: 0;
+            right: 0;
+            border-left: none;
+            border-top: none;
+        }
 
         .target-coords {
             position: absolute;
-            top: -30px; left: 50%;
+            top: -30px;
+            left: 50%;
             transform: translateX(-50%);
             font-family: 'Share Tech Mono', monospace;
             font-size: 10px;
@@ -432,13 +725,21 @@
         }
 
         @keyframes target-pulse {
-            0% { transform: scale(0.8); opacity: 1; }
-            100% { transform: scale(1.2); opacity: 0; }
+            0% {
+                transform: scale(0.8);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1.2);
+                opacity: 0;
+            }
         }
 
         .target-label {
             position: absolute;
-            top: 50%; left: calc(50% + 120px);
+            top: 50%;
+            left: calc(50% + 120px);
             transform: translateY(-50%);
             background: var(--primary);
             color: #000;
@@ -453,7 +754,8 @@
         .target-label::before {
             content: "";
             position: absolute;
-            left: -20px; top: 50%;
+            left: -20px;
+            top: 50%;
             transform: translateY(-50%);
             border: 8px solid transparent;
             border-right-color: var(--primary);
@@ -462,8 +764,10 @@
         /* Country Image Popup */
         .country-popup {
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: rgba(0, 0, 0, 0.95);
             z-index: 2000;
             display: none;
@@ -471,7 +775,9 @@
             align-items: center;
         }
 
-        .country-popup.active { display: flex; }
+        .country-popup.active {
+            display: flex;
+        }
 
         .country-popup-content {
             background: var(--bg-panel);
@@ -486,8 +792,15 @@
         }
 
         @keyframes popup-appear {
-            0% { opacity: 0; transform: scale(0.8); }
-            100% { opacity: 1; transform: scale(1); }
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         .country-popup-header {
@@ -508,7 +821,8 @@
             background: transparent;
             border: 2px solid #000;
             color: #000;
-            width: 30px; height: 30px;
+            width: 30px;
+            height: 30px;
             font-size: 18px;
             cursor: pointer;
             display: flex;
@@ -518,7 +832,10 @@
             clip-path: none;
         }
 
-        .country-popup-close:hover { background: #000; color: var(--primary); }
+        .country-popup-close:hover {
+            background: #000;
+            color: var(--primary);
+        }
 
         .country-popup-image {
             width: 100%;
@@ -555,24 +872,38 @@
 
         .breaking-alert {
             position: absolute;
-            top: 50%; left: 50%;
+            top: 50%;
+            left: 50%;
             transform: translate(-50%, -50%);
             background: rgba(0, 0, 0, 0.98);
             border: 3px solid var(--primary);
             padding: 0;
-            width: 90%; max-width: 700px;
+            width: 90%;
+            max-width: 700px;
             z-index: 100;
             display: none;
             animation: alert-appear 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             box-shadow: 0 0 80px var(--primary), 0 0 150px rgba(255, 0, 0, 0.5);
         }
 
-        .breaking-alert.visible { display: block; }
+        .breaking-alert.visible {
+            display: block;
+        }
 
         @keyframes alert-appear {
-            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.3) rotate(-5deg); }
-            50% { transform: translate(-50%, -50%) scale(1.05) rotate(1deg); }
-            100% { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.3) rotate(-5deg);
+            }
+
+            50% {
+                transform: translate(-50%, -50%) scale(1.05) rotate(1deg);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1) rotate(0deg);
+            }
         }
 
         .breaking-banner {
@@ -592,42 +923,126 @@
         }
 
         @keyframes banner-flash {
-            0%, 100% { background: linear-gradient(90deg, var(--primary), var(--primary-dark), var(--primary)); }
-            50% { background: linear-gradient(90deg, var(--primary-light), var(--primary), var(--primary-light)); }
+
+            0%,
+            100% {
+                background: linear-gradient(90deg, var(--primary), var(--primary-dark), var(--primary));
+            }
+
+            50% {
+                background: linear-gradient(90deg, var(--primary-light), var(--primary), var(--primary-light));
+            }
         }
 
-        .breaking-content { display: flex; gap: 20px; padding: 20px; }
+        .breaking-content {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+        }
 
-        .breaking-image { width: 200px; height: 120px; background: var(--dark-red); flex-shrink: 0; overflow: hidden; border: 2px solid var(--primary); }
-        .breaking-image img { width: 100%; height: 100%; object-fit: cover; }
+        .breaking-image {
+            width: 200px;
+            height: 120px;
+            background: var(--dark-red);
+            flex-shrink: 0;
+            overflow: hidden;
+            border: 2px solid var(--primary);
+        }
 
-        .breaking-text { flex: 1; }
-        .breaking-title { font-size: 20px; color: #fff; line-height: 1.3; margin-bottom: 12px; text-shadow: 0 0 15px var(--primary); font-weight: bold; }
-        .breaking-summary { font-size: 13px; color: var(--text-main); line-height: 1.6; margin-bottom: 15px; }
-        .breaking-meta { display: flex; gap: 20px; font-size: 11px; color: var(--text-dim); font-family: 'Share Tech Mono', monospace; }
-        .breaking-country { color: var(--primary); font-weight: bold; }
+        .breaking-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .breaking-text {
+            flex: 1;
+        }
+
+        .breaking-title {
+            font-size: 20px;
+            color: #fff;
+            line-height: 1.3;
+            margin-bottom: 12px;
+            text-shadow: 0 0 15px var(--primary);
+            font-weight: bold;
+        }
+
+        .breaking-summary {
+            font-size: 13px;
+            color: var(--text-main);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .breaking-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 11px;
+            color: var(--text-dim);
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        .breaking-country {
+            color: var(--primary);
+            font-weight: bold;
+        }
 
         .breaking-close {
             position: absolute;
-            top: 50px; right: 12px;
+            top: 50px;
+            right: 12px;
             background: transparent;
             border: 2px solid var(--primary);
             color: var(--primary);
-            width: 30px; height: 30px;
+            width: 30px;
+            height: 30px;
             font-size: 18px;
             cursor: pointer;
             transition: all 0.2s;
         }
 
-        .breaking-close:hover { background: var(--primary); color: #000; }
+        .breaking-close:hover {
+            background: var(--primary);
+            color: #000;
+        }
 
-        .breaking-timer { height: 3px; background: var(--dark-red); }
-        .breaking-timer-fill { height: 100%; background: var(--primary); width: 100%; animation: timer-countdown 20s linear; }
-        @keyframes timer-countdown { from { width: 100%; } to { width: 0%; } }
+        .breaking-timer {
+            height: 3px;
+            background: var(--dark-red);
+        }
 
-        .sidebar-right { display: flex; flex-direction: column; gap: 8px; height: calc(100% - 126px); overflow: hidden; }
+        .breaking-timer-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 100%;
+            animation: timer-countdown 20s linear;
+        }
 
-        .news-feed { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+        @keyframes timer-countdown {
+            from {
+                width: 100%;
+            }
+
+            to {
+                width: 0%;
+            }
+        }
+
+        .sidebar-right {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            height: calc(100% - 126px);
+            overflow: hidden;
+        }
+
+        .news-feed {
+            flex: 1;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+        }
 
         /* ===== BIG IMAGE NEWS CARDS ===== */
         .news-card {
@@ -639,9 +1054,29 @@
             overflow: hidden;
             position: relative;
         }
-        .news-card:hover { border-color: var(--primary); box-shadow: 0 0 20px rgba(255,0,0,0.3); transform: translateY(-2px); }
-        .news-card.breaking-card { border-color: var(--primary); animation: news-flash 1s infinite; }
-        @keyframes news-flash { 0%, 100% { background: rgba(50, 0, 0, 0.6); } 50% { background: rgba(80, 0, 0, 0.6); } }
+
+        .news-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .news-card.breaking-card {
+            border-color: var(--primary);
+            animation: news-flash 1s infinite;
+        }
+
+        @keyframes news-flash {
+
+            0%,
+            100% {
+                background: rgba(50, 0, 0, 0.6);
+            }
+
+            50% {
+                background: rgba(80, 0, 0, 0.6);
+            }
+        }
 
         .news-card-image {
             width: 100%;
@@ -651,29 +1086,98 @@
             border-bottom: 2px solid var(--dim-red);
             background: #0a0000;
         }
+
         .news-card-image.no-image {
-            display: flex; align-items: center; justify-content: center;
-            font-family: 'Orbitron', sans-serif; font-size: 40px; color: var(--dim-red);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 40px;
+            color: var(--dim-red);
             background: linear-gradient(135deg, #0a0000 0%, #1a0000 100%);
         }
 
-        .news-card-body { padding: 10px; }
-        .news-card-priority {
-            font-size: 9px; font-family: 'Share Tech Mono', monospace;
-            letter-spacing: 2px; margin-bottom: 6px;
-            display: flex; align-items: center; gap: 6px;
+        .news-card-body {
+            padding: 10px;
         }
-        .news-card-priority.breaking { color: var(--primary); animation: priority-flash 0.5s infinite; }
-        .news-card-priority.breaking::before { content: "[!]"; animation: blink 0.5s infinite; }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-        @keyframes priority-flash { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
-        .news-card-priority.high { color: var(--primary-light); }
-        .news-card-priority.normal { color: var(--text-dim); }
 
-        .news-card-title { font-size: 14px; color: #fff; line-height: 1.4; margin-bottom: 8px; font-weight: 600; }
-        .news-card-meta { display: flex; gap: 12px; font-size: 9px; color: var(--text-dim); font-family: 'Share Tech Mono', monospace; flex-wrap: wrap; }
-        .news-card-source { color: var(--primary); font-weight: bold; }
-        .news-card-country { color: var(--primary-light); }
+        .news-card-priority {
+            font-size: 9px;
+            font-family: 'Share Tech Mono', monospace;
+            letter-spacing: 2px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .news-card-priority.breaking {
+            color: var(--primary);
+            animation: priority-flash 0.5s infinite;
+        }
+
+        .news-card-priority.breaking::before {
+            content: "[!]";
+            animation: blink 0.5s infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes priority-flash {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        .news-card-priority.high {
+            color: var(--primary-light);
+        }
+
+        .news-card-priority.normal {
+            color: var(--text-dim);
+        }
+
+        .news-card-title {
+            font-size: 14px;
+            color: #fff;
+            line-height: 1.4;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .news-card-meta {
+            display: flex;
+            gap: 12px;
+            font-size: 9px;
+            color: var(--text-dim);
+            font-family: 'Share Tech Mono', monospace;
+            flex-wrap: wrap;
+        }
+
+        .news-card-source {
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .news-card-country {
+            color: var(--primary-light);
+        }
 
         /* Legacy news items (kept for old mode) */
         .news-item {
@@ -687,19 +1191,69 @@
             display: none;
         }
 
-        .news-item:hover { background: rgba(40, 0, 0, 0.6); border-right-color: var(--primary); transform: translateX(3px); }
-        .news-item.breaking { border-right-color: var(--primary); border-left: 2px solid var(--primary); animation: news-flash 1s infinite; }
+        .news-item:hover {
+            background: rgba(40, 0, 0, 0.6);
+            border-right-color: var(--primary);
+            transform: translateX(3px);
+        }
 
-        .news-priority { font-size: 9px; font-family: 'Share Tech Mono', monospace; letter-spacing: 2px; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
-        .news-priority.breaking { color: var(--primary); animation: priority-flash 0.5s infinite; }
-        .news-priority.breaking::before { content: "[!]"; animation: blink 0.5s infinite; }
-        .news-priority.high { color: var(--primary-light); }
-        .news-priority.normal { color: var(--text-dim); }
+        .news-item.breaking {
+            border-right-color: var(--primary);
+            border-left: 2px solid var(--primary);
+            animation: news-flash 1s infinite;
+        }
 
-        .news-title { font-size: 13px; color: #fff; line-height: 1.4; margin-bottom: 8px; font-weight: 500; }
-        .news-meta { display: flex; gap: 12px; font-size: 9px; color: var(--text-dim); font-family: 'Share Tech Mono', monospace; }
-        .news-country { color: var(--primary); }
-        .news-source { color: var(--primary-light); }
+        .news-priority {
+            font-size: 9px;
+            font-family: 'Share Tech Mono', monospace;
+            letter-spacing: 2px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .news-priority.breaking {
+            color: var(--primary);
+            animation: priority-flash 0.5s infinite;
+        }
+
+        .news-priority.breaking::before {
+            content: "[!]";
+            animation: blink 0.5s infinite;
+        }
+
+        .news-priority.high {
+            color: var(--primary-light);
+        }
+
+        .news-priority.normal {
+            color: var(--text-dim);
+        }
+
+        .news-title {
+            font-size: 13px;
+            color: #fff;
+            line-height: 1.4;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .news-meta {
+            display: flex;
+            gap: 12px;
+            font-size: 9px;
+            color: var(--text-dim);
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        .news-country {
+            color: var(--primary);
+        }
+
+        .news-source {
+            color: var(--primary-light);
+        }
 
         /* ===== URGENT BAR ===== */
         .urgent-bar {
@@ -711,14 +1265,26 @@
             overflow: hidden;
             position: relative;
             min-height: 44px;
-            box-shadow: 0 0 30px #ff0000, 0 0 60px rgba(255,0,0,0.5), 0 0 100px rgba(255,0,0,0.3), inset 0 0 20px rgba(255,0,0,0.1);
+            box-shadow: 0 0 30px #ff0000, 0 0 60px rgba(255, 0, 0, 0.5), 0 0 100px rgba(255, 0, 0, 0.3), inset 0 0 20px rgba(255, 0, 0, 0.1);
             animation: urgent-neon 1.5s ease-in-out infinite;
         }
-        .urgent-bar.active { display: flex; }
+
+        .urgent-bar.active {
+            display: flex;
+        }
 
         @keyframes urgent-neon {
-            0%, 100% { box-shadow: 0 0 30px #ff0000, 0 0 60px rgba(255,0,0,0.5), 0 0 100px rgba(255,0,0,0.3); border-color: #ff0000; }
-            50% { box-shadow: 0 0 50px #ff0000, 0 0 90px rgba(255,0,0,0.7), 0 0 140px rgba(255,0,0,0.5); border-color: #ff3333; }
+
+            0%,
+            100% {
+                box-shadow: 0 0 30px #ff0000, 0 0 60px rgba(255, 0, 0, 0.5), 0 0 100px rgba(255, 0, 0, 0.3);
+                border-color: #ff0000;
+            }
+
+            50% {
+                box-shadow: 0 0 50px #ff0000, 0 0 90px rgba(255, 0, 0, 0.7), 0 0 140px rgba(255, 0, 0, 0.5);
+                border-color: #ff3333;
+            }
         }
 
         .urgent-label {
@@ -736,31 +1302,78 @@
             white-space: nowrap;
             min-height: 44px;
         }
+
         @keyframes urgent-label-flash {
-            0%, 100% { background: #ff0000; }
-            50% { background: #cc0000; }
+
+            0%,
+            100% {
+                background: #ff0000;
+            }
+
+            50% {
+                background: #cc0000;
+            }
         }
 
         .urgent-content {
-            flex: 1; overflow: hidden; position: relative; height: 100%;
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+            height: 100%;
         }
+
         .urgent-scroll {
-            display: flex; align-items: center; height: 100%;
+            display: flex;
+            align-items: center;
+            height: 100%;
             animation: urgent-ticker-scroll 30s linear infinite;
             white-space: nowrap;
         }
-        @keyframes urgent-ticker-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        .urgent-text {
-            color: #fff; font-size: 14px; font-weight: bold;
-            padding: 0 40px; display: inline-flex; align-items: center; gap: 10px;
-            text-shadow: 0 0 10px rgba(255,0,0,0.5);
+
+        @keyframes urgent-ticker-scroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
         }
-        .urgent-text::before { content: "⚠"; color: var(--primary); font-size: 16px; }
-        .urgent-text .urgent-separator { color: var(--primary); margin: 0 10px; }
+
+        .urgent-text {
+            color: #fff;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 0 40px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+
+        .urgent-text::before {
+            content: "⚠";
+            color: var(--primary);
+            font-size: 16px;
+        }
+
+        .urgent-text .urgent-separator {
+            color: var(--primary);
+            margin: 0 10px;
+        }
 
         /* ===== LIVE TV PANEL ===== */
-        .live-tv-panel { flex-shrink: 0; }
-        .tv-tabs { display: flex; gap: 2px; padding: 4px; flex-wrap: wrap; }
+        .live-tv-panel {
+            flex-shrink: 0;
+        }
+
+        .tv-tabs {
+            display: flex;
+            gap: 2px;
+            padding: 4px;
+            flex-wrap: wrap;
+        }
+
         .tv-tab {
             flex: 1;
             background: transparent;
@@ -776,24 +1389,71 @@
             clip-path: none;
             min-width: 60px;
         }
-        .tv-tab:hover { border-color: var(--primary); color: var(--primary); }
-        .tv-tab.active { background: var(--primary); color: #000; border-color: var(--primary); }
-        .tv-frame-container { position: relative; width: 100%; padding-top: 56.25%; background: #000; }
-        .tv-frame-container iframe {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;
+
+        .tv-tab:hover {
+            border-color: var(--primary);
+            color: var(--primary);
         }
+
+        .tv-tab.active {
+            background: var(--primary);
+            color: #000;
+            border-color: var(--primary);
+        }
+
+        .tv-frame-container {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%;
+            background: #000;
+        }
+
+        .tv-frame-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
         .tv-offline {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            color: var(--dim-red); font-family: 'Share Tech Mono', monospace; font-size: 11px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--dim-red);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 11px;
             background: #050000;
         }
+
         .tv-offline .tv-static {
-            width: 40px; height: 40px; margin-bottom: 8px;
+            width: 40px;
+            height: 40px;
+            margin-bottom: 8px;
             background: repeating-linear-gradient(0deg, #111 0px, #111 2px, #000 2px, #000 4px);
             animation: tv-static 0.1s steps(3) infinite;
         }
-        @keyframes tv-static { 0% { opacity: 0.8; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
+
+        @keyframes tv-static {
+            0% {
+                opacity: 0.8;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0.6;
+            }
+        }
 
         /* ===== NEWS TICKER ===== */
         .news-ticker {
@@ -818,19 +1478,80 @@
             animation: ticker-label-pulse 2s infinite;
         }
 
-        @keyframes ticker-label-pulse { 0%, 100% { background: var(--primary); } 50% { background: var(--primary-light); } }
+        @keyframes ticker-label-pulse {
 
-        .ticker-content { flex: 1; overflow: hidden; position: relative; height: 100%; }
-        .ticker-scroll { display: flex; align-items: center; height: 100%; animation: ticker-scroll 60s linear infinite; white-space: nowrap; }
-        .ticker-scroll:hover { animation-play-state: paused; }
-        @keyframes ticker-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        .ticker-item { display: inline-flex; align-items: center; gap: 8px; padding: 0 30px; color: #fff; font-size: 12px; }
-        .ticker-item .separator { color: var(--primary); font-weight: bold; }
-        .ticker-item.breaking { color: var(--primary); }
-        .ticker-item.breaking::before { content: "[!]"; }
+            0%,
+            100% {
+                background: var(--primary);
+            }
 
-        .controls { display: flex; flex-direction: column; gap: 6px; padding: 8px; }
-        .control-row { display: flex; gap: 4px; }
+            50% {
+                background: var(--primary-light);
+            }
+        }
+
+        .ticker-content {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+            height: 100%;
+        }
+
+        .ticker-scroll {
+            display: flex;
+            align-items: center;
+            height: 100%;
+            animation: ticker-scroll 60s linear infinite;
+            white-space: nowrap;
+        }
+
+        .ticker-scroll:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes ticker-scroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .ticker-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0 30px;
+            color: #fff;
+            font-size: 12px;
+        }
+
+        .ticker-item .separator {
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .ticker-item.breaking {
+            color: var(--primary);
+        }
+
+        .ticker-item.breaking::before {
+            content: "[!]";
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding: 8px;
+        }
+
+        .control-row {
+            display: flex;
+            gap: 4px;
+        }
 
         button {
             flex: 1;
@@ -848,13 +1569,35 @@
             padding: 8px 4px;
         }
 
-        button:hover { background: var(--primary); color: #000; box-shadow: 0 0 20px var(--primary); }
-        button.active { background: var(--primary); color: #000; }
-        button.secondary { border-color: #444; color: #444; }
-        button.secondary:hover { border-color: var(--primary); color: var(--primary); background: transparent; }
+        button:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        button.active {
+            background: var(--primary);
+            color: #000;
+        }
+
+        button.secondary {
+            border-color: #444;
+            color: #444;
+        }
+
+        button.secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: transparent;
+        }
 
         /* Language switcher */
-        .lang-switcher { display: flex; gap: 2px; padding: 4px 8px; }
+        .lang-switcher {
+            display: flex;
+            gap: 2px;
+            padding: 4px 8px;
+        }
+
         .lang-btn {
             flex: none;
             background: transparent;
@@ -866,24 +1609,57 @@
             font-family: 'Share Tech Mono', monospace;
             clip-path: none;
         }
-        .lang-btn:hover { border-color: var(--primary); color: var(--primary); background: transparent; }
-        .lang-btn.active { background: var(--primary); color: #000; border-color: var(--primary); }
+
+        .lang-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: transparent;
+        }
+
+        .lang-btn.active {
+            background: var(--primary);
+            color: #000;
+            border-color: var(--primary);
+        }
 
         /* Mobile & Overlay Styles */
-        .how-to-use-overlay, .settings-overlay, .connection-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); z-index: 2000; display: none; justify-content: center; align-items: center; }
-        .how-to-use-overlay.visible, .settings-overlay.visible, .connection-overlay.visible { display: flex; }
+        .how-to-use-overlay,
+        .settings-overlay,
+        .connection-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
 
-        .how-to-use-panel, .settings-panel, .connection-panel {
+        .how-to-use-overlay.visible,
+        .settings-overlay.visible,
+        .connection-overlay.visible {
+            display: flex;
+        }
+
+        .how-to-use-panel,
+        .settings-panel,
+        .connection-panel {
             background: var(--bg-panel);
             border: 2px solid var(--primary);
             padding: 0;
-            width: 95%; max-width: 650px; max-height: 80vh;
+            width: 95%;
+            max-width: 650px;
+            max-height: 80vh;
             overflow-y: auto;
             position: relative;
             box-shadow: 0 0 60px rgba(255, 0, 0, 0.4);
         }
 
-        .how-to-use-header, .settings-panel h2 {
+        .how-to-use-header,
+        .settings-panel h2 {
             background: linear-gradient(90deg, var(--primary), var(--dark-red));
             color: #000;
             padding: 15px 20px;
@@ -894,47 +1670,268 @@
             letter-spacing: 3px;
         }
 
-        .how-to-use-content { padding: 20px; }
-        .how-to-use-content h3 { color: var(--primary); font-size: 14px; margin: 15px 0 8px 0; letter-spacing: 2px; border-bottom: 1px solid var(--dim-red); padding-bottom: 6px; }
-        .how-to-use-content h3:first-child { margin-top: 0; }
-        .how-to-use-content p, .how-to-use-content li { color: var(--text-main); font-size: 13px; line-height: 1.7; margin-bottom: 8px; }
-        .how-to-use-content ul { padding-left: 0; list-style: none; }
-        .how-to-use-content li { margin-bottom: 6px; display: flex; align-items: flex-start; gap: 15px; }
-        .how-to-use-content li .step-number { background: var(--primary); color: #000; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; flex-shrink: 0; }
-        .how-to-use-content pre { background: #0a0000; border: 1px solid var(--dim-red); padding: 12px; overflow-x: auto; font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--text-main); line-height: 1.5; }
-        
-        .instruction-content strong { color: #fff; display: block; margin-bottom: 4px; }
-        .instruction-content p { margin: 0; color: var(--text-dim); }
-        .cmd-box { display: flex; gap: 10px; margin-top: 8px; align-items: center; }
-        .cmd-box code { flex: 1; background: #110000; border: 1px solid #330000; padding: 8px 12px; color: #ff6666; font-family: 'Share Tech Mono', monospace; font-size: 11px; display: block; }
+        .how-to-use-content {
+            padding: 20px;
+        }
 
-        .download-section { background: var(--dark-red); border: 2px solid var(--primary); padding: 15px; margin-top: 15px; text-align: center; }
-        .download-section h4 { color: #fff; margin: 0 0 12px 0; font-size: 12px; letter-spacing: 2px; }
-        .download-btn { display: inline-block; background: var(--primary); color: #000; padding: 12px 30px; font-size: 14px; font-weight: bold; letter-spacing: 2px; border: none; cursor: pointer; transition: all 0.3s; margin: 4px; text-decoration: none; text-transform: uppercase; }
-        .download-btn:hover { background: var(--primary-light); box-shadow: 0 0 25px var(--primary); transform: scale(1.05); }
-        .download-btn.secondary { background: #333; color: #fff; border: 1px solid #555; }
-        .download-btn.secondary:hover { background: #555; box-shadow: none; transform: none; }
+        .how-to-use-content h3 {
+            color: var(--primary);
+            font-size: 14px;
+            margin: 15px 0 8px 0;
+            letter-spacing: 2px;
+            border-bottom: 1px solid var(--dim-red);
+            padding-bottom: 6px;
+        }
 
-        .close-btn { position: absolute; top: 12px; right: 12px; background: transparent; border: 2px solid #000; color: #000; width: 30px; height: 30px; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; clip-path: none; flex: none; }
-        .close-btn:hover { background: #000; color: var(--primary); }
+        .how-to-use-content h3:first-child {
+            margin-top: 0;
+        }
 
-        .settings-panel { padding: 25px; }
-        .settings-panel h2 span { color: var(--primary); }
-        .setting-group { margin-bottom: 15px; }
-        .setting-label { font-size: 11px; color: var(--text-dim); margin-bottom: 6px; display: block; letter-spacing: 1px; }
+        .how-to-use-content p,
+        .how-to-use-content li {
+            color: var(--text-main);
+            font-size: 13px;
+            line-height: 1.7;
+            margin-bottom: 8px;
+        }
 
-        select, input { background: var(--bg-solid); border: 1px solid var(--dim-red); color: var(--text-main); padding: 8px; font-family: 'Rajdhani', sans-serif; font-size: 13px; width: 100%; }
-        select:focus, input:focus { border-color: var(--primary); }
+        .how-to-use-content ul {
+            padding-left: 0;
+            list-style: none;
+        }
 
-        .loading-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 500; }
-        .loading-overlay.hidden { display: none; }
-        .loading-spinner { width: 60px; height: 60px; border: 3px solid var(--dark-red); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .loading-text { margin-top: 20px; font-family: 'Share Tech Mono', monospace; color: var(--primary); letter-spacing: 2px; font-size: 12px; }
+        .how-to-use-content li {
+            margin-bottom: 6px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
 
-        .country-tags { display: flex; flex-wrap: wrap; gap: 4px; }
-        .country-tag { background: var(--dark-red); border: 1px solid var(--primary); color: var(--text-main); padding: 4px 8px; font-size: 11px; display: flex; align-items: center; gap: 4px; }
-        .country-tag .remove { cursor: pointer; color: var(--primary); }
+        .how-to-use-content li .step-number {
+            background: var(--primary);
+            color: #000;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+
+        .how-to-use-content pre {
+            background: #0a0000;
+            border: 1px solid var(--dim-red);
+            padding: 12px;
+            overflow-x: auto;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 11px;
+            color: var(--text-main);
+            line-height: 1.5;
+        }
+
+        .instruction-content strong {
+            color: #fff;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .instruction-content p {
+            margin: 0;
+            color: var(--text-dim);
+        }
+
+        .cmd-box {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+            align-items: center;
+        }
+
+        .cmd-box code {
+            flex: 1;
+            background: #110000;
+            border: 1px solid #330000;
+            padding: 8px 12px;
+            color: #ff6666;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 11px;
+            display: block;
+        }
+
+        .download-section {
+            background: var(--dark-red);
+            border: 2px solid var(--primary);
+            padding: 15px;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .download-section h4 {
+            color: #fff;
+            margin: 0 0 12px 0;
+            font-size: 12px;
+            letter-spacing: 2px;
+        }
+
+        .download-btn {
+            display: inline-block;
+            background: var(--primary);
+            color: #000;
+            padding: 12px 30px;
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 4px;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        .download-btn:hover {
+            background: var(--primary-light);
+            box-shadow: 0 0 25px var(--primary);
+            transform: scale(1.05);
+        }
+
+        .download-btn.secondary {
+            background: #333;
+            color: #fff;
+            border: 1px solid #555;
+        }
+
+        .download-btn.secondary:hover {
+            background: #555;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: transparent;
+            border: 2px solid #000;
+            color: #000;
+            width: 30px;
+            height: 30px;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            clip-path: none;
+            flex: none;
+        }
+
+        .close-btn:hover {
+            background: #000;
+            color: var(--primary);
+        }
+
+        .settings-panel {
+            padding: 25px;
+        }
+
+        .settings-panel h2 span {
+            color: var(--primary);
+        }
+
+        .setting-group {
+            margin-bottom: 15px;
+        }
+
+        .setting-label {
+            font-size: 11px;
+            color: var(--text-dim);
+            margin-bottom: 6px;
+            display: block;
+            letter-spacing: 1px;
+        }
+
+        select,
+        input {
+            background: var(--bg-solid);
+            border: 1px solid var(--dim-red);
+            color: var(--text-main);
+            padding: 8px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 13px;
+            width: 100%;
+        }
+
+        select:focus,
+        input:focus {
+            border-color: var(--primary);
+        }
+
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 500;
+        }
+
+        .loading-overlay.hidden {
+            display: none;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 3px solid var(--dark-red);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading-text {
+            margin-top: 20px;
+            font-family: 'Share Tech Mono', monospace;
+            color: var(--primary);
+            letter-spacing: 2px;
+            font-size: 12px;
+        }
+
+        .country-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .country-tag {
+            background: var(--dark-red);
+            border: 1px solid var(--primary);
+            color: var(--text-main);
+            padding: 4px 8px;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .country-tag .remove {
+            cursor: pointer;
+            color: var(--primary);
+        }
 
         /* Mobile Menu Button */
         .mobile-menu-btn {
@@ -951,18 +1948,69 @@
         }
 
         /* Connection Panel Specific */
-        .connection-panel h2 { margin: 0; padding: 15px 20px; background: linear-gradient(90deg, var(--primary), var(--dark-red)); color: #000; }
-        .connection-panel { padding: 0; text-align: center; }
-        .connection-panel .inner { padding: 30px; }
-        .connection-panel p { color: #aaa; font-size: 13px; margin-bottom: 20px; font-family: 'Share Tech Mono', monospace; }
-        .connection-panel input { width: 100%; background: #000; border: 1px solid var(--primary); color: #fff; padding: 15px; font-family: 'Share Tech Mono', monospace; font-size: 16px; margin-bottom: 20px; text-align: center; }
-        .connection-panel input::placeholder { color: #550000; }
+        .connection-panel h2 {
+            margin: 0;
+            padding: 15px 20px;
+            background: linear-gradient(90deg, var(--primary), var(--dark-red));
+            color: #000;
+        }
+
+        .connection-panel {
+            padding: 0;
+            text-align: center;
+        }
+
+        .connection-panel .inner {
+            padding: 30px;
+        }
+
+        .connection-panel p {
+            color: #aaa;
+            font-size: 13px;
+            margin-bottom: 20px;
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        .connection-panel input {
+            width: 100%;
+            background: #000;
+            border: 1px solid var(--primary);
+            color: #fff;
+            padding: 15px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 16px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .connection-panel input::placeholder {
+            color: #550000;
+        }
 
         /* News source status */
-        .source-status { font-family: 'Share Tech Mono', monospace; font-size: 9px; color: var(--text-dim); padding: 4px 8px; }
-        .source-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 4px; }
-        .source-dot.online { background: var(--primary); box-shadow: 0 0 6px var(--primary); }
-        .source-dot.offline { background: #333; }
+        .source-status {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 9px;
+            color: var(--text-dim);
+            padding: 4px 8px;
+        }
+
+        .source-dot {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            margin-right: 4px;
+        }
+
+        .source-dot.online {
+            background: var(--primary);
+            box-shadow: 0 0 6px var(--primary);
+        }
+
+        .source-dot.offline {
+            background: #333;
+        }
 
         /* Mobile Specific Styles */
         @media (max-width: 900px) {
@@ -978,18 +2026,44 @@
                 padding: 0 10px;
             }
 
-            .logo-globe { width: 36px; height: 36px; }
-            h1 { font-size: 16px; letter-spacing: 2px; }
-            .header-subtitle { display: none; }
-            .header-stats { display: none; }
-            
-            .mobile-menu-btn { display: flex; align-items: center; justify-content: center; }
-            
-            .sidebar-left { display: none; }
-            
-            .main-view { height: calc(100% - 90px); } 
-            .earth-container { border: none; border-top: 1px solid var(--primary); border-bottom: 1px solid var(--primary); }
-            
+            .logo-globe {
+                width: 36px;
+                height: 36px;
+            }
+
+            h1 {
+                font-size: 16px;
+                letter-spacing: 2px;
+            }
+
+            .header-subtitle {
+                display: none;
+            }
+
+            .header-stats {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .sidebar-left {
+                display: none;
+            }
+
+            .main-view {
+                height: calc(100% - 90px);
+            }
+
+            .earth-container {
+                border: none;
+                border-top: 1px solid var(--primary);
+                border-bottom: 1px solid var(--primary);
+            }
+
             /* Sidebar becomes a slide-out panel on mobile */
             .sidebar-right {
                 position: fixed;
@@ -1002,40 +2076,98 @@
                 transform: translateX(100%);
                 transition: transform 0.3s ease;
                 background: rgba(5, 0, 0, 0.98);
-                box-shadow: -5px 0 20px rgba(0,0,0,0.8);
+                box-shadow: -5px 0 20px rgba(0, 0, 0, 0.8);
                 padding-top: 10px;
             }
-            
+
             .sidebar-right.mobile-open {
                 transform: translateX(0);
             }
 
-            .news-ticker { height: 35px; }
-            .ticker-label { padding: 0 10px; font-size: 10px; }
-            .ticker-item { font-size: 10px; padding: 0 15px; }
+            .news-ticker {
+                height: 35px;
+            }
+
+            .ticker-label {
+                padding: 0 10px;
+                font-size: 10px;
+            }
+
+            .ticker-item {
+                font-size: 10px;
+                padding: 0 15px;
+            }
 
             /* Adjust overlays for mobile */
-            .breaking-content { flex-direction: column; padding: 10px; }
-            .breaking-image { width: 100%; height: 150px; }
-            .breaking-title { font-size: 16px; }
-            .breaking-summary { font-size: 12px; }
+            .breaking-content {
+                flex-direction: column;
+                padding: 10px;
+            }
 
-            .country-popup-content { width: 95%; max-height: 80vh; }
-            .country-popup-header { font-size: 14px; padding: 10px; }
-            .country-popup-image { height: 150px; }
-            
+            .breaking-image {
+                width: 100%;
+                height: 150px;
+            }
+
+            .breaking-title {
+                font-size: 16px;
+            }
+
+            .breaking-summary {
+                font-size: 12px;
+            }
+
+            .country-popup-content {
+                width: 95%;
+                max-height: 80vh;
+            }
+
+            .country-popup-header {
+                font-size: 14px;
+                padding: 10px;
+            }
+
+            .country-popup-image {
+                height: 150px;
+            }
+
             /* HUD adjustments */
-            .earth-info .value { font-size: 18px; }
-            .rotation-indicator { display: none; }
-            .hud-data { top: 15px; font-size: 8px; }
+            .earth-info .value {
+                font-size: 18px;
+            }
 
-            .news-card-image { height: 120px; }
-            .urgent-label { font-size: 10px; padding: 0 8px; letter-spacing: 1px; }
+            .rotation-indicator {
+                display: none;
+            }
+
+            .hud-data {
+                top: 15px;
+                font-size: 8px;
+            }
+
+            .news-card-image {
+                height: 120px;
+            }
+
+            .urgent-label {
+                font-size: 10px;
+                padding: 0 8px;
+                letter-spacing: 1px;
+            }
         }
 
-        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; } }
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+            }
+        }
     </style>
 </head>
+
 <body>
 
     <audio id="snd-engage" src="/assets/ambient.wav" preload="auto"></audio>
@@ -1055,12 +2187,26 @@
                 </div>
             </div>
             <div class="header-stats">
-                <div class="stat-item"><div class="stat-value" id="stat-breaking">0</div><div class="stat-label">BREAKING</div></div>
-                <div class="stat-item"><div class="stat-value" id="stat-total">0</div><div class="stat-label">ARTICLES</div></div>
-                <div class="stat-item"><div class="stat-value" id="stat-countries">0</div><div class="stat-label">COUNTRIES</div></div>
-                <div class="stat-item"><div class="stat-value" id="stat-sources">0</div><div class="stat-label">SOURCES</div></div>
+                <div class="stat-item">
+                    <div class="stat-value" id="stat-breaking">0</div>
+                    <div class="stat-label">BREAKING</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="stat-total">0</div>
+                    <div class="stat-label">ARTICLES</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="stat-countries">0</div>
+                    <div class="stat-label">COUNTRIES</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="stat-sources">0</div>
+                    <div class="stat-label">SOURCES</div>
+                </div>
             </div>
-            <div class="live-badge"><div class="live-dot"></div>LIVE</div>
+            <div class="live-badge">
+                <div class="live-dot"></div>LIVE
+            </div>
             <!-- Mobile Menu Button -->
             <button class="mobile-menu-btn" onclick="toggleMobileSidebar()">☰</button>
         </div>
@@ -1068,7 +2214,10 @@
         <div class="sidebar-left">
             <div class="panel country-list" style="flex: 0 0 auto; max-height: 140px;">
                 <div class="panel-header"><span>WATCHED REGIONS</span><span id="watched-count">0</span></div>
-                <div class="panel-content" id="watched-countries"><div style="color: var(--text-dim); text-align: center; padding: 15px; font-size: 11px;">[ NO REGIONS SELECTED ]</div></div>
+                <div class="panel-content" id="watched-countries">
+                    <div style="color: var(--text-dim); text-align: center; padding: 15px; font-size: 11px;">[ NO
+                        REGIONS SELECTED ]</div>
+                </div>
             </div>
             <div class="panel" style="flex: 0 0 auto;">
                 <div class="panel-header"><span>NEWS CATEGORIES</span></div>
@@ -1094,20 +2243,25 @@
                     <div class="tv-tab" onclick="switchTV(3)">AJ AR</div>
                 </div>
                 <div class="tv-frame-container" id="tv-container">
-                    <iframe id="tv-frame" src="https://www.youtube.com/embed/live_stream?channel=UCNye-wNBqNL5ZzHSJj3l8Bg&autoplay=1&mute=1&playsinline=1" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
+                    <iframe id="tv-frame"
+                        src="https://www.youtube.com/embed/live_stream?channel=UCNye-wNBqNL5ZzHSJj3l8Bg&autoplay=1&mute=1&playsinline=1"
+                        allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
                 </div>
             </div>
             <!-- SYSTEM CONTROLS -->
             <div class="panel" style="flex: 0 0 auto;">
                 <div class="panel-header">SYSTEM CONTROLS</div>
                 <div class="controls">
-                    <div class="control-row"><button onclick="refreshNews()">⟳ REFRESH</button><button class="secondary" onclick="showSettings()">⚙ SETTINGS</button></div>
-                    <div class="control-row"><button id="btn-breaking" onclick="toggleBreakingOnly()">BREAKING ONLY</button></div>
-                    <div class="control-row"><button onclick="showHowToUse()">? HOW TO USE</button><button class="secondary" onclick="showLegacyConnect()">LEGACY MODE</button></div>
+                    <div class="control-row"><button onclick="refreshNews()">⟳ REFRESH</button><button class="secondary"
+                            onclick="showSettings()">⚙ SETTINGS</button></div>
+                    <div class="control-row"><button id="btn-breaking" onclick="toggleBreakingOnly()">BREAKING
+                            ONLY</button></div>
+                    <div class="control-row"><button onclick="showHowToUse()">? HOW TO USE</button><button
+                            class="secondary" onclick="showLegacyConnect()">LEGACY MODE</button></div>
                 </div>
                 <div class="source-status" id="source-status">
-                    <span class="source-dot online"></span> GDELT 
-                    <span class="source-dot online"></span> RSS 
+                    <span class="source-dot online"></span> GDELT
+                    <span class="source-dot online"></span> RSS
                     <span class="source-dot online"></span> AUTO-REFRESH: 60s
                 </div>
             </div>
@@ -1115,30 +2269,39 @@
 
         <div class="main-view">
             <div class="earth-container panel">
-                <!-- CesiumJS Globe (New) -->
-                <div id="cesium-container"></div>
-                <div class="cesium-red-overlay"></div>
-                
-                <!-- Three.js Canvas (Legacy - hidden by default) -->
+                <!-- Three.js Globe Canvas -->
                 <canvas id="earth-canvas"></canvas>
-                
+
                 <div class="hud-overlay">
                     <div class="hud-corner top-left"></div>
                     <div class="hud-corner top-right"></div>
                     <div class="hud-corner bottom-left"></div>
                     <div class="hud-corner bottom-right"></div>
                     <div class="hud-crosshair"></div>
-                    <div class="hud-data" id="hud-data">SAT: NEYDRA-1<br>RES: 15m<br>MODE: THERMAL-IR<br>SEC: CLASSIFIED</div>
+                    <div class="hud-data" id="hud-data">SAT: NEYDRA-1<br>RES: 15m<br>MODE: THERMAL-IR<br>SEC: CLASSIFIED
+                    </div>
                 </div>
-                
+
                 <div class="earth-overlay">
-                    <div class="earth-info"><div class="label">CURRENT FOCUS</div><div class="value" id="current-country">GLOBAL</div></div>
-                    <div class="rotation-indicator"><div class="rotation-speed">ZOOM: <span id="rotation-speed">1x</span></div><div class="speed-bar"><div class="speed-fill" id="speed-fill"></div></div></div>
-                    <div class="coords-display"><div>LAT: <span class="lat" id="coord-lat">0.00</span></div><div>LON: <span class="lon" id="coord-lon">0.00</span></div></div>
+                    <div class="earth-info">
+                        <div class="label">CURRENT FOCUS</div>
+                        <div class="value" id="current-country">GLOBAL</div>
+                    </div>
+                    <div class="rotation-indicator">
+                        <div class="rotation-speed">ZOOM: <span id="rotation-speed">1x</span></div>
+                        <div class="speed-bar">
+                            <div class="speed-fill" id="speed-fill"></div>
+                        </div>
+                    </div>
+                    <div class="coords-display">
+                        <div>LAT: <span class="lat" id="coord-lat">0.00</span></div>
+                        <div>LON: <span class="lon" id="coord-lon">0.00</span></div>
+                    </div>
                 </div>
 
                 <!-- Earth Mode Toggle -->
-                <button class="earth-mode-toggle" id="earth-mode-btn" onclick="toggleEarthMode()">⬡ WIREFRAME MODE</button>
+                <button class="earth-mode-toggle" id="earth-mode-btn" onclick="toggleEarthMode()">⬡ WIREFRAME
+                    MODE</button>
 
                 <!-- Target Indicator -->
                 <div class="target-indicator" id="target-indicator">
@@ -1159,7 +2322,8 @@
                     <div class="breaking-banner">[ BREAKING NEWS ]</div>
                     <button class="breaking-close" onclick="closeAlert()">X</button>
                     <div class="breaking-content">
-                        <div class="breaking-image"><img id="alert-image" src="" alt="News Image" onerror="this.style.display='none'"></div>
+                        <div class="breaking-image"><img id="alert-image" src="" alt="News Image"
+                                onerror="this.style.display='none'"></div>
                         <div class="breaking-text">
                             <div class="breaking-title" id="alert-title">Loading...</div>
                             <div class="breaking-summary" id="alert-summary">Please wait...</div>
@@ -1170,7 +2334,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="breaking-timer"><div class="breaking-timer-fill" id="alert-timer"></div></div>
+                    <div class="breaking-timer">
+                        <div class="breaking-timer-fill" id="alert-timer"></div>
+                    </div>
                 </div>
 
                 <div class="loading-overlay" id="loading-overlay">
@@ -1186,7 +2352,9 @@
                     <span>LIVE NEWS FEED</span>
                     <span id="news-count">0</span>
                     <!-- Close button for mobile sidebar -->
-                    <button class="close-btn" style="display:none; position:absolute; right:5px; top:5px; width:25px; height:25px; border-color:var(--primary); color:var(--primary);" onclick="toggleMobileSidebar()">X</button>
+                    <button class="close-btn"
+                        style="display:none; position:absolute; right:5px; top:5px; width:25px; height:25px; border-color:var(--primary); color:var(--primary);"
+                        onclick="toggleMobileSidebar()">X</button>
                 </div>
                 <!-- Language switcher -->
                 <div class="lang-switcher">
@@ -1196,7 +2364,10 @@
                     <button class="lang-btn" onclick="switchLang('es')">ES</button>
                     <button class="lang-btn" onclick="switchLang('de')">DE</button>
                 </div>
-                <div class="panel-content" id="news-feed"><div style="color: var(--text-dim); text-align: center; padding: 15px; font-size: 11px;">[ CONNECTING TO NEWS NETWORK... ]</div></div>
+                <div class="panel-content" id="news-feed">
+                    <div style="color: var(--text-dim); text-align: center; padding: 15px; font-size: 11px;">[
+                        CONNECTING TO NEWS NETWORK... ]</div>
+                </div>
             </div>
         </div>
 
@@ -1210,7 +2381,10 @@
 
         <div class="news-ticker">
             <div class="ticker-label">[ LIVE ]</div>
-            <div class="ticker-content"><div class="ticker-scroll" id="ticker-scroll"><span class="ticker-item">[ CONNECTING TO GLOBAL NEWS NETWORK... ]</span></div></div>
+            <div class="ticker-content">
+                <div class="ticker-scroll" id="ticker-scroll"><span class="ticker-item">[ CONNECTING TO GLOBAL NEWS
+                        NETWORK... ]</span></div>
+            </div>
         </div>
     </div>
 
@@ -1238,13 +2412,16 @@
             <h2>LEGACY MODE — CONNECT TO SERVER</h2>
             <button class="close-btn" onclick="hideLegacyConnect()" style="color:#000; border-color:#000;">X</button>
             <div class="inner">
-                <p>This is the legacy backend connection mode. Enter your LocalTunnel URL to connect to the old backend engine.</p>
+                <p>This is the legacy backend connection mode. Enter your LocalTunnel URL to connect to the old backend
+                    engine.</p>
                 <input type="text" id="url-input" placeholder="https://your-url.loca.lt">
                 <button onclick="initializeConnection()" style="width: 100%; padding: 15px;">CONNECT</button>
                 <p style="margin-top: 15px; font-size: 11px; color: #666;">
-                    Run <span style="color: var(--primary);">npx localtunnel --port 8000</span> in your terminal to generate a URL.
+                    Run <span style="color: var(--primary);">npx localtunnel --port 8000</span> in your terminal to
+                    generate a URL.
                 </p>
-                <button onclick="hideLegacyConnect()" style="width: 100%; margin-top: 10px; padding: 10px;" class="secondary">CLOSE — USE FREE SOURCES INSTEAD</button>
+                <button onclick="hideLegacyConnect()" style="width: 100%; margin-top: 10px; padding: 10px;"
+                    class="secondary">CLOSE — USE FREE SOURCES INSTEAD</button>
             </div>
         </div>
     </div>
@@ -1257,19 +2434,56 @@
                 <h3>AUTOMATIC MODE (Default)</h3>
                 <p>The news feed automatically fetches news from multiple free sources worldwide. No setup required!</p>
                 <ul>
-                    <li><span class="step-number">1</span><div class="instruction-content"><strong>Browse News</strong><p>Articles load automatically from GDELT, BBC, Reuters, Al Jazeera, and more.</p></div></li>
-                    <li><span class="step-number">2</span><div class="instruction-content"><strong>Interact with the Globe</strong><p>Click and drag the 3D CesiumJS earth. Click news articles to fly to their location.</p></div></li>
-                    <li><span class="step-number">3</span><div class="instruction-content"><strong>Watch Live TV</strong><p>Switch between Al Jazeera, France 24, and DW News live streams in the left panel.</p></div></li>
-                    <li><span class="step-number">4</span><div class="instruction-content"><strong>Filter News</strong><p>Use category buttons (WORLD, TECH, BIZ, etc.) and language switcher (EN, FR, AR, ES, DE).</p></div></li>
-                    <li><span class="step-number">5</span><div class="instruction-content"><strong>Urgent Alerts</strong><p>Breaking news triggers the red URGENT bar at the bottom with an alert sound.</p></div></li>
+                    <li><span class="step-number">1</span>
+                        <div class="instruction-content"><strong>Browse News</strong>
+                            <p>Articles load automatically from GDELT, BBC, Reuters, Al Jazeera, and more.</p>
+                        </div>
+                    </li>
+                    <li><span class="step-number">2</span>
+                        <div class="instruction-content"><strong>Interact with the Globe</strong>
+                            <p>Click and drag the 3D earth. Click news articles to fly to their location.</p>
+                        </div>
+                    </li>
+                    <li><span class="step-number">3</span>
+                        <div class="instruction-content"><strong>Watch Live TV</strong>
+                            <p>Switch between Al Jazeera, France 24, and DW News live streams in the left panel.</p>
+                        </div>
+                    </li>
+                    <li><span class="step-number">4</span>
+                        <div class="instruction-content"><strong>Filter News</strong>
+                            <p>Use category buttons (WORLD, TECH, BIZ, etc.) and language switcher (EN, FR, AR, ES, DE).
+                            </p>
+                        </div>
+                    </li>
+                    <li><span class="step-number">5</span>
+                        <div class="instruction-content"><strong>Urgent Alerts</strong>
+                            <p>Breaking news triggers the red URGENT bar at the bottom with an alert sound.</p>
+                        </div>
+                    </li>
                 </ul>
 
                 <h3>KEYBOARD SHORTCUTS</h3>
                 <ul>
-                    <li><span class="step-number">R</span><div class="instruction-content"><strong>Refresh</strong><p>Force refresh all news sources.</p></div></li>
-                    <li><span class="step-number">F</span><div class="instruction-content"><strong>Fullscreen</strong><p>Toggle fullscreen mode for the earth view.</p></div></li>
-                    <li><span class="step-number">M</span><div class="instruction-content"><strong>Mute</strong><p>Toggle alert sounds on/off.</p></div></li>
-                    <li><span class="step-number">W</span><div class="instruction-content"><strong>Wireframe</strong><p>Toggle between CesiumJS and legacy wireframe earth.</p></div></li>
+                    <li><span class="step-number">R</span>
+                        <div class="instruction-content"><strong>Refresh</strong>
+                            <p>Force refresh all news sources.</p>
+                        </div>
+                    </li>
+                    <li><span class="step-number">F</span>
+                        <div class="instruction-content"><strong>Fullscreen</strong>
+                            <p>Toggle fullscreen mode for the earth view.</p>
+                        </div>
+                    </li>
+                    <li><span class="step-number">M</span>
+                        <div class="instruction-content"><strong>Mute</strong>
+                            <p>Toggle alert sounds on/off.</p>
+                        </div>
+                    </li>
+                    <li><span class="step-number">W</span>
+                        <div class="instruction-content"><strong>Wireframe</strong>
+                            <p>Toggle between textured and wireframe earth modes.</p>
+                        </div>
+                    </li>
                 </ul>
 
                 <h3>LEGACY BACKEND MODE (Optional)</h3>
@@ -1288,7 +2502,8 @@
                     </li>
                 </ul>
                 <div style="text-align: center; margin-top: 30px;">
-                    <button onclick="hideHowToUse()" style="width: auto; padding: 15px 50px; font-size: 18px;">CONTINUE TO DASHBOARD</button>
+                    <button onclick="hideHowToUse()" style="width: auto; padding: 15px 50px; font-size: 18px;">CONTINUE
+                        TO DASHBOARD</button>
                 </div>
             </div>
         </div>
@@ -1296,10 +2511,16 @@
 
     <div class="settings-overlay" id="settings-overlay">
         <div class="settings-panel">
-            <button class="close-btn" onclick="hideSettings()" style="color: var(--primary); border-color: var(--primary);">X</button>
+            <button class="close-btn" onclick="hideSettings()"
+                style="color: var(--primary); border-color: var(--primary);">X</button>
             <h2>NEWS <span>SETTINGS</span></h2>
-            <div class="setting-group"><label class="setting-label">Add Watched Country</label><select id="add-country-select"><option value="">-- Select Country --</option></select></div>
-            <div class="setting-group"><label class="setting-label">Currently Watching</label><div class="country-tags" id="country-tags"></div></div>
+            <div class="setting-group"><label class="setting-label">Add Watched Country</label><select
+                    id="add-country-select">
+                    <option value="">-- Select Country --</option>
+                </select></div>
+            <div class="setting-group"><label class="setting-label">Currently Watching</label>
+                <div class="country-tags" id="country-tags"></div>
+            </div>
             <button onclick="saveSettings()" style="width: 100%; margin-top: 8px;">SAVE SETTINGS</button>
         </div>
     </div>
@@ -1308,7 +2529,7 @@
         /**
          * =========================================
          * GLOBAL NEYDRA NEWS v2.0
-         * CesiumJS Earth + Free Multi-Source News
+         * Three.js Earth + Free Multi-Source News
          * Live TV + Urgent Bar + Big Image Cards
          * =========================================
          */
@@ -1316,7 +2537,6 @@
         // =====================================================
         // CONFIGURATION
         // =====================================================
-        const CESIUM_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzYmZhZGRhMi1iMzlkLTRmNGQtOTg3YS1jNGUzMTZkYzc4M2UiLCJpZCI6NDE3MjU4LCJpYXQiOjE3NzYwMjk3Nzl9.kz2uZdvgfSlAtfCro3ObpRBaj1u-7ZmgRWh0XK6ECXY';
 
         const TV_CHANNELS = [
             { name: 'AJ EN', label: 'Al Jazeera English', src: 'https://www.youtube.com/embed/live_stream?channel=UCNye-wNBqNL5ZzHSJj3l8Bg&autoplay=1&mute=1&playsinline=1' },
@@ -1363,97 +2583,96 @@
         let currentLang = 'en';
         let currentTVChannel = 0;
         let soundEnabled = true;
-        let earthMode = 'cesium'; // 'cesium' or 'threejs'
+        let earthMode = 'textured'; // 'textured' or 'wireframe'
         let lastUrgentTitle = '';
         let newsRefreshInterval = null;
         let allFetchedArticles = [];
         let activeSources = 0;
 
-        // Three.js legacy variables
+        // Three.js variables
         let scene, camera, renderer, earth, atmosphere;
+        let texturedEarth = null; // textured sphere mesh
+        let wireframeGroup = null; // wireframe grid lines group
         let isDragging = false;
         let previousMousePosition = { x: 0, y: 0 };
         let autoRotate = true;
         let earthMarkers = [];
-
-        // CesiumJS variables
-        let cesiumViewer = null;
-        let cesiumEntities = [];
+        let threeInitialized = false;
 
         // Country coordinates
         window.countryCoords = {
-            "united states": {"lat": 38.0, "lon": -97.0, "code": "US"},
-            "usa": {"lat": 38.0, "lon": -97.0, "code": "US"},
-            "america": {"lat": 38.0, "lon": -97.0, "code": "US"},
-            "china": {"lat": 35.0, "lon": 105.0, "code": "CN"},
-            "russia": {"lat": 60.0, "lon": 100.0, "code": "RU"},
-            "japan": {"lat": 36.0, "lon": 138.0, "code": "JP"},
-            "germany": {"lat": 51.0, "lon": 9.0, "code": "DE"},
-            "france": {"lat": 46.0, "lon": 2.0, "code": "FR"},
-            "united kingdom": {"lat": 54.0, "lon": -2.0, "code": "GB"},
-            "uk": {"lat": 54.0, "lon": -2.0, "code": "GB"},
-            "britain": {"lat": 54.0, "lon": -2.0, "code": "GB"},
-            "india": {"lat": 20.0, "lon": 77.0, "code": "IN"},
-            "brazil": {"lat": -10.0, "lon": -55.0, "code": "BR"},
-            "australia": {"lat": -25.0, "lon": 135.0, "code": "AU"},
-            "canada": {"lat": 56.0, "lon": -106.0, "code": "CA"},
-            "south korea": {"lat": 37.0, "lon": 127.0, "code": "KR"},
-            "korea": {"lat": 37.0, "lon": 127.0, "code": "KR"},
-            "italy": {"lat": 42.0, "lon": 12.0, "code": "IT"},
-            "spain": {"lat": 40.0, "lon": -4.0, "code": "ES"},
-            "mexico": {"lat": 23.0, "lon": -102.0, "code": "MX"},
-            "indonesia": {"lat": -5.0, "lon": 120.0, "code": "ID"},
-            "turkey": {"lat": 39.0, "lon": 35.0, "code": "TR"},
-            "saudi arabia": {"lat": 25.0, "lon": 45.0, "code": "SA"},
-            "iran": {"lat": 32.0, "lon": 53.0, "code": "IR"},
-            "israel": {"lat": 31.0, "lon": 35.0, "code": "IL"},
-            "egypt": {"lat": 26.0, "lon": 30.0, "code": "EG"},
-            "south africa": {"lat": -29.0, "lon": 24.0, "code": "ZA"},
-            "nigeria": {"lat": 10.0, "lon": 8.0, "code": "NG"},
-            "ukraine": {"lat": 49.0, "lon": 32.0, "code": "UA"},
-            "poland": {"lat": 52.0, "lon": 20.0, "code": "PL"},
-            "argentina": {"lat": -34.0, "lon": -64.0, "code": "AR"},
-            "pakistan": {"lat": 30.0, "lon": 70.0, "code": "PK"},
-            "iraq": {"lat": 33.0, "lon": 44.0, "code": "IQ"},
-            "syria": {"lat": 35.0, "lon": 39.0, "code": "SY"},
-            "tunisia": {"lat": 34.0, "lon": 9.0, "code": "TN"},
-            "morocco": {"lat": 32.0, "lon": -6.0, "code": "MA"},
-            "algeria": {"lat": 28.0, "lon": 2.0, "code": "DZ"},
-            "uae": {"lat": 24.0, "lon": 54.0, "code": "AE"},
-            "dubai": {"lat": 25.0, "lon": 55.0, "code": "AE"},
-            "qatar": {"lat": 25.0, "lon": 51.0, "code": "QA"},
-            "greece": {"lat": 39.0, "lon": 22.0, "code": "GR"},
-            "thailand": {"lat": 15.0, "lon": 100.0, "code": "TH"},
-            "vietnam": {"lat": 14.0, "lon": 108.0, "code": "VN"},
-            "philippines": {"lat": 13.0, "lon": 122.0, "code": "PH"},
-            "new zealand": {"lat": -41.0, "lon": 174.0, "code": "NZ"},
-            "kenya": {"lat": -1.0, "lon": 38.0, "code": "KE"},
-            "afghanistan": {"lat": 34.0, "lon": 66.0, "code": "AF"},
-            "gaza": {"lat": 31.0, "lon": 34.0, "code": "PS"},
-            "palestine": {"lat": 31.0, "lon": 35.0, "code": "PS"},
-            "lebanon": {"lat": 33.8, "lon": 35.8, "code": "LB"},
-            "jordan": {"lat": 31.0, "lon": 36.0, "code": "JO"},
-            "libya": {"lat": 27.0, "lon": 17.0, "code": "LY"},
-            "sudan": {"lat": 15.0, "lon": 30.0, "code": "SD"},
-            "yemen": {"lat": 15.5, "lon": 48.0, "code": "YE"},
-            "colombia": {"lat": 4.0, "lon": -72.0, "code": "CO"},
-            "venezuela": {"lat": 7.0, "lon": -66.0, "code": "VE"},
-            "chile": {"lat": -33.0, "lon": -70.0, "code": "CL"},
-            "peru": {"lat": -10.0, "lon": -76.0, "code": "PE"},
-            "ethiopia": {"lat": 9.0, "lon": 38.7, "code": "ET"},
-            "somalia": {"lat": 6.0, "lon": 46.0, "code": "SO"},
-            "myanmar": {"lat": 21.0, "lon": 96.0, "code": "MM"},
-            "taiwan": {"lat": 23.5, "lon": 121.0, "code": "TW"},
-            "netherlands": {"lat": 52.0, "lon": 5.0, "code": "NL"},
-            "belgium": {"lat": 50.8, "lon": 4.3, "code": "BE"},
-            "sweden": {"lat": 62.0, "lon": 15.0, "code": "SE"},
-            "norway": {"lat": 62.0, "lon": 10.0, "code": "NO"},
-            "finland": {"lat": 64.0, "lon": 26.0, "code": "FI"},
-            "switzerland": {"lat": 47.0, "lon": 8.0, "code": "CH"},
-            "austria": {"lat": 47.3, "lon": 13.3, "code": "AT"},
-            "portugal": {"lat": 39.4, "lon": -8.2, "code": "PT"},
-            "cuba": {"lat": 22.0, "lon": -80.0, "code": "CU"},
-            "north korea": {"lat": 40.0, "lon": 127.0, "code": "KP"}
+            "united states": { "lat": 38.0, "lon": -97.0, "code": "US" },
+            "usa": { "lat": 38.0, "lon": -97.0, "code": "US" },
+            "america": { "lat": 38.0, "lon": -97.0, "code": "US" },
+            "china": { "lat": 35.0, "lon": 105.0, "code": "CN" },
+            "russia": { "lat": 60.0, "lon": 100.0, "code": "RU" },
+            "japan": { "lat": 36.0, "lon": 138.0, "code": "JP" },
+            "germany": { "lat": 51.0, "lon": 9.0, "code": "DE" },
+            "france": { "lat": 46.0, "lon": 2.0, "code": "FR" },
+            "united kingdom": { "lat": 54.0, "lon": -2.0, "code": "GB" },
+            "uk": { "lat": 54.0, "lon": -2.0, "code": "GB" },
+            "britain": { "lat": 54.0, "lon": -2.0, "code": "GB" },
+            "india": { "lat": 20.0, "lon": 77.0, "code": "IN" },
+            "brazil": { "lat": -10.0, "lon": -55.0, "code": "BR" },
+            "australia": { "lat": -25.0, "lon": 135.0, "code": "AU" },
+            "canada": { "lat": 56.0, "lon": -106.0, "code": "CA" },
+            "south korea": { "lat": 37.0, "lon": 127.0, "code": "KR" },
+            "korea": { "lat": 37.0, "lon": 127.0, "code": "KR" },
+            "italy": { "lat": 42.0, "lon": 12.0, "code": "IT" },
+            "spain": { "lat": 40.0, "lon": -4.0, "code": "ES" },
+            "mexico": { "lat": 23.0, "lon": -102.0, "code": "MX" },
+            "indonesia": { "lat": -5.0, "lon": 120.0, "code": "ID" },
+            "turkey": { "lat": 39.0, "lon": 35.0, "code": "TR" },
+            "saudi arabia": { "lat": 25.0, "lon": 45.0, "code": "SA" },
+            "iran": { "lat": 32.0, "lon": 53.0, "code": "IR" },
+            "israel": { "lat": 31.0, "lon": 35.0, "code": "IL" },
+            "egypt": { "lat": 26.0, "lon": 30.0, "code": "EG" },
+            "south africa": { "lat": -29.0, "lon": 24.0, "code": "ZA" },
+            "nigeria": { "lat": 10.0, "lon": 8.0, "code": "NG" },
+            "ukraine": { "lat": 49.0, "lon": 32.0, "code": "UA" },
+            "poland": { "lat": 52.0, "lon": 20.0, "code": "PL" },
+            "argentina": { "lat": -34.0, "lon": -64.0, "code": "AR" },
+            "pakistan": { "lat": 30.0, "lon": 70.0, "code": "PK" },
+            "iraq": { "lat": 33.0, "lon": 44.0, "code": "IQ" },
+            "syria": { "lat": 35.0, "lon": 39.0, "code": "SY" },
+            "tunisia": { "lat": 34.0, "lon": 9.0, "code": "TN" },
+            "morocco": { "lat": 32.0, "lon": -6.0, "code": "MA" },
+            "algeria": { "lat": 28.0, "lon": 2.0, "code": "DZ" },
+            "uae": { "lat": 24.0, "lon": 54.0, "code": "AE" },
+            "dubai": { "lat": 25.0, "lon": 55.0, "code": "AE" },
+            "qatar": { "lat": 25.0, "lon": 51.0, "code": "QA" },
+            "greece": { "lat": 39.0, "lon": 22.0, "code": "GR" },
+            "thailand": { "lat": 15.0, "lon": 100.0, "code": "TH" },
+            "vietnam": { "lat": 14.0, "lon": 108.0, "code": "VN" },
+            "philippines": { "lat": 13.0, "lon": 122.0, "code": "PH" },
+            "new zealand": { "lat": -41.0, "lon": 174.0, "code": "NZ" },
+            "kenya": { "lat": -1.0, "lon": 38.0, "code": "KE" },
+            "afghanistan": { "lat": 34.0, "lon": 66.0, "code": "AF" },
+            "gaza": { "lat": 31.0, "lon": 34.0, "code": "PS" },
+            "palestine": { "lat": 31.0, "lon": 35.0, "code": "PS" },
+            "lebanon": { "lat": 33.8, "lon": 35.8, "code": "LB" },
+            "jordan": { "lat": 31.0, "lon": 36.0, "code": "JO" },
+            "libya": { "lat": 27.0, "lon": 17.0, "code": "LY" },
+            "sudan": { "lat": 15.0, "lon": 30.0, "code": "SD" },
+            "yemen": { "lat": 15.5, "lon": 48.0, "code": "YE" },
+            "colombia": { "lat": 4.0, "lon": -72.0, "code": "CO" },
+            "venezuela": { "lat": 7.0, "lon": -66.0, "code": "VE" },
+            "chile": { "lat": -33.0, "lon": -70.0, "code": "CL" },
+            "peru": { "lat": -10.0, "lon": -76.0, "code": "PE" },
+            "ethiopia": { "lat": 9.0, "lon": 38.7, "code": "ET" },
+            "somalia": { "lat": 6.0, "lon": 46.0, "code": "SO" },
+            "myanmar": { "lat": 21.0, "lon": 96.0, "code": "MM" },
+            "taiwan": { "lat": 23.5, "lon": 121.0, "code": "TW" },
+            "netherlands": { "lat": 52.0, "lon": 5.0, "code": "NL" },
+            "belgium": { "lat": 50.8, "lon": 4.3, "code": "BE" },
+            "sweden": { "lat": 62.0, "lon": 15.0, "code": "SE" },
+            "norway": { "lat": 62.0, "lon": 10.0, "code": "NO" },
+            "finland": { "lat": 64.0, "lon": 26.0, "code": "FI" },
+            "switzerland": { "lat": 47.0, "lon": 8.0, "code": "CH" },
+            "austria": { "lat": 47.3, "lon": 13.3, "code": "AT" },
+            "portugal": { "lat": 39.4, "lon": -8.2, "code": "PT" },
+            "cuba": { "lat": 22.0, "lon": -80.0, "code": "CU" },
+            "north korea": { "lat": 40.0, "lon": 127.0, "code": "KP" }
         };
 
         // =====================================================
@@ -1462,178 +2681,30 @@
         function sfx(type) {
             if (!soundEnabled) return;
             const el = document.getElementById('snd-' + type);
-            if (el) { el.currentTime = 0; el.play().catch(function() {}); }
+            if (el) { el.currentTime = 0; el.play().catch(function () { }); }
         }
 
         function playUrgentSound() {
             if (!soundEnabled) return;
             const el = document.getElementById('snd-urgent');
-            if (el) { el.currentTime = 0; el.play().catch(function() {}); }
+            if (el) { el.currentTime = 0; el.play().catch(function () { }); }
         }
 
         function copyCommand(text) {
-            navigator.clipboard.writeText(text).then(function() {
+            navigator.clipboard.writeText(text).then(function () {
                 console.log("Command copied: " + text);
-            }).catch(function(err) {
+            }).catch(function (err) {
                 console.error('Failed to copy: ', err);
             });
         }
 
         // =====================================================
-        // CESIUMJS EARTH (NEW)
+        // TEXTURED THREE.JS EARTH (Primary Mode)
         // =====================================================
-        function initCesium() {
-            try {
-                Cesium.Ion.defaultAccessToken = CESIUM_TOKEN;
+        function initTexturedEarth() {
+            if (threeInitialized) return;
+            threeInitialized = true;
 
-                cesiumViewer = new Cesium.Viewer('cesium-container', {
-                    animation: false,
-                    timeline: false,
-                    baseLayerPicker: false,
-                    fullscreenButton: false,
-                    vrButton: false,
-                    geocoder: false,
-                    homeButton: false,
-                    infoBox: false,
-                    selectionIndicator: false,
-                    navigationHelpButton: false,
-                    sceneModePicker: false,
-                    projectionPicker: false,
-                    creditContainer: document.createElement('div'),
-                    skyBox: false,
-                    skyAtmosphere: false,
-                    orderIndependentTranslucency: false,
-                    contextOptions: {
-                        webgl: { alpha: false }
-                    }
-                });
-
-                // Dark sky
-                try { cesiumViewer.scene.backgroundColor = Cesium.Color.BLACK; } catch(e){}
-                try { if (cesiumViewer.scene.sun) cesiumViewer.scene.sun.show = false; } catch(e){}
-                try { if (cesiumViewer.scene.moon) cesiumViewer.scene.moon.show = false; } catch(e){}
-                try { if (cesiumViewer.scene.fog) cesiumViewer.scene.fog.enabled = false; } catch(e){}
-                try {
-                    if (cesiumViewer.scene.globe) {
-                        cesiumViewer.scene.globe.enableLighting = false;
-                        cesiumViewer.scene.globe.showGroundAtmosphere = false;
-                    }
-                } catch(e){}
-
-                // Initial camera position
-                cesiumViewer.camera.setView({
-                    destination: Cesium.Cartesian3.fromDegrees(10, 20, 20000000)
-                });
-
-                // Auto-rotate
-                cesiumViewer.clock.onTick.addEventListener(function() {
-                    if (autoRotate && cesiumViewer) {
-                        cesiumViewer.scene.camera.rotate(Cesium.Cartesian3.UNIT_Z, 0.0003);
-                    }
-                });
-
-                // Update coords on camera move
-                cesiumViewer.camera.changed.addEventListener(function() {
-                    updateCesiumCoords();
-                });
-
-                // Disable auto-rotate on user interaction 
-                var handler = new Cesium.ScreenSpaceEventHandler(cesiumViewer.scene.canvas);
-                handler.setInputAction(function() {
-                    autoRotate = false;
-                    setTimeout(function() { autoRotate = true; }, 5000);
-                }, Cesium.ScreenSpaceEventType.LEFT_DOWN);
-
-                // Double-click for fullscreen
-                handler.setInputAction(function() {
-                    var container = document.querySelector('.earth-container');
-                    if (document.fullscreenElement) {
-                        document.exitFullscreen();
-                    } else {
-                        container.requestFullscreen().catch(function(){});
-                    }
-                }, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
-
-                console.log('[NEYDRA] CesiumJS initialized');
-            } catch (e) {
-                console.error('[NEYDRA] CesiumJS init failed:', e);
-                // Fallback to Three.js
-                toggleEarthMode();
-            }
-        }
-
-        function updateCesiumCoords() {
-            if (!cesiumViewer) return;
-            try {
-                var carto = cesiumViewer.camera.positionCartographic;
-                var lat = Cesium.Math.toDegrees(carto.latitude);
-                var lon = Cesium.Math.toDegrees(carto.longitude);
-                document.getElementById('coord-lat').textContent = lat.toFixed(2);
-                document.getElementById('coord-lon').textContent = lon.toFixed(2);
-            } catch(e) {}
-        }
-
-        function flyToCesium(lat, lon, countryName) {
-            if (!cesiumViewer) return;
-            autoRotate = false;
-            sfx('engage');
-
-            cesiumViewer.camera.flyTo({
-                destination: Cesium.Cartesian3.fromDegrees(lon, lat, 3000000),
-                orientation: {
-                    heading: 0,
-                    pitch: Cesium.Math.toRadians(-45),
-                    roll: 0
-                },
-                duration: 2.5,
-                complete: function() {
-                    document.getElementById('current-country').textContent = countryName ? countryName.toUpperCase() : 'GLOBAL';
-                    document.getElementById('hud-data').innerHTML = 'TARGET: ' + (countryName || 'UNKNOWN').toUpperCase() + '<br>LOCK: ACQUIRED<br>MODE: SURVEILLANCE<br>SEC: PRIORITY';
-                    setTimeout(function() {
-                        autoRotate = true;
-                        document.getElementById('hud-data').innerHTML = 'SAT: NEYDRA-1<br>RES: 15m<br>MODE: THERMAL-IR<br>SEC: CLASSIFIED';
-                    }, 5000);
-                }
-            });
-        }
-
-        function addCesiumMarker(lat, lon, isBreaking, title) {
-            if (!cesiumViewer) return;
-            var entity = cesiumViewer.entities.add({
-                position: Cesium.Cartesian3.fromDegrees(lon, lat),
-                point: {
-                    pixelSize: isBreaking ? 10 : 6,
-                    color: Cesium.Color.RED,
-                    outlineColor: isBreaking ? Cesium.Color.WHITE : Cesium.Color.fromCssColorString('#550000'),
-                    outlineWidth: isBreaking ? 2 : 1,
-                    heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
-                    scaleByDistance: new Cesium.NearFarScalar(1.5e2, 2.0, 1.5e7, 0.5)
-                },
-                label: title ? {
-                    text: title.substring(0, 30) + (title.length > 30 ? '...' : ''),
-                    font: '10px Share Tech Mono',
-                    fillColor: Cesium.Color.fromCssColorString('#ff6666'),
-                    outlineColor: Cesium.Color.BLACK,
-                    outlineWidth: 2,
-                    style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-                    pixelOffset: new Cesium.Cartesian2(0, -15),
-                    scaleByDistance: new Cesium.NearFarScalar(1.5e2, 1.0, 1.5e7, 0.0),
-                    distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 8000000)
-                } : undefined
-            });
-            cesiumEntities.push(entity);
-        }
-
-        function clearCesiumMarkers() {
-            if (!cesiumViewer) return;
-            cesiumEntities.forEach(function(e) { cesiumViewer.entities.remove(e); });
-            cesiumEntities = [];
-        }
-
-        // =====================================================
-        // THREE.JS EARTH (LEGACY - kept for optional wireframe mode)
-        // =====================================================
-        function initEarth() {
             var container = document.getElementById('earth-canvas');
             var width = container.clientWidth || 800;
             var height = container.clientHeight || 600;
@@ -1648,39 +2719,44 @@
             renderer.setSize(width, height);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-            createWireframeEarth();
-            createAtmosphere();
-            createStars();
+            // Create the earth group (shared between textured and wireframe)
+            earth = new THREE.Group();
+            scene.add(earth);
 
-            var ambientLight = new THREE.AmbientLight(0x220000, 0.5);
-            scene.add(ambientLight);
+            // --- TEXTURED EARTH ---
+            var texturedGeometry = new THREE.SphereGeometry(1, 64, 64);
+            var textureLoader = new THREE.TextureLoader();
+            var earthTexture = textureLoader.load(
+                '../../assets/earth.png',
+                function(texture) { console.log('[NEYDRA] Earth texture loaded successfully'); },
+                undefined,
+                function(err) { console.error('[NEYDRA] Failed to load earth texture (likely CORS on file://). Falling back to base color.', err); }
+            );
+            var texturedMaterial = new THREE.MeshPhongMaterial({
+                map: earthTexture,
+                color: 0xaa0000, // Fallback base color if texture fails
+                bumpScale: 0.05,
+                specular: new THREE.Color(0x330000),
+                shininess: 5
+            });
+            texturedEarth = new THREE.Mesh(texturedGeometry, texturedMaterial);
+            earth.add(texturedEarth);
 
-            var pointLight = new THREE.PointLight(0xff0000, 1.0, 100);
-            pointLight.position.set(5, 3, 5);
-            scene.add(pointLight);
+            // --- WIREFRAME GRID LINES (hidden by default) ---
+            wireframeGroup = new THREE.Group();
+            wireframeGroup.visible = false;
 
-            container.addEventListener('mousedown', onMouseDown);
-            container.addEventListener('mousemove', onMouseMove);
-            container.addEventListener('mouseup', onMouseUp);
-            container.addEventListener('mouseleave', onMouseUp);
-            container.addEventListener('touchstart', onTouchStart, { passive: false });
-            container.addEventListener('touchmove', onTouchMove, { passive: false });
-            container.addEventListener('touchend', onTouchEnd);
-            container.addEventListener('wheel', onWheel, { passive: false });
-
-            animateThreeJS();
-        }
-
-        function createWireframeEarth() {
-            var geometry = new THREE.SphereGeometry(1, 64, 64);
-            var material = new THREE.MeshBasicMaterial({
+            // Dark sphere base for wireframe mode
+            var wfBaseGeometry = new THREE.SphereGeometry(1, 64, 64);
+            var wfBaseMaterial = new THREE.MeshBasicMaterial({
                 color: 0x050000,
                 transparent: true,
                 opacity: 0.9
             });
-            earth = new THREE.Mesh(geometry, material);
-            scene.add(earth);
+            var wfBase = new THREE.Mesh(wfBaseGeometry, wfBaseMaterial);
+            wireframeGroup.add(wfBase);
 
+            // Latitude lines
             for (var lat = -80; lat <= 80; lat += 10) {
                 var latRad = lat * Math.PI / 180;
                 var radius = Math.cos(latRad) * 1.001;
@@ -1692,10 +2768,10 @@
                 }
                 var lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
                 var lineMaterial = new THREE.LineBasicMaterial({ color: 0xff0000, transparent: true, opacity: lat === 0 ? 0.5 : 0.15 });
-                var line = new THREE.Line(lineGeometry, lineMaterial);
-                earth.add(line);
+                wireframeGroup.add(new THREE.Line(lineGeometry, lineMaterial));
             }
 
+            // Longitude lines
             for (var lon2 = -180; lon2 < 180; lon2 += 15) {
                 var points2 = [];
                 var lonRad2 = lon2 * Math.PI / 180;
@@ -1707,27 +2783,75 @@
                 }
                 var lineGeometry2 = new THREE.BufferGeometry().setFromPoints(points2);
                 var lineMaterial2 = new THREE.LineBasicMaterial({ color: 0xff0000, transparent: true, opacity: lon2 === 0 ? 0.5 : 0.15 });
-                var line2 = new THREE.Line(lineGeometry2, lineMaterial2);
-                earth.add(line2);
+                wireframeGroup.add(new THREE.Line(lineGeometry2, lineMaterial2));
             }
 
+            // Equator ring
             var equatorGeometry = new THREE.RingGeometry(0.98, 1.02, 64);
             var equatorMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, transparent: true, opacity: 0.4, side: THREE.DoubleSide });
             var equator = new THREE.Mesh(equatorGeometry, equatorMaterial);
             equator.rotation.x = Math.PI / 2;
-            earth.add(equator);
+            wireframeGroup.add(equator);
 
+            // Meridian ring
             var meridianGeometry = new THREE.RingGeometry(0.98, 1.02, 64);
             var meridianMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, transparent: true, opacity: 0.4, side: THREE.DoubleSide });
             var meridian = new THREE.Mesh(meridianGeometry, meridianMaterial);
             meridian.rotation.y = Math.PI / 2;
-            earth.add(meridian);
+            wireframeGroup.add(meridian);
 
+            // Wireframe overlay
             var wireGeometry = new THREE.SphereGeometry(1.005, 32, 32);
             var wireMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true, transparent: true, opacity: 0.08 });
-            var wireframe = new THREE.Mesh(wireGeometry, wireMaterial);
-            earth.add(wireframe);
+            wireframeGroup.add(new THREE.Mesh(wireGeometry, wireMaterial));
+
+            earth.add(wireframeGroup);
+
+            // --- ATMOSPHERE ---
+            createAtmosphere();
+
+            // --- STARS ---
+            createStars();
+
+            // --- LIGHTING ---
+            var ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+            scene.add(ambientLight);
+
+            var pointLight = new THREE.PointLight(0xff4444, 0.8, 100);
+            pointLight.position.set(5, 3, 5);
+            scene.add(pointLight);
+
+            var dirLight = new THREE.DirectionalLight(0xffffff, 0.5);
+            dirLight.position.set(-3, 2, 4);
+            scene.add(dirLight);
+
+            // --- INTERACTION ---
+            container.addEventListener('mousedown', onMouseDown);
+            container.addEventListener('mousemove', onMouseMove);
+            container.addEventListener('mouseup', onMouseUp);
+            container.addEventListener('mouseleave', onMouseUp);
+            container.addEventListener('touchstart', onTouchStart, { passive: false });
+            container.addEventListener('touchmove', onTouchMove, { passive: false });
+            container.addEventListener('touchend', onTouchEnd);
+            container.addEventListener('wheel', onWheel, { passive: false });
+
+            // Double-click for fullscreen
+            container.addEventListener('dblclick', function () {
+                var earthContainer = document.querySelector('.earth-container');
+                if (document.fullscreenElement) {
+                    document.exitFullscreen();
+                } else {
+                    earthContainer.requestFullscreen().catch(function () { });
+                }
+            });
+
+            // Start animation
+            animateThreeJS();
+            console.log('[NEYDRA] Three.js Textured Earth initialized');
         }
+
+
+
 
         function createAtmosphere() {
             var glowGeometry = new THREE.SphereGeometry(1.2, 32, 32);
@@ -1765,7 +2889,7 @@
             previousMousePosition = { x: event.clientX, y: event.clientY };
             updateCoordinates();
         }
-        function onMouseUp() { isDragging = false; setTimeout(function() { autoRotate = true; }, 3000); }
+        function onMouseUp() { isDragging = false; setTimeout(function () { autoRotate = true; }, 3000); }
         function onTouchStart(event) { if (event.touches.length === 1) { isDragging = true; autoRotate = false; previousMousePosition = { x: event.touches[0].clientX, y: event.touches[0].clientY }; } }
         function onTouchMove(event) {
             if (!isDragging || !earth) return; event.preventDefault();
@@ -1774,7 +2898,7 @@
             earth.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, earth.rotation.x));
             previousMousePosition = { x: touch.clientX, y: touch.clientY }; updateCoordinates();
         }
-        function onTouchEnd() { isDragging = false; setTimeout(function() { autoRotate = true; }, 3000); }
+        function onTouchEnd() { isDragging = false; setTimeout(function () { autoRotate = true; }, 3000); }
         function onWheel(event) {
             event.preventDefault(); camera.position.z += event.deltaY * 0.003;
             camera.position.z = Math.max(1.5, Math.min(8, camera.position.z));
@@ -1792,7 +2916,6 @@
         }
 
         function animateThreeJS() {
-            if (earthMode !== 'threejs') return;
             requestAnimationFrame(animateThreeJS);
             if (earth && autoRotate) { earth.rotation.y += 0.001; }
             if (renderer && scene && camera) renderer.render(scene, camera);
@@ -1816,47 +2939,35 @@
             earthMarkers.push(marker);
         }
 
-        function clearMarkers() { if (!earth) return; earthMarkers.forEach(function(m) { earth.remove(m); }); earthMarkers = []; }
+        function clearMarkers() { if (!earth) return; earthMarkers.forEach(function (m) { earth.remove(m); }); earthMarkers = []; }
 
         // =====================================================
-        // EARTH MODE TOGGLE
+        // EARTH MODE TOGGLE (Textured <-> Wireframe)
         // =====================================================
         function toggleEarthMode() {
-            var cesiumEl = document.getElementById('cesium-container');
-            var redOverlay = document.querySelector('.cesium-red-overlay');
-            var threeCanvas = document.getElementById('earth-canvas');
             var btn = document.getElementById('earth-mode-btn');
 
-            if (earthMode === 'cesium') {
-                earthMode = 'threejs';
-                cesiumEl.style.display = 'none';
-                redOverlay.style.display = 'none';
-                threeCanvas.style.display = 'block';
-                btn.textContent = '🌍 SATELLITE MODE';
-                if (!scene) initEarth();
-                animateThreeJS();
-                onWindowResize();
+            if (earthMode === 'textured') {
+                earthMode = 'wireframe';
+                if (texturedEarth) texturedEarth.visible = false;
+                if (wireframeGroup) wireframeGroup.visible = true;
+                btn.textContent = '⬡ TEXTURED MODE';
             } else {
-                earthMode = 'cesium';
-                cesiumEl.style.display = 'block';
-                redOverlay.style.display = 'block';
-                threeCanvas.style.display = 'none';
+                earthMode = 'textured';
+                if (texturedEarth) texturedEarth.visible = true;
+                if (wireframeGroup) wireframeGroup.visible = false;
                 btn.textContent = '⬡ WIREFRAME MODE';
-                if (!cesiumViewer) initCesium();
             }
         }
 
         function onWindowResize() {
-            if (earthMode === 'threejs' && camera && renderer) {
+            if (camera && renderer) {
                 var container = document.getElementById('earth-canvas');
                 var width = container.clientWidth;
                 var height = container.clientHeight;
                 camera.aspect = width / height;
                 camera.updateProjectionMatrix();
                 renderer.setSize(width, height);
-            }
-            if (cesiumViewer) {
-                cesiumViewer.resize();
             }
         }
 
@@ -1871,7 +2982,7 @@
             labelEl.textContent = country ? country.toUpperCase() : 'TARGET';
             indicator.classList.add('active');
             sfx('target');
-            setTimeout(function() { hideTargetIndicator(); }, 5000);
+            setTimeout(function () { hideTargetIndicator(); }, 5000);
         }
 
         function hideTargetIndicator() {
@@ -1891,13 +3002,13 @@
             document.getElementById('popup-country-name').textContent = country.toUpperCase();
             if (imageUrl && imageUrl.length > 0) {
                 imgElement.src = imageUrl;
-                imgElement.onerror = function() {
+                imgElement.onerror = function () {
                     this.src = 'https://flagcdn.com/w640/' + countryCode + '.png';
-                    this.onerror = function() { this.src = 'https://flagsapi.com/' + countryCode.toUpperCase() + '/flat/64.png'; this.onerror = null; };
+                    this.onerror = function () { this.src = 'https://flagsapi.com/' + countryCode.toUpperCase() + '/flat/64.png'; this.onerror = null; };
                 };
             } else {
                 imgElement.src = 'https://flagcdn.com/w640/' + countryCode + '.png';
-                imgElement.onerror = function() { this.src = 'https://flagsapi.com/' + countryCode.toUpperCase() + '/flat/64.png'; this.onerror = null; };
+                imgElement.onerror = function () { this.src = 'https://flagsapi.com/' + countryCode.toUpperCase() + '/flat/64.png'; this.onerror = null; };
             }
             document.getElementById('popup-lat').textContent = coords.lat.toFixed(4);
             document.getElementById('popup-lon').textContent = coords.lon.toFixed(2);
@@ -1915,10 +3026,7 @@
             hideTargetIndicator();
             showTargetIndicator(coords.lat, coords.lon, country, null);
 
-            if (earthMode === 'cesium' && cesiumViewer) {
-                flyToCesium(coords.lat, coords.lon, country);
-                setTimeout(function() { showCountryPopup(country, imageUrl); }, 2600);
-            } else if (earth) {
+            if (earth) {
                 sfx('engage');
                 autoRotate = false;
                 var targetY = -coords.lon * (Math.PI / 180) - Math.PI / 2;
@@ -1935,14 +3043,14 @@
                     else {
                         document.getElementById('current-country').textContent = country.toUpperCase();
                         showCountryPopup(country, imageUrl);
-                        setTimeout(function() { autoRotate = true; camera.position.z = 3; }, 5000);
+                        setTimeout(function () { autoRotate = true; camera.position.z = 3; }, 5000);
                     }
                 }
                 animateRotation();
                 document.getElementById('rotation-speed').textContent = '10x';
                 document.getElementById('speed-fill').style.width = '100%';
                 document.getElementById('hud-data').innerHTML = 'TARGET: ' + country.toUpperCase() + '<br>LOCK: ACQUIRED<br>MODE: SURVEILLANCE<br>SEC: PRIORITY';
-                setTimeout(function() {
+                setTimeout(function () {
                     document.getElementById('rotation-speed').textContent = '1x';
                     document.getElementById('speed-fill').style.width = '20%';
                     document.getElementById('hud-data').innerHTML = 'SAT: NEYDRA-1<br>RES: 15m<br>MODE: THERMAL-IR<br>SEC: CLASSIFIED';
@@ -1984,12 +3092,12 @@
             var query = categories.length > 0 ? categories[0] : '';
             var langFilter = currentLang === 'ar' ? ' sourcelang:arabic' : currentLang === 'fr' ? ' sourcelang:french' : currentLang === 'es' ? ' sourcelang:spanish' : currentLang === 'de' ? ' sourcelang:german' : '';
             var url = 'https://api.gdeltproject.org/api/v2/doc/doc?query=' + encodeURIComponent(query + langFilter) + '&mode=artlist&maxrecords=75&format=json&sort=DateDesc&timespan=24h';
-            
+
             try {
                 var response = await fetch(url);
                 var data = await response.json();
                 if (data && data.articles) {
-                    return data.articles.map(function(a, i) {
+                    return data.articles.map(function (a, i) {
                         var country = detectCountry(a.title, a.domain);
                         var coords = window.countryCoords[country.toLowerCase()] || { lat: 0, lon: 0 };
                         return {
@@ -2019,7 +3127,7 @@
                 var response = await fetch(feedConfig.url);
                 var data = await response.json();
                 if (data && data.status === 'ok' && data.items) {
-                    return data.items.map(function(item, i) {
+                    return data.items.map(function (item, i) {
                         var country = detectCountry(item.title || '', feedConfig.name);
                         var coords = window.countryCoords[country.toLowerCase()] || { lat: 0, lon: 0 };
                         var image = item.thumbnail || (item.enclosure ? item.enclosure.link : '') || '';
@@ -2047,21 +3155,21 @@
 
         async function fetchAllNews() {
             document.getElementById('source-status').innerHTML = '<span class="source-dot online"></span> FETCHING...';
-            
+
             var allArticles = [];
             var sourcesOnline = 0;
             var promises = [];
 
             // GDELT
-            promises.push(fetchFromGDELT().then(function(articles) {
+            promises.push(fetchFromGDELT().then(function (articles) {
                 if (articles.length > 0) sourcesOnline++;
                 allArticles = allArticles.concat(articles);
             }));
 
             // RSS feeds for current language
             var feeds = RSS_FEEDS[currentLang] || RSS_FEEDS.en;
-            feeds.forEach(function(feed) {
-                promises.push(fetchFromRSS(feed).then(function(articles) {
+            feeds.forEach(function (feed) {
+                promises.push(fetchFromRSS(feed).then(function (articles) {
                     if (articles.length > 0) sourcesOnline++;
                     allArticles = allArticles.concat(articles);
                 }));
@@ -2069,8 +3177,8 @@
 
             // Also always include English feeds if not already English
             if (currentLang !== 'en') {
-                RSS_FEEDS.en.forEach(function(feed) {
-                    promises.push(fetchFromRSS(feed).then(function(articles) {
+                RSS_FEEDS.en.forEach(function (feed) {
+                    promises.push(fetchFromRSS(feed).then(function (articles) {
                         if (articles.length > 0) sourcesOnline++;
                         allArticles = allArticles.concat(articles);
                     }));
@@ -2081,7 +3189,7 @@
 
             // Deduplicate by title similarity
             var seen = {};
-            allArticles = allArticles.filter(function(a) {
+            allArticles = allArticles.filter(function (a) {
                 var key = a.title.toLowerCase().substring(0, 50);
                 if (seen[key]) return false;
                 seen[key] = true;
@@ -2089,14 +3197,14 @@
             });
 
             // Sort by date
-            allArticles.sort(function(a, b) { return new Date(b.published) - new Date(a.published); });
+            allArticles.sort(function (a, b) { return new Date(b.published) - new Date(a.published); });
 
             activeSources = sourcesOnline;
             allFetchedArticles = allArticles;
 
             // Filter
             if (breakingOnly) {
-                allArticles = allArticles.filter(function(a) { return a.priority === 'BREAKING'; });
+                allArticles = allArticles.filter(function (a) { return a.priority === 'BREAKING'; });
             }
 
             currentArticles = allArticles;
@@ -2109,7 +3217,7 @@
                 updateMapMarkers(allArticles);
 
                 // Show breaking alert for the latest breaking news
-                var breakingNews = allArticles.filter(function(a) { return a.priority === 'BREAKING'; });
+                var breakingNews = allArticles.filter(function (a) { return a.priority === 'BREAKING'; });
                 if (breakingNews.length > 0 && breakingNews[0].id !== lastBreakingId) {
                     showBreakingAlert(breakingNews[0]);
                     lastBreakingId = breakingNews[0].id;
@@ -2118,8 +3226,8 @@
                 showNoNews();
             }
 
-            document.getElementById('source-status').innerHTML = 
-                '<span class="source-dot ' + (sourcesOnline > 0 ? 'online' : 'offline') + '"></span> SOURCES: ' + sourcesOnline + 
+            document.getElementById('source-status').innerHTML =
+                '<span class="source-dot ' + (sourcesOnline > 0 ? 'online' : 'offline') + '"></span> SOURCES: ' + sourcesOnline +
                 ' <span class="source-dot online"></span> ARTICLES: ' + allArticles.length +
                 ' <span class="source-dot online"></span> AUTO: 60s';
             document.getElementById('stat-sources').textContent = sourcesOnline;
@@ -2139,19 +3247,19 @@
                     updateNewsFeed(data.articles);
                     updateStats(data.articles);
                     updateTicker(data.articles);
-                    var breakingNews = data.articles.filter(function(a) { return a.priority === 'BREAKING'; });
+                    var breakingNews = data.articles.filter(function (a) { return a.priority === 'BREAKING'; });
                     if (breakingNews.length > 0 && breakingNews[0].id !== lastBreakingId) {
                         showBreakingAlert(breakingNews[0]);
                         lastBreakingId = breakingNews[0].id;
                     }
                     clearMarkers();
-                    data.articles.slice(0, 20).forEach(function(article) {
+                    data.articles.slice(0, 20).forEach(function (article) {
                         if (article.latitude !== 0 || article.longitude !== 0) {
                             addNewsMarker(article.latitude, article.longitude, article.priority === 'BREAKING');
                         }
                     });
                 } else { showNoNews(); }
-            } catch (error) { 
+            } catch (error) {
                 // Fallback to free sources
                 await fetchAllNews();
             }
@@ -2167,69 +3275,60 @@
         // =====================================================
         function updateNewsFeed(articles) {
             var container = document.getElementById('news-feed');
-            container.innerHTML = articles.slice(0, 50).map(function(article, idx) {
+            container.innerHTML = articles.slice(0, 50).map(function (article, idx) {
                 var hasImage = article.image_url && article.image_url.length > 5;
                 var priorityClass = article.priority === 'BREAKING' ? 'breaking' : (article.priority === 'HIGH' ? 'high' : 'normal');
-                
+
                 return '<div class="news-card ' + (article.priority === 'BREAKING' ? 'breaking-card' : '') + '" onclick="selectNews(\'' + article.id + '\')" data-url="' + (article.url || '#') + '">' +
                     (hasImage ? '<img class="news-card-image" src="' + article.image_url + '" alt="" loading="lazy" onerror="this.classList.add(\'no-image\');this.outerHTML=\'<div class=\\\'news-card-image no-image\\\'>📰</div>\';">' : '<div class="news-card-image no-image">📰</div>') +
                     '<div class="news-card-body">' +
-                        '<div class="news-card-priority ' + priorityClass + '">' + (article.priority === 'BREAKING' ? 'BREAKING' : article.priority) + '</div>' +
-                        '<div class="news-card-title">' + article.title + '</div>' +
-                        '<div class="news-card-meta">' +
-                            '<span class="news-card-source">[' + article.source + ']</span>' +
-                            '<span class="news-card-country">[' + article.country + ']</span>' +
-                            '<span>' + formatTime(article.published) + '</span>' +
-                        '</div>' +
+                    '<div class="news-card-priority ' + priorityClass + '">' + (article.priority === 'BREAKING' ? 'BREAKING' : article.priority) + '</div>' +
+                    '<div class="news-card-title">' + article.title + '</div>' +
+                    '<div class="news-card-meta">' +
+                    '<span class="news-card-source">[' + article.source + ']</span>' +
+                    '<span class="news-card-country">[' + article.country + ']</span>' +
+                    '<span>' + formatTime(article.published) + '</span>' +
                     '</div>' +
-                '</div>';
+                    '</div>' +
+                    '</div>';
             }).join('');
             document.getElementById('news-count').textContent = articles.length;
         }
 
         function updateTicker(articles) {
-            var items = articles.slice(0, 20).map(function(a) {
+            var items = articles.slice(0, 20).map(function (a) {
                 return '<span class="ticker-item ' + (a.priority === 'BREAKING' ? 'breaking' : '') + '"><span class="separator">|</span>' + a.title + '</span>';
             }).join('');
             document.getElementById('ticker-scroll').innerHTML = items + items;
         }
 
         function updateStats(articles) {
-            document.getElementById('stat-breaking').textContent = articles.filter(function(a) { return a.priority === 'BREAKING'; }).length;
+            document.getElementById('stat-breaking').textContent = articles.filter(function (a) { return a.priority === 'BREAKING'; }).length;
             document.getElementById('stat-total').textContent = articles.length;
             var countries = new Set();
-            articles.forEach(function(a) { if (a.country !== 'Global') countries.add(a.country); });
+            articles.forEach(function (a) { if (a.country !== 'Global') countries.add(a.country); });
             document.getElementById('stat-countries').textContent = countries.size;
         }
 
         function updateMapMarkers(articles) {
-            if (earthMode === 'cesium') {
-                clearCesiumMarkers();
-                articles.slice(0, 30).forEach(function(a) {
-                    if (a.latitude !== 0 || a.longitude !== 0) {
-                        addCesiumMarker(a.latitude, a.longitude, a.priority === 'BREAKING', a.priority === 'BREAKING' ? a.title : null);
-                    }
-                });
-            } else {
-                clearMarkers();
-                articles.slice(0, 20).forEach(function(a) {
-                    if (a.latitude !== 0 || a.longitude !== 0) {
-                        addNewsMarker(a.latitude, a.longitude, a.priority === 'BREAKING');
-                    }
-                });
-            }
+            clearMarkers();
+            articles.slice(0, 30).forEach(function (a) {
+                if (a.latitude !== 0 || a.longitude !== 0) {
+                    addNewsMarker(a.latitude, a.longitude, a.priority === 'BREAKING');
+                }
+            });
         }
 
         // =====================================================
         // URGENT BAR SYSTEM
         // =====================================================
         function updateUrgentBar(articles) {
-            var urgentArticles = articles.filter(function(a) { return a.priority === 'BREAKING'; });
+            var urgentArticles = articles.filter(function (a) { return a.priority === 'BREAKING'; });
             var urgentBar = document.getElementById('urgent-bar');
-            
+
             if (urgentArticles.length > 0) {
                 urgentBar.classList.add('active');
-                var scrollContent = urgentArticles.map(function(a) {
+                var scrollContent = urgentArticles.map(function (a) {
                     return '<span class="urgent-text">⚠ ' + a.title + ' <span class="urgent-separator">★</span> [' + a.source + '] <span class="urgent-separator">★</span></span>';
                 }).join('');
                 document.getElementById('urgent-scroll').innerHTML = scrollContent + scrollContent;
@@ -2248,7 +3347,7 @@
         // NEWS INTERACTION
         // =====================================================
         function selectNews(id) {
-            var article = currentArticles.find(function(a) { return a.id === id; });
+            var article = currentArticles.find(function (a) { return a.id === id; });
             if (article) {
                 var coords = window.countryCoords[article.country.toLowerCase()] || { lat: 0, lon: 0 };
                 closeMobileSidebar();
@@ -2303,8 +3402,8 @@
             var date;
             // Handle GDELT date format: 20250413T120000Z
             if (typeof dateStr === 'string' && dateStr.length >= 15 && dateStr.indexOf('T') === 8) {
-                var y = dateStr.substring(0,4), m = dateStr.substring(4,6), d = dateStr.substring(6,8);
-                var h = dateStr.substring(9,11), mi = dateStr.substring(11,13), s = dateStr.substring(13,15);
+                var y = dateStr.substring(0, 4), m = dateStr.substring(4, 6), d = dateStr.substring(6, 8);
+                var h = dateStr.substring(9, 11), mi = dateStr.substring(11, 13), s = dateStr.substring(13, 15);
                 date = new Date(y + '-' + m + '-' + d + 'T' + h + ':' + mi + ':' + s + 'Z');
             } else {
                 date = new Date(dateStr);
@@ -2324,7 +3423,7 @@
         function switchTV(index) {
             currentTVChannel = index;
             var tabs = document.querySelectorAll('.tv-tab');
-            tabs.forEach(function(t, i) {
+            tabs.forEach(function (t, i) {
                 t.classList.toggle('active', i === index);
             });
             var frame = document.getElementById('tv-frame');
@@ -2338,7 +3437,7 @@
         function switchLang(lang) {
             currentLang = lang;
             var btns = document.querySelectorAll('.lang-btn');
-            btns.forEach(function(b) {
+            btns.forEach(function (b) {
                 b.classList.toggle('active', b.textContent.toLowerCase() === lang);
             });
             fetchAllNews();
@@ -2351,7 +3450,7 @@
             var btn = document.getElementById('cat-' + cat);
             if (btn.classList.contains('active')) {
                 btn.classList.remove('active');
-                categories = categories.filter(function(c) { return c !== cat; });
+                categories = categories.filter(function (c) { return c !== cat; });
             } else {
                 btn.classList.add('active');
                 categories.push(cat);
@@ -2368,7 +3467,7 @@
         async function refreshNews() {
             sfx('tick');
             if (API_URL) {
-                try { await fetch(API_URL + '/api/refresh', { method: 'POST' }); } catch (e) {}
+                try { await fetch(API_URL + '/api/refresh', { method: 'POST' }); } catch (e) { }
                 fetchNews();
             } else {
                 fetchAllNews();
@@ -2378,11 +3477,11 @@
         function showSettings() {
             document.getElementById('settings-overlay').classList.add('visible');
             var select = document.getElementById('add-country-select');
-            select.innerHTML = '<option value="">-- Select Country --</option>' + 
-                Object.keys(window.countryCoords).map(function(c) { 
-                    return '<option value="' + c + '">' + c.charAt(0).toUpperCase() + c.slice(1) + '</option>'; 
+            select.innerHTML = '<option value="">-- Select Country --</option>' +
+                Object.keys(window.countryCoords).map(function (c) {
+                    return '<option value="' + c + '">' + c.charAt(0).toUpperCase() + c.slice(1) + '</option>';
                 }).join('');
-            select.onchange = function() {
+            select.onchange = function () {
                 if (this.value && watchedCountries.indexOf(this.value) === -1) {
                     watchedCountries.push(this.value);
                     updateWatchedCountries();
@@ -2404,12 +3503,12 @@
             if (!url) { alert("Please enter a valid URL."); return; }
             if (url.endsWith("/")) url = url.slice(0, -1);
             if (!url.startsWith("http")) { alert("URL must start with http:// or https://"); return; }
-            
+
             API_URL = url;
             console.log('Connecting to ' + API_URL + '...');
             fetch(API_URL + '/')
-                .then(function(res) { return res.json(); })
-                .then(function(data) {
+                .then(function (res) { return res.json(); })
+                .then(function (data) {
                     if (data.status === "ONLINE") {
                         console.log("CONNECTION ESTABLISHED");
                         document.getElementById('connection-overlay').classList.remove('visible');
@@ -2421,7 +3520,7 @@
                         alert("Connected but server status unknown.");
                     }
                 })
-                .catch(function(err) {
+                .catch(function (err) {
                     console.error(err);
                     alert("Could not connect. Using free sources instead.");
                     document.getElementById('connection-overlay').classList.remove('visible');
@@ -2433,21 +3532,21 @@
         function updateWatchedCountries() {
             var list = document.getElementById('watched-countries');
             var tags = document.getElementById('country-tags');
-            tags.innerHTML = watchedCountries.map(function(c) {
+            tags.innerHTML = watchedCountries.map(function (c) {
                 return '<div class="country-tag">' + c + '<span class="remove" onclick="removeCountry(\'' + c + '\')">X</span></div>';
             }).join('');
-            list.innerHTML = watchedCountries.length === 0 ? 
+            list.innerHTML = watchedCountries.length === 0 ?
                 '<div style="color: var(--text-dim); text-align: center; padding: 15px; font-size: 11px;">[ NO REGIONS SELECTED ]</div>' :
-                watchedCountries.map(function(c) {
+                watchedCountries.map(function (c) {
                     return '<div class="country-item" onclick="flyToCountry(\'' + c + '\')">' +
                         '<span class="country-name">' + c.charAt(0).toUpperCase() + c.slice(1) + '</span>' +
-                    '</div>';
+                        '</div>';
                 }).join('');
             document.getElementById('watched-count').textContent = watchedCountries.length;
         }
 
         function removeCountry(country) {
-            watchedCountries = watchedCountries.filter(function(c) { return c !== country; });
+            watchedCountries = watchedCountries.filter(function (c) { return c !== country; });
             updateWatchedCountries();
         }
 
@@ -2481,12 +3580,12 @@
         // =====================================================
         // KEYBOARD SHORTCUTS
         // =====================================================
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') { 
-                closeAlert(); 
-                hideSettings(); 
-                hideHowToUse(); 
-                hideTargetIndicator(); 
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                closeAlert();
+                hideSettings();
+                hideHowToUse();
+                hideTargetIndicator();
                 closeCountryPopup();
                 closeMobileSidebar();
                 hideLegacyConnect();
@@ -2496,7 +3595,7 @@
                 if (!e.ctrlKey && !e.metaKey) {
                     var container = document.querySelector('.earth-container');
                     if (document.fullscreenElement) { document.exitFullscreen(); }
-                    else { container.requestFullscreen().catch(function(){}); }
+                    else { container.requestFullscreen().catch(function () { }); }
                 }
             }
             if (e.key === 'm' || e.key === 'M') {
@@ -2509,7 +3608,7 @@
                 if (!e.ctrlKey && !e.metaKey) toggleEarthMode();
             }
             // 1-4 for TV channels
-            if (['1','2','3','4'].indexOf(e.key) !== -1 && !e.ctrlKey && !e.metaKey) {
+            if (['1', '2', '3', '4'].indexOf(e.key) !== -1 && !e.ctrlKey && !e.metaKey) {
                 switchTV(parseInt(e.key) - 1);
             }
         });
@@ -2517,21 +3616,13 @@
         // =====================================================
         // INITIALIZATION
         // =====================================================
-        window.addEventListener('load', function() {
-            // Initialize CesiumJS
-            try {
-                initCesium();
-            } catch(e) {
-                console.error('[NEYDRA] Cesium failed, falling back to Three.js:', e);
-                earthMode = 'threejs';
-                document.getElementById('cesium-container').style.display = 'none';
-                document.querySelector('.cesium-red-overlay').style.display = 'none';
-                document.getElementById('earth-canvas').style.display = 'block';
-                initEarth();
-            }
+        window.addEventListener('load', function () {
+            // Initialize Three.js Textured Earth
+            initTexturedEarth();
+            onWindowResize();
 
             // Hide loading after a short delay
-            setTimeout(function() {
+            setTimeout(function () {
                 document.getElementById('loading-overlay').classList.add('hidden');
             }, 2000);
 
@@ -2539,7 +3630,7 @@
             fetchAllNews();
 
             // Auto-refresh every 60 seconds
-            newsRefreshInterval = setInterval(function() {
+            newsRefreshInterval = setInterval(function () {
                 fetchAllNews();
             }, 60000);
 
@@ -2549,11 +3640,11 @@
                 theme.volume = 0.4; // Set reasonable background volume
                 var playPromise = theme.play();
                 if (playPromise !== undefined) {
-                    playPromise.catch(function(error) {
+                    playPromise.catch(function (error) {
                         // Auto-play was prevented. Play on first interaction.
                         console.log('[NEYDRA] Autoplay blocked. Waiting for user interaction to play theme.');
-                        var playOnInteract = function() {
-                            if (soundEnabled) theme.play().catch(function(){});
+                        var playOnInteract = function () {
+                            if (soundEnabled) theme.play().catch(function () { });
                             document.removeEventListener('click', playOnInteract);
                             document.removeEventListener('keydown', playOnInteract);
                         };
@@ -2567,4 +3658,5 @@
         window.addEventListener('resize', onWindowResize);
     </script>
 </body>
+
 </html>
