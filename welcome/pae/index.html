@@ -1,66 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <script src="/js/security.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/assets/icon.png" type="image/png">
     <title>NEYDRA ULTRA | PHOENIX PROTOCOL [V4.0]</title>
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    (function() {
-      const SUPABASE_URL = 'https://ybrtpasetldpxanrhsle.supabase.co';
-      const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlicnRwYXNldGxkcHhhbnJoc2xlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAzMTgyMjksImV4cCI6MjA4NTg5NDIyOX0.Rdj0S0oGV4HmQDERePPbxjQifJ8euDjOTMfgWtdz7gQ';
-      let serviceGuard = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700;800&family=Share+Tech+Mono&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        (function () {
+            const SUPABASE_URL = 'https://ybrtpasetldpxanrhsle.supabase.co';
+            const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlicnRwYXNldGxkcHhhbnJoc2xlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAzMTgyMjksImV4cCI6MjA4NTg5NDIyOX0.Rdj0S0oGV4HmQDERePPbxjQifJ8euDjOTMfgWtdz7gQ';
+            let serviceGuard = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-      // Page Requirements
-      const pageName = window.location.pathname;
-      let requiredPlan = 'STANDARD';
-      if (pageName.includes('/welcome/ail')) requiredPlan = 'PREMIUM';
-      if (pageName.includes('/welcome/nlp')) requiredPlan = 'ULTRA';
+            // Page Requirements
+            const pageName = window.location.pathname;
+            let requiredPlan = 'STANDARD';
+            if (pageName.includes('/welcome/ail')) requiredPlan = 'PREMIUM';
+            if (pageName.includes('/welcome/nlp')) requiredPlan = 'ULTRA';
 
-      async function verifyAccess() {
-        // 1. Check Session
-        const { data: { session } } = await serviceGuard.auth.getSession();
-        if (!session) return window.location.href = '/welcome/account';
+            async function verifyAccess() {
+                // 1. Check Session
+                const { data: { session } } = await serviceGuard.auth.getSession();
+                if (!session) return window.location.href = '/welcome/account';
 
-        // 2. Check Subscription
-        const { data, error } = await serviceGuard
-          .from('subscribers')
-          .select('plan_type, expires_at, status')
-          .eq('email', session.user.email)
-          .single();
+                // 2. Check Subscription
+                const { data, error } = await serviceGuard
+                    .from('subscribers')
+                    .select('plan_type, expires_at, status')
+                    .eq('email', session.user.email)
+                    .single();
 
-        if (error || !data || data.status !== 'active' || new Date(data.expires_at) < new Date()) {
-          return window.location.href = '/welcome/home'; // Send back to buy plan
-        }
+                if (error || !data || data.status !== 'active' || new Date(data.expires_at) < new Date()) {
+                    return window.location.href = '/welcome/home'; // Send back to buy plan
+                }
 
-        // 3. Check Plan Tier
-        if (data.plan_type === 'ULTRA') return; // Ultra accesses everything
-        if (data.plan_type !== requiredPlan) {
-           alert(`Your current plan (${data.plan_type}) does not support this feature. Upgrade to ${requiredPlan}.`);
-           return window.location.href = '/welcome/home';
-        }
-      }
-      verifyAccess();
-    })();
-  </script>
-    
+                // 3. Check Plan Tier
+                if (data.plan_type === 'ULTRA') return; // Ultra accesses everything
+                if (data.plan_type !== requiredPlan) {
+                    alert(`Your current plan (${data.plan_type}) does not support this feature. Upgrade to ${requiredPlan}.`);
+                    return window.location.href = '/welcome/home';
+                }
+            }
+            verifyAccess();
+        })();
+    </script>
+
     <style>
         /* * =========================================
          * CORE SYSTEM ARCHITECTURE [CSS]
          * =========================================
          */
         :root {
-            --primary: #ff0000;       /* BLOOD RED */
-            --dim-red: #550000;       /* DRIED BLOOD */
-            --dark-red: #220000;      /* DARKNESS */
-            --bg-solid: #000000;      /* VOID */
+            --primary: #ff0000;
+            /* BLOOD RED */
+            --dim-red: #550000;
+            /* DRIED BLOOD */
+            --dark-red: #220000;
+            /* DARKNESS */
+            --bg-solid: #000000;
+            /* VOID */
             --bg-panel: rgba(10, 0, 0, 0.85);
             --text-main: #ffcccc;
             --scan-line: rgba(255, 0, 0, 0.05);
             --grid-line: rgba(255, 0, 0, 0.1);
-            
+
             --font-ui: 'Rajdhani', sans-serif;
             --font-code: 'Share Tech Mono', monospace;
         }
@@ -69,7 +76,8 @@
             box-sizing: border-box;
             outline: none;
             user-select: none;
-            scrollbar-width: none; /* Firefox */
+            scrollbar-width: none;
+            /* Firefox */
         }
 
         body {
@@ -82,7 +90,7 @@
             display: flex;
             flex-direction: column;
             /* Infinite Grid Background */
-            background-image: 
+            background-image:
                 linear-gradient(var(--grid-line) 1px, transparent 1px),
                 linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
             background-size: 30px 30px;
@@ -93,7 +101,10 @@
         body::before {
             content: "";
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: radial-gradient(circle, transparent 50%, #000 100%);
             z-index: 900;
             pointer-events: none;
@@ -103,9 +114,12 @@
             content: " ";
             display: block;
             position: absolute;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
-                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(255, 0, 0, 0.02), rgba(255, 0, 0, 0.06));
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+                linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(255, 0, 0, 0.02), rgba(255, 0, 0, 0.06));
             z-index: 999;
             background-size: 100% 2px, 3px 100%;
             pointer-events: none;
@@ -115,8 +129,10 @@
         /* --- LAYOUT GRID --- */
         .viewport {
             display: grid;
-            grid-template-columns: 250px 1fr 250px; /* Left Sidebar, Center, Right Sidebar */
-            grid-template-rows: 80px 1fr 150px;     /* Header, Main, Footer */
+            grid-template-columns: 250px 1fr 250px;
+            /* Left Sidebar, Center, Right Sidebar */
+            grid-template-rows: 80px 1fr 150px;
+            /* Header, Main, Footer */
             width: 100%;
             height: 100%;
             padding: 10px;
@@ -131,13 +147,13 @@
             border: 1px solid var(--dark-red);
             position: relative;
             backdrop-filter: blur(4px);
-            box-shadow: inset 0 0 20px rgba(0,0,0,1);
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 1);
             transition: all 0.2s ease;
         }
-        
+
         .panel:hover {
             border-color: var(--primary);
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.2), inset 0 0 20px rgba(0,0,0,1);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.2), inset 0 0 20px rgba(0, 0, 0, 1);
         }
 
         .panel-header {
@@ -173,8 +189,11 @@
             font-style: italic;
             position: relative;
         }
-        
-        h1 span { color: var(--primary); text-shadow: none; }
+
+        h1 span {
+            color: var(--primary);
+            text-shadow: none;
+        }
 
         .sys-info {
             font-family: var(--font-code);
@@ -220,13 +239,20 @@
             position: relative;
             overflow: hidden;
         }
-        canvas { display: block; width: 100%; height: 100%; }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
 
         .overlay-text {
             position: absolute;
-            top: 20px; left: 20px;
+            top: 20px;
+            left: 20px;
             pointer-events: none;
         }
+
         .big-price {
             font-size: 64px;
             font-family: var(--font-code);
@@ -241,18 +267,34 @@
             grid-template-columns: repeat(4, 1fr);
             gap: 10px;
         }
-        
+
         .metric-card {
-            background: rgba(20,0,0,0.9);
+            background: rgba(20, 0, 0, 0.9);
             border-left: 4px solid var(--dim-red);
             padding: 15px;
             display: flex;
             flex-direction: column;
             justify-content: center;
         }
-        .metric-card.active { border-left-color: var(--primary); background: rgba(50,0,0,0.3); }
-        .m-label { color: #888; font-size: 10px; letter-spacing: 2px; margin-bottom: 5px; }
-        .m-val { color: var(--primary); font-size: 24px; font-family: var(--font-code); text-shadow: 0 0 5px var(--primary); }
+
+        .metric-card.active {
+            border-left-color: var(--primary);
+            background: rgba(50, 0, 0, 0.3);
+        }
+
+        .m-label {
+            color: #888;
+            font-size: 10px;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+        }
+
+        .m-val {
+            color: var(--primary);
+            font-size: 24px;
+            font-family: var(--font-code);
+            text-shadow: 0 0 5px var(--primary);
+        }
 
         /* --- RIGHT SIDEBAR: ORDER BOOK --- */
         .sidebar-right {
@@ -270,9 +312,21 @@
             font-family: var(--font-code);
             font-size: 12px;
         }
-        .ob-row { display: flex; justify-content: space-between; padding: 2px 0; border-bottom: 1px dashed #220; }
-        .ob-ask { color: #ff4444; }
-        .ob-bid { color: #aa0000; }
+
+        .ob-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 2px 0;
+            border-bottom: 1px dashed #220;
+        }
+
+        .ob-ask {
+            color: #ff4444;
+        }
+
+        .ob-bid {
+            color: #aa0000;
+        }
 
         /* --- FOOTER: LOGS & CONTROLS --- */
         .footer-section {
@@ -293,10 +347,24 @@
             color: #aaa;
             box-shadow: inset 0 0 20px #000;
         }
-        .log-line { margin-bottom: 2px; }
-        .log-err { color: var(--primary); background: rgba(255,0,0,0.1); }
-        .log-suc { color: #fff; text-shadow: 0 0 5px #fff; }
-        .log-warn { color: #ffaa00; }
+
+        .log-line {
+            margin-bottom: 2px;
+        }
+
+        .log-err {
+            color: var(--primary);
+            background: rgba(255, 0, 0, 0.1);
+        }
+
+        .log-suc {
+            color: #fff;
+            text-shadow: 0 0 5px #fff;
+        }
+
+        .log-warn {
+            color: #ffaa00;
+        }
 
         .controls {
             display: flex;
@@ -330,7 +398,7 @@
             color: #000;
             box-shadow: 0 0 20px var(--primary);
         }
-        
+
         button.engaged {
             background: var(--primary);
             color: black;
@@ -349,27 +417,80 @@
         }
 
         /* --- ANIMATIONS --- */
-        @keyframes pulse-btn { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
-        @keyframes flicker { 0% { opacity: 0.97; } 50% { opacity: 1; } 100% { opacity: 0.98; } }
-        
+        @keyframes pulse-btn {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes flicker {
+            0% {
+                opacity: 0.97;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0.98;
+            }
+        }
+
         /* Decoration lines */
         .deco-line {
             position: absolute;
             background: var(--primary);
             opacity: 0.3;
         }
-        .dl-1 { top: 0; left: 0; width: 20px; height: 1px; }
-        .dl-2 { top: 0; left: 0; width: 1px; height: 20px; }
-        .dl-3 { bottom: 0; right: 0; width: 20px; height: 1px; }
-        .dl-4 { bottom: 0; right: 0; width: 1px; height: 20px; }
+
+        .dl-1 {
+            top: 0;
+            left: 0;
+            width: 20px;
+            height: 1px;
+        }
+
+        .dl-2 {
+            top: 0;
+            left: 0;
+            width: 1px;
+            height: 20px;
+        }
+
+        .dl-3 {
+            bottom: 0;
+            right: 0;
+            width: 20px;
+            height: 1px;
+        }
+
+        .dl-4 {
+            bottom: 0;
+            right: 0;
+            width: 1px;
+            height: 20px;
+        }
 
         /* --- CONNECTION PANEL --- */
         .connection-overlay {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: rgba(0, 0, 0, 0.95);
             z-index: 2000;
-            display: none; /* Hidden by default now */
+            display: none;
+            /* Hidden by default now */
             justify-content: center;
             align-items: center;
         }
@@ -423,8 +544,10 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.9);
-            z-index: 3000; /* Higher than connection overlay */
-            display: flex; /* Visible by default */
+            z-index: 3000;
+            /* Higher than connection overlay */
+            display: flex;
+            /* Visible by default */
             justify-content: center;
             align-items: center;
             animation: fadeIn 0.3s ease;
@@ -508,7 +631,7 @@
             font-size: 12px;
             line-height: 1.5;
         }
-        
+
         .instruction-content .cmd-box {
             display: flex;
             gap: 10px;
@@ -555,15 +678,15 @@
             background: #fff;
             box-shadow: 0 0 15px var(--primary);
         }
-        
+
         .download-btn.secondary {
-             background: #333;
-             color: #fff;
-             border: 1px solid #555;
+            background: #333;
+            color: #fff;
+            border: 1px solid #555;
         }
-        
+
         .download-btn.secondary:hover {
-             background: #555;
+            background: #555;
         }
 
         .close-panel-btn {
@@ -619,8 +742,14 @@
             color: #ff4444;
         }
 
+        ::-webkit-scrollbar {
+            display: none;
+            width: 0;
+            height: 0;
+        }
     </style>
 </head>
+
 <body>
 
     <!-- CONNECTION OVERLAY -->
@@ -631,7 +760,8 @@
             <input type="text" id="url-input" placeholder="https://your-url.loca.lt">
             <button onclick="initializeConnection()" style="width: 100%; padding: 15px;">CONNECT</button>
             <p style="margin-top: 15px; font-size: 11px; color: #666;">
-                Run <span style="color: var(--primary);">npx localtunnel --port 8000</span> in your terminal to generate a URL.
+                Run <span style="color: var(--primary);">npx localtunnel --port 8000</span> in your terminal to generate
+                a URL.
             </p>
         </div>
     </div>
@@ -680,10 +810,12 @@
                     <span class="step-number">4</span>
                     <div class="instruction-content">
                         <strong>Create Public URL</strong>
-                        <p>Open a <strong>NEW</strong> Command Prompt and run the tunnel command. Copy the URL it gives you.</p>
+                        <p>Open a <strong>NEW</strong> Command Prompt and run the tunnel command. Copy the URL it gives
+                            you.</p>
                         <div class="cmd-box">
                             <code>npx localtunnel --port 8000</code>
-                            <button class="download-btn secondary" onclick="copyCommand('npx localtunnel --port 8000')">COPY</button>
+                            <button class="download-btn secondary"
+                                onclick="copyCommand('npx localtunnel --port 8000')">COPY</button>
                         </div>
                     </div>
                 </li>
@@ -692,9 +824,11 @@
                     <div class="instruction-content">
                         <strong>Unlock Tunnel (Password)</strong>
                         <p>Open the generated URL in your browser. It will ask for a password.</p>
-                        <p><strong>Password = Your Public IP.</strong> Click the button below to find your IP, then paste it into the tunnel page.</p>
+                        <p><strong>Password = Your Public IP.</strong> Click the button below to find your IP, then
+                            paste it into the tunnel page.</p>
                         <div class="download-btn-container">
-                            <a href="https://www.whatismyip.com/" target="_blank" class="download-btn" style="background: #660000;">
+                            <a href="https://www.whatismyip.com/" target="_blank" class="download-btn"
+                                style="background: #660000;">
                                 🔍 FIND MY IP ADDRESS
                             </a>
                         </div>
@@ -709,7 +843,8 @@
                 </li>
             </ul>
             <div style="text-align: center; margin-top: 30px;">
-                <button onclick="hideHowToUse()" style="width: auto; padding: 15px 50px; font-size: 18px;">CONTINUE TO DASHBOARD</button>
+                <button onclick="hideHowToUse()" style="width: auto; padding: 15px 50px; font-size: 18px;">CONTINUE TO
+                    DASHBOARD</button>
             </div>
         </div>
     </div>
@@ -756,12 +891,14 @@
                         <span class="stat-value" id="stat-recovery">OFF</span>
                     </div>
                 </div>
-                <div class="deco-line dl-1"></div><div class="deco-line dl-2"></div>
+                <div class="deco-line dl-1"></div>
+                <div class="deco-line dl-2"></div>
             </div>
             <div class="panel" style="height: 50%; display: flex; flex-direction: column;">
                 <div class="panel-header">MEMORY STREAM</div>
                 <div id="hex-dump"></div>
-                <div class="deco-line dl-3"></div><div class="deco-line dl-4"></div>
+                <div class="deco-line dl-3"></div>
+                <div class="deco-line dl-4"></div>
             </div>
         </div>
 
@@ -773,7 +910,7 @@
                     <div class="big-price" id="main-price">0.00</div>
                 </div>
             </div>
-            
+
             <div class="metrics-grid">
                 <div class="panel metric-card">
                     <span class="m-label">CONFIDENCE</span>
@@ -799,7 +936,8 @@
                 <div class="panel-header">DEPTH OF MARKET</div>
                 <div class="order-book" id="order-book-list">
                 </div>
-                <div class="deco-line dl-3"></div><div class="deco-line dl-4"></div>
+                <div class="deco-line dl-3"></div>
+                <div class="deco-line dl-4"></div>
             </div>
         </div>
 
@@ -814,7 +952,8 @@
                     <button id="btn-start" onclick="toggleEngine()">ACTIVATE</button>
                     <button class="info-btn" onclick="showHowToUse()">HOW TO USE</button>
                 </div>
-                <button id="btn-kill" onclick="killSwitch()" style="border-color: #555; color: #555;">KILL SWITCH</button>
+                <button id="btn-kill" onclick="killSwitch()" style="border-color: #555; color: #555;">KILL
+                    SWITCH</button>
             </div>
         </div>
     </div>
@@ -830,12 +969,12 @@
         // --- CONFIGURATION ---
         const ENGINE_SPEED = 200; // ms update rate
         let API_URL = null; // Will be set by user input
-        
+
         let isRunning = false;
         let price = 0;
         let sessionPnL = 0;
         let loopInterval = null;
-        
+
         // --- DOM ELEMENTS ---
         const elPrice = document.getElementById('main-price');
         const elConf = document.getElementById('val-conf');
@@ -849,14 +988,14 @@
         const coreStatus = document.getElementById('core-status');
         const latencyEl = document.getElementById('latency');
         const connectionOverlay = document.getElementById('connection-overlay');
-        
+
         // Stats elements
         const statEquity = document.getElementById('stat-equity');
         const statPnL = document.getElementById('stat-pnl');
         const statTrades = document.getElementById('stat-trades');
         const statWinrate = document.getElementById('stat-winrate');
         const statRecovery = document.getElementById('stat-recovery');
-        
+
         // --- AUDIO SYSTEM ---
         function sfx(type) {
             const el = document.getElementById('snd-' + type);
@@ -899,9 +1038,9 @@
             }
 
             API_URL = url;
-            
+
             log(`Connecting to ${API_URL}...`);
-            
+
             // Test connection
             fetch(`${API_URL}/`)
                 .then(res => res.json())
@@ -960,37 +1099,37 @@
             ctx.strokeStyle = '#220000';
             ctx.lineWidth = 1;
             ctx.beginPath();
-            for(let i=0; i<width; i+=40) { ctx.moveTo(i,0); ctx.lineTo(i,height); }
-            for(let i=0; i<height; i+=40) { ctx.moveTo(0,i); ctx.lineTo(width,i); }
+            for (let i = 0; i < width; i += 40) { ctx.moveTo(i, 0); ctx.lineTo(i, height); }
+            for (let i = 0; i < height; i += 40) { ctx.moveTo(0, i); ctx.lineTo(width, i); }
             ctx.stroke();
 
             // Draw price line
-            if(dataPoints.length > 0) {
+            if (dataPoints.length > 0) {
                 ctx.strokeStyle = '#ff0000';
                 ctx.lineWidth = 2;
                 ctx.beginPath();
-                
-                if(dataPoints.length > width/2) dataPoints.shift();
-                
+
+                if (dataPoints.length > width / 2) dataPoints.shift();
+
                 const minPrice = Math.min(...dataPoints);
                 const maxPrice = Math.max(...dataPoints);
                 const priceRange = maxPrice - minPrice || 1;
-                
+
                 for (let i = 0; i < dataPoints.length; i++) {
                     const x = i * 2;
                     const y = height - ((dataPoints[i] - minPrice) / priceRange) * (height - 40) - 20;
-                    if(i===0) ctx.moveTo(x, y);
+                    if (i === 0) ctx.moveTo(x, y);
                     else ctx.lineTo(x, y);
                 }
                 ctx.stroke();
-                
+
                 // Glow effect
                 ctx.shadowBlur = 10;
                 ctx.shadowColor = "red";
                 ctx.stroke();
                 ctx.shadowBlur = 0;
             }
-            
+
             requestAnimationFrame(drawGraph);
         }
         drawGraph();
@@ -1000,47 +1139,47 @@
         function generateHex() {
             const chars = "0123456789ABCDEF";
             let str = "0x";
-            for(let i=0; i<8; i++) str += chars[Math.floor(Math.random()*16)];
-            
+            for (let i = 0; i < 8; i++) str += chars[Math.floor(Math.random() * 16)];
+
             const div = document.createElement('div');
             div.innerText = `${str} :: ${Math.random() > 0.5 ? 'READ' : 'WRITE'}`;
             elHex.prepend(div);
-            if(elHex.children.length > 20) elHex.lastChild.remove();
+            if (elHex.children.length > 20) elHex.lastChild.remove();
         }
 
         function updateOrderBook(currentPrice) {
             elBook.innerHTML = "";
-            if(!currentPrice) currentPrice = 2000;
-            
+            if (!currentPrice) currentPrice = 2000;
+
             // Asks (sell orders above current price)
-            for(let i=0; i<8; i++) {
-                let p = (currentPrice + (i*0.5) + Math.random()*0.3).toFixed(2);
+            for (let i = 0; i < 8; i++) {
+                let p = (currentPrice + (i * 0.5) + Math.random() * 0.3).toFixed(2);
                 let q = (Math.random() * 5).toFixed(2);
                 elBook.innerHTML += `<div class="ob-row ob-ask"><span>${p}</span><span>${q}</span></div>`;
             }
             elBook.innerHTML += `<div style="border-top: 1px solid red; margin: 5px 0; padding-top:5px;"></div>`;
             // Bids (buy orders below current price)
-            for(let i=0; i<8; i++) {
-                let p = (currentPrice - (i*0.5) - Math.random()*0.3).toFixed(2);
+            for (let i = 0; i < 8; i++) {
+                let p = (currentPrice - (i * 0.5) - Math.random() * 0.3).toFixed(2);
                 let q = (Math.random() * 5).toFixed(2);
                 elBook.innerHTML += `<div class="ob-row ob-bid"><span>${p}</span><span>${q}</span></div>`;
             }
         }
 
-        function log(msg, type="norm") {
+        function log(msg, type = "norm") {
             const d = new Date();
-            const ts = `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')}`;
+            const ts = `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}:${String(d.getSeconds()).padStart(2, '0')}`;
             const line = document.createElement('div');
             line.className = "log-line";
-            if(type==="err") line.className += " log-err";
-            if(type==="suc") line.className += " log-suc";
-            if(type==="warn") line.className += " log-warn";
+            if (type === "err") line.className += " log-err";
+            if (type === "suc") line.className += " log-suc";
+            if (type === "warn") line.className += " log-warn";
             line.innerText = `[${ts}] ${msg}`;
             elLog.appendChild(line);
             elLog.scrollTop = elLog.scrollHeight;
-            
+
             // Limit log lines
-            while(elLog.children.length > 50) {
+            while (elLog.children.length > 50) {
                 elLog.removeChild(elLog.firstChild);
             }
         }
@@ -1052,7 +1191,7 @@
                 const response = await fetch(`${API_URL}/stats`);
                 if (!response.ok) return;
                 const data = await response.json();
-                
+
                 // Update stats panel
                 statEquity.textContent = `$${data.equity.toFixed(2)}`;
                 statPnL.textContent = `$${data.daily_pnl.toFixed(2)}`;
@@ -1061,11 +1200,11 @@
                 statWinrate.textContent = `${data.win_rate}%`;
                 statRecovery.textContent = data.recovery_mode ? `LVL ${data.recovery_level}` : 'OFF';
                 statRecovery.className = `stat-value ${data.recovery_mode ? 'negative' : ''}`;
-                
+
                 // Update session PnL
                 elPnL.textContent = `$${data.daily_pnl.toFixed(2)}`;
                 elPnL.style.color = data.daily_pnl >= 0 ? '#00ff00' : '#ff4444';
-                
+
             } catch (error) {
                 // Silent fail
             }
@@ -1073,9 +1212,9 @@
 
         // --- MAIN API LOGIC LOOP ---
         let lastRequestTime = 0;
-        
+
         async function fetchSystemState() {
-            if(!isRunning || !API_URL) return;
+            if (!isRunning || !API_URL) return;
 
             const now = Date.now();
             const latency = now - lastRequestTime;
@@ -1085,34 +1224,34 @@
                 const startTime = Date.now();
                 const response = await fetch(`${API_URL}/scan`);
                 const requestTime = Date.now() - startTime;
-                
+
                 if (!response.ok) throw new Error("API Error");
                 const data = await response.json();
-                
+
                 // Update latency display
                 latencyEl.textContent = requestTime;
                 coreStatus.textContent = 'ONLINE';
                 coreStatus.style.color = '#00ff00';
-                
+
                 // 1. Update Price
-                if(data.price) {
+                if (data.price) {
                     price = data.price;
                     elPrice.innerText = price.toFixed(2);
                     dataPoints.push(price);
                 }
 
                 // 2. Update Metrics
-                if(data.confidence !== undefined) {
+                if (data.confidence !== undefined) {
                     elConf.innerText = data.confidence + "%";
                     elConf.style.color = data.confidence > 70 ? "#fff" : "var(--primary)";
                 }
-                
-                if(data.rsi !== undefined) {
+
+                if (data.rsi !== undefined) {
                     elRSI.innerText = data.rsi.toFixed(0);
                     elRSI.style.color = data.rsi < 30 ? '#00ff00' : (data.rsi > 70 ? '#ff4444' : 'var(--primary)');
                 }
-                
-                if(data.trend !== undefined) {
+
+                if (data.trend !== undefined) {
                     const trendLabels = ['BEARISH', 'NEUTRAL', 'BULLISH'];
                     elTrend.innerText = trendLabels[data.trend + 1] || 'NEUTRAL';
                     elTrend.style.color = data.trend > 0 ? '#00ff00' : (data.trend < 0 ? '#ff4444' : 'var(--primary)');
@@ -1120,7 +1259,7 @@
 
                 // 3. Handle Status
                 const status = data.status;
-                
+
                 // SCANNING STATE
                 if (status === "SCANNING") {
                     // Visual scanning state
@@ -1149,16 +1288,16 @@
                         elPnL.textContent = `$${pnl.toFixed(2)}`;
                         elPnL.style.color = pnl >= 0 ? '#00ff00' : '#ff4444';
                     }
-                    
-                    if(Math.random() > 0.97) sfx('tick');
-                    
+
+                    if (Math.random() > 0.97) sfx('tick');
+
                     document.getElementById('val-pnl').parentElement.classList.add('active');
                 }
 
                 // CLOSED STATES
                 else if (typeof status === 'string' && status.includes("CLOSED")) {
                     document.getElementById('val-pnl').parentElement.classList.remove('active');
-                    
+
                     if (status === "CLOSED_TARGET") {
                         log(`>>> TARGET HIT! Profit secured.`, "suc");
                         sfx('engage');
@@ -1178,7 +1317,7 @@
                         log(`>>> POSITION CLOSED: ${status}`, "warn");
                         sfx('glitch');
                     }
-                    
+
                     // Update stats after close
                     setTimeout(updateStats, 500);
                 }
@@ -1191,40 +1330,40 @@
                 coreStatus.textContent = 'OFFLINE';
                 coreStatus.style.color = '#ff0000';
                 latencyEl.textContent = '--';
-                if(Math.random() > 0.98) log("API CONNECTION UNSTABLE - Check Python backend", "err");
+                if (Math.random() > 0.98) log("API CONNECTION UNSTABLE - Check Python backend", "err");
             }
         }
 
         // --- CONTROLS ---
         function toggleEngine() {
-            if(!API_URL) {
+            if (!API_URL) {
                 alert("Please connect to a server URL first.");
                 return;
             }
 
-            if(isRunning) {
+            if (isRunning) {
                 isRunning = false;
                 btnStart.innerText = "ACTIVATE";
                 btnStart.classList.remove("engaged");
                 log("PROCESS SUSPENDED BY USER");
-                if(loopInterval) clearInterval(loopInterval);
+                if (loopInterval) clearInterval(loopInterval);
             } else {
                 isRunning = true;
                 btnStart.innerText = "RUNNING";
                 btnStart.classList.add("engaged");
                 log("PHOENIX PROTOCOL ENGAGED", "suc");
                 sfx('engage');
-                
+
                 // Start the main loop
                 lastRequestTime = Date.now();
                 loopInterval = setInterval(fetchSystemState, ENGINE_SPEED);
-                
+
                 // Stats update loop (slower)
                 setInterval(updateStats, 2000);
-                
+
                 // Seed chart
-                for(let i=0; i<100; i++) dataPoints.push(price || 2000);
-                
+                for (let i = 0; i < 100; i++) dataPoints.push(price || 2000);
+
                 // Initial fetch
                 fetchSystemState();
                 updateStats();
@@ -1245,9 +1384,5 @@
 
     </script>
 </body>
+
 </html>
-
-
-
-
-

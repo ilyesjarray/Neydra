@@ -1,20 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <script src="/js/security.js"></script>
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/assets/icon.png" type="image/png">
   <title>NEYDRA | Secure Subscription</title>
-  
+  <style>
+    ::-webkit-scrollbar {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+  </style>
+
   <!-- Fonts & Icons -->
   <link href="https://cdn.jsdelivr.net/npm/remixicon@3.0.0/fonts/remixicon.css" rel="stylesheet" />
-  
+
   <!-- EmailJS SDK (Using your existing Public Key) -->
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script type="text/javascript">
-    (function() {
-      emailjs.init("MQKyFZlDIBIMySsjM"); 
+    (function () {
+      emailjs.init("MQKyFZlDIBIMySsjM");
     })();
   </script>
 
@@ -186,7 +195,8 @@
     /* --- NOTIFICATION TOAST --- */
     .notification {
       position: fixed;
-      bottom: -150px; /* Hidden initially */
+      bottom: -150px;
+      /* Hidden initially */
       left: 50%;
       transform: translateX(-50%);
       width: 90%;
@@ -235,84 +245,98 @@
       font-size: 0.9rem;
       transition: color 0.3s;
     }
-    .back-link:hover { color: #ff0000; }
+
+    .back-link:hover {
+      color: #ff0000;
+    }
 
     /* Mobile Adjustments */
     @media (max-width: 600px) {
-      h1 { font-size: 1.8rem; }
-      .payment-container { padding: 20px 15px; margin-top: 20px; }
-      .plan-price { font-size: 1.8rem; }
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      .payment-container {
+        padding: 20px 15px;
+        margin-top: 20px;
+      }
+
+      .plan-price {
+        font-size: 1.8rem;
+      }
     }
   </style>
 </head>
+
 <body>
 
   <div class="bg-fog"></div>
 
   <div class="payment-container">
-  <h1>Buy Your Plan</h1>
-  <p class="subtitle">Secure, crypto subscription .</p>
+    <h1>Buy Your Plan</h1>
+    <p class="subtitle">Secure, crypto subscription .</p>
 
-  <div class="plan-card">
-    <div class="plan-title" id="displayPlanName">LOADING...</div>
-    <div class="plan-price" id="displayPrice">$0</div>
-    <div class="plan-subprice">Recurring Monthly Charge</div>
+    <div class="plan-card">
+      <div class="plan-title" id="displayPlanName">LOADING...</div>
+      <div class="plan-price" id="displayPrice">$0</div>
+      <div class="plan-subprice">Recurring Monthly Charge</div>
+    </div>
+
+    <!-- Replace the old Form with this Container -->
+    <div id="helio-container" style="text-align: center;">
+      <p style="margin-bottom: 20px; color: #aaa;">Click below to launch secure payment .</p>
+      <button id="payWithHelio" class="btn-unlock">Proceed to Payment</button>
+    </div>
+
+    <a href="/welcome/home" class="back-link"><i class="ri-arrow-left-line"></i> Back to Home</a>
   </div>
 
-  <!-- Replace the old Form with this Container -->
-  <div id="helio-container" style="text-align: center;">
-    <p style="margin-bottom: 20px; color: #aaa;">Click below to launch secure payment .</p>
-    <button id="payWithHelio" class="btn-unlock">Proceed to Payment</button>
-  </div>
-
-  <a href="/welcome/home" class="back-link"><i class="ri-arrow-left-line"></i> Back to Home</a>
-</div>
 
 
 
+  <script>
+    // --- 1. MAPPING PLANS TO NOWPAYMENTS LINKS ---
+    // PASTE THE LINKS YOU GOT FROM NOWPAYMENTS HERE:
+    const PAYMENT_LINKS = {
+      'standard': 'https://nowpayments.io/payment/?iid=4458788659',
+      'premium': 'https://nowpayments.io/payment/?iid=5180468463',
+      'ultra': 'https://nowpayments.io/payment/?iid=6375314481'
+    };
 
-<script>
-  // --- 1. MAPPING PLANS TO NOWPAYMENTS LINKS ---
-  // PASTE THE LINKS YOU GOT FROM NOWPAYMENTS HERE:
-  const PAYMENT_LINKS = {
-    'standard': 'https://nowpayments.io/payment/?iid=4458788659',
-    'premium':  'https://nowpayments.io/payment/?iid=5180468463',
-    'ultra':    'https://nowpayments.io/payment/?iid=6375314481'
-  };
+    // --- 2. GET PLAN DATA FROM URL ---
+    const urlParams = new URLSearchParams(window.location.search);
+    const planType = urlParams.get('plan');
+    const priceUsd = urlParams.get('price');
 
-  // --- 2. GET PLAN DATA FROM URL ---
-  const urlParams = new URLSearchParams(window.location.search);
-  const planType = urlParams.get('plan'); 
-  const priceUsd = urlParams.get('price');
-  
-  const planTitleEl = document.getElementById('displayPlanName');
-  const priceEl = document.getElementById('displayPrice');
-  const payBtn = document.getElementById('payWithHelio'); // We keep the ID or rename it
+    const planTitleEl = document.getElementById('displayPlanName');
+    const priceEl = document.getElementById('displayPrice');
+    const payBtn = document.getElementById('payWithHelio'); // We keep the ID or rename it
 
-  // Renaming button ID for clarity (Optional, change HTML ID if you do this)
-  const payBtnNow = document.getElementById('payWithHelio'); 
+    // Renaming button ID for clarity (Optional, change HTML ID if you do this)
+    const payBtnNow = document.getElementById('payWithHelio');
 
-  if (planType && priceUsd) {
-    planTitleEl.innerText = planType.toUpperCase() + " PLAN";
-    priceEl.innerText = `$${priceUsd} / mo`;
-  } else {
-    planTitleEl.innerText = "ACCESS ERROR";
-    payBtnNow.disabled = true;
-    payBtnNow.innerText = "Invalid Plan";
-  }
-
-  // --- 3. PAYMENT LOGIC ---
-  payBtnNow.addEventListener('click', function() {
-    const targetLink = PAYMENT_LINKS[planType];
-    
-    if(!targetLink || targetLink.includes("PASTE_YOUR")) {
-      alert("Configuration Error: Payment link not found for this plan. Please check the code.");
-      return;
+    if (planType && priceUsd) {
+      planTitleEl.innerText = planType.toUpperCase() + " PLAN";
+      priceEl.innerText = `$${priceUsd} / mo`;
+    } else {
+      planTitleEl.innerText = "ACCESS ERROR";
+      payBtnNow.disabled = true;
+      payBtnNow.innerText = "Invalid Plan";
     }
 
-    // Redirect to NOWPayments
-    window.location.href = targetLink;
-  });
-</script>
+    // --- 3. PAYMENT LOGIC ---
+    payBtnNow.addEventListener('click', function () {
+      const targetLink = PAYMENT_LINKS[planType];
+
+      if (!targetLink || targetLink.includes("PASTE_YOUR")) {
+        alert("Configuration Error: Payment link not found for this plan. Please check the code.");
+        return;
+      }
+
+      // Redirect to NOWPayments
+      window.location.href = targetLink;
+    });
+  </script>
 </body>
+
 </html>

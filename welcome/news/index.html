@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <link rel="icon" href="/assets/icon.png" type="image/png">
     <title>GLOBAL NEYDRA NEWS | Earth News System</title>
     <meta name="description"
         content="Global Neydra News — Real-time 3D Earth news monitoring system with live TV streams, multi-source intelligence feed, and urgent alert system.">
@@ -2165,6 +2166,113 @@
                 animation-iteration-count: 1 !important;
             }
         }
+
+        /* Mobile Navigation Styles */
+        @media (max-width: 900px) {
+            .mobile-nav-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.95);
+                z-index: 2000;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+                backdrop-filter: blur(5px);
+            }
+
+            .mobile-nav-overlay.active {
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .mobile-nav-close {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                background: none;
+                border: none;
+                color: #fff;
+                font-size: 32px;
+                cursor: pointer;
+                z-index: 2001;
+            }
+
+            .mobile-nav-links {
+                display: flex;
+                flex-direction: column;
+                gap: 25px;
+                text-align: center;
+            }
+
+            .mobile-nav-links a {
+                color: #fff;
+                font-size: 24px;
+                font-weight: 700;
+                text-decoration: none;
+                transition: color 0.2s ease;
+                font-family: 'Orbitron', sans-serif;
+            }
+
+            .mobile-nav-links a:hover {
+                color: var(--primary);
+            }
+
+            .mobile-nav-links a.active {
+                color: var(--primary);
+            }
+
+            .mobile-nav-footer {
+                margin-top: 40px;
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+                align-items: center;
+            }
+
+            .mobile-nav-footer .social__icons {
+                display: flex;
+                gap: 20px;
+            }
+
+            .mobile-nav-footer .social__icons a {
+                font-size: 24px;
+                color: #fff;
+                transition: color 0.2s ease;
+            }
+
+            .mobile-nav-footer .social__icons a:hover {
+                color: var(--primary);
+            }
+
+            .mobile-nav-footer .contact-info {
+                color: #ccc;
+                font-size: 14px;
+                font-family: 'Share Tech Mono', monospace;
+            }
+
+            .mobile-nav-footer .contact-info a {
+                color: #fff;
+                text-decoration: none;
+                transition: color 0.2s ease;
+            }
+
+            .mobile-nav-footer .contact-info a:hover {
+                color: var(--primary);
+            }
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+            width: 0;
+            height: 0;
+        }
     </style>
 </head>
 
@@ -2728,9 +2836,9 @@
             var textureLoader = new THREE.TextureLoader();
             var earthTexture = textureLoader.load(
                 '../../assets/earth.png',
-                function(texture) { console.log('[NEYDRA] Earth texture loaded successfully'); },
+                function (texture) { console.log('[NEYDRA] Earth texture loaded successfully'); },
                 undefined,
-                function(err) { console.error('[NEYDRA] Failed to load earth texture (likely CORS on file://). Falling back to base color.', err); }
+                function (err) { console.error('[NEYDRA] Failed to load earth texture (likely CORS on file://). Falling back to base color.', err); }
             );
             var texturedMaterial = new THREE.MeshPhongMaterial({
                 map: earthTexture,
