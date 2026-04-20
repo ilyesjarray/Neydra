@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="/js/security.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="NEYDRA AI — Nova Assistant" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="icon" href="/assets/icon.png" type="image/png" />
+  <link rel="manifest" id="pwaManifest" />
+  <link rel="stylesheet" href="/welcome/aiassistants/aiassistants.css" />
+  <title>NEYDRA — Nova</title>
+</head>
+<body>
+
+  <!-- ═══ BOT CONFIG (Unique per bot page) ═══ -->
+  <script>
+    window.BOT_CONFIG = {
+      id: 7,
+      name: 'Nova',
+      slug: 'nova',
+      gender: 'female',
+      neonColor: 'rgba(0, 220, 200, 0.5)',
+      voicePitch: 1.15,
+      voiceRate: 1.1,
+      voiceLang: 'en-US',
+      idleImg: '/assets/aiassistants/bot7/bot7.png',
+      thinkImg: '/assets/aiassistants/bot7/bot7thinking.png',
+      shyImg: '/assets/aiassistants/bot7/bot7shy.png',
+      cardImg: '/assets/aiassistants/botcards/bot7card.png'
+    };
+  </script>
+
+  <!-- Audio -->
+  <audio id="bot-theme" src="/assets/aiassistants/bottheme-music.mp3" loop preload="auto"></audio>
+
+  <!-- Galaxy Particle Canvas -->
+  <canvas id="galaxyCanvas" class="galaxy-canvas"></canvas>
+
+  <!-- Back button -->
+  <button class="back-btn" onclick="goBack()" title="Back to Selection">◂</button>
+
+  <!-- Voice Call Overlay -->
+  <div class="voice-call-overlay" id="voiceOverlay">
+    <img class="voice-call-avatar" id="voiceAvatar" src="" alt="Bot Avatar" />
+    <div class="voice-call-name" id="voiceCallName"></div>
+    <div class="voice-call-status" id="voiceStatus">Listening...</div>
+    <div class="voice-waveform" id="voiceWaveform">
+      <div class="bar" style="animation-delay:0s; height:10px;"></div>
+      <div class="bar" style="animation-delay:0.1s; height:15px;"></div>
+      <div class="bar" style="animation-delay:0.2s; height:20px;"></div>
+      <div class="bar" style="animation-delay:0.3s; height:12px;"></div>
+      <div class="bar" style="animation-delay:0.15s; height:18px;"></div>
+      <div class="bar" style="animation-delay:0.25s; height:8px;"></div>
+      <div class="bar" style="animation-delay:0.35s; height:22px;"></div>
+      <div class="bar" style="animation-delay:0.05s; height:14px;"></div>
+    </div>
+    <button class="voice-end-btn" onclick="endVoiceCall()" title="End Call">✕</button>
+  </div>
+
+  <!-- Main Assistant Container -->
+  <div class="assistant-container" id="assistantContainer">
+    <!-- Left: Bot Visual Panel (desktop only) -->
+    <div class="bot-visual-panel" id="botVisualPanel">
+      <img class="bot-state-img" id="imgIdle" src="" alt="Bot Idle" />
+      <img class="bot-state-img hidden" id="imgThinking" src="" alt="Bot Thinking" />
+      <img class="bot-state-img hidden" id="imgShy" src="" alt="Bot Shy" />
+      <!-- Desktop particle overlay -->
+      <canvas id="botPanelParticles" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;"></canvas>
+    </div>
+
+    <!-- Right: Chat Panel -->
+    <div class="chat-panel" id="chatPanel">
+      <!-- Chat Header -->
+      <div class="chat-header">
+        <div class="chat-header-left">
+          <img class="chat-header-avatar" id="chatAvatar" src="" alt="Bot" />
+          <div>
+            <div class="chat-header-name" id="chatBotName"></div>
+            <div class="chat-header-status" id="chatBotStatus">Online</div>
+          </div>
+        </div>
+        <div class="chat-header-actions">
+          <button class="chat-action-btn" id="voiceCallBtn" onclick="startVoiceCall()" title="Voice Call">🎤</button>
+          <button class="pwa-install-btn" id="pwaInstallBtn" onclick="installPWA()" title="Install as App">⬇ Install</button>
+        </div>
+      </div>
+
+      <!-- Messages -->
+      <div class="chat-messages" id="chatMessages">
+        <!-- Bot greeting injected by JS -->
+      </div>
+
+      <!-- Input Area -->
+      <div class="chat-input-area">
+        <div class="image-preview-row" id="imagePreviewRow"></div>
+        <div class="chat-input-row">
+          <button class="image-upload-btn" onclick="document.getElementById('imageInput').click()" title="Attach Image">📷</button>
+          <input type="file" id="imageInput" accept="image/*" multiple hidden />
+          <textarea class="chat-input-field" id="chatInput" placeholder="Type your message..." rows="1"
+            onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage();}"></textarea>
+          <button class="chat-send-btn" id="sendBtn" onclick="sendMessage()" title="Send">▶</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ═══════════════════════════════════════════════════════
+    // INITIALIZATION
+    // ═══════════════════════════════════════════════════════
+    const CFG = window.BOT_CONFIG;
+    const isMobile = window.innerWidth <= 900 || (window.innerHeight > window.innerWidth);
+
+    // Set dynamic manifest for PWA
+    document.getElementById('pwaManifest').href = '/api/pwa-manifest?bot=' + CFG.id;
+
+    // Set images
+    document.getElementById('imgIdle').src = CFG.idleImg;
+    document.getElementById('imgThinking').src = CFG.thinkImg;
+    document.getElementById('imgShy').src = CFG.shyImg;
+    document.getElementById('chatAvatar').src = CFG.cardImg;
+    document.getElementById('voiceAvatar').src = CFG.cardImg;
+    document.getElementById('chatBotName').textContent = CFG.name;
+    document.getElementById('voiceCallName').textContent = CFG.name;
+
+    // Mobile: set background image
+    if (isMobile) {
+      const container = document.getElementById('assistantContainer');
+      container.style.backgroundImage = `url('${CFG.idleImg}')`;
+      container.style.backgroundSize = 'cover';
+      container.style.backgroundPosition = 'center';
+    }
+
+    // ═══════════════════════════════════════════════════════
+    // GALAXY PARTICLES (Bot page variant)
+    // ═══════════════════════════════════════════════════════
+    (function initGalaxy() {
+      const canvas = document.getElementById('galaxyCanvas');
+      const ctx = canvas.getContext('2d');
+      let W, H;
+      function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+      resize();
+      window.addEventListener('resize', resize);
+
+      const particles = [];
+      const TOTAL = 200;
+      const TYPES = [
+        { color: [255, 0, 60], minR: 0.3, maxR: 1.5, speed: 0.2 },
+        { color: [0, 160, 255], minR: 0.2, maxR: 1, speed: 0.35 },
+        { color: [140, 40, 220], minR: 0.5, maxR: 1.8, speed: 0.12 },
+        { color: [255, 255, 255], minR: 0.1, maxR: 0.5, speed: 0.4 },
+        { color: [255, 80, 180], minR: 0.2, maxR: 1.2, speed: 0.18 }
+      ];
+
+      for (let i = 0; i < TOTAL; i++) {
+        const t = TYPES[Math.floor(Math.random() * TYPES.length)];
+        particles.push({
+          x: Math.random() * (W || 1920), y: Math.random() * (H || 1080),
+          r: t.minR + Math.random() * (t.maxR - t.minR),
+          vx: (Math.random() - 0.5) * t.speed, vy: (Math.random() - 0.5) * t.speed,
+          a: Math.random() * 0.4 + 0.05, aDir: 1, c: t.color,
+          ts: 0.002 + Math.random() * 0.005
+        });
+      }
+
+      function render() {
+        ctx.clearRect(0, 0, W, H);
+        for (const p of particles) {
+          p.a += p.aDir * p.ts;
+          if (p.a > 0.55) { p.a = 0.55; p.aDir = -1; }
+          if (p.a < 0.02) { p.a = 0.02; p.aDir = 1; }
+          p.x += p.vx; p.y += p.vy;
+          if (p.x < -5) p.x = W + 5; if (p.x > W + 5) p.x = -5;
+          if (p.y < -5) p.y = H + 5; if (p.y > H + 5) p.y = -5;
+          ctx.beginPath();
+          ctx.fillStyle = `rgba(${p.c[0]},${p.c[1]},${p.c[2]},${p.a})`;
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        requestAnimationFrame(render);
+      }
+      render();
+    })();
+
+    // ═══════════════════════════════════════════════════════
+    // AUDIO
+    // ═══════════════════════════════════════════════════════
+    window.addEventListener('DOMContentLoaded', () => {
+      const music = document.getElementById('bot-theme');
+      music.volume = 0.35;
+      music.play().catch(() => {
+        document.addEventListener('click', function r() {
+          music.play().catch(() => {});
+          document.removeEventListener('click', r);
+        }, { once: true });
+      });
+
+      // Add greeting message
+      addBotMessage(`Hello! I'm ${CFG.name}. How can I help you today?`);
+    });
+
+    // ═══════════════════════════════════════════════════════
+    // STATE MACHINE: Idle / Thinking / Shy
+    // ═══════════════════════════════════════════════════════
+    let currentState = 'idle'; // 'idle' | 'thinking' | 'shy'
+
+    function setState(newState) {
+      if (currentState === newState) return;
+      currentState = newState;
+
+      const imgIdle = document.getElementById('imgIdle');
+      const imgThink = document.getElementById('imgThinking');
+      const imgShy = document.getElementById('imgShy');
+
+      // Desktop: crossfade images
+      imgIdle.classList.toggle('hidden', newState !== 'idle');
+      imgThink.classList.toggle('hidden', newState !== 'thinking');
+      imgShy.classList.toggle('hidden', newState !== 'shy');
+
+      // Mobile: swap background
+      if (isMobile) {
+        const container = document.getElementById('assistantContainer');
+        if (newState === 'thinking') container.style.backgroundImage = `url('${CFG.thinkImg}')`;
+        else if (newState === 'shy') container.style.backgroundImage = `url('${CFG.shyImg}')`;
+        else container.style.backgroundImage = `url('${CFG.idleImg}')`;
+      }
+
+      // Update status text
+      const statusEl = document.getElementById('chatBotStatus');
+      if (newState === 'thinking') statusEl.textContent = 'Thinking...';
+      else if (newState === 'shy') statusEl.textContent = 'Embarrassed...';
+      else statusEl.textContent = 'Online';
+    }
+
+    // ═══════════════════════════════════════════════════════
+    // CHAT ENGINE
+    // ═══════════════════════════════════════════════════════
+    let chatHistory = [];
+    let isStreaming = false;
+    let attachedImages = [];
+
+    // Add a user message to the UI
+    function addUserMessage(text, images) {
+      const div = document.createElement('div');
+      div.className = 'message user';
+      div.textContent = text;
+
+      if (images && images.length > 0) {
+        const imgsDiv = document.createElement('div');
+        imgsDiv.className = 'message-images';
+        images.forEach(src => {
+          const img = document.createElement('img');
+          img.src = src;
+          imgsDiv.appendChild(img);
+        });
+        div.appendChild(imgsDiv);
+      }
+
+      document.getElementById('chatMessages').appendChild(div);
+      scrollToBottom();
+    }
+
+    // Add a bot message (static)
+    function addBotMessage(text) {
+      const div = document.createElement('div');
+      div.className = 'message bot';
+      div.textContent = text;
+      document.getElementById('chatMessages').appendChild(div);
+      scrollToBottom();
+    }
+
+    // Create streaming bot message element
+    function createStreamingMessage() {
+      const div = document.createElement('div');
+      div.className = 'message bot';
+      div.innerHTML = '<span class="msg-text"></span><span class="typing-cursor"></span>';
+      document.getElementById('chatMessages').appendChild(div);
+      scrollToBottom();
+      return div;
+    }
+
+    function scrollToBottom() {
+      const msgs = document.getElementById('chatMessages');
+      msgs.scrollTop = msgs.scrollHeight;
+    }
+
+    // ═══════════════════════════════════════════════════════
+    // SEND MESSAGE
+    // ═══════════════════════════════════════════════════════
+    async function sendMessage() {
+      if (isStreaming) return;
+
+      const input = document.getElementById('chatInput');
+      const text = input.value.trim();
+      if (!text && attachedImages.length === 0) return;
+
+      // Show user message
+      const imgSrcs = [...attachedImages];
+      addUserMessage(text, imgSrcs);
+
+      // Clear input
+      input.value = '';
+      clearImagePreviews();
+
+      // Add to history
+      chatHistory.push({ role: 'user', content: text });
+
+      // Set thinking state
+      isStreaming = true;
+      setState('thinking');
+      document.getElementById('sendBtn').disabled = true;
+
+      try {
+        const response = await fetch('/api/groq-chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            messages: chatHistory,
+            botName: CFG.slug
+          })
+        });
+
+        // Check for shy (NSFW) response
+        const contentType = response.headers.get('content-type') || '';
+        if (contentType.includes('application/json')) {
+          const data = await response.json();
+          if (data.shy) {
+            setState('shy');
+            addBotMessage(data.content);
+            chatHistory.push({ role: 'assistant', content: data.content });
+            // Return to idle after 3 seconds
+            setTimeout(() => setState('idle'), 3000);
+            isStreaming = false;
+            document.getElementById('sendBtn').disabled = false;
+            return;
+          }
+          if (data.error) {
+            addBotMessage('⚠ ' + (data.error || 'Something went wrong. Please try again.'));
+            setState('idle');
+            isStreaming = false;
+            document.getElementById('sendBtn').disabled = false;
+            return;
+          }
+        }
+
+        // Stream the response (SSE format)
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        const msgEl = createStreamingMessage();
+        const textSpan = msgEl.querySelector('.msg-text');
+        let fullText = '';
+        let buffer = '';
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split('\n');
+          buffer = lines.pop() || '';
+
+          for (const line of lines) {
+            if (line.startsWith('data: ')) {
+              const data = line.slice(6).trim();
+              if (data === '[DONE]') continue;
+              try {
+                const json = JSON.parse(data);
+                const delta = json.choices?.[0]?.delta?.content;
+                if (delta) {
+                  fullText += delta;
+                  textSpan.textContent = fullText;
+                  scrollToBottom();
+                }
+              } catch(e) { /* skip malformed chunks */ }
+            }
+          }
+        }
+
+        // Remove cursor
+        const cursor = msgEl.querySelector('.typing-cursor');
+        if (cursor) cursor.remove();
+
+        // Save to history
+        if (fullText) {
+          chatHistory.push({ role: 'assistant', content: fullText });
+        }
+
+        // Speak the response
+        speakText(fullText);
+
+      } catch(err) {
+        console.error('Chat error:', err);
+        addBotMessage('⚠ Connection error. Please try again.');
+      }
+
+      setState('idle');
+      isStreaming = false;
+      document.getElementById('sendBtn').disabled = false;
+    }
+
+    // ═══════════════════════════════════════════════════════
+    // IMAGE UPLOAD (max 3)
+    // ═══════════════════════════════════════════════════════
+    document.getElementById('imageInput').addEventListener('change', function(e) {
+      const files = Array.from(e.target.files);
+      const remaining = 3 - attachedImages.length;
+      const toAdd = files.slice(0, remaining);
+
+      toAdd.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          if (attachedImages.length >= 3) return;
+          attachedImages.push(ev.target.result);
+          renderImagePreviews();
+        };
+        reader.readAsDataURL(file);
+      });
+
+      e.target.value = ''; // Reset
+    });
+
+    function renderImagePreviews() {
+      const row = document.getElementById('imagePreviewRow');
+      row.innerHTML = '';
+      attachedImages.forEach((src, i) => {
+        const item = document.createElement('div');
+        item.className = 'image-preview-item';
+        item.innerHTML = `
+          <img src="${src}" alt="Attached" />
+          <button class="image-preview-remove" onclick="removeImage(${i})">✕</button>
+        `;
+        row.appendChild(item);
+      });
+    }
+
+    window.removeImage = function(idx) {
+      attachedImages.splice(idx, 1);
+      renderImagePreviews();
+    };
+
+    function clearImagePreviews() {
+      attachedImages = [];
+      document.getElementById('imagePreviewRow').innerHTML = '';
+    }
+
+    // ═══════════════════════════════════════════════════════
+    // VOICE — Web Speech API
+    // ═══════════════════════════════════════════════════════
+    let recognition = null;
+    let isVoiceActive = false;
+
+    function speakText(text) {
+      if (!text || !('speechSynthesis' in window)) return;
+      // Cancel any ongoing speech
+      speechSynthesis.cancel();
+
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = CFG.voiceLang;
+      utter.pitch = CFG.voicePitch;
+      utter.rate = CFG.voiceRate;
+      utter.volume = 0.9;
+
+      // Try to find a suitable voice
+      const voices = speechSynthesis.getVoices();
+      if (voices.length > 0) {
+        let preferred;
+        if (CFG.gender === 'female') {
+          preferred = voices.find(v => v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('zira') || v.name.toLowerCase().includes('samantha'));
+        } else {
+          preferred = voices.find(v => v.name.toLowerCase().includes('male') || v.name.toLowerCase().includes('david') || v.name.toLowerCase().includes('daniel'));
+        }
+        if (preferred) utter.voice = preferred;
+      }
+
+      speechSynthesis.speak(utter);
+    }
+
+    function startVoiceCall() {
+      if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+        alert('Voice recognition not supported in this browser.');
+        return;
+      }
+
+      isVoiceActive = true;
+      document.getElementById('voiceOverlay').classList.add('active');
+      document.getElementById('voiceCallBtn').classList.add('active');
+      document.getElementById('voiceStatus').textContent = 'Listening...';
+
+      const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognition = new SpeechRec();
+      recognition.continuous = true;
+      recognition.interimResults = false;
+      recognition.lang = 'en-US';
+
+      recognition.onresult = async (e) => {
+        const last = e.results[e.results.length - 1];
+        if (last.isFinal) {
+          const text = last[0].transcript.trim();
+          if (text) {
+            document.getElementById('voiceStatus').textContent = 'Processing...';
+            // Send as regular message
+            addUserMessage(text, []);
+            chatHistory.push({ role: 'user', content: text });
+
+            // Get AI response
+            setState('thinking');
+            try {
+              const res = await fetch('/api/groq-chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ messages: chatHistory, botName: CFG.slug })
+              });
+
+              const ct = res.headers.get('content-type') || '';
+              if (ct.includes('application/json')) {
+                const data = await res.json();
+                if (data.shy) {
+                  setState('shy');
+                  addBotMessage(data.content);
+                  speakText(data.content);
+                  chatHistory.push({ role: 'assistant', content: data.content });
+                  setTimeout(() => setState('idle'), 3000);
+                  document.getElementById('voiceStatus').textContent = 'Listening...';
+                  return;
+                }
+              }
+
+              // Read streaming response
+              const reader = res.body.getReader();
+              const decoder = new TextDecoder();
+              let fullText = '';
+              let buf = '';
+
+              while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                buf += decoder.decode(value, { stream: true });
+                const lines = buf.split('\n');
+                buf = lines.pop() || '';
+                for (const line of lines) {
+                  if (line.startsWith('data: ')) {
+                    const d = line.slice(6).trim();
+                    if (d === '[DONE]') continue;
+                    try {
+                      const j = JSON.parse(d);
+                      const delta = j.choices?.[0]?.delta?.content;
+                      if (delta) fullText += delta;
+                    } catch(e) {}
+                  }
+                }
+              }
+
+              if (fullText) {
+                addBotMessage(fullText);
+                chatHistory.push({ role: 'assistant', content: fullText });
+                speakText(fullText);
+              }
+            } catch(err) {
+              addBotMessage('⚠ Voice processing error.');
+            }
+
+            setState('idle');
+            document.getElementById('voiceStatus').textContent = 'Listening...';
+          }
+        }
+      };
+
+      recognition.onerror = (e) => {
+        console.error('Speech recognition error:', e.error);
+        document.getElementById('voiceStatus').textContent = 'Error — tap to retry';
+      };
+
+      recognition.onend = () => {
+        // Auto-restart if still active
+        if (isVoiceActive) {
+          try { recognition.start(); } catch(e) {}
+        }
+      };
+
+      recognition.start();
+    }
+
+    function endVoiceCall() {
+      isVoiceActive = false;
+      if (recognition) {
+        recognition.abort();
+        recognition = null;
+      }
+      speechSynthesis.cancel();
+      document.getElementById('voiceOverlay').classList.remove('active');
+      document.getElementById('voiceCallBtn').classList.remove('active');
+    }
+
+    // Load voices
+    if ('speechSynthesis' in window) {
+      speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
+      speechSynthesis.getVoices();
+    }
+
+    // ═══════════════════════════════════════════════════════
+    // PWA INSTALL
+    // ═══════════════════════════════════════════════════════
+    let deferredPwaPrompt = null;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPwaPrompt = e;
+    });
+
+    function installPWA() {
+      if (deferredPwaPrompt) {
+        deferredPwaPrompt.prompt();
+        deferredPwaPrompt.userChoice.then(result => {
+          deferredPwaPrompt = null;
+        });
+      } else {
+        // Fallback: show instructions
+        alert(`To install ${CFG.name} as an app:\n\n• Chrome: Menu → "Install app"\n• Safari: Share → "Add to Home Screen"\n• Edge: Menu → "Apps → Install"`);
+      }
+    }
+
+    // ═══════════════════════════════════════════════════════
+    // NAVIGATION
+    // ═══════════════════════════════════════════════════════
+    function goBack() {
+      const music = document.getElementById('bot-theme');
+      if (music) { music.pause(); music.currentTime = 0; }
+      speechSynthesis.cancel();
+      if (recognition) { recognition.abort(); recognition = null; }
+      window.location.href = '/welcome/aiassistants/choose-your-assistant';
+    }
+
+    window.addEventListener('beforeunload', () => {
+      const m = document.getElementById('bot-theme');
+      if (m) { m.pause(); m.currentTime = 0; }
+      speechSynthesis.cancel();
+    });
+
+    // Auto-resize textarea
+    document.getElementById('chatInput').addEventListener('input', function() {
+      this.style.height = 'auto';
+      this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+    });
+  </script>
+</body>
+</html>

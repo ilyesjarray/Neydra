@@ -8,7 +8,7 @@
         { "key": "X-Content-Type-Options", "value": "nosniff" },
         { "key": "X-XSS-Protection", "value": "1; mode=block" },
         { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" }
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(self), geolocation=()" }
       ]
     }
   ],
@@ -136,6 +136,46 @@
     {
       "source": "/welcome/p2p",
       "destination": "/welcome/p2p/index.html"
+    },
+    {
+      "source": "/welcome/aiassistants",
+      "destination": "/welcome/aiassistants/index.html"
+    },
+    {
+      "source": "/welcome/aiassistants/choose-your-assistant",
+      "destination": "/welcome/aiassistants/choose-your-assistant/index.html"
+    },
+    {
+      "source": "/welcome/aiassistants/katara",
+      "destination": "/welcome/aiassistants/katara/index.html"
+    },
+    {
+      "source": "/welcome/aiassistants/sakura",
+      "destination": "/welcome/aiassistants/sakura/index.html"
+    },
+    {
+      "source": "/welcome/aiassistants/olivia",
+      "destination": "/welcome/aiassistants/olivia/index.html"
+    },
+    {
+      "source": "/welcome/aiassistants/hinata",
+      "destination": "/welcome/aiassistants/hinata/index.html"
+    },
+    {
+      "source": "/welcome/aiassistants/luna",
+      "destination": "/welcome/aiassistants/luna/index.html"
+    },
+    {
+      "source": "/welcome/aiassistants/elara",
+      "destination": "/welcome/aiassistants/elara/index.html"
+    },
+    {
+      "source": "/welcome/aiassistants/nova",
+      "destination": "/welcome/aiassistants/nova/index.html"
+    },
+    {
+      "source": "/welcome/aiassistants/yuki",
+      "destination": "/welcome/aiassistants/yuki/index.html"
     }
   ]
 }

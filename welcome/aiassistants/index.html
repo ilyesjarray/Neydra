@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="/js/security.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="NEYDRA AI Assistants — Enter the Gateway" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="icon" href="/assets/icon.png" type="image/png" />
+  <link rel="stylesheet" href="/welcome/aiassistants/aiassistants.css" />
+  <title>NEYDRA — AI Gateway</title>
+  <style>
+    /* Phase 1 specific overrides */
+    .gateway-screen .tap-ring {
+      width: 80px; height: 80px;
+      border: 2px solid rgba(255,0,51,0.3);
+      border-radius: 50%;
+      animation: ringExpand 2.5s ease-out infinite;
+      position: absolute;
+    }
+    @keyframes ringExpand {
+      0% { transform: scale(0.5); opacity: 1; }
+      100% { transform: scale(2.5); opacity: 0; }
+    }
+    .gateway-screen .tap-ring:nth-child(2) { animation-delay: 0.8s; }
+    .gateway-screen .tap-ring:nth-child(3) { animation-delay: 1.6s; }
+  </style>
+</head>
+<body>
+
+  <!-- Audio -->
+  <audio id="ai-theme" src="/assets/aiassistants/aitheme-music.mp3" loop preload="auto"></audio>
+
+  <!-- Galaxy Particle Canvas (background layer) -->
+  <canvas id="galaxyCanvas" class="galaxy-canvas"></canvas>
+
+  <!-- PHASE 1A: Black screen — tap to activate -->
+  <div class="gateway-screen" id="tapScreen">
+    <div class="tap-ring"></div>
+    <div class="tap-ring"></div>
+    <div class="tap-ring"></div>
+    <p class="gateway-tap-text">Tap to Initialize</p>
+  </div>
+
+  <!-- PHASE 1B: Cinematic background reveal -->
+  <div class="gateway-bg" id="gatewayBg" style="background-image: url('/assets/aiassistants/NEYDRA-AIASSITANT-TEAM.png');"></div>
+
+  <!-- Pre-caching loading bar -->
+  <div class="preload-bar-container" id="preloadBar">
+    <div class="preload-label">
+      <span id="preloadStatus">CACHING ASSETS...</span>
+      <span id="preloadPercent">0%</span>
+    </div>
+    <div class="preload-bar-track">
+      <div class="preload-bar-fill" id="preloadFill"></div>
+    </div>
+  </div>
+
+  <!-- System Ready button -->
+  <button class="system-ready-btn" id="systemReadyBtn" onclick="enterSystem()">▶ SYSTEM READY</button>
+
+  <script>
+    // ═══════════════════════════════════════════════════════
+    // GALAXY PARTICLE SYSTEM — Multi-type neon particles
+    // ═══════════════════════════════════════════════════════
+    (function initGalaxy() {
+      const canvas = document.getElementById('galaxyCanvas');
+      const ctx = canvas.getContext('2d');
+      let W, H;
+
+      function resize() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      // Particle types: red orbs, blue streaks, purple nebula, white sparks
+      const particles = [];
+      const TOTAL = 300;
+
+      const TYPES = [
+        { color: 'rgba(255,0,51,', minR: 0.5, maxR: 2, speed: 0.3, drift: true },   // red orbs
+        { color: 'rgba(0,180,255,', minR: 0.3, maxR: 1.2, speed: 0.6, drift: false }, // blue streaks
+        { color: 'rgba(160,60,255,', minR: 0.8, maxR: 2.5, speed: 0.15, drift: true },// purple nebula
+        { color: 'rgba(255,255,255,', minR: 0.2, maxR: 0.8, speed: 0.5, drift: false } // white sparks
+      ];
+
+      for (let i = 0; i < TOTAL; i++) {
+        const type = TYPES[Math.floor(Math.random() * TYPES.length)];
+        particles.push({
+          x: Math.random() * W,
+          y: Math.random() * H,
+          r: type.minR + Math.random() * (type.maxR - type.minR),
+          vx: (Math.random() - 0.5) * type.speed,
+          vy: (Math.random() - 0.5) * type.speed,
+          alpha: Math.random() * 0.5 + 0.1,
+          alphaDir: Math.random() > 0.5 ? 1 : -1,
+          color: type.color,
+          drift: type.drift,
+          twinkleSpeed: 0.003 + Math.random() * 0.008
+        });
+      }
+
+      function render() {
+        ctx.clearRect(0, 0, W, H);
+
+        for (const p of particles) {
+          // Twinkle
+          p.alpha += p.alphaDir * p.twinkleSpeed;
+          if (p.alpha >= 0.7) { p.alpha = 0.7; p.alphaDir = -1; }
+          if (p.alpha <= 0.05) { p.alpha = 0.05; p.alphaDir = 1; }
+
+          // Move
+          p.x += p.vx;
+          p.y += p.vy;
+
+          // Drift (sinusoidal)
+          if (p.drift) {
+            p.x += Math.sin(Date.now() * 0.0005 + p.y * 0.01) * 0.15;
+          }
+
+          // Wrap
+          if (p.x < -10) p.x = W + 10;
+          if (p.x > W + 10) p.x = -10;
+          if (p.y < -10) p.y = H + 10;
+          if (p.y > H + 10) p.y = -10;
+
+          // Draw
+          ctx.beginPath();
+          ctx.fillStyle = p.color + p.alpha + ')';
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Glow for larger particles
+          if (p.r > 1.5) {
+            ctx.beginPath();
+            const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 4);
+            grad.addColorStop(0, p.color + (p.alpha * 0.3) + ')');
+            grad.addColorStop(1, p.color + '0)');
+            ctx.fillStyle = grad;
+            ctx.arc(p.x, p.y, p.r * 4, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+
+        requestAnimationFrame(render);
+      }
+      render();
+    })();
+
+    // ═══════════════════════════════════════════════════════
+    // FULLSCREEN + LANDSCAPE LOCK
+    // ═══════════════════════════════════════════════════════
+    function goFullscreenLandscape() {
+      const elem = document.documentElement;
+      const rfs = elem.requestFullscreen || elem.webkitRequestFullscreen || elem.mozRequestFullScreen || elem.msRequestFullscreen;
+      if (rfs) {
+        rfs.call(elem).then(() => {
+          if (screen.orientation && screen.orientation.lock) {
+            screen.orientation.lock('landscape').catch(() => {});
+          }
+        }).catch(() => {});
+      }
+    }
+
+    // ═══════════════════════════════════════════════════════
+    // PHASE 1A: TAP TO ACTIVATE
+    // ═══════════════════════════════════════════════════════
+    let activated = false;
+    const tapScreen = document.getElementById('tapScreen');
+
+    tapScreen.addEventListener('click', function() {
+      if (activated) return;
+      activated = true;
+
+      // Force fullscreen landscape
+      goFullscreenLandscape();
+
+      // Fade out tap screen
+      tapScreen.style.transition = 'opacity 1s ease';
+      tapScreen.style.opacity = '0';
+      setTimeout(() => { tapScreen.style.display = 'none'; }, 1000);
+
+      // Start cinematic intro
+      startCinematicIntro();
+    });
+
+    // ═══════════════════════════════════════════════════════
+    // PHASE 1B: CINEMATIC INTRO + PRECACHING
+    // ═══════════════════════════════════════════════════════
+    function startCinematicIntro() {
+      // Fade in background image over 4 seconds
+      const bg = document.getElementById('gatewayBg');
+      bg.classList.add('visible');
+
+      // Start background music
+      const music = document.getElementById('ai-theme');
+      music.volume = 0.6;
+      music.play().catch(() => {});
+
+      // After 2s, start showing loading bar and begin precaching
+      setTimeout(() => {
+        document.getElementById('preloadBar').classList.add('visible');
+        startPrecaching();
+      }, 2000);
+    }
+
+    // ═══════════════════════════════════════════════════════
+    // ASSET PRECACHING ENGINE
+    // ═══════════════════════════════════════════════════════
+    function startPrecaching() {
+      const assets = [
+        // Theme music
+        '/assets/aiassistants/aitheme-music2.mp3',
+        '/assets/aiassistants/bottheme-music.mp3',
+        // Team image (already loading)
+        '/assets/aiassistants/NEYDRA-AIASSITANT-TEAM.png',
+        // Bot cards
+        '/assets/aiassistants/botcards/bot1card.png',
+        '/assets/aiassistants/botcards/bot2card.png',
+        '/assets/aiassistants/botcards/bot3card.png',
+        '/assets/aiassistants/botcards/bot4card.png',
+        '/assets/aiassistants/botcards/bot5card.png',
+        '/assets/aiassistants/botcards/bot6card.png',
+        '/assets/aiassistants/botcards/bot7card.png',
+        '/assets/aiassistants/botcards/bot8card.png',
+        // Bot idle images
+        '/assets/aiassistants/bot1/bot1.png',
+        '/assets/aiassistants/bot2/bot2.png',
+        '/assets/aiassistants/bot3/bot3.png',
+        '/assets/aiassistants/bot4/bot4.png',
+        '/assets/aiassistants/bot5/bot5.png',
+        '/assets/aiassistants/bot6/bot6.png',
+        '/assets/aiassistants/bot7/bot7.png',
+        '/assets/aiassistants/bot8/bot8.png',
+        // Bot thinking
+        '/assets/aiassistants/bot1/bot1thinking.png',
+        '/assets/aiassistants/bot2/bot2thinking.png',
+        '/assets/aiassistants/bot3/bot3thinking.png',
+        '/assets/aiassistants/bot4/bot4thinking.png',
+        '/assets/aiassistants/bot5/bot5thinking.png',
+        '/assets/aiassistants/bot6/bot6thinking.png',
+        '/assets/aiassistants/bot7/bot7thinking.png',
+        '/assets/aiassistants/bot8/bot8thinking.png',
+        // Bot shy
+        '/assets/aiassistants/bot1/bot1shy.png',
+        '/assets/aiassistants/bot2/bot2shy.png',
+        '/assets/aiassistants/bot3/bot3shy.png',
+        '/assets/aiassistants/bot4/bot4shy.png',
+        '/assets/aiassistants/bot5/bot5shy.png',
+        '/assets/aiassistants/bot6/bot6shy.png',
+        '/assets/aiassistants/bot7/bot7shy.png',
+        '/assets/aiassistants/bot8/bot8shy.png'
+      ];
+
+      const fill = document.getElementById('preloadFill');
+      const percentEl = document.getElementById('preloadPercent');
+      const statusEl = document.getElementById('preloadStatus');
+      const totalAssets = assets.length;
+      let loaded = 0;
+      let finished = false;
+
+      const CACHE_NAME = 'neydra-ai-assets-v1';
+
+      function updateBar() {
+        if (finished) return;
+        loaded++;
+        const pct = Math.min(Math.round((loaded / totalAssets) * 100), 100);
+        fill.style.width = pct + '%';
+        percentEl.textContent = pct + '%';
+
+        if (pct < 25) statusEl.textContent = 'INITIALIZING NEURAL CORES...';
+        else if (pct < 50) statusEl.textContent = 'DOWNLOADING AVATAR MATRIX...';
+        else if (pct < 75) statusEl.textContent = 'COMPILING VOICE PROFILES...';
+        else if (pct < 100) statusEl.textContent = 'FINALIZING SYSTEM BOOT...';
+
+        if (loaded >= totalAssets) {
+          finished = true;
+          statusEl.textContent = 'ALL SYSTEMS NOMINAL';
+          percentEl.textContent = '100%';
+          fill.style.width = '100%';
+          showSystemReady();
+        }
+      }
+
+      // Cache assets using Cache Storage API
+      if ('caches' in window) {
+        caches.open(CACHE_NAME).then(cache => {
+          assets.forEach(url => {
+            cache.add(url).then(updateBar).catch(updateBar);
+          });
+        }).catch(() => {
+          // Fallback: prefetch without caching
+          assets.forEach(url => {
+            fetch(url, { mode: 'no-cors' }).then(updateBar).catch(updateBar);
+          });
+        });
+      } else {
+        // No cache API — just fetch
+        assets.forEach(url => {
+          fetch(url, { mode: 'no-cors' }).then(updateBar).catch(updateBar);
+        });
+      }
+
+      // Safety timeout: 30s max
+      setTimeout(() => {
+        if (!finished) {
+          finished = true;
+          fill.style.width = '100%';
+          percentEl.textContent = '100%';
+          statusEl.textContent = 'SYSTEM READY';
+          showSystemReady();
+        }
+      }, 30000);
+    }
+
+    function showSystemReady() {
+      // Fade out loading bar
+      const bar = document.getElementById('preloadBar');
+      bar.classList.add('fade-out');
+
+      setTimeout(() => {
+        bar.style.display = 'none';
+        // Fade in System Ready button
+        document.getElementById('systemReadyBtn').classList.add('visible');
+      }, 1000);
+    }
+
+    // ═══════════════════════════════════════════════════════
+    // ENTER SYSTEM
+    // ═══════════════════════════════════════════════════════
+    function enterSystem() {
+      // Fade everything out
+      document.getElementById('systemReadyBtn').style.transition = 'opacity 1s ease';
+      document.getElementById('systemReadyBtn').style.opacity = '0';
+      document.getElementById('gatewayBg').style.transition = 'opacity 1.5s ease';
+      document.getElementById('gatewayBg').style.opacity = '0';
+
+      // Stop music gracefully
+      const music = document.getElementById('ai-theme');
+      let vol = music.volume;
+      const fadeAudio = setInterval(() => {
+        vol -= 0.05;
+        if (vol <= 0) {
+          clearInterval(fadeAudio);
+          music.pause();
+        } else {
+          music.volume = vol;
+        }
+      }, 80);
+
+      setTimeout(() => {
+        window.location.href = '/welcome/aiassistants/choose-your-assistant';
+      }, 1800);
+    }
+
+    // Stop music on page unload
+    window.addEventListener('beforeunload', () => {
+      const m = document.getElementById('ai-theme');
+      if (m) { m.pause(); m.currentTime = 0; }
+    });
+  </script>
+</body>
+</html>
