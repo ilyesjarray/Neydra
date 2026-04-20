@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <script src="/js/security.js"></script>
   <meta charset="UTF-8" />
@@ -12,17 +13,22 @@
   <link rel="manifest" id="pwaManifest" />
   <link rel="stylesheet" href="/welcome/aiassistants/aiassistants.css" />
   <title>NEYDRA — Hinata</title>
+  <style>
+    :root {
+      --bot-accent: #00cc44;
+      --bot-accent-glow: rgba(0, 204, 68, 0.4);
+    }
+  </style>
 </head>
-<body>
 
-  <!-- ═══ BOT CONFIG (Unique per bot page) ═══ -->
+<body>
   <script>
     window.BOT_CONFIG = {
       id: 4,
       name: 'Hinata',
       slug: 'hinata',
       gender: 'female',
-      neonColor: 'rgba(180, 120, 255, 0.5)',
+      accent: '#00cc44',
       voicePitch: 1.4,
       voiceRate: 0.9,
       voiceLang: 'en-US',
@@ -33,47 +39,29 @@
     };
   </script>
 
-  <!-- Audio -->
   <audio id="bot-theme" src="/assets/aiassistants/bottheme-music.mp3" loop preload="auto"></audio>
-
-  <!-- Galaxy Particle Canvas -->
   <canvas id="galaxyCanvas" class="galaxy-canvas"></canvas>
+  <button class="back-btn" onclick="goBack()" title="Back">&#9666;</button>
 
-  <!-- Back button -->
-  <button class="back-btn" onclick="goBack()" title="Back to Selection">◂</button>
-
-  <!-- Voice Call Overlay -->
   <div class="voice-call-overlay" id="voiceOverlay">
-    <img class="voice-call-avatar" id="voiceAvatar" src="" alt="Bot Avatar" />
+    <img class="voice-call-avatar" id="voiceAvatar" src="" alt="Avatar" />
     <div class="voice-call-name" id="voiceCallName"></div>
     <div class="voice-call-status" id="voiceStatus">Listening...</div>
     <div class="voice-waveform" id="voiceWaveform">
-      <div class="bar" style="animation-delay:0s; height:10px;"></div>
-      <div class="bar" style="animation-delay:0.1s; height:15px;"></div>
-      <div class="bar" style="animation-delay:0.2s; height:20px;"></div>
-      <div class="bar" style="animation-delay:0.3s; height:12px;"></div>
-      <div class="bar" style="animation-delay:0.15s; height:18px;"></div>
-      <div class="bar" style="animation-delay:0.25s; height:8px;"></div>
-      <div class="bar" style="animation-delay:0.35s; height:22px;"></div>
-      <div class="bar" style="animation-delay:0.05s; height:14px;"></div>
+      <div class="bar" style="animation-delay:0s;height:10px;"></div>
+      <div class="bar" style="animation-delay:0.1s;height:15px;"></div>
+      <div class="bar" style="animation-delay:0.2s;height:20px;"></div>
+      <div class="bar" style="animation-delay:0.3s;height:12px;"></div>
+      <div class="bar" style="animation-delay:0.15s;height:18px;"></div>
+      <div class="bar" style="animation-delay:0.25s;height:8px;"></div>
+      <div class="bar" style="animation-delay:0.35s;height:22px;"></div>
+      <div class="bar" style="animation-delay:0.05s;height:14px;"></div>
     </div>
-    <button class="voice-end-btn" onclick="endVoiceCall()" title="End Call">✕</button>
+    <button class="voice-end-btn" onclick="endVoiceCall()" title="End">&#10005;</button>
   </div>
 
-  <!-- Main Assistant Container -->
   <div class="assistant-container" id="assistantContainer">
-    <!-- Left: Bot Visual Panel (desktop only) -->
-    <div class="bot-visual-panel" id="botVisualPanel">
-      <img class="bot-state-img" id="imgIdle" src="" alt="Bot Idle" />
-      <img class="bot-state-img hidden" id="imgThinking" src="" alt="Bot Thinking" />
-      <img class="bot-state-img hidden" id="imgShy" src="" alt="Bot Shy" />
-      <!-- Desktop particle overlay -->
-      <canvas id="botPanelParticles" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;"></canvas>
-    </div>
-
-    <!-- Right: Chat Panel -->
     <div class="chat-panel" id="chatPanel">
-      <!-- Chat Header -->
       <div class="chat-header">
         <div class="chat-header-left">
           <img class="chat-header-avatar" id="chatAvatar" src="" alt="Bot" />
@@ -83,101 +71,59 @@
           </div>
         </div>
         <div class="chat-header-actions">
-          <button class="chat-action-btn" id="voiceCallBtn" onclick="startVoiceCall()" title="Voice Call">🎤</button>
-          <button class="pwa-install-btn" id="pwaInstallBtn" onclick="installPWA()" title="Install as App">⬇ Install</button>
+          <button class="chat-action-btn" id="voiceCallBtn" onclick="startVoiceCall()" title="Voice">&#9679;</button>
+          <button class="pwa-install-btn" id="pwaInstallBtn" onclick="installPWA()" title="Install">&#8595; Install</button>
         </div>
       </div>
-
-      <!-- Messages -->
-      <div class="chat-messages" id="chatMessages">
-        <!-- Bot greeting injected by JS -->
-      </div>
-
-      <!-- Input Area -->
+      <div class="chat-messages" id="chatMessages"></div>
       <div class="chat-input-area">
         <div class="image-preview-row" id="imagePreviewRow"></div>
         <div class="chat-input-row">
-          <button class="image-upload-btn" onclick="document.getElementById('imageInput').click()" title="Attach Image">📷</button>
+          <button class="image-upload-btn" onclick="document.getElementById('imageInput').click()" title="Attach">&#9673;</button>
           <input type="file" id="imageInput" accept="image/*" multiple hidden />
           <textarea class="chat-input-field" id="chatInput" placeholder="Type your message..." rows="1"
             onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage();}"></textarea>
-          <button class="chat-send-btn" id="sendBtn" onclick="sendMessage()" title="Send">▶</button>
+          <button class="chat-send-btn" id="sendBtn" onclick="sendMessage()" title="Send">&#9654;</button>
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    // ═══════════════════════════════════════════════════════
-    // INITIALIZATION
-    // ═══════════════════════════════════════════════════════
-    const CFG = window.BOT_CONFIG;
-    const isMobile = window.innerWidth <= 900 || (window.innerHeight > window.innerWidth);
-
-    // Set dynamic manifest for PWA
+    var CFG = window.BOT_CONFIG;
     document.getElementById('pwaManifest').href = '/api/pwa-manifest?bot=' + CFG.id;
-
-    // Set images
-    document.getElementById('imgIdle').src = CFG.idleImg;
-    document.getElementById('imgThinking').src = CFG.thinkImg;
-    document.getElementById('imgShy').src = CFG.shyImg;
     document.getElementById('chatAvatar').src = CFG.cardImg;
     document.getElementById('voiceAvatar').src = CFG.cardImg;
     document.getElementById('chatBotName').textContent = CFG.name;
     document.getElementById('voiceCallName').textContent = CFG.name;
+    var container = document.getElementById('assistantContainer');
+    container.style.backgroundImage = "url('" + CFG.idleImg + "')";
+    var preThink = new Image(); preThink.src = CFG.thinkImg;
+    var preShy = new Image(); preShy.src = CFG.shyImg;
 
-    // Mobile: set background image
-    if (isMobile) {
-      const container = document.getElementById('assistantContainer');
-      container.style.backgroundImage = `url('${CFG.idleImg}')`;
-      container.style.backgroundSize = 'cover';
-      container.style.backgroundPosition = 'center';
-    }
-
-    // ═══════════════════════════════════════════════════════
-    // GALAXY PARTICLES (Bot page variant)
-    // ═══════════════════════════════════════════════════════
-    (function initGalaxy() {
-      const canvas = document.getElementById('galaxyCanvas');
-      const ctx = canvas.getContext('2d');
-      let W, H;
+    // Galaxy particles - subtle white only
+    (function() {
+      var canvas = document.getElementById('galaxyCanvas');
+      var ctx = canvas.getContext('2d');
+      var W, H;
       function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
-      resize();
-      window.addEventListener('resize', resize);
-
-      const particles = [];
-      const TOTAL = 200;
-      const TYPES = [
-        { color: [255, 0, 60], minR: 0.3, maxR: 1.5, speed: 0.2 },
-        { color: [0, 160, 255], minR: 0.2, maxR: 1, speed: 0.35 },
-        { color: [140, 40, 220], minR: 0.5, maxR: 1.8, speed: 0.12 },
-        { color: [255, 255, 255], minR: 0.1, maxR: 0.5, speed: 0.4 },
-        { color: [255, 80, 180], minR: 0.2, maxR: 1.2, speed: 0.18 }
-      ];
-
-      for (let i = 0; i < TOTAL; i++) {
-        const t = TYPES[Math.floor(Math.random() * TYPES.length)];
-        particles.push({
-          x: Math.random() * (W || 1920), y: Math.random() * (H || 1080),
-          r: t.minR + Math.random() * (t.maxR - t.minR),
-          vx: (Math.random() - 0.5) * t.speed, vy: (Math.random() - 0.5) * t.speed,
-          a: Math.random() * 0.4 + 0.05, aDir: 1, c: t.color,
-          ts: 0.002 + Math.random() * 0.005
-        });
+      resize(); window.addEventListener('resize', resize);
+      var particles = [];
+      for (var i = 0; i < 100; i++) {
+        particles.push({ x: Math.random()*1920, y: Math.random()*1080, r: 0.2+Math.random()*1, vx: (Math.random()-0.5)*0.15, vy: (Math.random()-0.5)*0.15, a: Math.random()*0.25+0.02, aDir: 1, ts: 0.002+Math.random()*0.003 });
       }
-
       function render() {
-        ctx.clearRect(0, 0, W, H);
-        for (const p of particles) {
+        ctx.clearRect(0,0,W,H);
+        for (var p of particles) {
           p.a += p.aDir * p.ts;
-          if (p.a > 0.55) { p.a = 0.55; p.aDir = -1; }
+          if (p.a > 0.35) { p.a = 0.35; p.aDir = -1; }
           if (p.a < 0.02) { p.a = 0.02; p.aDir = 1; }
           p.x += p.vx; p.y += p.vy;
-          if (p.x < -5) p.x = W + 5; if (p.x > W + 5) p.x = -5;
-          if (p.y < -5) p.y = H + 5; if (p.y > H + 5) p.y = -5;
+          if (p.x < -5) p.x = W+5; if (p.x > W+5) p.x = -5;
+          if (p.y < -5) p.y = H+5; if (p.y > H+5) p.y = -5;
           ctx.beginPath();
-          ctx.fillStyle = `rgba(${p.c[0]},${p.c[1]},${p.c[2]},${p.a})`;
-          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(255,255,255,' + p.a + ')';
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
           ctx.fill();
         }
         requestAnimationFrame(render);
@@ -185,96 +131,60 @@
       render();
     })();
 
-    // ═══════════════════════════════════════════════════════
-    // AUDIO
-    // ═══════════════════════════════════════════════════════
-    window.addEventListener('DOMContentLoaded', () => {
-      const music = document.getElementById('bot-theme');
+    // Audio
+    window.addEventListener('DOMContentLoaded', function() {
+      var music = document.getElementById('bot-theme');
       music.volume = 0.35;
-      music.play().catch(() => {
-        document.addEventListener('click', function r() {
-          music.play().catch(() => {});
-          document.removeEventListener('click', r);
-        }, { once: true });
+      music.play().catch(function() {
+        document.addEventListener('click', function r() { music.play().catch(function(){}); document.removeEventListener('click', r); }, { once: true });
       });
-
-      // Add greeting message
-      addBotMessage(`Hello! I'm ${CFG.name}. How can I help you today?`);
+      addBotMessage('Hello! I am ' + CFG.name + '. How can I help you?');
     });
 
-    // ═══════════════════════════════════════════════════════
-    // STATE MACHINE: Idle / Thinking / Shy
-    // ═══════════════════════════════════════════════════════
-    let currentState = 'idle'; // 'idle' | 'thinking' | 'shy'
-
-    function setState(newState) {
-      if (currentState === newState) return;
-      currentState = newState;
-
-      const imgIdle = document.getElementById('imgIdle');
-      const imgThink = document.getElementById('imgThinking');
-      const imgShy = document.getElementById('imgShy');
-
-      // Desktop: crossfade images
-      imgIdle.classList.toggle('hidden', newState !== 'idle');
-      imgThink.classList.toggle('hidden', newState !== 'thinking');
-      imgShy.classList.toggle('hidden', newState !== 'shy');
-
-      // Mobile: swap background
-      if (isMobile) {
-        const container = document.getElementById('assistantContainer');
-        if (newState === 'thinking') container.style.backgroundImage = `url('${CFG.thinkImg}')`;
-        else if (newState === 'shy') container.style.backgroundImage = `url('${CFG.shyImg}')`;
-        else container.style.backgroundImage = `url('${CFG.idleImg}')`;
-      }
-
-      // Update status text
-      const statusEl = document.getElementById('chatBotStatus');
-      if (newState === 'thinking') statusEl.textContent = 'Thinking...';
-      else if (newState === 'shy') statusEl.textContent = 'Embarrassed...';
-      else statusEl.textContent = 'Online';
+    // State machine
+    var currentState = 'idle';
+    function setState(s) {
+      if (currentState === s) return;
+      currentState = s;
+      var c = document.getElementById('assistantContainer');
+      if (s === 'thinking') c.style.backgroundImage = "url('" + CFG.thinkImg + "')";
+      else if (s === 'shy') c.style.backgroundImage = "url('" + CFG.shyImg + "')";
+      else c.style.backgroundImage = "url('" + CFG.idleImg + "')";
+      var st = document.getElementById('chatBotStatus');
+      if (s === 'thinking') st.textContent = 'Thinking...';
+      else if (s === 'shy') st.textContent = 'Embarrassed...';
+      else st.textContent = 'Online';
     }
 
-    // ═══════════════════════════════════════════════════════
-    // CHAT ENGINE
-    // ═══════════════════════════════════════════════════════
-    let chatHistory = [];
-    let isStreaming = false;
-    let attachedImages = [];
+    // Chat
+    var chatHistory = [];
+    var isStreaming = false;
+    var attachedImages = [];
 
-    // Add a user message to the UI
     function addUserMessage(text, images) {
-      const div = document.createElement('div');
+      var div = document.createElement('div');
       div.className = 'message user';
       div.textContent = text;
-
       if (images && images.length > 0) {
-        const imgsDiv = document.createElement('div');
+        var imgsDiv = document.createElement('div');
         imgsDiv.className = 'message-images';
-        images.forEach(src => {
-          const img = document.createElement('img');
-          img.src = src;
-          imgsDiv.appendChild(img);
-        });
+        images.forEach(function(src) { var img = document.createElement('img'); img.src = src; imgsDiv.appendChild(img); });
         div.appendChild(imgsDiv);
       }
-
       document.getElementById('chatMessages').appendChild(div);
       scrollToBottom();
     }
 
-    // Add a bot message (static)
     function addBotMessage(text) {
-      const div = document.createElement('div');
+      var div = document.createElement('div');
       div.className = 'message bot';
       div.textContent = text;
       document.getElementById('chatMessages').appendChild(div);
       scrollToBottom();
     }
 
-    // Create streaming bot message element
     function createStreamingMessage() {
-      const div = document.createElement('div');
+      var div = document.createElement('div');
       div.className = 'message bot';
       div.innerHTML = '<span class="msg-text"></span><span class="typing-cursor"></span>';
       document.getElementById('chatMessages').appendChild(div);
@@ -283,367 +193,178 @@
     }
 
     function scrollToBottom() {
-      const msgs = document.getElementById('chatMessages');
+      var msgs = document.getElementById('chatMessages');
       msgs.scrollTop = msgs.scrollHeight;
     }
 
-    // ═══════════════════════════════════════════════════════
-    // SEND MESSAGE
-    // ═══════════════════════════════════════════════════════
     async function sendMessage() {
       if (isStreaming) return;
-
-      const input = document.getElementById('chatInput');
-      const text = input.value.trim();
+      var input = document.getElementById('chatInput');
+      var text = input.value.trim();
       if (!text && attachedImages.length === 0) return;
-
-      // Show user message
-      const imgSrcs = [...attachedImages];
+      var imgSrcs = attachedImages.slice();
       addUserMessage(text, imgSrcs);
-
-      // Clear input
-      input.value = '';
+      input.value = ''; input.style.height = 'auto';
       clearImagePreviews();
 
-      // Add to history
-      chatHistory.push({ role: 'user', content: text });
+      var hasImages = imgSrcs.length > 0;
+      var msgContent;
+      if (hasImages) {
+        var parts = [];
+        if (text) parts.push({ type: 'text', text: text });
+        imgSrcs.forEach(function(src) { parts.push({ type: 'image_url', image_url: { url: src } }); });
+        msgContent = parts;
+      } else { msgContent = text; }
+      chatHistory.push({ role: 'user', content: msgContent });
 
-      // Set thinking state
       isStreaming = true;
       setState('thinking');
       document.getElementById('sendBtn').disabled = true;
 
       try {
-        const response = await fetch('/api/groq-chat', {
+        var response = await fetch('/api/groq-chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            messages: chatHistory,
-            botName: CFG.slug
-          })
+          body: JSON.stringify({ messages: chatHistory, botName: CFG.slug, hasImages: hasImages })
         });
-
-        // Check for shy (NSFW) response
-        const contentType = response.headers.get('content-type') || '';
-        if (contentType.includes('application/json')) {
-          const data = await response.json();
+        var ct = response.headers.get('content-type') || '';
+        if (ct.includes('application/json')) {
+          var data = await response.json();
           if (data.shy) {
-            setState('shy');
-            addBotMessage(data.content);
+            setState('shy'); addBotMessage(data.content);
             chatHistory.push({ role: 'assistant', content: data.content });
-            // Return to idle after 3 seconds
-            setTimeout(() => setState('idle'), 3000);
-            isStreaming = false;
-            document.getElementById('sendBtn').disabled = false;
-            return;
+            setTimeout(function() { setState('idle'); }, 3000);
+            isStreaming = false; document.getElementById('sendBtn').disabled = false; return;
           }
           if (data.error) {
-            addBotMessage('⚠ ' + (data.error || 'Something went wrong. Please try again.'));
-            setState('idle');
-            isStreaming = false;
-            document.getElementById('sendBtn').disabled = false;
-            return;
+            addBotMessage(data.error); setState('idle');
+            isStreaming = false; document.getElementById('sendBtn').disabled = false; return;
           }
         }
-
-        // Stream the response (SSE format)
-        const reader = response.body.getReader();
-        const decoder = new TextDecoder();
-        const msgEl = createStreamingMessage();
-        const textSpan = msgEl.querySelector('.msg-text');
-        let fullText = '';
-        let buffer = '';
-
+        var reader = response.body.getReader();
+        var decoder = new TextDecoder();
+        var msgEl = createStreamingMessage();
+        var textSpan = msgEl.querySelector('.msg-text');
+        var fullText = '';
+        var buffer = '';
         while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-
-          buffer += decoder.decode(value, { stream: true });
-          const lines = buffer.split('\n');
+          var result = await reader.read();
+          if (result.done) break;
+          buffer += decoder.decode(result.value, { stream: true });
+          var lines = buffer.split('\n');
           buffer = lines.pop() || '';
-
-          for (const line of lines) {
+          for (var line of lines) {
             if (line.startsWith('data: ')) {
-              const data = line.slice(6).trim();
-              if (data === '[DONE]') continue;
-              try {
-                const json = JSON.parse(data);
-                const delta = json.choices?.[0]?.delta?.content;
-                if (delta) {
-                  fullText += delta;
-                  textSpan.textContent = fullText;
-                  scrollToBottom();
-                }
-              } catch(e) { /* skip malformed chunks */ }
+              var d = line.slice(6).trim();
+              if (d === '[DONE]') continue;
+              try { var j = JSON.parse(d); var delta = j.choices&&j.choices[0]&&j.choices[0].delta&&j.choices[0].delta.content; if (delta) { fullText += delta; textSpan.textContent = fullText; scrollToBottom(); } } catch(e) {}
             }
           }
         }
-
-        // Remove cursor
-        const cursor = msgEl.querySelector('.typing-cursor');
+        var cursor = msgEl.querySelector('.typing-cursor');
         if (cursor) cursor.remove();
-
-        // Save to history
-        if (fullText) {
-          chatHistory.push({ role: 'assistant', content: fullText });
-        }
-
-        // Speak the response
+        if (fullText) chatHistory.push({ role: 'assistant', content: fullText });
         speakText(fullText);
-
-      } catch(err) {
-        console.error('Chat error:', err);
-        addBotMessage('⚠ Connection error. Please try again.');
-      }
-
-      setState('idle');
-      isStreaming = false;
-      document.getElementById('sendBtn').disabled = false;
+      } catch(err) { addBotMessage('Connection error.'); }
+      setState('idle'); isStreaming = false; document.getElementById('sendBtn').disabled = false;
     }
 
-    // ═══════════════════════════════════════════════════════
-    // IMAGE UPLOAD (max 3)
-    // ═══════════════════════════════════════════════════════
+    // Image upload
     document.getElementById('imageInput').addEventListener('change', function(e) {
-      const files = Array.from(e.target.files);
-      const remaining = 3 - attachedImages.length;
-      const toAdd = files.slice(0, remaining);
-
-      toAdd.forEach(file => {
-        const reader = new FileReader();
-        reader.onload = (ev) => {
-          if (attachedImages.length >= 3) return;
-          attachedImages.push(ev.target.result);
-          renderImagePreviews();
-        };
+      var files = Array.from(e.target.files);
+      var remaining = 3 - attachedImages.length;
+      files.slice(0, remaining).forEach(function(file) {
+        var reader = new FileReader();
+        reader.onload = function(ev) { if (attachedImages.length >= 3) return; attachedImages.push(ev.target.result); renderImagePreviews(); };
         reader.readAsDataURL(file);
       });
-
-      e.target.value = ''; // Reset
+      e.target.value = '';
     });
 
     function renderImagePreviews() {
-      const row = document.getElementById('imagePreviewRow');
+      var row = document.getElementById('imagePreviewRow');
       row.innerHTML = '';
-      attachedImages.forEach((src, i) => {
-        const item = document.createElement('div');
+      attachedImages.forEach(function(src, i) {
+        var item = document.createElement('div');
         item.className = 'image-preview-item';
-        item.innerHTML = `
-          <img src="${src}" alt="Attached" />
-          <button class="image-preview-remove" onclick="removeImage(${i})">✕</button>
-        `;
+        item.innerHTML = '<img src="'+src+'" alt="Attached" /><button class="image-preview-remove" onclick="removeImage('+i+')">&#10005;</button>';
         row.appendChild(item);
       });
     }
 
-    window.removeImage = function(idx) {
-      attachedImages.splice(idx, 1);
-      renderImagePreviews();
-    };
+    window.removeImage = function(idx) { attachedImages.splice(idx, 1); renderImagePreviews(); };
+    function clearImagePreviews() { attachedImages = []; document.getElementById('imagePreviewRow').innerHTML = ''; }
 
-    function clearImagePreviews() {
-      attachedImages = [];
-      document.getElementById('imagePreviewRow').innerHTML = '';
-    }
-
-    // ═══════════════════════════════════════════════════════
-    // VOICE — Web Speech API
-    // ═══════════════════════════════════════════════════════
-    let recognition = null;
-    let isVoiceActive = false;
+    // Voice
+    var recognition = null;
+    var isVoiceActive = false;
 
     function speakText(text) {
       if (!text || !('speechSynthesis' in window)) return;
-      // Cancel any ongoing speech
       speechSynthesis.cancel();
-
-      const utter = new SpeechSynthesisUtterance(text);
-      utter.lang = CFG.voiceLang;
-      utter.pitch = CFG.voicePitch;
-      utter.rate = CFG.voiceRate;
-      utter.volume = 0.9;
-
-      // Try to find a suitable voice
-      const voices = speechSynthesis.getVoices();
+      var utter = new SpeechSynthesisUtterance(text);
+      utter.lang = CFG.voiceLang; utter.pitch = CFG.voicePitch; utter.rate = CFG.voiceRate; utter.volume = 0.9;
+      var voices = speechSynthesis.getVoices();
       if (voices.length > 0) {
-        let preferred;
-        if (CFG.gender === 'female') {
-          preferred = voices.find(v => v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('zira') || v.name.toLowerCase().includes('samantha'));
-        } else {
-          preferred = voices.find(v => v.name.toLowerCase().includes('male') || v.name.toLowerCase().includes('david') || v.name.toLowerCase().includes('daniel'));
-        }
-        if (preferred) utter.voice = preferred;
+        var pref;
+        if (CFG.gender === 'female') pref = voices.find(function(v){return v.name.toLowerCase().includes('female')||v.name.toLowerCase().includes('zira')||v.name.toLowerCase().includes('samantha');});
+        else pref = voices.find(function(v){return v.name.toLowerCase().includes('male')||v.name.toLowerCase().includes('david')||v.name.toLowerCase().includes('daniel');});
+        if (pref) utter.voice = pref;
       }
-
       speechSynthesis.speak(utter);
     }
 
     function startVoiceCall() {
-      if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-        alert('Voice recognition not supported in this browser.');
-        return;
-      }
-
+      if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) { alert('Not supported.'); return; }
       isVoiceActive = true;
       document.getElementById('voiceOverlay').classList.add('active');
       document.getElementById('voiceCallBtn').classList.add('active');
       document.getElementById('voiceStatus').textContent = 'Listening...';
-
-      const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+      var SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
       recognition = new SpeechRec();
-      recognition.continuous = true;
-      recognition.interimResults = false;
-      recognition.lang = 'en-US';
-
-      recognition.onresult = async (e) => {
-        const last = e.results[e.results.length - 1];
+      recognition.continuous = true; recognition.interimResults = false; recognition.lang = 'en-US';
+      recognition.onresult = async function(e) {
+        var last = e.results[e.results.length-1];
         if (last.isFinal) {
-          const text = last[0].transcript.trim();
+          var text = last[0].transcript.trim();
           if (text) {
             document.getElementById('voiceStatus').textContent = 'Processing...';
-            // Send as regular message
-            addUserMessage(text, []);
-            chatHistory.push({ role: 'user', content: text });
-
-            // Get AI response
-            setState('thinking');
+            addUserMessage(text, []); chatHistory.push({ role: 'user', content: text }); setState('thinking');
             try {
-              const res = await fetch('/api/groq-chat', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ messages: chatHistory, botName: CFG.slug })
-              });
-
-              const ct = res.headers.get('content-type') || '';
-              if (ct.includes('application/json')) {
-                const data = await res.json();
-                if (data.shy) {
-                  setState('shy');
-                  addBotMessage(data.content);
-                  speakText(data.content);
-                  chatHistory.push({ role: 'assistant', content: data.content });
-                  setTimeout(() => setState('idle'), 3000);
-                  document.getElementById('voiceStatus').textContent = 'Listening...';
-                  return;
-                }
-              }
-
-              // Read streaming response
-              const reader = res.body.getReader();
-              const decoder = new TextDecoder();
-              let fullText = '';
-              let buf = '';
-
-              while (true) {
-                const { done, value } = await reader.read();
-                if (done) break;
-                buf += decoder.decode(value, { stream: true });
-                const lines = buf.split('\n');
-                buf = lines.pop() || '';
-                for (const line of lines) {
-                  if (line.startsWith('data: ')) {
-                    const d = line.slice(6).trim();
-                    if (d === '[DONE]') continue;
-                    try {
-                      const j = JSON.parse(d);
-                      const delta = j.choices?.[0]?.delta?.content;
-                      if (delta) fullText += delta;
-                    } catch(e) {}
-                  }
-                }
-              }
-
-              if (fullText) {
-                addBotMessage(fullText);
-                chatHistory.push({ role: 'assistant', content: fullText });
-                speakText(fullText);
-              }
-            } catch(err) {
-              addBotMessage('⚠ Voice processing error.');
-            }
-
-            setState('idle');
-            document.getElementById('voiceStatus').textContent = 'Listening...';
+              var res = await fetch('/api/groq-chat', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({messages:chatHistory,botName:CFG.slug,hasImages:false}) });
+              var ctype = res.headers.get('content-type')||'';
+              if (ctype.includes('application/json')) { var data = await res.json(); if (data.shy) { setState('shy'); addBotMessage(data.content); speakText(data.content); chatHistory.push({role:'assistant',content:data.content}); setTimeout(function(){setState('idle');},3000); document.getElementById('voiceStatus').textContent='Listening...'; return; } }
+              var reader = res.body.getReader(); var decoder = new TextDecoder(); var fullText = ''; var buf = '';
+              while (true) { var r = await reader.read(); if (r.done) break; buf += decoder.decode(r.value,{stream:true}); var lns = buf.split('\n'); buf = lns.pop()||''; for (var ln of lns) { if (ln.startsWith('data: ')) { var dd = ln.slice(6).trim(); if (dd==='[DONE]') continue; try { var jj = JSON.parse(dd); var dl = jj.choices&&jj.choices[0]&&jj.choices[0].delta&&jj.choices[0].delta.content; if (dl) fullText+=dl; } catch(x){} } } }
+              if (fullText) { addBotMessage(fullText); chatHistory.push({role:'assistant',content:fullText}); speakText(fullText); }
+            } catch(err) { addBotMessage('Voice error.'); }
+            setState('idle'); document.getElementById('voiceStatus').textContent = 'Listening...';
           }
         }
       };
-
-      recognition.onerror = (e) => {
-        console.error('Speech recognition error:', e.error);
-        document.getElementById('voiceStatus').textContent = 'Error — tap to retry';
-      };
-
-      recognition.onend = () => {
-        // Auto-restart if still active
-        if (isVoiceActive) {
-          try { recognition.start(); } catch(e) {}
-        }
-      };
-
+      recognition.onerror = function() { document.getElementById('voiceStatus').textContent = 'Error.'; };
+      recognition.onend = function() { if (isVoiceActive) try{recognition.start();}catch(e){} };
       recognition.start();
     }
 
     function endVoiceCall() {
-      isVoiceActive = false;
-      if (recognition) {
-        recognition.abort();
-        recognition = null;
-      }
-      speechSynthesis.cancel();
-      document.getElementById('voiceOverlay').classList.remove('active');
-      document.getElementById('voiceCallBtn').classList.remove('active');
+      isVoiceActive = false; if (recognition){recognition.abort();recognition=null;} speechSynthesis.cancel();
+      document.getElementById('voiceOverlay').classList.remove('active'); document.getElementById('voiceCallBtn').classList.remove('active');
     }
 
-    // Load voices
-    if ('speechSynthesis' in window) {
-      speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
-      speechSynthesis.getVoices();
-    }
+    if ('speechSynthesis' in window) { speechSynthesis.onvoiceschanged = function(){speechSynthesis.getVoices();}; speechSynthesis.getVoices(); }
 
-    // ═══════════════════════════════════════════════════════
-    // PWA INSTALL
-    // ═══════════════════════════════════════════════════════
-    let deferredPwaPrompt = null;
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPwaPrompt = e;
-    });
-
+    var deferredPwaPrompt = null;
+    window.addEventListener('beforeinstallprompt', function(e) { e.preventDefault(); deferredPwaPrompt = e; });
     function installPWA() {
-      if (deferredPwaPrompt) {
-        deferredPwaPrompt.prompt();
-        deferredPwaPrompt.userChoice.then(result => {
-          deferredPwaPrompt = null;
-        });
-      } else {
-        // Fallback: show instructions
-        alert(`To install ${CFG.name} as an app:\n\n• Chrome: Menu → "Install app"\n• Safari: Share → "Add to Home Screen"\n• Edge: Menu → "Apps → Install"`);
-      }
+      if (deferredPwaPrompt) { deferredPwaPrompt.prompt(); deferredPwaPrompt.userChoice.then(function(){deferredPwaPrompt=null;}); }
+      else alert('To install '+CFG.name+': Chrome Menu > Install app');
     }
 
-    // ═══════════════════════════════════════════════════════
-    // NAVIGATION
-    // ═══════════════════════════════════════════════════════
-    function goBack() {
-      const music = document.getElementById('bot-theme');
-      if (music) { music.pause(); music.currentTime = 0; }
-      speechSynthesis.cancel();
-      if (recognition) { recognition.abort(); recognition = null; }
-      window.location.href = '/welcome/aiassistants/choose-your-assistant';
-    }
-
-    window.addEventListener('beforeunload', () => {
-      const m = document.getElementById('bot-theme');
-      if (m) { m.pause(); m.currentTime = 0; }
-      speechSynthesis.cancel();
-    });
-
-    // Auto-resize textarea
-    document.getElementById('chatInput').addEventListener('input', function() {
-      this.style.height = 'auto';
-      this.style.height = Math.min(this.scrollHeight, 120) + 'px';
-    });
+    function goBack() { var m=document.getElementById('bot-theme'); if(m){m.pause();m.currentTime=0;} speechSynthesis.cancel(); if(recognition){recognition.abort();recognition=null;} window.location.href='/welcome/aiassistants/choose-your-assistant'; }
+    window.addEventListener('beforeunload', function(){var m=document.getElementById('bot-theme');if(m){m.pause();m.currentTime=0;}speechSynthesis.cancel();});
+    document.getElementById('chatInput').addEventListener('input', function(){this.style.height='auto';this.style.height=Math.min(this.scrollHeight,120)+'px';});
   </script>
 </body>
+
 </html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <script src="/js/security.js"></script>
   <meta charset="UTF-8" />
@@ -14,20 +15,42 @@
   <style>
     /* Phase 1 specific overrides */
     .gateway-screen .tap-ring {
-      width: 80px; height: 80px;
-      border: 2px solid rgba(255,0,51,0.3);
+      width: 80px;
+      height: 80px;
+      border: 2px solid rgba(255, 0, 51, 0.3);
       border-radius: 50%;
       animation: ringExpand 2.5s ease-out infinite;
       position: absolute;
     }
+
     @keyframes ringExpand {
-      0% { transform: scale(0.5); opacity: 1; }
-      100% { transform: scale(2.5); opacity: 0; }
+      0% {
+        transform: scale(0.5);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(2.5);
+        opacity: 0;
+      }
     }
-    .gateway-screen .tap-ring:nth-child(2) { animation-delay: 0.8s; }
-    .gateway-screen .tap-ring:nth-child(3) { animation-delay: 1.6s; }
+
+    .gateway-screen .tap-ring:nth-child(2) {
+      animation-delay: 0.8s;
+    }
+
+    .gateway-screen .tap-ring:nth-child(3) {
+      animation-delay: 1.6s;
+    }
+
+    ::-webkit-scrollbar {
+      display: none;
+      width: 0;
+      height: 0;
+    }
   </style>
 </head>
+
 <body>
 
   <!-- Audio -->
@@ -45,7 +68,8 @@
   </div>
 
   <!-- PHASE 1B: Cinematic background reveal -->
-  <div class="gateway-bg" id="gatewayBg" style="background-image: url('/assets/aiassistants/NEYDRA-AIASSITANT-TEAM.png');"></div>
+  <div class="gateway-bg" id="gatewayBg"
+    style="background-image: url('/assets/aiassistants/NEYDRA-AIASSITANT-TEAM.png');"></div>
 
   <!-- Pre-caching loading bar -->
   <div class="preload-bar-container" id="preloadBar">
@@ -82,10 +106,10 @@
       const TOTAL = 300;
 
       const TYPES = [
-        { color: 'rgba(255,0,51,', minR: 0.5, maxR: 2, speed: 0.3, drift: true },   // red orbs
-        { color: 'rgba(0,180,255,', minR: 0.3, maxR: 1.2, speed: 0.6, drift: false }, // blue streaks
-        { color: 'rgba(160,60,255,', minR: 0.8, maxR: 2.5, speed: 0.15, drift: true },// purple nebula
-        { color: 'rgba(255,255,255,', minR: 0.2, maxR: 0.8, speed: 0.5, drift: false } // white sparks
+        { color: 'rgba(255,0,0,', minR: 0.5, maxR: 2, speed: 0.3, drift: true },   // red orbs
+        { color: 'rgba(255,0,0,', minR: 0.3, maxR: 1.2, speed: 0.6, drift: false }, // red streaks
+        { color: 'rgba(255,0,0,', minR: 0.8, maxR: 2.5, speed: 0.15, drift: true },// red nebula
+        { color: 'rgba(255,0,0,', minR: 0.2, maxR: 0.8, speed: 0.5, drift: false } // red sparks
       ];
 
       for (let i = 0; i < TOTAL; i++) {
@@ -160,9 +184,9 @@
       if (rfs) {
         rfs.call(elem).then(() => {
           if (screen.orientation && screen.orientation.lock) {
-            screen.orientation.lock('landscape').catch(() => {});
+            screen.orientation.lock('landscape').catch(() => { });
           }
-        }).catch(() => {});
+        }).catch(() => { });
       }
     }
 
@@ -172,7 +196,7 @@
     let activated = false;
     const tapScreen = document.getElementById('tapScreen');
 
-    tapScreen.addEventListener('click', function() {
+    tapScreen.addEventListener('click', function () {
       if (activated) return;
       activated = true;
 
@@ -199,7 +223,7 @@
       // Start background music
       const music = document.getElementById('ai-theme');
       music.volume = 0.6;
-      music.play().catch(() => {});
+      music.play().catch(() => { });
 
       // After 2s, start showing loading bar and begin precaching
       setTimeout(() => {
@@ -364,4 +388,5 @@
     });
   </script>
 </body>
+
 </html>

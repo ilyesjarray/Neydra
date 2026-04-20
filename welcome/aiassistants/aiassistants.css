@@ -1,5 +1,7 @@
 /* ═══════════════════════════════════════════════════════════════
-   NEYDRA AI ASSISTANTS — Master Design System
+   NEYDRA AI ASSISTANTS — Master Design System v2
+   Bot image = fullscreen background, chat blends into black space
+   Per-bot theme colors via CSS custom property --bot-accent
    ═══════════════════════════════════════════════════════════════ */
 
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@300;400;500;600;700&display=swap');
@@ -8,23 +10,34 @@
 :root {
   --neon-red: #ff0033;
   --neon-red-glow: rgba(255, 0, 51, 0.6);
-  --neon-blue: #00d4ff;
-  --neon-purple: #b44aff;
-  --neon-pink: #ff2d95;
   --dark-bg: #000000;
   --dark-surface: #0a0a0a;
   --dark-card: #111111;
-  --dark-border: #1a1a1a;
+  --dark-border: rgba(255, 255, 255, 0.04);
   --text-primary: #ffffff;
   --text-secondary: #aaaaaa;
-  --text-muted: #666666;
+  --text-muted: #555555;
   --font-display: 'Orbitron', sans-serif;
   --font-body: 'Inter', sans-serif;
   --font-tech: 'Rajdhani', sans-serif;
+  --bot-accent: #ff0033;
+  --bot-accent-glow: rgba(255, 0, 51, 0.4);
 }
 
 /* ── Reset & Base ──────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
 
 body {
   background: var(--dark-bg);
@@ -35,13 +48,16 @@ body {
   height: 100vh;
   -webkit-user-select: none;
   user-select: none;
+  scrollbar-width: none;
 }
 
 /* ── Galaxy Particle Canvas ────────────────────────── */
 .galaxy-canvas {
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   z-index: 1;
   pointer-events: none;
 }
@@ -142,7 +158,6 @@ body {
     0 0 40px rgba(255, 0, 0, 0.2);
 }
 
-/* Sparkling white edge */
 .preload-bar-fill::after {
   content: '';
   position: absolute;
@@ -161,7 +176,6 @@ body {
   50% { opacity: 0.5; transform: scale(1.5); }
 }
 
-/* Sparkling particles along bar */
 .preload-bar-fill::before {
   content: '';
   position: absolute;
@@ -169,7 +183,7 @@ body {
   top: -10px;
   width: 30px;
   height: 24px;
-  background: 
+  background:
     radial-gradient(circle at 10% 50%, #fff 0%, transparent 50%),
     radial-gradient(circle at 60% 20%, #fff 0%, transparent 40%),
     radial-gradient(circle at 80% 80%, #fff 0%, transparent 45%);
@@ -288,7 +302,7 @@ body {
   left: 0;
   right: 0;
   padding: 12px;
-  background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, transparent 100%);
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.9) 0%, transparent 100%);
   font-family: var(--font-display);
   font-size: 0.8rem;
   letter-spacing: 3px;
@@ -303,65 +317,47 @@ body {
 }
 
 /* ══════════════════════════════════════════════════════
-   PHASE 3: ASSISTANT INTERFACE — CHAT UI
+   PHASE 3: ASSISTANT INTERFACE — FULLSCREEN BG CHAT
+   Bot image is the fullscreen background.
+   Chat lives on the RIGHT side (the black area of the image).
+   No grey backgrounds. No borders. Pure transparent blend.
    ══════════════════════════════════════════════════════ */
 
-/* Desktop Layout */
 .assistant-container {
   position: fixed;
   inset: 0;
   display: flex;
-  background: #000;
   z-index: 10;
+  background-color: #000;
+  background-size: cover;
+  background-position: left center;
+  background-repeat: no-repeat;
 }
 
-/* Left panel — Bot visual */
+/* Left panel — Hidden on all layouts. Background IS the visual. */
 .bot-visual-panel {
-  width: 50%;
-  height: 100%;
-  position: relative;
-  overflow: hidden;
+  display: none;
 }
 
-.bot-visual-panel .bot-state-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: opacity 0.5s ease-in-out;
-}
-
-.bot-visual-panel .bot-state-img.hidden {
-  opacity: 0;
-}
-
-/* Right panel — Chat */
+/* Right panel — Chat blends into the black space */
 .chat-panel {
   width: 50%;
   height: 100%;
+  margin-left: auto;
   display: flex;
   flex-direction: column;
-  background: rgba(5, 5, 5, 0.95);
-  border-left: 1px solid var(--dark-border);
+  background: transparent;
 }
 
-/* Mobile Layout */
+/* Mobile: chat takes full width over the background */
 @media (max-width: 900px) and (orientation: portrait),
-       (max-height: 500px) and (max-width: 900px) {
-  .bot-visual-panel { display: none; }
+(max-height: 500px) and (max-width: 900px) {
   .chat-panel {
     width: 100%;
-    border-left: none;
-  }
-  .assistant-container {
-    background-size: cover;
-    background-position: center;
-  }
-  .assistant-container .chat-panel {
-    background: rgba(0, 0, 0, 0.80);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    margin-left: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
   }
 }
 
@@ -374,14 +370,15 @@ body {
   }
 }
 
-/* Chat Header */
+/* Chat Header — transparent, no border */
 .chat-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 12px 20px;
-  border-bottom: 1px solid var(--dark-border);
+  border-bottom: none;
   flex-shrink: 0;
+  background: transparent;
 }
 
 .chat-header-left {
@@ -395,8 +392,8 @@ body {
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid var(--neon-red);
-  box-shadow: 0 0 10px var(--neon-red-glow);
+  border: 2px solid var(--bot-accent);
+  box-shadow: 0 0 10px var(--bot-accent-glow);
 }
 
 .chat-header-name {
@@ -404,6 +401,7 @@ body {
   font-size: 0.9rem;
   letter-spacing: 2px;
   text-transform: uppercase;
+  color: var(--bot-accent);
 }
 
 .chat-header-status {
@@ -419,9 +417,9 @@ body {
 }
 
 .chat-action-btn {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: var(--text-secondary);
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
   width: 36px;
   height: 36px;
   border-radius: 8px;
@@ -434,22 +432,17 @@ body {
 }
 
 .chat-action-btn:hover {
-  background: rgba(255, 0, 51, 0.15);
-  border-color: var(--neon-red);
-  color: var(--neon-red);
+  color: var(--bot-accent);
 }
 
 .chat-action-btn.active {
-  background: rgba(255, 0, 51, 0.2);
-  border-color: var(--neon-red);
-  color: var(--neon-red);
-  box-shadow: 0 0 15px rgba(255, 0, 51, 0.3);
+  color: var(--bot-accent);
   animation: voicePulse 1.5s ease-in-out infinite;
 }
 
 @keyframes voicePulse {
-  0%, 100% { box-shadow: 0 0 15px rgba(255, 0, 51, 0.3); }
-  50% { box-shadow: 0 0 25px rgba(255, 0, 51, 0.6); }
+  0%, 100% { text-shadow: 0 0 8px var(--bot-accent-glow); }
+  50% { text-shadow: 0 0 20px var(--bot-accent-glow); }
 }
 
 /* Messages Area */
@@ -461,52 +454,45 @@ body {
   flex-direction: column;
   gap: 12px;
   scroll-behavior: smooth;
-}
-
-/* Custom scrollbar */
-.chat-messages::-webkit-scrollbar { width: 4px; }
-.chat-messages::-webkit-scrollbar-track { background: transparent; }
-.chat-messages::-webkit-scrollbar-thumb {
-  background: rgba(255, 0, 51, 0.3);
-  border-radius: 2px;
+  background: transparent;
 }
 
 .message {
-  max-width: 80%;
-  padding: 12px 16px;
-  border-radius: 16px;
-  font-size: 0.9rem;
+  max-width: 85%;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 0.88rem;
   line-height: 1.6;
   animation: messageIn 0.3s ease-out;
   word-wrap: break-word;
+  background: transparent;
+  border: none;
 }
 
 @keyframes messageIn {
-  from { opacity: 0; transform: translateY(10px); }
+  from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 .message.user {
   align-self: flex-end;
-  background: linear-gradient(135deg, rgba(255, 0, 51, 0.25), rgba(255, 0, 51, 0.1));
-  border: 1px solid rgba(255, 0, 51, 0.2);
+  background: rgba(255, 255, 255, 0.06);
   border-bottom-right-radius: 4px;
   color: #fff;
 }
 
 .message.bot {
   align-self: flex-start;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: transparent;
   border-bottom-left-radius: 4px;
-  color: #ddd;
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .message.bot .typing-cursor {
   display: inline-block;
   width: 2px;
   height: 1em;
-  background: var(--neon-red);
+  background: var(--bot-accent);
   margin-left: 2px;
   animation: blink 0.7s step-end infinite;
   vertical-align: text-bottom;
@@ -530,14 +516,15 @@ body {
   height: 80px;
   object-fit: cover;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  opacity: 0.9;
 }
 
-/* Chat Input */
+/* Chat Input — transparent, no borders */
 .chat-input-area {
   padding: 12px 16px;
-  border-top: 1px solid var(--dark-border);
+  border-top: none;
   flex-shrink: 0;
+  background: transparent;
 }
 
 .chat-input-row {
@@ -548,8 +535,8 @@ body {
 
 .chat-input-field {
   flex: 1;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  border: none;
   border-radius: 12px;
   padding: 10px 16px;
   color: #fff;
@@ -559,12 +546,11 @@ body {
   min-height: 42px;
   max-height: 120px;
   outline: none;
-  transition: border-color 0.3s ease;
+  transition: background 0.3s ease;
 }
 
 .chat-input-field:focus {
-  border-color: var(--neon-red);
-  box-shadow: 0 0 10px rgba(255, 0, 51, 0.1);
+  background: rgba(255, 255, 255, 0.07);
 }
 
 .chat-input-field::placeholder {
@@ -572,7 +558,7 @@ body {
 }
 
 .chat-send-btn {
-  background: linear-gradient(135deg, #ff0033, #cc0022);
+  background: var(--bot-accent);
   border: none;
   width: 42px;
   height: 42px;
@@ -585,15 +571,17 @@ body {
   justify-content: center;
   transition: all 0.3s ease;
   flex-shrink: 0;
+  opacity: 0.85;
 }
 
 .chat-send-btn:hover {
-  box-shadow: 0 0 20px rgba(255, 0, 51, 0.4);
+  opacity: 1;
+  box-shadow: 0 0 20px var(--bot-accent-glow);
   transform: scale(1.05);
 }
 
 .chat-send-btn:disabled {
-  opacity: 0.4;
+  opacity: 0.3;
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
@@ -601,12 +589,12 @@ body {
 
 /* Image upload */
 .image-upload-btn {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: transparent;
+  border: none;
   width: 42px;
   height: 42px;
   border-radius: 12px;
-  color: var(--text-secondary);
+  color: var(--text-muted);
   font-size: 1.1rem;
   cursor: pointer;
   display: flex;
@@ -617,8 +605,7 @@ body {
 }
 
 .image-upload-btn:hover {
-  border-color: var(--neon-red);
-  color: var(--neon-red);
+  color: var(--bot-accent);
 }
 
 .image-preview-row {
@@ -634,7 +621,6 @@ body {
   height: 60px;
   border-radius: 8px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .image-preview-item img {
@@ -664,7 +650,7 @@ body {
 .voice-call-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.92);
+  background: rgba(0, 0, 0, 0.94);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   z-index: 200;
@@ -688,14 +674,14 @@ body {
   height: 150px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid var(--neon-red);
-  box-shadow: 0 0 40px var(--neon-red-glow);
+  border: 3px solid var(--bot-accent);
+  box-shadow: 0 0 40px var(--bot-accent-glow);
   animation: voiceRing 2s ease-in-out infinite;
 }
 
 @keyframes voiceRing {
-  0%, 100% { box-shadow: 0 0 40px var(--neon-red-glow); }
-  50% { box-shadow: 0 0 60px var(--neon-red-glow), 0 0 80px rgba(255, 0, 51, 0.2); }
+  0%, 100% { box-shadow: 0 0 40px var(--bot-accent-glow); }
+  50% { box-shadow: 0 0 60px var(--bot-accent-glow), 0 0 80px rgba(255, 255, 255, 0.05); }
 }
 
 .voice-call-name {
@@ -703,6 +689,7 @@ body {
   font-size: 1.2rem;
   letter-spacing: 4px;
   text-transform: uppercase;
+  color: var(--bot-accent);
 }
 
 .voice-call-status {
@@ -721,7 +708,7 @@ body {
 
 .voice-waveform .bar {
   width: 4px;
-  background: var(--neon-red);
+  background: var(--bot-accent);
   border-radius: 2px;
   animation: waveBar 0.8s ease-in-out infinite;
 }
@@ -735,27 +722,27 @@ body {
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background: #ff0033;
+  background: var(--bot-accent);
   border: none;
   color: #fff;
   font-size: 1.5rem;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 0 20px rgba(255, 0, 51, 0.4);
+  box-shadow: 0 0 20px var(--bot-accent-glow);
 }
 
 .voice-end-btn:hover {
   transform: scale(1.1);
-  box-shadow: 0 0 30px rgba(255, 0, 51, 0.6);
+  box-shadow: 0 0 30px var(--bot-accent-glow);
 }
 
 /* PWA Install Button */
 .pwa-install-btn {
-  background: linear-gradient(135deg, rgba(255, 0, 51, 0.2), rgba(255, 0, 51, 0.05));
-  border: 1px solid rgba(255, 0, 51, 0.3);
-  color: var(--neon-red);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
   font-family: var(--font-display);
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   letter-spacing: 2px;
   text-transform: uppercase;
   padding: 8px 14px;
@@ -766,30 +753,18 @@ body {
 }
 
 .pwa-install-btn:hover {
-  background: rgba(255, 0, 51, 0.2);
-  box-shadow: 0 0 20px rgba(255, 0, 51, 0.3);
+  color: var(--bot-accent);
+  border-color: var(--bot-accent);
 }
 
 /* ── Utility Animations ────────────────────────────── */
-.fade-in {
-  animation: fadeIn 0.5s ease-out forwards;
-}
+.fade-in { animation: fadeIn 0.5s ease-out forwards; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
+.fade-out { animation: fadeOut 0.5s ease-out forwards; }
+@keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
 
-.fade-out {
-  animation: fadeOut 0.5s ease-out forwards;
-}
-
-@keyframes fadeOut {
-  from { opacity: 1; }
-  to { opacity: 0; }
-}
-
-/* Neon glow pulse for cards — color set via CSS variable */
+/* Neon glow pulse for cards */
 .neon-glow {
   box-shadow:
     0 0 8px var(--card-glow, var(--neon-red-glow)),
@@ -810,11 +785,11 @@ body {
   top: 15px;
   left: 15px;
   z-index: 60;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #fff;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
   width: 40px;
   height: 40px;
   border-radius: 10px;
@@ -827,6 +802,5 @@ body {
 }
 
 .back-btn:hover {
-  background: rgba(255, 0, 51, 0.2);
-  border-color: var(--neon-red);
+  color: var(--bot-accent);
 }

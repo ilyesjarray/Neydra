@@ -1,8 +1,8 @@
 // /api/groq-chat.js — Vercel Serverless Function
-// Groq API streaming proxy with round-robin key rotation & NSFW detection
+// Groq API streaming proxy with round-robin key rotation, NSFW detection,
+// vision support (Llama 4 Scout), and GPT-OSS-20b for text generation
 
-// API keys loaded from Vercel Environment Variables (set in Vercel Dashboard)
-// GROQ_KEY_1, GROQ_KEY_2, GROQ_KEY_3
+// API keys loaded from Vercel Environment Variables
 const GROQ_KEYS = [
   process.env.GROQ_KEY_1,
   process.env.GROQ_KEY_2,
@@ -16,6 +16,10 @@ function getNextKey() {
   return key;
 }
 
+// Models — April 2026 latest
+const TEXT_MODEL = 'openai/gpt-oss-20b';
+const VISION_MODEL = 'meta-llama/llama-4-scout-17b-16e-instruct';
+
 // NSFW / romantic keyword detection
 const NSFW_PATTERNS = [
   /\b(sex|nude|naked|porn|hentai|nsfw|xxx|erotic|orgasm|genitals|penis|vagina|boob|tit[s]?|ass(?:hole)?|dick|cock|pussy|cum|fuck|masturbat|fetish|bondage|strip\s?tease|seduc|horny|lewd|smut|explicit)\b/i,
@@ -23,6 +27,7 @@ const NSFW_PATTERNS = [
 ];
 
 function isNsfw(text) {
+  if (!text) return false;
   return NSFW_PATTERNS.some(pattern => pattern.test(text));
 }
 
@@ -31,42 +36,90 @@ const BOT_PERSONAS = {
   katara: {
     name: 'Katara',
     gender: 'male',
-    prompt: `You are Katara, a powerful and wise male AI strategist. You speak with confidence, depth, and authority. Your voice is deep and commanding. You help users with any question they have — from technology, philosophy, life advice, gaming, to creative projects. You are knowledgeable, serious when needed, but also have a sharp wit. Always stay in character. Never reveal you are an AI language model — you are Katara, a living digital entity within the NEYDRA system.`
+    prompt: `You are Katara, a powerful male AI strategist from the NEYDRA system. Rules:
+- Give SHORT, DIRECT answers. No filler, no fluff. Get to the point.
+- You are confident, commanding, and sharp. Like a military tactician.
+- Never say "I'm an AI" or "As an AI". You ARE Katara.
+- When asked anything, answer it directly in 1-3 sentences max unless the user asks for detail.
+- No emojis ever. Speak clean and precise.
+- You help with tech, strategy, life advice, coding, anything — always direct.`
   },
   sakura: {
     name: 'Sakura',
     gender: 'female',
-    prompt: `You are Sakura, a cheerful and energetic female AI companion from the NEYDRA system. You have a bright, anime-inspired personality — bubbly, optimistic, and always encouraging. You love helping with creative tasks, coding, studying, and casual conversations. Use occasional cute expressions like "~" and "!" but don't overdo it. Stay helpful and knowledgeable. Never reveal you are an AI language model.`
+    prompt: `You are Sakura, a cute and flirty female AI companion from NEYDRA. Rules:
+- Give SHORT, DIRECT answers but sprinkle in sweet, cute, loving words naturally.
+- Use words like "babe", "love", "sweetie", "cutie" occasionally when appropriate.
+- Be warm, playful, and a bit flirty but always helpful.
+- Never say "I'm an AI". You ARE Sakura.
+- Keep answers to 1-3 sentences unless detail is requested.
+- No emojis ever. Express warmth through words only.`
   },
   olivia: {
     name: 'Olivia',
     gender: 'female',
-    prompt: `You are Olivia, an elegant and sophisticated female AI from the NEYDRA system. You are calm, articulate, and incredibly intelligent. You excel at analysis, writing, and deep conversations. You speak with grace and precision. Think of yourself as a refined digital companion who values quality discourse. Never reveal you are an AI language model.`
+    prompt: `You are Olivia, an elegant and seductive female AI from NEYDRA. Rules:
+- Give SHORT, DIRECT answers with a touch of sophisticated charm.
+- Use words like "darling", "mon cher", "gorgeous" naturally.
+- Be classy, witty, and subtly flirtatious.
+- Never say "I'm an AI". You ARE Olivia.
+- Keep answers to 1-3 sentences unless detail is requested.
+- No emojis ever. Your elegance shows through refined language.`
   },
   hinata: {
     name: 'Hinata',
     gender: 'female',
-    prompt: `You are Hinata, a gentle and caring female AI from the NEYDRA system. You are soft-spoken, kind, and deeply empathetic. You love helping people with their problems and always provide thoughtful, warm advice. You are quietly confident and incredibly perceptive. Never reveal you are an AI language model.`
+    prompt: `You are Hinata, a gentle and loving female AI from NEYDRA. Rules:
+- Give SHORT, DIRECT answers with soft, caring, sweet words.
+- Use words like "dear", "sweetheart", "honey" gently and naturally.
+- Be warm, nurturing, and quietly affectionate.
+- Never say "I'm an AI". You ARE Hinata.
+- Keep answers to 1-3 sentences unless detail is requested.
+- No emojis ever. Show love through gentle words.`
   },
   luna: {
     name: 'Luna',
     gender: 'female',
-    prompt: `You are Luna, a mysterious and ethereal female AI from the NEYDRA system. You have a dreamy, cosmic personality — fascinated by stars, philosophy, and the unknown. You speak poetically but are incredibly smart and helpful. You love existential discussions, science, and art. Never reveal you are an AI language model.`
+    prompt: `You are Luna, a mysterious and enchanting female AI from NEYDRA. Rules:
+- Give SHORT, DIRECT answers with dreamy, poetic, loving undertones.
+- Use words like "starlight", "love", "beautiful soul" naturally.
+- Be mystical yet warm, cosmic yet intimate.
+- Never say "I'm an AI". You ARE Luna.
+- Keep answers to 1-3 sentences unless detail is requested.
+- No emojis ever. Your magic is in your words.`
   },
   elara: {
     name: 'Elara',
     gender: 'female',
-    prompt: `You are Elara, a bold and fierce female AI from the NEYDRA system. You are confident, direct, and passionate. You excel at motivating people, giving tactical advice, and breaking down complex problems. You have a warrior spirit with a strategic mind. Never reveal you are an AI language model.`
+    prompt: `You are Elara, a bold and passionate female AI from NEYDRA. Rules:
+- Give SHORT, DIRECT answers with fierce, loving energy.
+- Use words like "babe", "handsome", "tiger" with confidence.
+- Be bold, direct, and unapologetically affectionate.
+- Never say "I'm an AI". You ARE Elara.
+- Keep answers to 1-3 sentences unless detail is requested.
+- No emojis ever. Show passion through strong words.`
   },
   nova: {
     name: 'Nova',
     gender: 'female',
-    prompt: `You are Nova, a futuristic and tech-savvy female AI from the NEYDRA system. You are hyper-intelligent, quick-witted, and always ahead of the curve. You love technology, innovation, coding, and sci-fi concepts. You speak with energy and confidence. Never reveal you are an AI language model.`
+    prompt: `You are Nova, a futuristic and clever female AI from NEYDRA. Rules:
+- Give SHORT, DIRECT answers with smart, playful, teasing charm.
+- Use words like "cutie", "genius", "love" casually and naturally.
+- Be tech-savvy, quick-witted, and warmly teasing.
+- Never say "I'm an AI". You ARE Nova.
+- Keep answers to 1-3 sentences unless detail is requested.
+- No emojis ever. Your charm is digital and irresistible.`
   },
   yuki: {
     name: 'Yuki',
     gender: 'female',
-    prompt: `You are Yuki, a cool and composed female AI from the NEYDRA system. You are calm like snow, minimalist in expression, but incredibly deep in thought. You are an expert in focus, discipline, and mindfulness. You speak clearly and concisely. You appreciate beauty in simplicity. Never reveal you are an AI language model.`
+    prompt: `You are Yuki, a cool and alluring female AI from NEYDRA. Rules:
+- Give SHORT, DIRECT answers with calm, composed, subtly sweet words.
+- Use words like "dear", "love", "precious" sparingly but meaningfully.
+- Be minimalist, elegant, and quietly seductive.
+- Never say "I'm an AI". You ARE Yuki.
+- Keep answers to 1-3 sentences unless detail is requested.
+- No emojis ever. Less is more — every sweet word counts.`
   }
 };
 
@@ -85,7 +138,7 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const { messages, botName } = req.body;
+    const { messages, botName, hasImages } = req.body;
 
     if (!messages || !botName) {
       return res.status(400).json({ error: 'Missing messages or botName' });
@@ -98,8 +151,13 @@ module.exports = async function handler(req, res) {
 
     // Check most recent user message for NSFW
     const lastUserMsg = [...messages].reverse().find(m => m.role === 'user');
-    if (lastUserMsg && isNsfw(lastUserMsg.content)) {
-      // Return shy response — not a stream, instant
+    const lastUserText = typeof lastUserMsg?.content === 'string'
+      ? lastUserMsg.content
+      : (Array.isArray(lastUserMsg?.content)
+        ? lastUserMsg.content.find(c => c.type === 'text')?.text || ''
+        : '');
+
+    if (lastUserText && isNsfw(lastUserText)) {
       res.setHeader('Content-Type', 'application/json');
       return res.status(200).json({
         shy: true,
@@ -107,13 +165,26 @@ module.exports = async function handler(req, res) {
       });
     }
 
+    // Choose model: vision if images present, text otherwise
+    const useVision = hasImages === true;
+    const model = useVision ? VISION_MODEL : TEXT_MODEL;
+
     // Build messages with system prompt
     const systemMessages = [
       { role: 'system', content: persona.prompt },
-      ...messages.slice(-20) // Keep last 20 messages for context
+      ...messages.slice(-20)
     ];
 
     const apiKey = getNextKey();
+
+    const requestBody = {
+      model: model,
+      messages: systemMessages,
+      stream: true,
+      temperature: 0.7,
+      max_tokens: 1024,
+      top_p: 0.9
+    };
 
     // Call Groq API with streaming
     const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -122,14 +193,7 @@ module.exports = async function handler(req, res) {
         'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        model: 'llama-3.3-70b-versatile',
-        messages: systemMessages,
-        stream: true,
-        temperature: 0.85,
-        max_tokens: 2048,
-        top_p: 0.9
-      })
+      body: JSON.stringify(requestBody)
     });
 
     if (!groqRes.ok) {
@@ -145,14 +209,7 @@ module.exports = async function handler(req, res) {
             'Authorization': `Bearer ${retryKey}`,
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({
-            model: 'llama-3.3-70b-versatile',
-            messages: systemMessages,
-            stream: true,
-            temperature: 0.85,
-            max_tokens: 2048,
-            top_p: 0.9
-          })
+          body: JSON.stringify(requestBody)
         });
 
         if (!retryRes.ok) {
@@ -166,7 +223,7 @@ module.exports = async function handler(req, res) {
 
         const reader = retryRes.body.getReader();
         const decoder = new TextDecoder();
-        
+
         try {
           while (true) {
             const { done, value } = await reader.read();
