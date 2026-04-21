@@ -329,7 +329,7 @@
         });
       }
 
-      // Safety timeout: 30s max
+      // Safety timeout: 120s max
       setTimeout(() => {
         if (!finished) {
           finished = true;
@@ -338,7 +338,7 @@
           statusEl.textContent = 'SYSTEM READY';
           showSystemReady();
         }
-      }, 60000);
+      }, 120000);
     }
 
     function showSystemReady() {
