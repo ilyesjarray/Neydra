@@ -475,7 +475,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all .3s cubic-bezier(.4, 0, .2, 1);
+  transition: color .3s ease, border-color .3s ease, box-shadow .3s ease, background .3s ease;
   position: relative;
   overflow: hidden;
 }
@@ -493,7 +493,6 @@ body {
 .chat-action-btn:hover {
   color: var(--bot-accent);
   border-color: rgba(255, 255, 255, .12);
-  transform: translateY(-1px);
 }
 
 .chat-action-btn:hover::before {
@@ -532,7 +531,7 @@ body {
   background: transparent;
 }
 
-/* Glassmorphic message bubbles with glow */
+/* Glassmorphic message bubbles */
 .message {
   max-width: 85%;
   padding: 12px 18px;
@@ -543,7 +542,6 @@ body {
   word-wrap: break-word;
   background: transparent;
   border: 1px solid transparent;
-  transition: all .3s ease;
 }
 
 @keyframes msgSlide {
@@ -665,36 +663,18 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all .3s cubic-bezier(.4, 0, .2, 1);
+  transition: box-shadow .3s ease, filter .3s ease;
   flex-shrink: 0;
   box-shadow: 0 2px 12px var(--bot-accent-glow);
 }
 
 .chat-send-btn:hover {
-  transform: translateY(-2px) scale(1.05);
-  box-shadow: 0 6px 30px var(--bot-accent-glow), 0 0 50px rgba(0, 0, 0, .4);
+  box-shadow: 0 4px 24px var(--bot-accent-glow), 0 0 40px rgba(0, 0, 0, .3);
   filter: brightness(1.2);
 }
 
-.chat-send-btn::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-  transform: rotate(45deg);
-  transition: 0.5s;
-}
-
-.chat-send-btn:hover::after {
-  left: 100%;
-  top: 100%;
-}
-
 .chat-send-btn:active {
-  transform: translateY(0) scale(.95);
+  filter: brightness(0.9);
 }
 
 .chat-send-btn:disabled {
@@ -707,7 +687,6 @@ body {
 /* Image upload button */
 .image-upload-btn {
   background: rgba(255, 255, 255, .03);
-  backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, .06);
   width: 44px;
   height: 44px;
@@ -718,7 +697,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all .3s ease;
+  transition: color .3s ease, border-color .3s ease;
   flex-shrink: 0;
 }
 
