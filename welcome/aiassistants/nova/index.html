@@ -141,6 +141,12 @@
       // Crossfade: show new image in overlay, fade in, then swap base
       crossfadeLayer.style.backgroundImage = "url('" + newImg + "')";
       crossfadeLayer.classList.add('visible');
+
+      // Update container state class for CSS animations
+      container.classList.remove('is-thinking', 'is-shy');
+      if (s === 'thinking') container.classList.add('is-thinking');
+      else if (s === 'shy') container.classList.add('is-shy');
+
       setTimeout(function () {
         container.style.backgroundImage = "url('" + newImg + "')";
         crossfadeLayer.classList.remove('visible');
