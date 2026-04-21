@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <script src="/js/security.js"></script>
   <meta charset="UTF-8" />
@@ -12,6 +13,7 @@
   <link rel="stylesheet" href="/welcome/aiassistants/aiassistants.css" />
   <title>NEYDRA — Choose Your Assistant</title>
 </head>
+
 <body>
 
   <!-- Audio -->
@@ -37,14 +39,14 @@
     // BOT DATA
     // ═══════════════════════════════════════════════════════
     const BOTS = [
-      { id: 1, name: 'Katara',  slug: 'katara',  gender: 'male' },
-      { id: 2, name: 'Sakura',  slug: 'sakura',  gender: 'female' },
-      { id: 3, name: 'Olivia',  slug: 'olivia',  gender: 'female' },
-      { id: 4, name: 'Hinata',  slug: 'hinata',  gender: 'female' },
-      { id: 5, name: 'Luna',    slug: 'luna',     gender: 'female' },
-      { id: 6, name: 'Elara',   slug: 'elara',    gender: 'female' },
-      { id: 7, name: 'Nova',    slug: 'nova',     gender: 'female' },
-      { id: 8, name: 'Yuki',    slug: 'yuki',     gender: 'female' }
+      { id: 1, name: 'Katara', slug: 'katara', gender: 'male' },
+      { id: 2, name: 'Sakura', slug: 'sakura', gender: 'female' },
+      { id: 3, name: 'Olivia', slug: 'olivia', gender: 'female' },
+      { id: 4, name: 'Hinata', slug: 'hinata', gender: 'female' },
+      { id: 5, name: 'Luna', slug: 'luna', gender: 'female' },
+      { id: 6, name: 'Elara', slug: 'elara', gender: 'female' },
+      { id: 7, name: 'Nova', slug: 'nova', gender: 'female' },
+      { id: 8, name: 'Yuki', slug: 'yuki', gender: 'female' }
     ];
 
     // ═══════════════════════════════════════════════════════
@@ -66,11 +68,11 @@
       const TOTAL = 350;
       const TYPES = [
         { color: [255, 0, 80], minR: 0.4, maxR: 2, speed: 0.25 },
-        { color: [0, 200, 255], minR: 0.3, maxR: 1.5, speed: 0.4 },
-        { color: [180, 60, 255], minR: 0.6, maxR: 2.2, speed: 0.15 },
-        { color: [255, 255, 255], minR: 0.15, maxR: 0.7, speed: 0.5 },
-        { color: [255, 100, 200], minR: 0.3, maxR: 1.8, speed: 0.2 },
-        { color: [100, 255, 180], minR: 0.2, maxR: 1, speed: 0.35 }
+        { color: [255, 0, 0], minR: 0.3, maxR: 1.5, speed: 0.4 },
+        { color: [255, 0, 0], minR: 0.6, maxR: 2.2, speed: 0.15 },
+        { color: [255, 0, 0], minR: 0.15, maxR: 0.7, speed: 0.5 },
+        { color: [255, 0, 0], minR: 0.3, maxR: 1.8, speed: 0.2 },
+        { color: [255, 0, 0], minR: 0.2, maxR: 1, speed: 0.35 }
       ];
 
       for (let i = 0; i < TOTAL; i++) {
@@ -130,9 +132,9 @@
       if (rfs) {
         rfs.call(elem).then(() => {
           if (screen.orientation && screen.orientation.lock) {
-            screen.orientation.lock('landscape').catch(() => {});
+            screen.orientation.lock('landscape').catch(() => { });
           }
-        }).catch(() => {});
+        }).catch(() => { });
       }
     }
 
@@ -149,20 +151,20 @@
 
         const img = new Image();
         img.crossOrigin = 'anonymous';
-        img.onload = function() {
+        img.onload = function () {
           ctx.drawImage(img, 0, 0, size, size);
           try {
             const data = ctx.getImageData(0, 0, size, size).data;
             let rSum = 0, gSum = 0, bSum = 0, count = 0;
             // Sample every 4th pixel, skipping very dark/very light
             for (let i = 0; i < data.length; i += 16) {
-              const r = data[i], g = data[i+1], b = data[i+2];
+              const r = data[i], g = data[i + 1], b = data[i + 2];
               const brightness = (r + g + b) / 3;
               if (brightness > 30 && brightness < 230) {
                 rSum += r; gSum += g; bSum += b; count++;
               }
             }
-            if (count === 0) { resolve('rgba(255,0,51,0.5)'); return; }
+            if (count === 0) { resolve('rgba(255,0,0,0.5)'); return; }
             const rAvg = Math.round(rSum / count);
             const gAvg = Math.round(gSum / count);
             const bAvg = Math.round(bSum / count);
@@ -172,11 +174,11 @@
             const gB = Math.min(255, Math.round(gAvg + (gAvg / max) * 40));
             const bB = Math.min(255, Math.round(bAvg + (bAvg / max) * 40));
             resolve(`rgba(${rB},${gB},${bB},0.5)`);
-          } catch(e) {
-            resolve('rgba(255,0,51,0.5)');
+          } catch (e) {
+            resolve('rgba(255,0,0,0.5)');
           }
         };
-        img.onerror = () => resolve('rgba(255,0,51,0.5)');
+        img.onerror = () => resolve('rgba(255,0,0,0.5)');
         img.src = imgElement.src;
       });
     }
@@ -215,7 +217,7 @@
       music.play().catch(() => {
         // Retry on first click
         document.addEventListener('click', function retryMusic() {
-          music.play().catch(() => {});
+          music.play().catch(() => { });
           document.removeEventListener('click', retryMusic);
         }, { once: true });
       });
@@ -248,7 +250,7 @@
       // Store selected bot info for the chat page
       try {
         sessionStorage.setItem('neydra_bot', JSON.stringify(bot));
-      } catch(e) {}
+      } catch (e) { }
 
       // Fade out music
       const music = document.getElementById('ai-theme2');
@@ -281,4 +283,5 @@
     });
   </script>
 </body>
+
 </html>
