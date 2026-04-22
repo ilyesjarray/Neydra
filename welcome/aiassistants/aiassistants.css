@@ -369,7 +369,7 @@ body {
   background-position: left center;
   background-repeat: no-repeat;
   opacity: 0;
-  transition: opacity .5s ease-in-out;
+  transition: opacity 1s ease-in-out;
   pointer-events: none;
 }
 

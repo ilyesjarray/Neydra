@@ -150,7 +150,7 @@
       setTimeout(function () {
         container.style.backgroundImage = "url('" + newImg + "')";
         crossfadeLayer.classList.remove('visible');
-      }, 500);
+      }, 1000);
 
       currentState = s;
       var st = document.getElementById('chatBotStatus');
@@ -220,7 +220,7 @@
         var ct = response.headers.get('content-type') || '';
         if (ct.includes('application/json')) {
           var data = await response.json();
-          if (data.shy) { setState('shy'); addBotMessage(data.content); chatHistory.push({ role: 'assistant', content: data.content }); if (shouldAutoSpeak(data.content)) speakWithOrpheus(data.content); setTimeout(function () { setState('idle'); }, 3000); isStreaming = false; document.getElementById('sendBtn').disabled = false; return; }
+          if (data.shy) { setState('shy'); addBotMessage(data.content); chatHistory.push({ role: 'assistant', content: data.content }); if (shouldAutoSpeak(data.content)) speakWithOrpheus(data.content); setTimeout(function () { setState('idle'); }, 6000); isStreaming = false; document.getElementById('sendBtn').disabled = false; return; }
           if (data.error) { addBotMessage(data.error); setState('idle'); isStreaming = false; document.getElementById('sendBtn').disabled = false; return; }
         }
         var reader = response.body.getReader(); var decoder = new TextDecoder(); var msgEl = createStreamingMessage(); var textSpan = msgEl.querySelector('.msg-text'); var fullText = ''; var buffer = '';
@@ -231,7 +231,7 @@
         var cursor = msgEl.querySelector('.typing-cursor'); if (cursor) cursor.remove();
         if (fullText) { chatHistory.push({ role: 'assistant', content: fullText }); if (shouldAutoSpeak(fullText)) speakWithOrpheus(fullText); }
       } catch (err) { addBotMessage('Connection error.'); }
-      setState('idle'); isStreaming = false; document.getElementById('sendBtn').disabled = false;
+      setTimeout(function () { setState('idle'); }, 3000); isStreaming = false; document.getElementById('sendBtn').disabled = false;
     }
 
     // Image upload
@@ -261,12 +261,12 @@
             try {
               var res = await fetch('/api/groq-chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: chatHistory, botName: CFG.slug, hasImages: false }) });
               var ctype = res.headers.get('content-type') || '';
-              if (ctype.includes('application/json')) { var data = await res.json(); if (data.shy) { setState('shy'); addBotMessage(data.content); speakWithOrpheus(data.content); chatHistory.push({ role: 'assistant', content: data.content }); setTimeout(function () { setState('idle'); }, 3000); document.getElementById('voiceStatus').textContent = 'Listening...'; return; } }
+              if (ctype.includes('application/json')) { var data = await res.json(); if (data.shy) { setState('shy'); addBotMessage(data.content); speakWithOrpheus(data.content); chatHistory.push({ role: 'assistant', content: data.content }); setTimeout(function () { setState('idle'); }, 6000); document.getElementById('voiceStatus').textContent = 'Listening...'; return; } }
               var reader = res.body.getReader(); var decoder = new TextDecoder(); var ft = ''; var buf = '';
               while (true) { var r = await reader.read(); if (r.done) break; buf += decoder.decode(r.value, { stream: true }); var lns = buf.split('\n'); buf = lns.pop() || ''; for (var ln of lns) { if (ln.startsWith('data: ')) { var dd = ln.slice(6).trim(); if (dd === '[DONE]') continue; try { var jj = JSON.parse(dd); var dl = jj.choices && jj.choices[0] && jj.choices[0].delta && jj.choices[0].delta.content; if (dl) ft += dl; } catch (x) { } } } }
               if (ft) { addBotMessage(ft); chatHistory.push({ role: 'assistant', content: ft }); speakWithOrpheus(ft); }
             } catch (err) { addBotMessage('Voice error.'); }
-            setState('idle'); document.getElementById('voiceStatus').textContent = 'Listening...';
+            setTimeout(function () { setState('idle'); document.getElementById('voiceStatus').textContent = 'Listening...'; }, 3000);
           }
         }
       };
