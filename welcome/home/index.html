@@ -583,9 +583,192 @@
   </footer>
 
   <!-- Sound button -->
-  <button id="soundBtn">
-    <img src="/assets/s-sound.png" alt="Sound Button" />
-  </button>
+  <div id="magicButtonContainer" class="magic-button-container">
+    <button id="soundBtn">
+      <img src="/assets/s-sound.png" alt="Sound Button" />
+    </button>
+    <div id="sparkleLayer" class="sparkle-layer"></div>
+  </div>
+  <!-- Magic Button Enhancements -->
+  <style>
+    .magic-button-container {
+      position: relative;
+      display: inline-block;
+    }
+
+    #soundBtn {
+      position: relative;
+      z-index: 2;
+      background: transparent;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      animation: glow 1.8s ease-in-out infinite alternate;
+      transition: transform 0.2s ease;
+    }
+
+    #soundBtn img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* إضاءة حمراء نابضة (glow) */
+    @keyframes glow {
+      from {
+        box-shadow:
+          0 0 8px #ff0000,
+          0 0 18px #ff0000,
+          0 0 28px #ff0000,
+          0 0 38px #ff0000;
+      }
+
+      to {
+        box-shadow:
+          0 0 15px #ff0000,
+          0 0 30px #ff0000,
+          0 0 45px #ff0000,
+          0 0 60px #ff0000;
+      }
+    }
+
+    /* طبقة غبار النجوم الحمراء */
+    .sparkle-layer {
+      position: absolute;
+      top: -60%;
+      left: -60%;
+      width: 220%;
+      height: 220%;
+      pointer-events: none;
+      z-index: 1;
+      overflow: visible;
+    }
+
+    .particle {
+      position: absolute;
+      color: #ff0000;
+      text-shadow:
+        0 0 6px #ff0000,
+        0 0 12px #ff0000;
+      font-size: 14px;
+      animation: twinkle linear infinite;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* تلألؤ وتكبير خفيف للغبار */
+    @keyframes twinkle {
+
+      0%,
+      100% {
+        opacity: 0;
+        transform: scale(0.4) rotate(0deg);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.6) rotate(15deg);
+      }
+    }
+
+    /* تأثير الاهتزاز + التكبير العشوائي */
+    .shake-pulse {
+      animation: shakePulse 850ms cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards !important;
+    }
+
+    @keyframes shakePulse {
+      0% {
+        transform: scale(1) rotate(0deg);
+      }
+
+      15% {
+        transform: scale(1.28) rotate(-7deg);
+      }
+
+      30% {
+        transform: scale(1.28) rotate(7deg);
+      }
+
+      45% {
+        transform: scale(1.28) rotate(-5deg);
+      }
+
+      60% {
+        transform: scale(1.28) rotate(5deg);
+      }
+
+      75% {
+        transform: scale(1.28) rotate(0deg);
+      }
+
+      100% {
+        transform: scale(1) rotate(0deg);
+      }
+    }
+  </style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const container = document.getElementById('magicButtonContainer');
+      const button = document.getElementById('soundBtn');
+      const sparkleLayer = document.getElementById('sparkleLayer');
+
+      // إنشاء غبار النجوم الأحمر (40 جسيم)
+      const numParticles = 40;
+      for (let i = 0; i < numParticles; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+
+        // نجم صغير متلألئ (يمكنك تغييره إلى • أو ✦ إذا أردت)
+        particle.textContent = '✧';
+
+        // موقع عشوائي حول الزر
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+
+        // حجم عشوائي
+        const size = Math.random() * 10 + 9;
+        particle.style.fontSize = `${size}px`;
+
+        // سرعة تلألؤ مختلفة لكل جسيم
+        const duration = Math.random() * 1.8 + 0.9;
+        particle.style.animationDuration = `${duration}s`;
+
+        // تأخير عشوائي حتى لا تتلألأ كلها معاً
+        const delay = Math.random() * 3.5;
+        particle.style.animationDelay = `-${delay}s`;
+
+        sparkleLayer.appendChild(particle);
+      }
+
+      // دالة لتوليد وقت عشوائي بين 5 و 10 ثواني
+      function getRandomTime() {
+        return Math.random() * 5000 + 5000; // 5000ms إلى 10000ms
+      }
+
+      // تشغيل الاهتزاز + التكبير
+      function triggerShake() {
+        button.classList.add('shake-pulse');
+
+        // إزالة الكلاس بعد انتهاء الأنيميشن
+        setTimeout(() => {
+          button.classList.remove('shake-pulse');
+        }, 850);
+      }
+
+      // جدولة التأثير العشوائي بشكل مستمر
+      function scheduleNext() {
+        const time = getRandomTime();
+        setTimeout(() => {
+          triggerShake();
+          scheduleNext(); // تكرار تلقائي
+        }, time);
+      }
+
+      // بدء التأثير العشوائي فور تحميل الصفحة
+      scheduleNext();
+    });
+  </script>
 
   <script>
     // Select the button
@@ -596,7 +779,7 @@
 
       // Set a 3-second timer (3000 milliseconds)
       setTimeout(function () {
-        window.location.href = "https://h1n3j2ssdj71-d.space.z.ai";
+        window.location.href = "https://neydra.vercel.app/welcome/aiassistants";
       }, 1000);
 
     });
