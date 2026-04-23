@@ -14,7 +14,7 @@
  *  6. CSS Hardening (injected dynamically)
  *  7. Source Code Obfuscation Layer
  */
-(function() {
+(function () {
     'use strict';
 
     // ==========================================
@@ -36,7 +36,7 @@
     if (!currentHost || allowedDomains.indexOf(currentHost) === -1) {
         // Nuke the page instantly
         document.documentElement.innerHTML = '<body style="background:#000;color:#f00;display:flex;justify-content:center;align-items:center;height:100vh;font-family:monospace;font-size:20px;text-align:center;flex-direction:column;"><div style="border:2px solid #f00;padding:40px;max-width:600px;"><h1 style="font-size:32px;margin-bottom:20px;letter-spacing:5px;">⛔ SECURITY ERROR</h1><p>UNAUTHORIZED DOMAIN / LOCAL FILE TAMPERING DETECTED.</p><p style="margin-top:15px;font-size:14px;color:#ff6666;">This application is domain-locked to official NEYDRA servers.</p><p style="margin-top:20px;font-size:12px;color:#888;">REDIRECTING TO OFFICIAL SERVER IN 3 SECONDS...</p></div></body>';
-        setTimeout(function() {
+        setTimeout(function () {
             window.location.href = 'https://neydra.vercel.app';
         }, 3000);
         return; // Stop ALL further execution
@@ -64,7 +64,7 @@
     if (document.head) {
         document.head.insertBefore(securityCSS, document.head.firstChild);
     } else {
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             document.head.insertBefore(securityCSS, document.head.firstChild);
         });
     }
@@ -72,7 +72,7 @@
     // ==========================================
     // 3. ANTI RIGHT-CLICK & TOUCH HOLD
     // ==========================================
-    document.addEventListener('contextmenu', function(e) {
+    document.addEventListener('contextmenu', function (e) {
         e.preventDefault();
         e.stopPropagation();
         return false;
@@ -80,21 +80,21 @@
 
     // Block long-press on mobile (touch hold to save image)
     var touchTimer = null;
-    document.addEventListener('touchstart', function(e) {
-        touchTimer = setTimeout(function() {
+    document.addEventListener('touchstart', function (e) {
+        touchTimer = setTimeout(function () {
             // If held for 500ms+, it's a long-press attempt
             e.preventDefault();
         }, 500);
     }, { passive: false });
 
-    document.addEventListener('touchend', function() {
+    document.addEventListener('touchend', function () {
         if (touchTimer) {
             clearTimeout(touchTimer);
             touchTimer = null;
         }
     }, false);
 
-    document.addEventListener('touchmove', function() {
+    document.addEventListener('touchmove', function () {
         if (touchTimer) {
             clearTimeout(touchTimer);
             touchTimer = null;
@@ -107,7 +107,7 @@
     // Blocks: F12, Ctrl+U (View Source), Ctrl+S (Save Page), 
     // Ctrl+P (Print), Ctrl+Shift+I/J/C (Inspectors)
     // Also blocks Mac equivalents (Cmd+)
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
         // F12
         if (e.key === 'F12' || e.keyCode === 123) {
             e.preventDefault();
@@ -154,18 +154,18 @@
     // ==========================================
     // 5. ANTI-DRAG AND DROP
     // ==========================================
-    document.addEventListener('dragstart', function(e) {
+    document.addEventListener('dragstart', function (e) {
         e.preventDefault();
         return false;
     }, true);
 
-    document.addEventListener('drop', function(e) {
+    document.addEventListener('drop', function (e) {
         e.preventDefault();
         return false;
     }, true);
 
     // Prevent selecting and copying text
-    document.addEventListener('copy', function(e) {
+    document.addEventListener('copy', function (e) {
         // Allow copy in input fields
         if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) {
             return true;
@@ -174,7 +174,7 @@
         return false;
     }, true);
 
-    document.addEventListener('cut', function(e) {
+    document.addEventListener('cut', function (e) {
         if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) {
             return true;
         }
@@ -187,7 +187,7 @@
     // ==========================================
     // If DevTools are forced open, this infinite loop will freeze the browser
     // and then nuke the DOM if it detects the breakpoint pause.
-    var _dbgInterval = setInterval(function() {
+    var _dbgInterval = setInterval(function () {
         var before = new Date().getTime();
         debugger; // Triggers DevTools breakpoint
         var after = new Date().getTime();
@@ -202,7 +202,7 @@
             // Force exit
             try {
                 window.location.replace('about:blank');
-            } catch(e) {}
+            } catch (e) { }
             clearInterval(_dbgInterval);
         }
     }, 500);
@@ -211,9 +211,9 @@
     // 7. DEVTOOLS DETECTION (Window Size Heuristic)
     // ==========================================
     // Additional layer: detect DevTools by checking window size discrepancy
-    var _devToolsCheck = setInterval(function() {
-        var widthThreshold = window.outerWidth - window.innerWidth > 160;
-        var heightThreshold = window.outerHeight - window.innerHeight > 160;
+    var _devToolsCheck = setInterval(function () {
+        var widthThreshold = window.outerWidth - window.innerWidth > 350;
+        var heightThreshold = window.outerHeight - window.innerHeight > 350;
 
         if (widthThreshold || heightThreshold) {
             // DevTools likely open (docked mode)
@@ -224,7 +224,7 @@
             clearInterval(_dbgInterval);
             try {
                 window.location.replace('about:blank');
-            } catch(e) {}
+            } catch (e) { }
         }
     }, 1000);
 
@@ -236,7 +236,7 @@
         document.documentElement.innerHTML = '';
         try {
             window.top.location = window.self.location;
-        } catch(e) {
+        } catch (e) {
             // Same-origin policy prevents us from redirecting the parent.
             // Just blank out.
         }
@@ -254,7 +254,7 @@
             console.log('%cThis is a browser feature intended for developers.', detailCSS);
             console.log('%cIf someone told you to copy-paste something here, it is a scam.', detailCSS);
             console.log('%cNEYDRA™ Security Suite is monitoring this console.', detailCSS);
-        } catch(e) {}
+        } catch (e) { }
     }
 
     // ==========================================
@@ -262,8 +262,8 @@
     // ==========================================
     // Watch for external script injections or security CSS removal
     if (typeof MutationObserver !== 'undefined') {
-        var observer = new MutationObserver(function(mutations) {
-            mutations.forEach(function(mutation) {
+        var observer = new MutationObserver(function (mutations) {
+            mutations.forEach(function (mutation) {
                 // If security CSS was removed, re-inject it
                 if (!document.getElementById('neydra-security-css')) {
                     if (document.head) {
@@ -276,7 +276,7 @@
         if (document.head) {
             observer.observe(document.head, { childList: true });
         } else {
-            document.addEventListener('DOMContentLoaded', function() {
+            document.addEventListener('DOMContentLoaded', function () {
                 observer.observe(document.head, { childList: true });
             });
         }
