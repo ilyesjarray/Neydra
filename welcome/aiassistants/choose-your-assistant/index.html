@@ -39,14 +39,14 @@
     // BOT DATA
     // ═══════════════════════════════════════════════════════
     const BOTS = [
-      { id: 1, name: 'Katara', slug: 'katara', gender: 'male' },
-      { id: 2, name: 'Sakura', slug: 'sakura', gender: 'female' },
-      { id: 3, name: 'Olivia', slug: 'olivia', gender: 'female' },
-      { id: 4, name: 'Hinata', slug: 'hinata', gender: 'female' },
-      { id: 5, name: 'Luna', slug: 'luna', gender: 'female' },
-      { id: 6, name: 'Elara', slug: 'elara', gender: 'female' },
-      { id: 7, name: 'Nova', slug: 'nova', gender: 'female' },
-      { id: 8, name: 'Yuki', slug: 'yuki', gender: 'female' }
+      { id: 1, name: 'Katara', slug: 'katara', gender: 'male', color: 'rgba(255, 0, 0, 0.5)' },
+      { id: 2, name: 'Sakura', slug: 'sakura', gender: 'female', color: 'rgba(0, 255, 0, 0.5)' },
+      { id: 3, name: 'Olivia', slug: 'olivia', gender: 'female', color: 'rgba(0, 0, 255, 0.5)' },
+      { id: 4, name: 'Hinata', slug: 'hinata', gender: 'female', color: 'rgba(255, 255, 0, 0.5)' },
+      { id: 5, name: 'Luna', slug: 'luna', gender: 'female', color: 'rgba(255, 0, 255, 0.5)' },
+      { id: 6, name: 'Elara', slug: 'elara', gender: 'female', color: 'rgba(0, 255, 255, 0.5)' },
+      { id: 7, name: 'Nova', slug: 'nova', gender: 'female', color: 'rgba(255, 128, 0, 0.5)' },
+      { id: 8, name: 'Yuki', slug: 'yuki', gender: 'female', color: 'rgba(128, 0, 255, 0.5)' }
     ];
 
     // ═══════════════════════════════════════════════════════
@@ -139,49 +139,9 @@
     }
 
     // ═══════════════════════════════════════════════════════
-    // DYNAMIC COLOR EXTRACTION from bot card images
+    // DYNAMIC COLOR EXTRACTION REMOVED
+    // Colors are now manually defined in the BOTS array above.
     // ═══════════════════════════════════════════════════════
-    function extractDominantColor(imgElement) {
-      return new Promise((resolve) => {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        const size = 50;
-        canvas.width = size;
-        canvas.height = size;
-
-        const img = new Image();
-        img.crossOrigin = 'anonymous';
-        img.onload = function () {
-          ctx.drawImage(img, 0, 0, size, size);
-          try {
-            const data = ctx.getImageData(0, 0, size, size).data;
-            let rSum = 0, gSum = 0, bSum = 0, count = 0;
-            // Sample every 4th pixel, skipping very dark/very light
-            for (let i = 0; i < data.length; i += 16) {
-              const r = data[i], g = data[i + 1], b = data[i + 2];
-              const brightness = (r + g + b) / 3;
-              if (brightness > 30 && brightness < 230) {
-                rSum += r; gSum += g; bSum += b; count++;
-              }
-            }
-            if (count === 0) { resolve('rgba(255,0,0,0.5)'); return; }
-            const rAvg = Math.round(rSum / count);
-            const gAvg = Math.round(gSum / count);
-            const bAvg = Math.round(bSum / count);
-            // Boost saturation
-            const max = Math.max(rAvg, gAvg, bAvg);
-            const rB = Math.min(255, Math.round(rAvg + (rAvg / max) * 40));
-            const gB = Math.min(255, Math.round(gAvg + (gAvg / max) * 40));
-            const bB = Math.min(255, Math.round(bAvg + (bAvg / max) * 40));
-            resolve(`rgba(${rB},${gB},${bB},0.5)`);
-          } catch (e) {
-            resolve('rgba(255,0,0,0.5)');
-          }
-        };
-        img.onerror = () => resolve('rgba(255,0,0,0.5)');
-        img.src = imgElement.src;
-      });
-    }
 
     // ═══════════════════════════════════════════════════════
     // BUILD CARDS + STAGGERED REVEAL
@@ -229,16 +189,17 @@
         title.style.opacity = '1';
       }, 300);
 
-      // Staggered card reveal + color extraction
+      // Staggered card reveal + apply manual color
       const cards = document.querySelectorAll('.bot-card');
       cards.forEach((card, i) => {
         setTimeout(() => {
           card.classList.add('revealed');
-          // Extract neon color
-          const img = card.querySelector('img');
-          extractDominantColor(img).then(glowColor => {
-            card.style.setProperty('--card-glow', glowColor);
-          });
+          // Get the bot ID from the card and find its manual color
+          const botId = parseInt(card.id.split('-')[1]);
+          const botData = BOTS.find(b => b.id === botId);
+          if (botData) {
+            card.style.setProperty('--card-glow', botData.color);
+          }
         }, 600 + i * 200); // 0.2s stagger, start after 0.6s
       });
     });
