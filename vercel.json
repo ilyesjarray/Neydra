@@ -23,8 +23,12 @@
     },
     {
       "source": "/js/:path*",
-      "missing": [
-        { "type": "header", "key": "referer" }
+      "has": [
+        {
+          "type": "header",
+          "key": "referer",
+          "value": "^(?!https:\\/\\/(neydra\\.vercel\\.app|www\\.neydra\\.com|neydra\\.com|n-s-c\\.vercel\\.app)).*$"
+        }
       ],
       "destination": "/welcome",
       "statusCode": 302
@@ -39,8 +43,12 @@
     },
     {
       "source": "/assets/:path*",
-      "missing": [
-        { "type": "header", "key": "referer" }
+      "has": [
+        {
+          "type": "header",
+          "key": "referer",
+          "value": "^(?!https:\\/\\/(neydra\\.vercel\\.app|www\\.neydra\\.com|neydra\\.com|n-s-c\\.vercel\\.app)).*$"
+        }
       ],
       "destination": "/welcome",
       "statusCode": 302
@@ -55,8 +63,12 @@
     },
     {
       "source": "/downloads/:path*",
-      "missing": [
-        { "type": "header", "key": "referer" }
+      "has": [
+        {
+          "type": "header",
+          "key": "referer",
+          "value": "^(?!https:\\/\\/(neydra\\.vercel\\.app|www\\.neydra\\.com|neydra\\.com|n-s-c\\.vercel\\.app)).*$"
+        }
       ],
       "destination": "/welcome",
       "statusCode": 302
@@ -71,8 +83,12 @@
     },
     {
       "source": "/:file(.*\\.mp3)",
-      "missing": [
-        { "type": "header", "key": "referer" }
+      "has": [
+        {
+          "type": "header",
+          "key": "referer",
+          "value": "^(?!https:\\/\\/(neydra\\.vercel\\.app|www\\.neydra\\.com|neydra\\.com|n-s-c\\.vercel\\.app)).*$"
+        }
       ],
       "destination": "/welcome",
       "statusCode": 302
