@@ -35,7 +35,7 @@
         {
           "type": "header",
           "key": "referer",
-          "value": "^(?!https:\\/\\/(neydra\\.vercel\\.app|www\\.neydra\\.com|neydra\\.com|n-s-c\\.vercel\\.app)).*$"
+          "value": "^(?!https:\\/\\/(neydra\\.vercel\\.app|www\\.neydra\\.com|neydra\\.com|n-s-c\\.vercel\\.app)(?:\\/|:|$)).*$"
         }
       ],
       "destination": "/welcome",
@@ -63,7 +63,7 @@
         {
           "type": "header",
           "key": "referer",
-          "value": "^(?!https:\\/\\/(neydra\\.vercel\\.app|www\\.neydra\\.com|neydra\\.com|n-s-c\\.vercel\\.app)).*$"
+          "value": "^(?!https:\\/\\/(neydra\\.vercel\\.app|www\\.neydra\\.com|neydra\\.com|n-s-c\\.vercel\\.app)(?:\\/|:|$)).*$"
         }
       ],
       "destination": "/welcome",
@@ -91,7 +91,7 @@
         {
           "type": "header",
           "key": "referer",
-          "value": "^(?!https:\\/\\/(neydra\\.vercel\\.app|www\\.neydra\\.com|neydra\\.com|n-s-c\\.vercel\\.app)).*$"
+          "value": "^(?!https:\\/\\/(neydra\\.vercel\\.app|www\\.neydra\\.com|neydra\\.com|n-s-c\\.vercel\\.app)(?:\\/|:|$)).*$"
         }
       ],
       "destination": "/welcome",
@@ -119,7 +119,7 @@
         {
           "type": "header",
           "key": "referer",
-          "value": "^(?!https:\\/\\/(neydra\\.vercel\\.app|www\\.neydra\\.com|neydra\\.com|n-s-c\\.vercel\\.app)).*$"
+          "value": "^(?!https:\\/\\/(neydra\\.vercel\\.app|www\\.neydra\\.com|neydra\\.com|n-s-c\\.vercel\\.app)(?:\\/|:|$)).*$"
         }
       ],
       "destination": "/welcome",
