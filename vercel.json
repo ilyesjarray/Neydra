@@ -23,6 +23,14 @@
     },
     {
       "source": "/js/:path*",
+      "missing": [
+        { "type": "header", "key": "referer" }
+      ],
+      "destination": "/welcome",
+      "statusCode": 302
+    },
+    {
+      "source": "/js/:path*",
       "has": [
         {
           "type": "header",
@@ -37,6 +45,14 @@
       "source": "/assets/:path*",
       "has": [
         { "type": "header", "key": "Sec-Fetch-Dest", "value": "document" }
+      ],
+      "destination": "/welcome",
+      "statusCode": 302
+    },
+    {
+      "source": "/assets/:path*",
+      "missing": [
+        { "type": "header", "key": "referer" }
       ],
       "destination": "/welcome",
       "statusCode": 302
@@ -57,6 +73,14 @@
       "source": "/downloads/:path*",
       "has": [
         { "type": "header", "key": "Sec-Fetch-Dest", "value": "document" }
+      ],
+      "destination": "/welcome",
+      "statusCode": 302
+    },
+    {
+      "source": "/downloads/:path*",
+      "missing": [
+        { "type": "header", "key": "referer" }
       ],
       "destination": "/welcome",
       "statusCode": 302
@@ -77,6 +101,14 @@
       "source": "/:file(.*\\.mp3)",
       "has": [
         { "type": "header", "key": "Sec-Fetch-Dest", "value": "document" }
+      ],
+      "destination": "/welcome",
+      "statusCode": 302
+    },
+    {
+      "source": "/:file(.*\\.mp3)",
+      "missing": [
+        { "type": "header", "key": "referer" }
       ],
       "destination": "/welcome",
       "statusCode": 302
