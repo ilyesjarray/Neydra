@@ -17,7 +17,7 @@
   <style>
     :root {
       --bot-accent: #ff0000;
-      --bot-accent-glow: rgba(255, 0, 0, 0.4);
+      --bot-accent-glow: rgba(255, 0, 0, 0.5);
     }
   </style>
 </head>
@@ -117,7 +117,7 @@
       var c = document.getElementById('galaxyCanvas'), x = c.getContext('2d'), W, H;
       function rz() { W = c.width = innerWidth; H = c.height = innerHeight; } rz(); addEventListener('resize', rz);
       var ps = []; for (var i = 0; i < 100; i++)ps.push({ x: Math.random() * 1920, y: Math.random() * 1080, r: .2 + Math.random(), vx: (Math.random() - .5) * .12, vy: (Math.random() - .5) * .12, a: Math.random() * .2 + .02, d: 1, t: .002 + Math.random() * .003 });
-      function f() { x.clearRect(0, 0, W, H); for (var p of ps) { p.a += p.d * p.t; if (p.a > .3) { p.a = .3; p.d = -1; } if (p.a < .02) { p.a = .02; p.d = 1; } p.x += p.vx; p.y += p.vy; if (p.x < -5) p.x = W + 5; if (p.x > W + 5) p.x = -5; if (p.y < -5) p.y = H + 5; if (p.y > H + 5) p.y = -5; x.beginPath(); x.fillStyle = 'rgba(255,255,255,' + p.a + ')'; x.arc(p.x, p.y, p.r, 0, Math.PI * 2); x.fill(); } requestAnimationFrame(f); } f();
+      function f() { x.clearRect(0, 0, W, H); for (var p of ps) { p.a += p.d * p.t; if (p.a > .3) { p.a = .3; p.d = -1; } if (p.a < .02) { p.a = .02; p.d = 1; } p.x += p.vx; p.y += p.vy; if (p.x < -5) p.x = W + 5; if (p.x > W + 5) p.x = -5; if (p.y < -5) p.y = H + 5; if (p.y > H + 5) p.y = -5; x.beginPath(); x.fillStyle = 'rgba(255,0,0,' + p.a + ')'; x.arc(p.x, p.y, p.r, 0, Math.PI * 2); x.fill(); } requestAnimationFrame(f); } f();
     })();
 
     // Audio
