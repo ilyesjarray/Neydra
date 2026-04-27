@@ -10,41 +10,76 @@
   <link rel="stylesheet" href="/welcome/aiassistants/aiassistants.css" />
   <title>NEYDRA — Builder</title>
   <style>
-    :root { --bot-accent: #ff0000; --bot-accent-glow: rgba(255, 0, 0, 0.6); }
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&display=swap');
+    :root { --bot-accent:#ff0000; --bot-accent-glow:rgba(255,0,0,.6); --code-font:'JetBrains Mono',monospace; }
+
     .builder-container { position:fixed; inset:0; display:flex; flex-direction:column; z-index:10; background:#000; }
-    .builder-header { display:flex; align-items:center; justify-content:space-between; padding:16px 24px; border-bottom:1px solid rgba(255,0,0,.1); flex-shrink:0; }
-    .builder-header-left { display:flex; align-items:center; gap:12px; }
-    .builder-header-left img { width:42px; height:42px; border-radius:50%; border:2px solid #ff0000; box-shadow:0 0 15px rgba(255,0,0,.4); }
-    .builder-header-left .name { font-family:var(--font-display); font-size:.85rem; letter-spacing:3px; text-transform:uppercase; color:#ff0000; }
-    .builder-header-left .sub { font-family:var(--font-tech); font-size:.65rem; color:#555; letter-spacing:2px; }
-    .builder-body { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; gap:20px; overflow-y:auto; }
-    .builder-input-phase { width:100%; max-width:700px; display:flex; flex-direction:column; gap:16px; animation:fadeIn .6s ease; }
-    .builder-label { font-family:var(--font-display); font-size:clamp(.8rem,2vw,1.1rem); color:#ff0000; text-align:center; letter-spacing:3px; text-transform:uppercase; text-shadow:0 0 20px rgba(255,0,0,.4); }
-    .builder-sublabel { font-family:var(--font-tech); font-size:.75rem; color:#666; text-align:center; letter-spacing:1px; }
-    .builder-textarea { width:100%; min-height:150px; max-height:300px; background:rgba(255,255,255,.03); border:1px solid rgba(255,0,0,.15); border-radius:14px; padding:16px; color:#fff; font-family:var(--font-body); font-size:.9rem; resize:vertical; outline:none; transition:border-color .3s, box-shadow .3s; }
-    .builder-textarea:focus { border-color:rgba(255,0,0,.4); box-shadow:0 0 20px rgba(255,0,0,.1); }
-    .builder-textarea::placeholder { color:#444; }
-    .builder-start-btn { align-self:center; background:linear-gradient(135deg,#ff0000,#aa0000); border:none; color:#fff; font-family:var(--font-display); font-size:.85rem; letter-spacing:4px; text-transform:uppercase; padding:14px 50px; border-radius:10px; cursor:pointer; transition:all .3s; box-shadow:0 0 30px rgba(255,0,0,.3); }
-    .builder-start-btn:hover { box-shadow:0 0 50px rgba(255,0,0,.5); transform:translateY(-2px); filter:brightness(1.2); }
-    .builder-start-btn:disabled { opacity:.3; cursor:not-allowed; transform:none; }
-    /* Build progress */
-    .build-progress { width:100%; max-width:700px; display:none; flex-direction:column; gap:12px; }
-    .build-progress.active { display:flex; }
-    .agent-log { display:flex; flex-direction:column; gap:8px; max-height:45vh; overflow-y:auto; padding:10px; }
-    .agent-entry { display:flex; align-items:flex-start; gap:10px; padding:10px 14px; background:rgba(255,255,255,.02); border:1px solid rgba(255,0,0,.08); border-radius:10px; animation:msgSlide .4s ease; }
-    .agent-entry .agent-icon { width:28px; height:28px; border-radius:50%; background:rgba(255,0,0,.15); display:flex; align-items:center; justify-content:center; font-size:.7rem; color:#ff0000; flex-shrink:0; font-family:var(--font-display); border:1px solid rgba(255,0,0,.3); }
-    .agent-entry .agent-text { font-family:var(--font-tech); font-size:.8rem; color:#aaa; line-height:1.5; letter-spacing:.5px; }
-    .agent-entry .agent-text .file-name { color:#ff0000; font-weight:600; }
-    .agent-entry.complete { border-color:rgba(0,255,0,.15); }
-    .agent-entry.complete .agent-icon { background:rgba(0,255,0,.1); color:#0f0; border-color:rgba(0,255,0,.3); }
-    .build-status { font-family:var(--font-display); font-size:.75rem; color:#ff0000; letter-spacing:3px; text-align:center; text-transform:uppercase; animation:pulseFade 2s ease-in-out infinite; }
-    .download-area { display:none; flex-direction:column; align-items:center; gap:12px; animation:fadeIn .6s ease; }
-    .download-area.active { display:flex; }
-    .download-btn { background:linear-gradient(135deg,#00cc44,#008833); border:none; color:#fff; font-family:var(--font-display); font-size:.85rem; letter-spacing:3px; text-transform:uppercase; padding:16px 50px; border-radius:10px; cursor:pointer; transition:all .3s; box-shadow:0 0 30px rgba(0,200,0,.3); }
-    .download-btn:hover { box-shadow:0 0 50px rgba(0,200,0,.5); transform:translateY(-2px); }
-    .download-note { font-family:var(--font-tech); font-size:.7rem; color:#555; letter-spacing:1px; text-align:center; }
-    .build-again-btn { background:transparent; border:1px solid rgba(255,0,0,.2); color:#ff0000; font-family:var(--font-display); font-size:.7rem; letter-spacing:3px; text-transform:uppercase; padding:10px 30px; border-radius:8px; cursor:pointer; transition:all .3s; }
-    .build-again-btn:hover { background:rgba(255,0,0,.05); border-color:rgba(255,0,0,.4); }
+
+    /* ── Header ── */
+    .builder-header { display:flex; align-items:center; justify-content:space-between; padding:14px 28px; border-bottom:1px solid rgba(255,0,0,.06); flex-shrink:0; background:rgba(0,0,0,.5); backdrop-filter:blur(20px); }
+    .builder-header-left { display:flex; align-items:center; gap:14px; }
+    .builder-header-left .avatar-ring { position:relative; width:46px; height:46px; }
+    .builder-header-left .avatar-ring img { width:100%; height:100%; border-radius:50%; object-fit:cover; border:2px solid rgba(255,0,0,.4); }
+    .builder-header-left .avatar-ring::before { content:''; position:absolute; inset:-4px; border-radius:50%; border:1px solid rgba(255,0,0,.15); animation:ringRotate 4s linear infinite; border-top-color:rgba(255,0,0,.6); }
+    @keyframes ringRotate { to { transform:rotate(360deg); } }
+    .builder-header-left .name { font-family:var(--font-display); font-size:.9rem; letter-spacing:4px; text-transform:uppercase; color:#ff2222; text-shadow:0 0 15px rgba(255,0,0,.3); }
+    .builder-header-left .sub { font-family:var(--font-tech); font-size:.6rem; color:rgba(255,255,255,.25); letter-spacing:2.5px; text-transform:uppercase; }
+    .agents-count { font-family:var(--code-font); font-size:.65rem; color:rgba(255,0,0,.5); letter-spacing:1px; padding:5px 12px; border:1px solid rgba(255,0,0,.1); border-radius:20px; }
+
+    /* ── Body ── */
+    .builder-body { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px; gap:24px; overflow-y:auto; }
+
+    /* ── Input Phase ── */
+    .builder-input-phase { width:100%; max-width:750px; display:flex; flex-direction:column; gap:20px; animation:phaseIn .8s cubic-bezier(.22,1,.36,1); }
+    @keyframes phaseIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+    .builder-label { font-family:var(--font-display); font-size:clamp(.85rem,2.2vw,1.2rem); color:#fff; text-align:center; letter-spacing:5px; text-transform:uppercase; }
+    .builder-label span { color:#ff0000; text-shadow:0 0 20px rgba(255,0,0,.5); }
+    .builder-sublabel { font-family:var(--font-tech); font-size:.72rem; color:rgba(255,255,255,.3); text-align:center; letter-spacing:1.5px; line-height:1.6; }
+    .builder-textarea { width:100%; min-height:160px; max-height:300px; background:rgba(255,255,255,.02); border:1px solid rgba(255,0,0,.08); border-radius:16px; padding:18px 20px; color:rgba(255,255,255,.9); font-family:var(--code-font); font-size:.82rem; line-height:1.7; resize:vertical; outline:none; transition:all .4s ease; }
+    .builder-textarea:focus { border-color:rgba(255,0,0,.3); box-shadow:0 0 30px rgba(255,0,0,.05), inset 0 0 20px rgba(255,0,0,.02); background:rgba(255,255,255,.03); }
+    .builder-textarea::placeholder { color:rgba(255,255,255,.15); font-style:italic; }
+    .builder-start-btn { align-self:center; background:linear-gradient(135deg,#cc0000,#880000); border:none; color:#fff; font-family:var(--font-display); font-size:.8rem; letter-spacing:5px; text-transform:uppercase; padding:15px 55px; border-radius:12px; cursor:pointer; transition:all .4s cubic-bezier(.22,1,.36,1); box-shadow:0 4px 30px rgba(255,0,0,.2), inset 0 1px 0 rgba(255,255,255,.1); position:relative; overflow:hidden; }
+    .builder-start-btn::before { content:''; position:absolute; top:0; left:-100%; width:100%; height:100%; background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent); transition:left .6s ease; }
+    .builder-start-btn:hover::before { left:100%; }
+    .builder-start-btn:hover { box-shadow:0 6px 45px rgba(255,0,0,.35), inset 0 1px 0 rgba(255,255,255,.15); transform:translateY(-2px); }
+    .builder-start-btn:disabled { opacity:.2; cursor:not-allowed; transform:none; box-shadow:none; }
+
+    /* ── Build Progress ── */
+    .build-progress { width:100%; max-width:750px; display:none; flex-direction:column; gap:16px; }
+    .build-progress.active { display:flex; animation:phaseIn .6s ease; }
+    .build-status { font-family:var(--font-display); font-size:.7rem; color:#ff0000; letter-spacing:4px; text-align:center; text-transform:uppercase; text-shadow:0 0 10px rgba(255,0,0,.3); }
+    .build-status .dots { animation:dotPulse 1.5s ease-in-out infinite; }
+    @keyframes dotPulse { 0%,100%{opacity:.3} 50%{opacity:1} }
+
+    /* Agent pipeline visualization */
+    .agent-pipeline { display:flex; align-items:center; justify-content:center; gap:8px; padding:12px 0; flex-wrap:wrap; }
+    .pipeline-node { width:32px; height:32px; border-radius:50%; background:rgba(255,0,0,.06); border:1px solid rgba(255,0,0,.12); display:flex; align-items:center; justify-content:center; font-family:var(--code-font); font-size:.55rem; color:rgba(255,0,0,.3); transition:all .4s ease; }
+    .pipeline-node.active { background:rgba(255,0,0,.15); border-color:rgba(255,0,0,.5); color:#ff0000; box-shadow:0 0 15px rgba(255,0,0,.2); animation:nodeGlow 1.5s ease-in-out infinite; }
+    .pipeline-node.done { background:rgba(0,200,0,.08); border-color:rgba(0,200,0,.3); color:#0c0; box-shadow:none; animation:none; }
+    @keyframes nodeGlow { 0%,100%{box-shadow:0 0 8px rgba(255,0,0,.15)} 50%{box-shadow:0 0 20px rgba(255,0,0,.3)} }
+    .pipeline-connector { width:20px; height:1px; background:rgba(255,0,0,.1); }
+    .pipeline-connector.active { background:linear-gradient(90deg,rgba(0,200,0,.3),rgba(255,0,0,.3)); }
+
+    /* Agent log */
+    .agent-log { display:flex; flex-direction:column; gap:6px; max-height:40vh; overflow-y:auto; padding:8px 0; scrollbar-width:none; }
+    .agent-log::-webkit-scrollbar { display:none; }
+    .agent-entry { display:flex; align-items:center; gap:12px; padding:10px 16px; background:rgba(255,255,255,.015); border-left:2px solid rgba(255,0,0,.1); border-radius:0 10px 10px 0; animation:logSlide .3s ease; }
+    @keyframes logSlide { from { opacity:0; transform:translateX(-10px); } to { opacity:1; transform:translateX(0); } }
+    .agent-entry .agent-tag { font-family:var(--code-font); font-size:.6rem; color:rgba(255,0,0,.5); background:rgba(255,0,0,.04); padding:3px 8px; border-radius:4px; letter-spacing:1px; white-space:nowrap; min-width:32px; text-align:center; }
+    .agent-entry .agent-text { font-family:var(--code-font); font-size:.72rem; color:rgba(255,255,255,.5); line-height:1.5; letter-spacing:.3px; }
+    .agent-entry .agent-text .file-name { color:#ff4444; font-weight:500; }
+    .agent-entry.complete { border-left-color:rgba(0,200,0,.3); }
+    .agent-entry.complete .agent-tag { color:rgba(0,200,0,.6); background:rgba(0,200,0,.04); }
+
+    /* ── Download Phase ── */
+    .download-area { display:none; flex-direction:column; align-items:center; gap:16px; }
+    .download-area.active { display:flex; animation:phaseIn .6s ease; }
+    .complete-label { font-family:var(--font-display); font-size:clamp(.9rem,2vw,1.3rem); letter-spacing:5px; text-transform:uppercase; color:#0c0; text-shadow:0 0 20px rgba(0,200,0,.3); }
+    .download-btn { background:linear-gradient(135deg,#00aa33,#006622); border:none; color:#fff; font-family:var(--font-display); font-size:.8rem; letter-spacing:4px; text-transform:uppercase; padding:16px 55px; border-radius:12px; cursor:pointer; transition:all .4s; box-shadow:0 4px 30px rgba(0,180,0,.2), inset 0 1px 0 rgba(255,255,255,.1); }
+    .download-btn:hover { box-shadow:0 6px 45px rgba(0,180,0,.35); transform:translateY(-2px); }
+    .download-note { font-family:var(--code-font); font-size:.6rem; color:rgba(255,255,255,.2); letter-spacing:1px; }
+    .build-again-btn { background:transparent; border:1px solid rgba(255,0,0,.12); color:rgba(255,0,0,.5); font-family:var(--font-display); font-size:.65rem; letter-spacing:3px; text-transform:uppercase; padding:10px 30px; border-radius:8px; cursor:pointer; transition:all .3s; }
+    .build-again-btn:hover { background:rgba(255,0,0,.04); border-color:rgba(255,0,0,.3); color:#ff0000; }
   </style>
 </head>
 <body>
@@ -55,61 +90,83 @@
   <div class="builder-container">
     <div class="builder-header">
       <div class="builder-header-left">
-        <img src="/assets/aiassistants/botcards/buildercard.png" alt="Builder" />
+        <div class="avatar-ring">
+          <img src="/assets/aiassistants/botcards/buildercard.png" alt="Builder" />
+        </div>
         <div>
           <div class="name">Builder</div>
           <div class="sub">Multi-Agent Construction Room</div>
         </div>
       </div>
+      <div class="agents-count" id="agentsInfo">AGENTS: STANDBY</div>
     </div>
 
     <div class="builder-body">
-      <!-- Input Phase -->
       <div class="builder-input-phase" id="inputPhase">
-        <div class="builder-label">What Do You Want Built?</div>
-        <div class="builder-sublabel">Describe your project — website, app, tool, anything. Our agent swarm will construct it.</div>
-        <textarea class="builder-textarea" id="projectDesc" placeholder="Example: Build me a modern portfolio website with dark theme, animated hero section, project gallery, contact form, and responsive design..."></textarea>
-        <button class="builder-start-btn" id="startBuildBtn" onclick="startBuild()">⚡ Start Building</button>
+        <div class="builder-label">What Do You Want <span>Built</span>?</div>
+        <div class="builder-sublabel">Describe your project — website, application, tool, script, anything.<br>Our agent swarm will construct every file from scratch.</div>
+        <textarea class="builder-textarea" id="projectDesc" placeholder="// Describe your project here...&#10;// Example: Build a modern e-commerce dashboard with&#10;// dark theme, product grid, cart system, checkout flow,&#10;// and responsive mobile layout..."></textarea>
+        <button class="builder-start-btn" id="startBuildBtn" onclick="startBuild()">⚡ DEPLOY AGENTS</button>
       </div>
 
-      <!-- Build Progress Phase -->
       <div class="build-progress" id="buildProgress">
-        <div class="build-status" id="buildStatus">Assembling Agents...</div>
+        <div class="build-status" id="buildStatus">Assembling Agent Swarm<span class="dots">...</span></div>
+        <div class="agent-pipeline" id="agentPipeline"></div>
         <div class="agent-log" id="agentLog"></div>
       </div>
 
-      <!-- Download Phase -->
       <div class="download-area" id="downloadArea">
-        <div class="builder-label" style="color:#0f0;">Build Complete</div>
-        <button class="download-btn" id="downloadBtn" onclick="downloadProject()">↓ Download Project.zip</button>
-        <div class="download-note">File will be deleted from the server after download</div>
-        <button class="build-again-btn" onclick="resetBuilder()">Build Another Project</button>
+        <div class="complete-label">✓ Build Complete</div>
+        <button class="download-btn" id="downloadBtn" onclick="downloadProject()">↓ DOWNLOAD PROJECT.ZIP</button>
+        <div class="download-note">Auto-deleted from server after download</div>
+        <button class="build-again-btn" onclick="resetBuilder()">← Build Another</button>
       </div>
     </div>
   </div>
 
   <script>
-    // Galaxy particles — intense, max density
+    // Galaxy — intense
     (function () {
       var c = document.getElementById('galaxyCanvas'), x = c.getContext('2d'), W, H;
       function rz() { W = c.width = innerWidth; H = c.height = innerHeight; } rz(); addEventListener('resize', rz);
-      var ps = []; for (var i = 0; i < 200; i++) ps.push({ x: Math.random() * 1920, y: Math.random() * 1080, r: .2 + Math.random() * 1.5, vx: (Math.random() - .5) * .2, vy: (Math.random() - .5) * .2, a: Math.random() * .3 + .02, d: 1, t: .003 + Math.random() * .005 });
-      function f() { x.clearRect(0, 0, W, H); for (var p of ps) { p.a += p.d * p.t; if (p.a > .5) { p.a = .5; p.d = -1; } if (p.a < .02) { p.a = .02; p.d = 1; } p.x += p.vx + Math.sin(Date.now() * .0003 + p.y * .005) * .08; p.y += p.vy; if (p.x < -5) p.x = W + 5; if (p.x > W + 5) p.x = -5; if (p.y < -5) p.y = H + 5; if (p.y > H + 5) p.y = -5; x.beginPath(); x.fillStyle = 'rgba(255,0,0,' + p.a + ')'; x.arc(p.x, p.y, p.r, 0, Math.PI * 2); x.fill(); if (p.r > 1) { x.beginPath(); var g = x.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 4); g.addColorStop(0, 'rgba(255,0,0,' + (p.a * .2) + ')'); g.addColorStop(1, 'rgba(255,0,0,0)'); x.fillStyle = g; x.arc(p.x, p.y, p.r * 4, 0, Math.PI * 2); x.fill(); } } requestAnimationFrame(f); } f();
+      var ps = []; for (var i = 0; i < 180; i++) ps.push({ x: Math.random() * 1920, y: Math.random() * 1080, r: .15 + Math.random() * 1.3, vx: (Math.random() - .5) * .15, vy: (Math.random() - .5) * .15, a: Math.random() * .25 + .02, d: 1, t: .002 + Math.random() * .004 });
+      function f() { x.clearRect(0, 0, W, H); for (var p of ps) { p.a += p.d * p.t; if (p.a > .4) { p.a = .4; p.d = -1; } if (p.a < .02) { p.a = .02; p.d = 1; } p.x += p.vx + Math.sin(Date.now() * .0002 + p.y * .003) * .05; p.y += p.vy; if (p.x < -5) p.x = W + 5; if (p.x > W + 5) p.x = -5; if (p.y < -5) p.y = H + 5; if (p.y > H + 5) p.y = -5; x.beginPath(); x.fillStyle = 'rgba(255,0,0,' + p.a + ')'; x.arc(p.x, p.y, p.r, 0, Math.PI * 2); x.fill(); if (p.r > .9) { x.beginPath(); var g = x.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 4); g.addColorStop(0, 'rgba(255,0,0,' + (p.a * .15) + ')'); g.addColorStop(1, 'rgba(255,0,0,0)'); x.fillStyle = g; x.arc(p.x, p.y, p.r * 4, 0, Math.PI * 2); x.fill(); } } requestAnimationFrame(f); } f();
     })();
 
-    // Audio
     addEventListener('DOMContentLoaded', function () {
       var m = document.getElementById('bot-theme'); m.volume = .3;
       m.play().catch(function () { document.addEventListener('click', function r() { m.play().catch(function () { }); document.removeEventListener('click', r); }, { once: true }); });
     });
 
     var buildData = null;
+    var totalAgents = 0;
 
-    function addAgentEntry(agentNum, text, isComplete) {
+    function buildPipeline(count) {
+      var pipeline = document.getElementById('agentPipeline');
+      pipeline.innerHTML = '';
+      for (var i = 0; i < count; i++) {
+        if (i > 0) { var conn = document.createElement('div'); conn.className = 'pipeline-connector'; conn.id = 'conn-' + i; pipeline.appendChild(conn); }
+        var node = document.createElement('div'); node.className = 'pipeline-node'; node.id = 'node-' + i; node.textContent = 'A' + (i + 1); pipeline.appendChild(node);
+      }
+    }
+
+    function activateNode(index) {
+      var node = document.getElementById('node-' + index);
+      if (node) node.classList.add('active');
+    }
+
+    function completeNode(index) {
+      var node = document.getElementById('node-' + index);
+      if (node) { node.classList.remove('active'); node.classList.add('done'); node.textContent = '✓'; }
+      var conn = document.getElementById('conn-' + (index + 1));
+      if (conn) conn.classList.add('active');
+    }
+
+    function addAgentEntry(tag, text, isComplete) {
       var log = document.getElementById('agentLog');
       var entry = document.createElement('div');
       entry.className = 'agent-entry' + (isComplete ? ' complete' : '');
-      entry.innerHTML = '<div class="agent-icon">A' + agentNum + '</div><div class="agent-text">' + text + '</div>';
+      entry.innerHTML = '<div class="agent-tag">' + tag + '</div><div class="agent-text">' + text + '</div>';
       log.appendChild(entry);
       log.scrollTop = log.scrollHeight;
     }
@@ -117,103 +174,58 @@
     async function startBuild() {
       var desc = document.getElementById('projectDesc').value.trim();
       if (!desc) return;
-
       document.getElementById('inputPhase').style.display = 'none';
       document.getElementById('buildProgress').classList.add('active');
       document.getElementById('startBuildBtn').disabled = true;
-
       var statusEl = document.getElementById('buildStatus');
-      statusEl.textContent = 'Assembling Agent Swarm...';
-      addAgentEntry(0, 'Received project request. Analyzing requirements...', false);
+      statusEl.innerHTML = 'Assembling Agent Swarm<span class="dots">...</span>';
+      document.getElementById('agentsInfo').textContent = 'AGENTS: DEPLOYING';
+      buildPipeline(6);
+      addAgentEntry('SYS', 'Project request received. Deploying architect agent...', false);
+      activateNode(0);
 
       try {
-        var response = await fetch('/api/builder-room', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ description: desc })
-        });
-
-        if (!response.ok) {
-          var err = await response.json();
-          statusEl.textContent = 'Build Failed';
-          addAgentEntry('X', 'Error: ' + (err.error || 'Unknown error'), false);
-          return;
-        }
-
-        // Stream agent progress
-        var reader = response.body.getReader();
-        var decoder = new TextDecoder();
-        var buffer = '';
-        var agentCount = 0;
-
+        var response = await fetch('/api/builder-room', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ description: desc }) });
+        if (!response.ok) { var err = await response.json(); statusEl.textContent = 'BUILD FAILED'; addAgentEntry('ERR', (err.error || 'Unknown error'), false); return; }
+        var reader = response.body.getReader(); var decoder = new TextDecoder(); var buffer = ''; var agentCount = 0;
         while (true) {
-          var result = await reader.read();
-          if (result.done) break;
-          buffer += decoder.decode(result.value, { stream: true });
-          var lines = buffer.split('\n');
-          buffer = lines.pop() || '';
-
+          var result = await reader.read(); if (result.done) break;
+          buffer += decoder.decode(result.value, { stream: true }); var lines = buffer.split('\n'); buffer = lines.pop() || '';
           for (var line of lines) {
-            if (!line.startsWith('data: ')) continue;
-            var payload = line.slice(6).trim();
-            if (payload === '[DONE]') continue;
-
+            if (!line.startsWith('data: ')) continue; var payload = line.slice(6).trim(); if (payload === '[DONE]') continue;
             try {
               var evt = JSON.parse(payload);
               if (evt.type === 'agent_start') {
+                if (agentCount > 0) completeNode(agentCount - 1);
                 agentCount++;
-                statusEl.textContent = 'Agent ' + agentCount + ' Working...';
-                addAgentEntry(agentCount, 'Agent ' + agentCount + ': ' + evt.task, false);
+                document.getElementById('agentsInfo').textContent = 'AGENT ' + agentCount + ' ACTIVE';
+                statusEl.innerHTML = 'Agent ' + agentCount + ' Working<span class="dots">...</span>';
+                activateNode(Math.min(agentCount - 1, 5));
+                addAgentEntry('A' + agentCount, evt.task, false);
               } else if (evt.type === 'agent_file') {
-                addAgentEntry(agentCount, 'Created: <span class="file-name">' + evt.filename + '</span>', true);
+                addAgentEntry('OUT', 'Created <span class="file-name">' + evt.filename + '</span>', true);
               } else if (evt.type === 'complete') {
-                statusEl.textContent = 'Build Complete!';
+                if (agentCount > 0) completeNode(agentCount - 1);
+                statusEl.textContent = 'BUILD COMPLETE';
+                document.getElementById('agentsInfo').textContent = 'AGENTS: ' + agentCount + ' DEPLOYED';
                 buildData = evt.downloadUrl || evt.data;
-                setTimeout(function () {
-                  document.getElementById('buildProgress').classList.remove('active');
-                  document.getElementById('downloadArea').classList.add('active');
-                }, 1000);
+                setTimeout(function () { document.getElementById('buildProgress').classList.remove('active'); document.getElementById('downloadArea').classList.add('active'); }, 1200);
               } else if (evt.type === 'error') {
-                statusEl.textContent = 'Build Error';
-                addAgentEntry('X', evt.message, false);
+                statusEl.textContent = 'BUILD ERROR'; addAgentEntry('ERR', evt.message, false);
               }
             } catch (e) { }
           }
         }
-      } catch (err) {
-        statusEl.textContent = 'Connection Error';
-        addAgentEntry('X', 'Failed to connect to build server: ' + err.message, false);
-      }
+      } catch (err) { statusEl.textContent = 'CONNECTION ERROR'; addAgentEntry('ERR', 'Failed: ' + err.message, false); }
     }
 
     function downloadProject() {
       if (!buildData) return;
-      // If buildData is a URL
-      if (typeof buildData === 'string' && buildData.startsWith('http')) {
-        window.open(buildData, '_blank');
-      } else if (typeof buildData === 'string') {
-        // Base64 data
-        var link = document.createElement('a');
-        link.href = 'data:application/zip;base64,' + buildData;
-        link.download = 'project.zip';
-        link.click();
-      }
+      if (typeof buildData === 'string' && buildData.startsWith('http')) { window.open(buildData, '_blank'); }
+      else if (typeof buildData === 'string') { var a = document.createElement('a'); a.href = 'data:application/zip;base64,' + buildData; a.download = 'project.zip'; a.click(); }
     }
-
-    function resetBuilder() {
-      document.getElementById('downloadArea').classList.remove('active');
-      document.getElementById('buildProgress').classList.remove('active');
-      document.getElementById('agentLog').innerHTML = '';
-      document.getElementById('inputPhase').style.display = 'flex';
-      document.getElementById('projectDesc').value = '';
-      document.getElementById('startBuildBtn').disabled = false;
-      buildData = null;
-    }
-
-    function goBack() {
-      var m = document.getElementById('bot-theme'); if (m) { m.pause(); m.currentTime = 0; }
-      location.href = '/welcome/aiassistants/choose-your-assistant';
-    }
+    function resetBuilder() { document.getElementById('downloadArea').classList.remove('active'); document.getElementById('buildProgress').classList.remove('active'); document.getElementById('agentLog').innerHTML = ''; document.getElementById('agentPipeline').innerHTML = ''; document.getElementById('inputPhase').style.display = 'flex'; document.getElementById('projectDesc').value = ''; document.getElementById('startBuildBtn').disabled = false; document.getElementById('agentsInfo').textContent = 'AGENTS: STANDBY'; buildData = null; }
+    function goBack() { var m = document.getElementById('bot-theme'); if (m) { m.pause(); m.currentTime = 0; } location.href = '/welcome/aiassistants/choose-your-assistant'; }
     addEventListener('beforeunload', function () { var m = document.getElementById('bot-theme'); if (m) { m.pause(); m.currentTime = 0; } });
   </script>
 </body>
