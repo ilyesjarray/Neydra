@@ -268,6 +268,10 @@
     {
       "source": "/welcome/aiassistants/builder",
       "destination": "/welcome/aiassistants/builder/index.html"
+    },
+    {
+      "source": "/welcome/updating",
+      "destination": "/welcome/updating/index.html"
     }
   ]
 }
