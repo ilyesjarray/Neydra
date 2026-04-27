@@ -1,38 +1,33 @@
-// /api/pwa-manifest.js — Dynamic per-bot PWA manifest with proper icon sizes
+// /api/pwa-manifest.js — Dynamic per-model PWA manifest
 
-const BOT_DATA = {
-  1: { name: 'Katara', slug: 'katara' },
-  2: { name: 'Sakura', slug: 'sakura' },
-  3: { name: 'Olivia', slug: 'olivia' },
-  4: { name: 'Hinata', slug: 'hinata' },
-  5: { name: 'Luna', slug: 'luna' },
-  6: { name: 'Elara', slug: 'elara' },
-  7: { name: 'Nova', slug: 'nova' },
-  8: { name: 'Yuki', slug: 'yuki' }
+const MODEL_DATA = {
+  1: { name: 'Friend', slug: 'friend', icon: 'friendcard' },
+  2: { name: 'Professor', slug: 'professor', icon: 'professorcard' },
+  3: { name: 'Builder', slug: 'builder', icon: 'buildercard' }
 };
 
 module.exports = function handler(req, res) {
-  const botId = parseInt(req.query.bot) || 1;
-  const bot = BOT_DATA[botId] || BOT_DATA[1];
+  const modelId = parseInt(req.query.bot) || 1;
+  const model = MODEL_DATA[modelId] || MODEL_DATA[1];
 
   const manifest = {
-    name: `NEYDRA — ${bot.name}`,
-    short_name: bot.name,
-    description: `${bot.name} AI Assistant by NEYDRA`,
-    start_url: `/welcome/aiassistants/${bot.slug}`,
+    name: `NEYDRA — ${model.name}`,
+    short_name: model.name,
+    description: `${model.name} AI Assistant by NEYDRA`,
+    start_url: `/welcome/aiassistants/${model.slug}`,
     display: 'standalone',
     orientation: 'any',
     background_color: '#000000',
     theme_color: '#000000',
     icons: [
       {
-        src: `/assets/aiassistants/botcards/bot${botId}card192.png`,
+        src: `/assets/aiassistants/botcards/${model.icon}.png`,
         sizes: '192x192',
         type: 'image/png',
         purpose: 'any maskable'
       },
       {
-        src: `/assets/aiassistants/botcards/bot${botId}card512.png`,
+        src: `/assets/aiassistants/botcards/${model.icon}.png`,
         sizes: '512x512',
         type: 'image/png',
         purpose: 'any maskable'

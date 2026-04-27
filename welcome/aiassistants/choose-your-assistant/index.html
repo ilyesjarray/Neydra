@@ -30,11 +30,19 @@
     @media(max-width:900px) {
       .models-grid {
         grid-template-columns: 1fr;
-        gap: 28px;
-        padding: 0 24px 40px;
-        max-width: 420px;
+        gap: 18px;
+        padding: 0 20px 30px;
+        max-width: 320px;
         align-items: stretch;
       }
+      .model-card { aspect-ratio: 1/1.1; border-radius: 14px; }
+      .card-inner { border-radius: 14px; }
+      .rank-number { font-size: 1.6rem !important; top: -12px !important; left: 10px !important; }
+      .tier-badge { font-size: .42rem !important; padding: 3px 8px !important; top: 8px !important; right: 8px !important; }
+      .card-info { padding: 12px 12px 10px !important; }
+      .card-info .card-name { font-size: .65rem !important; letter-spacing: 2px !important; }
+      .card-info .card-desc { font-size: .5rem !important; }
+      .selection-title { margin-bottom: 20px !important; }
     }
 
     /* ── Base Card ── */
@@ -133,35 +141,35 @@
     }
 
     /* ═══════════════════════════════════
-       TIER 1: FRIEND — Bronze / Basic
-       Clean, subtle, no flashiness
+       TIER 1: FRIEND — Basic (Red)
+       Clean, subtle, low intensity red
        ═══════════════════════════════════ */
-    .card-low .rank-number { color: rgba(180,120,60,.7); text-shadow: 0 0 15px rgba(180,120,60,.3); }
-    .card-low .tier-badge { background: rgba(180,120,60,.1); color: #b4783c; border: 1px solid rgba(180,120,60,.25); }
+    .card-low .rank-number { color: rgba(255,0,0,.5); text-shadow: 0 0 15px rgba(255,0,0,.2); }
+    .card-low .tier-badge { background: rgba(255,0,0,.06); color: #ff0000; border: 1px solid rgba(255,0,0,.2); }
     .card-low .card-border {
       position: absolute;
       inset: -1px;
       border-radius: 21px;
-      border: 1px solid rgba(180,120,60,.15);
+      border: 1px solid rgba(255,0,0,.1);
       z-index: 3;
       pointer-events: none;
     }
-    .card-low:hover .card-border { border-color: rgba(180,120,60,.35); }
+    .card-low:hover .card-border { border-color: rgba(255,0,0,.3); }
     .card-low:hover {
       transform: translateY(-8px) scale(1.02);
-      filter: drop-shadow(0 15px 30px rgba(180,120,60,.15));
+      filter: drop-shadow(0 15px 30px rgba(255,0,0,.12));
     }
 
     /* ═══════════════════════════════════
-       TIER 2: PROFESSOR — Silver / Advanced
+       TIER 2: PROFESSOR — Advanced (Red)
        Animated rotating border, ambient glow
        ═══════════════════════════════════ */
-    .card-medium .rank-number { color: rgba(200,200,220,.7); text-shadow: 0 0 20px rgba(200,200,220,.4); }
+    .card-medium .rank-number { color: rgba(255,0,0,.65); text-shadow: 0 0 20px rgba(255,0,0,.35); }
     .card-medium .tier-badge {
-      background: rgba(200,200,220,.08);
-      color: #c8c8dc;
-      border: 1px solid rgba(200,200,220,.25);
-      box-shadow: 0 0 12px rgba(200,200,220,.1);
+      background: rgba(255,0,0,.08);
+      color: #ff0000;
+      border: 1px solid rgba(255,0,0,.3);
+      box-shadow: 0 0 12px rgba(255,0,0,.1);
     }
 
     /* Rotating conic-gradient border */
@@ -171,7 +179,7 @@
       inset: -2px;
       border-radius: 22px;
       z-index: 0;
-      background: conic-gradient(from var(--angle, 0deg), transparent, rgba(200,200,220,.4), transparent, rgba(200,200,220,.2), transparent);
+      background: conic-gradient(from var(--angle, 0deg), transparent, rgba(255,0,0,.35), transparent, rgba(255,0,0,.18), transparent);
       animation: spinBorder 5s linear infinite;
     }
     .card-medium::after {
@@ -190,7 +198,7 @@
       position: absolute;
       inset: -20px;
       border-radius: 30px;
-      background: radial-gradient(ellipse at 50% 80%, rgba(200,200,220,.08), transparent 70%);
+      background: radial-gradient(ellipse at 50% 80%, rgba(255,0,0,.07), transparent 70%);
       z-index: -1;
       opacity: 0;
       transition: opacity .5s ease;
@@ -198,7 +206,7 @@
     .card-medium:hover .card-glow { opacity: 1; }
     .card-medium:hover {
       transform: translateY(-12px) scale(1.03);
-      filter: drop-shadow(0 20px 40px rgba(200,200,220,.12));
+      filter: drop-shadow(0 20px 40px rgba(255,0,0,.1));
     }
 
     /* ═══════════════════════════════════
