@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="/js/security.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="NEYDRA AI — Builder: Multi-Agent Construction Room" />
+  <meta name="theme-color" content="#000000" />
+  <link rel="icon" href="/assets/aiassistants/botcards/buildercard.png" type="image/png" />
+  <link rel="stylesheet" href="/welcome/aiassistants/aiassistants.css" />
+  <title>NEYDRA — Builder</title>
+  <style>
+    :root { --bot-accent: #ff0000; --bot-accent-glow: rgba(255, 0, 0, 0.6); }
+    .builder-container { position:fixed; inset:0; display:flex; flex-direction:column; z-index:10; background:#000; }
+    .builder-header { display:flex; align-items:center; justify-content:space-between; padding:16px 24px; border-bottom:1px solid rgba(255,0,0,.1); flex-shrink:0; }
+    .builder-header-left { display:flex; align-items:center; gap:12px; }
+    .builder-header-left img { width:42px; height:42px; border-radius:50%; border:2px solid #ff0000; box-shadow:0 0 15px rgba(255,0,0,.4); }
+    .builder-header-left .name { font-family:var(--font-display); font-size:.85rem; letter-spacing:3px; text-transform:uppercase; color:#ff0000; }
+    .builder-header-left .sub { font-family:var(--font-tech); font-size:.65rem; color:#555; letter-spacing:2px; }
+    .builder-body { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; gap:20px; overflow-y:auto; }
+    .builder-input-phase { width:100%; max-width:700px; display:flex; flex-direction:column; gap:16px; animation:fadeIn .6s ease; }
+    .builder-label { font-family:var(--font-display); font-size:clamp(.8rem,2vw,1.1rem); color:#ff0000; text-align:center; letter-spacing:3px; text-transform:uppercase; text-shadow:0 0 20px rgba(255,0,0,.4); }
+    .builder-sublabel { font-family:var(--font-tech); font-size:.75rem; color:#666; text-align:center; letter-spacing:1px; }
+    .builder-textarea { width:100%; min-height:150px; max-height:300px; background:rgba(255,255,255,.03); border:1px solid rgba(255,0,0,.15); border-radius:14px; padding:16px; color:#fff; font-family:var(--font-body); font-size:.9rem; resize:vertical; outline:none; transition:border-color .3s, box-shadow .3s; }
+    .builder-textarea:focus { border-color:rgba(255,0,0,.4); box-shadow:0 0 20px rgba(255,0,0,.1); }
+    .builder-textarea::placeholder { color:#444; }
+    .builder-start-btn { align-self:center; background:linear-gradient(135deg,#ff0000,#aa0000); border:none; color:#fff; font-family:var(--font-display); font-size:.85rem; letter-spacing:4px; text-transform:uppercase; padding:14px 50px; border-radius:10px; cursor:pointer; transition:all .3s; box-shadow:0 0 30px rgba(255,0,0,.3); }
+    .builder-start-btn:hover { box-shadow:0 0 50px rgba(255,0,0,.5); transform:translateY(-2px); filter:brightness(1.2); }
+    .builder-start-btn:disabled { opacity:.3; cursor:not-allowed; transform:none; }
+    /* Build progress */
+    .build-progress { width:100%; max-width:700px; display:none; flex-direction:column; gap:12px; }
+    .build-progress.active { display:flex; }
+    .agent-log { display:flex; flex-direction:column; gap:8px; max-height:45vh; overflow-y:auto; padding:10px; }
+    .agent-entry { display:flex; align-items:flex-start; gap:10px; padding:10px 14px; background:rgba(255,255,255,.02); border:1px solid rgba(255,0,0,.08); border-radius:10px; animation:msgSlide .4s ease; }
+    .agent-entry .agent-icon { width:28px; height:28px; border-radius:50%; background:rgba(255,0,0,.15); display:flex; align-items:center; justify-content:center; font-size:.7rem; color:#ff0000; flex-shrink:0; font-family:var(--font-display); border:1px solid rgba(255,0,0,.3); }
+    .agent-entry .agent-text { font-family:var(--font-tech); font-size:.8rem; color:#aaa; line-height:1.5; letter-spacing:.5px; }
+    .agent-entry .agent-text .file-name { color:#ff0000; font-weight:600; }
+    .agent-entry.complete { border-color:rgba(0,255,0,.15); }
+    .agent-entry.complete .agent-icon { background:rgba(0,255,0,.1); color:#0f0; border-color:rgba(0,255,0,.3); }
+    .build-status { font-family:var(--font-display); font-size:.75rem; color:#ff0000; letter-spacing:3px; text-align:center; text-transform:uppercase; animation:pulseFade 2s ease-in-out infinite; }
+    .download-area { display:none; flex-direction:column; align-items:center; gap:12px; animation:fadeIn .6s ease; }
+    .download-area.active { display:flex; }
+    .download-btn { background:linear-gradient(135deg,#00cc44,#008833); border:none; color:#fff; font-family:var(--font-display); font-size:.85rem; letter-spacing:3px; text-transform:uppercase; padding:16px 50px; border-radius:10px; cursor:pointer; transition:all .3s; box-shadow:0 0 30px rgba(0,200,0,.3); }
+    .download-btn:hover { box-shadow:0 0 50px rgba(0,200,0,.5); transform:translateY(-2px); }
+    .download-note { font-family:var(--font-tech); font-size:.7rem; color:#555; letter-spacing:1px; text-align:center; }
+    .build-again-btn { background:transparent; border:1px solid rgba(255,0,0,.2); color:#ff0000; font-family:var(--font-display); font-size:.7rem; letter-spacing:3px; text-transform:uppercase; padding:10px 30px; border-radius:8px; cursor:pointer; transition:all .3s; }
+    .build-again-btn:hover { background:rgba(255,0,0,.05); border-color:rgba(255,0,0,.4); }
+  </style>
+</head>
+<body>
+  <canvas id="galaxyCanvas" class="galaxy-canvas"></canvas>
+  <button class="back-btn" id="backBtn" onclick="goBack()" title="Back">&#9666;</button>
+  <audio id="bot-theme" src="/assets/aiassistants/bottheme-music.mp3" loop preload="auto"></audio>
+
+  <div class="builder-container">
+    <div class="builder-header">
+      <div class="builder-header-left">
+        <img src="/assets/aiassistants/botcards/buildercard.png" alt="Builder" />
+        <div>
+          <div class="name">Builder</div>
+          <div class="sub">Multi-Agent Construction Room</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="builder-body">
+      <!-- Input Phase -->
+      <div class="builder-input-phase" id="inputPhase">
+        <div class="builder-label">What Do You Want Built?</div>
+        <div class="builder-sublabel">Describe your project — website, app, tool, anything. Our agent swarm will construct it.</div>
+        <textarea class="builder-textarea" id="projectDesc" placeholder="Example: Build me a modern portfolio website with dark theme, animated hero section, project gallery, contact form, and responsive design..."></textarea>
+        <button class="builder-start-btn" id="startBuildBtn" onclick="startBuild()">⚡ Start Building</button>
+      </div>
+
+      <!-- Build Progress Phase -->
+      <div class="build-progress" id="buildProgress">
+        <div class="build-status" id="buildStatus">Assembling Agents...</div>
+        <div class="agent-log" id="agentLog"></div>
+      </div>
+
+      <!-- Download Phase -->
+      <div class="download-area" id="downloadArea">
+        <div class="builder-label" style="color:#0f0;">Build Complete</div>
+        <button class="download-btn" id="downloadBtn" onclick="downloadProject()">↓ Download Project.zip</button>
+        <div class="download-note">File will be deleted from the server after download</div>
+        <button class="build-again-btn" onclick="resetBuilder()">Build Another Project</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Galaxy particles — intense, max density
+    (function () {
+      var c = document.getElementById('galaxyCanvas'), x = c.getContext('2d'), W, H;
+      function rz() { W = c.width = innerWidth; H = c.height = innerHeight; } rz(); addEventListener('resize', rz);
+      var ps = []; for (var i = 0; i < 200; i++) ps.push({ x: Math.random() * 1920, y: Math.random() * 1080, r: .2 + Math.random() * 1.5, vx: (Math.random() - .5) * .2, vy: (Math.random() - .5) * .2, a: Math.random() * .3 + .02, d: 1, t: .003 + Math.random() * .005 });
+      function f() { x.clearRect(0, 0, W, H); for (var p of ps) { p.a += p.d * p.t; if (p.a > .5) { p.a = .5; p.d = -1; } if (p.a < .02) { p.a = .02; p.d = 1; } p.x += p.vx + Math.sin(Date.now() * .0003 + p.y * .005) * .08; p.y += p.vy; if (p.x < -5) p.x = W + 5; if (p.x > W + 5) p.x = -5; if (p.y < -5) p.y = H + 5; if (p.y > H + 5) p.y = -5; x.beginPath(); x.fillStyle = 'rgba(255,0,0,' + p.a + ')'; x.arc(p.x, p.y, p.r, 0, Math.PI * 2); x.fill(); if (p.r > 1) { x.beginPath(); var g = x.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 4); g.addColorStop(0, 'rgba(255,0,0,' + (p.a * .2) + ')'); g.addColorStop(1, 'rgba(255,0,0,0)'); x.fillStyle = g; x.arc(p.x, p.y, p.r * 4, 0, Math.PI * 2); x.fill(); } } requestAnimationFrame(f); } f();
+    })();
+
+    // Audio
+    addEventListener('DOMContentLoaded', function () {
+      var m = document.getElementById('bot-theme'); m.volume = .3;
+      m.play().catch(function () { document.addEventListener('click', function r() { m.play().catch(function () { }); document.removeEventListener('click', r); }, { once: true }); });
+    });
+
+    var buildData = null;
+
+    function addAgentEntry(agentNum, text, isComplete) {
+      var log = document.getElementById('agentLog');
+      var entry = document.createElement('div');
+      entry.className = 'agent-entry' + (isComplete ? ' complete' : '');
+      entry.innerHTML = '<div class="agent-icon">A' + agentNum + '</div><div class="agent-text">' + text + '</div>';
+      log.appendChild(entry);
+      log.scrollTop = log.scrollHeight;
+    }
+
+    async function startBuild() {
+      var desc = document.getElementById('projectDesc').value.trim();
+      if (!desc) return;
+
+      document.getElementById('inputPhase').style.display = 'none';
+      document.getElementById('buildProgress').classList.add('active');
+      document.getElementById('startBuildBtn').disabled = true;
+
+      var statusEl = document.getElementById('buildStatus');
+      statusEl.textContent = 'Assembling Agent Swarm...';
+      addAgentEntry(0, 'Received project request. Analyzing requirements...', false);
+
+      try {
+        var response = await fetch('/api/builder-room', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ description: desc })
+        });
+
+        if (!response.ok) {
+          var err = await response.json();
+          statusEl.textContent = 'Build Failed';
+          addAgentEntry('X', 'Error: ' + (err.error || 'Unknown error'), false);
+          return;
+        }
+
+        // Stream agent progress
+        var reader = response.body.getReader();
+        var decoder = new TextDecoder();
+        var buffer = '';
+        var agentCount = 0;
+
+        while (true) {
+          var result = await reader.read();
+          if (result.done) break;
+          buffer += decoder.decode(result.value, { stream: true });
+          var lines = buffer.split('\n');
+          buffer = lines.pop() || '';
+
+          for (var line of lines) {
+            if (!line.startsWith('data: ')) continue;
+            var payload = line.slice(6).trim();
+            if (payload === '[DONE]') continue;
+
+            try {
+              var evt = JSON.parse(payload);
+              if (evt.type === 'agent_start') {
+                agentCount++;
+                statusEl.textContent = 'Agent ' + agentCount + ' Working...';
+                addAgentEntry(agentCount, 'Agent ' + agentCount + ': ' + evt.task, false);
+              } else if (evt.type === 'agent_file') {
+                addAgentEntry(agentCount, 'Created: <span class="file-name">' + evt.filename + '</span>', true);
+              } else if (evt.type === 'complete') {
+                statusEl.textContent = 'Build Complete!';
+                buildData = evt.downloadUrl || evt.data;
+                setTimeout(function () {
+                  document.getElementById('buildProgress').classList.remove('active');
+                  document.getElementById('downloadArea').classList.add('active');
+                }, 1000);
+              } else if (evt.type === 'error') {
+                statusEl.textContent = 'Build Error';
+                addAgentEntry('X', evt.message, false);
+              }
+            } catch (e) { }
+          }
+        }
+      } catch (err) {
+        statusEl.textContent = 'Connection Error';
+        addAgentEntry('X', 'Failed to connect to build server: ' + err.message, false);
+      }
+    }
+
+    function downloadProject() {
+      if (!buildData) return;
+      // If buildData is a URL
+      if (typeof buildData === 'string' && buildData.startsWith('http')) {
+        window.open(buildData, '_blank');
+      } else if (typeof buildData === 'string') {
+        // Base64 data
+        var link = document.createElement('a');
+        link.href = 'data:application/zip;base64,' + buildData;
+        link.download = 'project.zip';
+        link.click();
+      }
+    }
+
+    function resetBuilder() {
+      document.getElementById('downloadArea').classList.remove('active');
+      document.getElementById('buildProgress').classList.remove('active');
+      document.getElementById('agentLog').innerHTML = '';
+      document.getElementById('inputPhase').style.display = 'flex';
+      document.getElementById('projectDesc').value = '';
+      document.getElementById('startBuildBtn').disabled = false;
+      buildData = null;
+    }
+
+    function goBack() {
+      var m = document.getElementById('bot-theme'); if (m) { m.pause(); m.currentTime = 0; }
+      location.href = '/welcome/aiassistants/choose-your-assistant';
+    }
+    addEventListener('beforeunload', function () { var m = document.getElementById('bot-theme'); if (m) { m.pause(); m.currentTime = 0; } });
+  </script>
+</body>
+</html>

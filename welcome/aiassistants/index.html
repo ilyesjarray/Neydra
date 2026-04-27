@@ -242,42 +242,10 @@
         '/assets/aiassistants/bottheme-music.mp3',
         // Team image (already loading)
         '/assets/aiassistants/NEYDRA-AIASSITANT-TEAM.png',
-        // Bot cards
-        '/assets/aiassistants/botcards/bot1card.png',
-        '/assets/aiassistants/botcards/bot2card.png',
-        '/assets/aiassistants/botcards/bot3card.png',
-        '/assets/aiassistants/botcards/bot4card.png',
-        '/assets/aiassistants/botcards/bot5card.png',
-        '/assets/aiassistants/botcards/bot6card.png',
-        '/assets/aiassistants/botcards/bot7card.png',
-        '/assets/aiassistants/botcards/bot8card.png',
-        // Bot idle images
-        '/assets/aiassistants/bot1/bot1.png',
-        '/assets/aiassistants/bot2/bot2.png',
-        '/assets/aiassistants/bot3/bot3.png',
-        '/assets/aiassistants/bot4/bot4.png',
-        '/assets/aiassistants/bot5/bot5.png',
-        '/assets/aiassistants/bot6/bot6.png',
-        '/assets/aiassistants/bot7/bot7.png',
-        '/assets/aiassistants/bot8/bot8.png',
-        // Bot thinking
-        '/assets/aiassistants/bot1/bot1thinking.png',
-        '/assets/aiassistants/bot2/bot2thinking.png',
-        '/assets/aiassistants/bot3/bot3thinking.png',
-        '/assets/aiassistants/bot4/bot4thinking.png',
-        '/assets/aiassistants/bot5/bot5thinking.png',
-        '/assets/aiassistants/bot6/bot6thinking.png',
-        '/assets/aiassistants/bot7/bot7thinking.png',
-        '/assets/aiassistants/bot8/bot8thinking.png',
-        // Bot shy
-        '/assets/aiassistants/bot1/bot1shy.png',
-        '/assets/aiassistants/bot2/bot2shy.png',
-        '/assets/aiassistants/bot3/bot3shy.png',
-        '/assets/aiassistants/bot4/bot4shy.png',
-        '/assets/aiassistants/bot5/bot5shy.png',
-        '/assets/aiassistants/bot6/bot6shy.png',
-        '/assets/aiassistants/bot7/bot7shy.png',
-        '/assets/aiassistants/bot8/bot8shy.png'
+        // Model cards
+        '/assets/aiassistants/botcards/friendcard.png',
+        '/assets/aiassistants/botcards/professorcard.png',
+        '/assets/aiassistants/botcards/buildercard.png'
       ];
 
       const fill = document.getElementById('preloadFill');
@@ -297,8 +265,8 @@
         percentEl.textContent = pct + '%';
 
         if (pct < 25) statusEl.textContent = 'INITIALIZING NEURAL CORES...';
-        else if (pct < 50) statusEl.textContent = 'DOWNLOADING AVATAR MATRIX...';
-        else if (pct < 75) statusEl.textContent = 'COMPILING VOICE PROFILES...';
+        else if (pct < 50) statusEl.textContent = 'LOADING AI MODELS...';
+        else if (pct < 75) statusEl.textContent = 'CALIBRATING AGENT SWARM...';
         else if (pct < 100) statusEl.textContent = 'FINALIZING SYSTEM BOOT...';
 
         if (loaded >= totalAssets) {

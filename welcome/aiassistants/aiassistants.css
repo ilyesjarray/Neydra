@@ -392,6 +392,19 @@ body {
   z-index: 11;
 }
 
+.chat-panel-full {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  background: rgba(0, 0, 0, .6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.assistant-simple {
+  background: #000 !important;
+}
+
 @media (max-width: 900px) and (orientation: portrait),
 (max-height: 500px) and (max-width: 900px) {
   .chat-panel {

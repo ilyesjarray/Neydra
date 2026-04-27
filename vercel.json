@@ -258,36 +258,16 @@
       "destination": "/welcome/aiassistants/choose-your-assistant/index.html"
     },
     {
-      "source": "/welcome/aiassistants/katara",
-      "destination": "/welcome/aiassistants/katara/index.html"
+      "source": "/welcome/aiassistants/friend",
+      "destination": "/welcome/aiassistants/friend/index.html"
     },
     {
-      "source": "/welcome/aiassistants/sakura",
-      "destination": "/welcome/aiassistants/sakura/index.html"
+      "source": "/welcome/aiassistants/professor",
+      "destination": "/welcome/aiassistants/professor/index.html"
     },
     {
-      "source": "/welcome/aiassistants/olivia",
-      "destination": "/welcome/aiassistants/olivia/index.html"
-    },
-    {
-      "source": "/welcome/aiassistants/hinata",
-      "destination": "/welcome/aiassistants/hinata/index.html"
-    },
-    {
-      "source": "/welcome/aiassistants/luna",
-      "destination": "/welcome/aiassistants/luna/index.html"
-    },
-    {
-      "source": "/welcome/aiassistants/elara",
-      "destination": "/welcome/aiassistants/elara/index.html"
-    },
-    {
-      "source": "/welcome/aiassistants/nova",
-      "destination": "/welcome/aiassistants/nova/index.html"
-    },
-    {
-      "source": "/welcome/aiassistants/yuki",
-      "destination": "/welcome/aiassistants/yuki/index.html"
+      "source": "/welcome/aiassistants/builder",
+      "destination": "/welcome/aiassistants/builder/index.html"
     }
   ]
 }
