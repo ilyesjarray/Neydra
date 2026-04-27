@@ -2,18 +2,6 @@
 <html lang="en">
 <head>
   <script src="/js/security.js"></script>
-  <script>
-    // System Version Check — Forces cache clearance for old users
-    (function() {
-      var CURRENT_VERSION = 'v2.0.0-tier3';
-      try {
-        var localVersion = localStorage.getItem('neydra_version');
-        if (localVersion !== CURRENT_VERSION) {
-          window.location.replace('/welcome/updating/');
-        }
-      } catch(e) {}
-    })();
-  </script>
   <link rel="icon" href="/assets/icon.png" type="image/png" />
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />

@@ -43,6 +43,20 @@
     }
 
     // ==========================================
+    // 1.5 SYSTEM VERSION CHECK (Aggressive Cache Enforcement)
+    // ==========================================
+    var CURRENT_VERSION = 'v2.0.0-tier3';
+    // Do not redirect if already on the updating page
+    if (window.location.pathname.indexOf('/welcome/updating') === -1) {
+        try {
+            var localVersion = localStorage.getItem('neydra_version');
+            if (localVersion !== CURRENT_VERSION) {
+                window.location.replace('/welcome/updating/');
+            }
+        } catch(e) {}
+    }
+
+    // ==========================================
     // 2. CSS HARDENING (Injected Dynamically)
     // ==========================================
     // This ensures the CSS layer is ALWAYS present regardless of stylesheet loading.
