@@ -436,8 +436,7 @@
         // NEW LOGIC: Check if email confirmation is needed
         // If 'data.session' is null, it means Email Confirmation is ON
         if (data.user && !data.session) {
-          alert("Registration Successful!\n\nWe have sent a confirmation email to " + email + ".\n\nPlease click the link in the email to activate your account
-                then chose the portal you want to Sign In.");
+          alert("Registration Successful!\n\nWe have sent a confirmation email to " + email + ".\n\nPlease click the link in the email to activate your account, then Sign In.");
           // Clear form
           document.getElementById('su-name').value = '';
           document.getElementById('su-email').value = '';
