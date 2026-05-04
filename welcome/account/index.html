@@ -445,7 +445,7 @@
           switchMode('signin');
         } else if (data.session) {
           // If this happens, email confirmation is OFF (fallback)
-          window.location.href = '/Welcome/home';
+          window.location.href = 'https://n-s-c.vercel.app/Welcome';
         } else {
           throw new Error("Unknown error occurred.");
         }
