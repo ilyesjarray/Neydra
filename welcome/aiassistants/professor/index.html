@@ -35,7 +35,6 @@
     };
     window.SELECTED_COUNTRY = null;
   </script>
-  <audio id="bot-theme" src="/assets/aiassistants/bottheme-music.mp3" loop preload="auto"></audio>
   <canvas id="galaxyCanvas" class="galaxy-canvas"></canvas>
   <button class="back-btn" id="backBtn" onclick="goBack()" title="Back">&#9666;</button>
 
@@ -140,12 +139,12 @@
       function f() { x.clearRect(0, 0, W, H); for (var p of ps) { p.a += p.d * p.t; if (p.a > .4) { p.a = .4; p.d = -1; } if (p.a < .02) { p.a = .02; p.d = 1; } p.x += p.vx; p.y += p.vy; if (p.x < -5) p.x = W + 5; if (p.x > W + 5) p.x = -5; if (p.y < -5) p.y = H + 5; if (p.y > H + 5) p.y = -5; x.beginPath(); x.fillStyle = 'rgba(255,0,0,' + p.a + ')'; x.arc(p.x, p.y, p.r, 0, Math.PI * 2); x.fill(); } requestAnimationFrame(f); } f();
     })();
 
-    // Audio
+    // PWA & INIT
     addEventListener('DOMContentLoaded', function () {
-      var m = document.getElementById('bot-theme'); m.volume = .3;
-      m.play().catch(function () { document.addEventListener('click', function r() { m.play().catch(function () { }); document.removeEventListener('click', r); }, { once: true }); });
+      if (!sessionStorage.getItem('professor_country')) { document.getElementById('countryOverlay').style.display = 'flex'; }
+      else { setCountry(JSON.parse(sessionStorage.getItem('professor_country'))); }
     });
-
+    
     // ═══ CHAT ENGINE ═══
     var chatHistory = []; var isStreaming = false; var attachedImages = [];
     var isVoiceActive = false;
@@ -225,8 +224,8 @@
     }
     function endVoiceCall() { isVoiceActive = false; if (recognition) { recognition.abort(); recognition = null; } speechSynthesis.cancel(); document.getElementById('voiceOverlay').classList.remove('active'); document.getElementById('voiceCallBtn').classList.remove('active'); }
 
-    function goBack() { var m = document.getElementById('bot-theme'); if (m) { m.pause(); m.currentTime = 0; } speechSynthesis.cancel(); if (recognition) { recognition.abort(); recognition = null; } location.href = '/welcome/aiassistants/choose-your-assistant'; }
-    addEventListener('beforeunload', function () { var m = document.getElementById('bot-theme'); if (m) { m.pause(); m.currentTime = 0; } speechSynthesis.cancel(); });
+    function goBack() { speechSynthesis.cancel(); if (recognition) { recognition.abort(); recognition = null; } location.href = '/welcome/aiassistants/choose-your-assistant'; }
+    addEventListener('beforeunload', function () { speechSynthesis.cancel(); });
     document.getElementById('chatInput').addEventListener('input', function () { this.style.height = 'auto'; this.style.height = Math.min(this.scrollHeight, 120) + 'px'; });
   </script>
 </body>

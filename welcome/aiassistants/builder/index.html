@@ -85,7 +85,6 @@
 <body>
   <canvas id="galaxyCanvas" class="galaxy-canvas"></canvas>
   <button class="back-btn" id="backBtn" onclick="goBack()" title="Back">&#9666;</button>
-  <audio id="bot-theme" src="/assets/aiassistants/bottheme-music.mp3" loop preload="auto"></audio>
 
   <div class="builder-container">
     <div class="builder-header">
@@ -133,9 +132,12 @@
       function f() { x.clearRect(0, 0, W, H); for (var p of ps) { p.a += p.d * p.t; if (p.a > .4) { p.a = .4; p.d = -1; } if (p.a < .02) { p.a = .02; p.d = 1; } p.x += p.vx + Math.sin(Date.now() * .0002 + p.y * .003) * .05; p.y += p.vy; if (p.x < -5) p.x = W + 5; if (p.x > W + 5) p.x = -5; if (p.y < -5) p.y = H + 5; if (p.y > H + 5) p.y = -5; x.beginPath(); x.fillStyle = 'rgba(255,0,0,' + p.a + ')'; x.arc(p.x, p.y, p.r, 0, Math.PI * 2); x.fill(); if (p.r > .9) { x.beginPath(); var g = x.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 4); g.addColorStop(0, 'rgba(255,0,0,' + (p.a * .15) + ')'); g.addColorStop(1, 'rgba(255,0,0,0)'); x.fillStyle = g; x.arc(p.x, p.y, p.r * 4, 0, Math.PI * 2); x.fill(); } } requestAnimationFrame(f); } f();
     })();
 
+    // ═══ ANIMATIONS & INIT ═══
     addEventListener('DOMContentLoaded', function () {
-      var m = document.getElementById('bot-theme'); m.volume = .3;
-      m.play().catch(function () { document.addEventListener('click', function r() { m.play().catch(function () { }); document.removeEventListener('click', r); }, { once: true }); });
+      setTimeout(function () {
+        var a = document.getElementById('initAnimation');
+        if (a) { a.style.opacity = '0'; setTimeout(function () { a.style.display = 'none'; }, 800); }
+      }, 2000);
     });
 
     var buildData = null;
@@ -225,8 +227,8 @@
       else if (typeof buildData === 'string') { var a = document.createElement('a'); a.href = 'data:application/zip;base64,' + buildData; a.download = 'project.zip'; a.click(); }
     }
     function resetBuilder() { document.getElementById('downloadArea').classList.remove('active'); document.getElementById('buildProgress').classList.remove('active'); document.getElementById('agentLog').innerHTML = ''; document.getElementById('agentPipeline').innerHTML = ''; document.getElementById('inputPhase').style.display = 'flex'; document.getElementById('projectDesc').value = ''; document.getElementById('startBuildBtn').disabled = false; document.getElementById('agentsInfo').textContent = 'AGENTS: STANDBY'; buildData = null; }
-    function goBack() { var m = document.getElementById('bot-theme'); if (m) { m.pause(); m.currentTime = 0; } location.href = '/welcome/aiassistants/choose-your-assistant'; }
-    addEventListener('beforeunload', function () { var m = document.getElementById('bot-theme'); if (m) { m.pause(); m.currentTime = 0; } });
+    function goBack() { location.href = '/welcome/aiassistants/choose-your-assistant'; }
+    addEventListener('beforeunload', function () { });
   </script>
 </body>
 </html>
