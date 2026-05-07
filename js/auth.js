@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           .eq('email', session.user.email)
           .single();
 
-      if (error || !data || data.status !== 'active' || new Date(data.expires_at) < new Date()) {
+      if (error || !data || data.status !== 'active' || (data.expires_at && new Date(data.expires_at) < new Date())) {
           console.error('Subscription expired or not found');
           window.location.href = '/welcome/home';
           return;

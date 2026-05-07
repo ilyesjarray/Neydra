@@ -228,7 +228,7 @@ async function syncUserPlanWithSupabase() {
         .eq('email', session.user.email)
         .single();
         
-      if (!error && data && data.status === 'active' && new Date(data.expires_at) > new Date()) {
+      if (!error && data && data.status === 'active' && (!data.expires_at || new Date(data.expires_at) > new Date())) {
         localStorage.setItem('neydra_plan', data.plan_type.toLowerCase());
       } else {
         localStorage.setItem('neydra_plan', 'free');

@@ -34,13 +34,14 @@
                     .eq('email', session.user.email)
                     .single();
 
-                if (error || !data || data.status !== 'active' || new Date(data.expires_at) < new Date()) {
+                if (error || !data || data.status !== 'active' || (data.expires_at && new Date(data.expires_at) < new Date())) {
                     return window.location.href = '/welcome/home'; // Send back to buy plan
                 }
 
                 // 3. Check Plan Tier
-                if (data.plan_type === 'ULTRA') return; // Ultra accesses everything
-                if (data.plan_type !== requiredPlan) {
+                const userPlan = data.plan_type.toUpperCase();
+                if (userPlan === 'ULTRA') return; // Ultra accesses everything
+                if (userPlan !== requiredPlan) {
                     alert(`Your current plan (${data.plan_type}) does not support this feature. Upgrade to ${requiredPlan}.`);
                     return window.location.href = '/welcome/home';
                 }
