@@ -157,7 +157,10 @@ function updateServiceUI() {
   const paeCard = document.getElementById('pae-service');
   const btnPae = document.getElementById('btn-pae');
   if (features.includes('pae')) {
-    if (paeCard) paeCard.style.opacity = '1';
+    if (paeCard) {
+      paeCard.style.opacity = '1';
+      paeCard.classList.remove('locked-feature');
+    }
     if (btnPae) {
       btnPae.innerHTML = `<img src="/assets/Predictive_Analytics.png" alt="Access Predictive Analytics" class="btn-icon" /><span class="btn-label">Access Now</span>`;
       btnPae.onclick = () => window.location.href = '/welcome/pae';
@@ -172,7 +175,10 @@ function updateServiceUI() {
   const ailCard = document.getElementById('ail-service');
   const btnAil = document.getElementById('btn-ail');
   if (features.includes('ail')) {
-    if (ailCard) ailCard.style.opacity = '1';
+    if (ailCard) {
+      ailCard.style.opacity = '1';
+      ailCard.classList.remove('locked-feature');
+    }
     if (btnAil) {
       btnAil.innerHTML = `<img src="/assets/Liquidity_Decoder.png" alt="Access Liquidity Decoder" class="btn-icon" /><span class="btn-label">Access Now</span>`;
       btnAil.onclick = () => window.location.href = '/welcome/ail';
@@ -187,7 +193,10 @@ function updateServiceUI() {
   const nlpCard = document.getElementById('nlp-service');
   const btnNlp = document.getElementById('btn-nlp');
   if (features.includes('nlp')) {
-    if (nlpCard) nlpCard.style.opacity = '1';
+    if (nlpCard) {
+      nlpCard.style.opacity = '1';
+      nlpCard.classList.remove('locked-feature');
+    }
     if (btnNlp) {
       btnNlp.innerHTML = `<img src="/assets/NLP_Analysis.png" alt="Access Sentiment Analyzer" class="btn-icon" /><span class="btn-label">Access Now</span>`;
       btnNlp.onclick = () => window.location.href = '/welcome/nlp';
