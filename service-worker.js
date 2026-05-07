@@ -1,8 +1,10 @@
+const CACHE_NAME = 'neydra-cache-v3';
 const LOCKED_PAGES = ['/welcome/pae', '/welcome/ail', '/welcome/nlp'];
 
 self.addEventListener('install', function(event) {
+  self.skipWaiting();
   event.waitUntil(
-    caches.open('neydra-cache-v2').then(function(cache) {
+    caches.open(CACHE_NAME).then(function(cache) {
       return cache.addAll([
         '/welcome',
         '/welcome/home',
@@ -14,35 +16,45 @@ self.addEventListener('install', function(event) {
   );
 });
 
+self.addEventListener('activate', function(event) {
+  event.waitUntil(
+    caches.keys().then(function(cacheNames) {
+      return Promise.all(
+        cacheNames.map(function(cacheName) {
+          if (cacheName !== CACHE_NAME) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    }).then(function() {
+      return self.clients.claim();
+    })
+  );
+});
+
 self.addEventListener('fetch', function(event) {
   const requestURL = new URL(event.request.url);
   const pathname = requestURL.pathname;
 
-  // Check if accessing a locked page
-  if (LOCKED_PAGES.some(function(p) { return pathname.startsWith(p); })) {
-    // Intercept and verify authorization
-    event.respondWith(
-      fetch(event.request).then(function(response) {
-        // If user is not authorized, redirect to home
-        if (response.status === 403) {
-          return fetch('/welcome/home');
-        }
-        return response;
-      }).catch(function() {
-        // Offline - try cache
-        return caches.match(event.request).then(function(response) {
-          return response || fetch('/welcome/home');
+  // Network First Strategy
+  event.respondWith(
+    fetch(event.request).then(function(response) {
+      if (response && response.status === 200 && response.type === 'basic') {
+        let responseToCache = response.clone();
+        caches.open(CACHE_NAME).then(function(cache) {
+          cache.put(event.request, responseToCache);
         });
-      })
-    );
-  } else {
-    // Normal cache strategy for public pages
-    event.respondWith(
-      caches.match(event.request).then(function(response) {
-        return response || fetch(event.request);
-      })
-    );
-  }
+      }
+      return response;
+    }).catch(function() {
+      return caches.match(event.request).then(function(response) {
+        if (response) return response;
+        if (LOCKED_PAGES.some(function(p) { return pathname.startsWith(p); })) {
+          return caches.match('/welcome/home');
+        }
+      });
+    })
+  );
 });
 
 self.addEventListener('push', function(event) {
