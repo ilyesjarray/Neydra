@@ -151,7 +151,7 @@
       btn.style.boxShadow = '0 0 100px rgba(255,0,0,0.6), inset 0 0 60px rgba(255,0,0,0.4)';
 
       try {
-        // 1. Unregister Service Workers
+        // 1. Unregister All Service Workers forcefully
         if ('serviceWorker' in navigator) {
           const registrations = await navigator.serviceWorker.getRegistrations();
           for (let registration of registrations) {
@@ -159,7 +159,7 @@
           }
         }
 
-        // 2. Clear Caches API
+        // 2. Clear All Browser Caches (PWA caches)
         if ('caches' in window) {
           const keys = await caches.keys();
           for (let key of keys) {
@@ -167,26 +167,38 @@
           }
         }
 
-        // 3. Clear Storage
-        localStorage.clear();
+        // 3. Clear Storage intelligently (Keep Supabase Auth to prevent forced logout)
+        const keysToRemove = [];
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key && !key.startsWith('sb-')) {
+            keysToRemove.push(key);
+          }
+        }
+        keysToRemove.forEach(k => localStorage.removeItem(k));
         sessionStorage.clear();
 
-        // 4. Set new version
+        // 4. Clear all accessible cookies
+        document.cookie.split(";").forEach(function(c) { 
+          document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); 
+        });
+
+        // 5. Set new version and flag for hard reload
         localStorage.setItem('neydra_version', CURRENT_VERSION);
 
-        // 5. Redirect back to welcome
+        // 6. Redirect back with a cache-busting timestamp
         setTimeout(() => {
           text.innerHTML = 'SUCCESS';
           setTimeout(() => {
-            window.location.replace('/welcome');
+            window.location.replace('/welcome/home?nocache=' + new Date().getTime());
           }, 800);
         }, 1500);
 
       } catch (e) {
         console.error('Update failed:', e);
-        // Fallback to just setting version and redirecting
+        // Fallback
         localStorage.setItem('neydra_version', CURRENT_VERSION);
-        window.location.replace('/welcome');
+        window.location.replace('/welcome/home?nocache=' + new Date().getTime());
       }
     }
   </script>
