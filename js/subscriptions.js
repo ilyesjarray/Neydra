@@ -149,27 +149,56 @@ function showWarning() {
 
 // Update UI based on user plan
 function updateServiceUI() {
-  const userPlan = getUserPlan();
+  const userPlan = localStorage.getItem('neydra_plan') || 'free';
+  if (!NEYDRA_PLANS[userPlan]) return;
   const features = NEYDRA_PLANS[userPlan].features;
 
-  // Show/Hide service cards based on plan
-  if (! features.includes('pae')) {
-    const paeCard = document.getElementById('pae-service');
+  // PAE Update
+  const paeCard = document.getElementById('pae-service');
+  const btnPae = document.getElementById('btn-pae');
+  if (features.includes('pae')) {
+    if (paeCard) paeCard.style.opacity = '1';
+    if (btnPae) {
+      btnPae.innerHTML = `<img src="/assets/Predictive_Analytics.png" alt="Access Predictive Analytics" class="btn-icon" /><span class="btn-label">Access Now</span>`;
+      btnPae.onclick = () => window.location.href = '/welcome/pae';
+      btnPae.classList.remove('locked-btn');
+      btnPae.classList.add('unlock-btn');
+    }
+  } else {
     if (paeCard) paeCard.style.opacity = '0.6';
   }
 
-  if (! features.includes('ail')) {
-    const ailCard = document. getElementById('ail-service');
+  // AIL Update
+  const ailCard = document.getElementById('ail-service');
+  const btnAil = document.getElementById('btn-ail');
+  if (features.includes('ail')) {
+    if (ailCard) ailCard.style.opacity = '1';
+    if (btnAil) {
+      btnAil.innerHTML = `<img src="/assets/Liquidity_Decoder.png" alt="Access Liquidity Decoder" class="btn-icon" /><span class="btn-label">Access Now</span>`;
+      btnAil.onclick = () => window.location.href = '/welcome/ail';
+      btnAil.classList.remove('locked-btn');
+      btnAil.classList.add('unlock-btn');
+    }
+  } else {
     if (ailCard) ailCard.style.opacity = '0.6';
   }
 
-  if (!features.includes('nlp')) {
-    const nlpCard = document.getElementById('nlp-service');
+  // NLP Update
+  const nlpCard = document.getElementById('nlp-service');
+  const btnNlp = document.getElementById('btn-nlp');
+  if (features.includes('nlp')) {
+    if (nlpCard) nlpCard.style.opacity = '1';
+    if (btnNlp) {
+      btnNlp.innerHTML = `<img src="/assets/NLP_Analysis.png" alt="Access Sentiment Analyzer" class="btn-icon" /><span class="btn-label">Access Now</span>`;
+      btnNlp.onclick = () => window.location.href = '/welcome/nlp';
+      btnNlp.classList.remove('locked-btn');
+      btnNlp.classList.add('unlock-btn');
+    }
+  } else {
     if (nlpCard) nlpCard.style.opacity = '0.6';
   }
 
-  // Add visual indicators
-  console.log(`[NEYDRA] User Plan: ${userPlan} | Features: ${features.join(', ')}`);
+  console.log(`[NEYDRA] UI Updated for Plan: ${userPlan}`);
 }
 
 // Simulate subscription plan change (for testing)
@@ -183,8 +212,38 @@ function setUserPlan(plan) {
   }
 }
 
+// Fetch real plan from Supabase DB to keep localStorage in sync
+async function syncUserPlanWithSupabase() {
+  try {
+    if (!window.supabase) return;
+    const SUPABASE_URL = 'https://ybrtpasetldpxanrhsle.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlicnRwYXNldGxkcHhhbnJoc2xlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAzMTgyMjksImV4cCI6MjA4NTg5NDIyOX0.Rdj0S0oGV4HmQDERePPbxjQifJ8euDjOTMfgWtdz7gQ';
+    const subGuard = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    
+    const { data: { session } } = await subGuard.auth.getSession();
+    if (session) {
+      const { data, error } = await subGuard
+        .from('subscribers')
+        .select('plan_type, status, expires_at')
+        .eq('email', session.user.email)
+        .single();
+        
+      if (!error && data && data.status === 'active' && new Date(data.expires_at) > new Date()) {
+        localStorage.setItem('neydra_plan', data.plan_type.toLowerCase());
+      } else {
+        localStorage.setItem('neydra_plan', 'free');
+      }
+    } else {
+      localStorage.setItem('neydra_plan', 'free');
+    }
+  } catch(e) {
+    console.error("Subscription Sync Error:", e);
+  }
+}
+
 // Initialize on page load
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
+  await syncUserPlanWithSupabase();
   checkPageAccess();
   updateServiceUI();
 });
