@@ -1,0 +1,13 @@
+{
+  "name": "Oracle",
+  "short_name": "Oracle",
+  "description": "Sovereign AI Command Terminal",
+  "start_url": "/oracle/",
+  "display": "fullscreen",
+  "orientation": "portrait",
+  "theme_color": "#000000",
+  "background_color": "#000000",
+  "icons": [
+    { "src": "/logo.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

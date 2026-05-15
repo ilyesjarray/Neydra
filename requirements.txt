@@ -1,6 +1,0 @@
-yfinance
-pandas
-numpy
-web3
-requests
-beautifulsoup4

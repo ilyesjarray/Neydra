@@ -1,0 +1,223 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400;500;600;700;800&display=swap');
+
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+:root {
+  --neydra-bg: #000000;
+  --neydra-accent: #FF0000;
+  --neydra-violet: #880000;
+  --neydra-glass: rgba(255, 0, 0, 0.05);
+  --neydra-border: rgba(255, 0, 0, 0.4);
+  --neydra-text: #FFFFFF;
+
+  /* Neydra legacy palette */
+  --primary-color: #000000;
+  --secondary-color: #ff0000;
+  --secondary-color-dark: #880000;
+  --text-dark: #000000;
+  --text-light: #8b0000;
+  --white: #ffffff;
+  --primary-cyan: #ff0000;
+  --primary-pink: #ff0000;
+}
+
+@layer base {
+  body {
+    background-color: var(--neydra-bg) !important;
+    color: var(--neydra-text);
+    font-family: 'Poppins', 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: -0.015em;
+    min-height: 100vh;
+  }
+
+  /* HUD Scanline Effect — Neydra Red */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+                linear-gradient(90deg, rgba(255, 0, 0, 0.01), rgba(255, 0, 0, 0.005), rgba(255, 0, 0, 0.01));
+    background-size: 100% 4px, 3px 100%;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.1;
+  }
+}
+
+@layer utilities {
+  .glass-v-series {
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(40px) saturate(200%);
+    border: 1px solid rgba(255, 0, 0, 0.4);
+    box-shadow: inset 0 0 20px rgba(255, 0, 0, 0.1), 0 8px 32px rgba(255, 0, 0, 0.15);
+  }
+
+  .text-hud {
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+    letter-spacing: 0.05em;
+  }
+
+  .shadow-neon-cyan {
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
+  }
+
+  .shadow-neon-violet {
+    box-shadow: 0 0 20px rgba(136, 0, 0, 0.2);
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--neydra-accent);
+    border-radius: 10px;
+  }
+
+  .bg-noise {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  }
+
+  /* Hide scrollbars globally but keep functionality */
+  html, body {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Specific internal scrollbars can be visible if requested */
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: var(--neydra-accent) transparent;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar {
+    display: block !important;
+    width: 3px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--neydra-accent);
+    border-radius: 10px;
+  }
+}
+
+.fade-in { animation: fadeIn 0.8s ease-out forwards; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Neydra neon text animation */
+@keyframes neon {
+  0%, 100% { text-shadow: 0 0 10px rgba(255, 0, 0, 0.8), 0 0 20px rgba(255, 0, 0, 0.5); }
+  50% { text-shadow: 0 0 20px rgba(255, 0, 0, 1), 0 0 40px rgba(255, 0, 0, 0.7); }
+}
+
+/* ======================================
+   MOBILE-RESPONSIVE UTILITIES
+   ====================================== */
+
+/* Safe area padding for notch & home bar */
+.safe-area-top {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Mobile sector panel */
+@media (max-width: 767px) {
+  .glass-v-series {
+    backdrop-filter: blur(12px) saturate(150%);
+    box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.6);
+  }
+
+  body::before {
+    opacity: 0.03;
+  }
+
+  .sector-panel-mobile {
+    width: 100%;
+    min-height: calc(100vh - 7.5rem);
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
+
+  button, [role="button"] {
+    min-height: 40px;
+  }
+
+  .mobile-text-sm { font-size: 0.8rem; }
+  .mobile-text-xs { font-size: 0.7rem; }
+
+  input, textarea, select {
+    font-size: 16px !important;
+  }
+
+  .desktop-only {
+    display: none !important;
+  }
+
+  .landscape-optimized-p { padding: 0.5rem; }
+  .landscape-optimized-gap { gap: 0.5rem; }
+  .landscape-optimized-header { height: auto; padding: 0.5rem 1rem; }
+  .landscape-optimized-footer { display: none; }
+  .landscape-optimized-sidebar { display: none; }
+}
+
+/* Tablet breakpoint */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .landscape-optimized-sidebar {
+    width: 5rem;
+  }
+  .landscape-optimized-p { padding: 1rem; }
+  .landscape-optimized-gap { gap: 1rem; }
+}
+
+/* Show on mobile only */
+@media (min-width: 768px) {
+  .mobile-only {
+    display: none !important;
+  }
+}
+
+/* No-scrollbar helper */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Touch ripple effect */
+@keyframes touch-ripple {
+  from { transform: scale(0); opacity: 0.4; }
+  to { transform: scale(2.5); opacity: 0; }
+}
+.touch-ripple::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle, var(--neydra-accent) 0%, transparent 70%);
+  animation: touch-ripple 0.5s ease-out;
+  pointer-events: none;
+}

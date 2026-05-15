@@ -1,0 +1,1 @@
+FROM python:3.9-slim-bullseye;RUN apt-get update && apt-get install -y python3-pip php default-mysql-server && rm -rf /var/lib/apt/lists/*;WORKDIR /var/www/html;COPY . .;RUN pip install -r requirements.txt;CMD ["php", "-S", "0.0.0.0:80"]
