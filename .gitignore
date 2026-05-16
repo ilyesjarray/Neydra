@@ -42,3 +42,9 @@ Thumbs.db
 android/app/build/
 usb_driver/
 UniversalAdbDriverSetup.msi
+
+# Unused dev utility files
+backup/
+bulk_rename.js
+replace_classes.js
+security.js

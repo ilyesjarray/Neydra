@@ -8,6 +8,12 @@
             "dependsOn": [
                 "^build"
             ],
+            "env": [
+                "GROQ_KEY_1",
+                "GROQ_KEY_2",
+                "GROQ_KEY_3",
+                "key1"
+            ],
             "outputs": [
                 "apps/web/.next/**",
                 "!apps/web/.next/cache/**",

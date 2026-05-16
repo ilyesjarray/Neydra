@@ -24,7 +24,6 @@
       "dom.iterable",
       "esnext"
     ],
-    "types": ["node"],
     "allowJs": true,
     "noEmit": true,
     "skipLibCheck": true,
