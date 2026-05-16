@@ -157,6 +157,19 @@ export function ModuleRenderer({ moduleId }: ModuleRendererProps) {
             return <ProductionAlertWrapper sectorName="B2B_Workspace" moduleId={moduleId}><TierGuardWrapper sectorName="B2B_Workspace" requiredTier="ULTRA"><EnterpriseWorkspace /></TierGuardWrapper></ProductionAlertWrapper>;
         case 'temporal-engine':
             return <ProductionAlertWrapper sectorName="Chronos_Singularity" moduleId={moduleId}><TemporalEngine /></ProductionAlertWrapper>;
+            
+        // Legacy Port Placeholders
+        case 'neydra-exchange':
+            return <ProductionAlertWrapper sectorName="Safe_Exchange" moduleId={moduleId}><div className="flex items-center justify-center h-full text-white/50 p-8 text-center uppercase tracking-widest font-mono text-xs">P2P Exchange System Syncing...</div></ProductionAlertWrapper>;
+        case 'neydra-news':
+            return <ProductionAlertWrapper sectorName="Global_News" moduleId={moduleId}><div className="flex items-center justify-center h-full text-white/50 p-8 text-center uppercase tracking-widest font-mono text-xs">News Terminal Syncing...</div></ProductionAlertWrapper>;
+        case 'neydra-pae':
+            return <ProductionAlertWrapper sectorName="Predictive_Analytics" moduleId={moduleId}><div className="flex items-center justify-center h-full text-white/50 p-8 text-center uppercase tracking-widest font-mono text-xs">Analytics Engine Syncing...</div></ProductionAlertWrapper>;
+        case 'neydra-liquidity':
+            return <ProductionAlertWrapper sectorName="Liquidity_Decoder" moduleId={moduleId}><div className="flex items-center justify-center h-full text-white/50 p-8 text-center uppercase tracking-widest font-mono text-xs">Liquidity Decoder Syncing...</div></ProductionAlertWrapper>;
+        case 'neydra-nlp':
+            return <ProductionAlertWrapper sectorName="NLP_Sentiment" moduleId={moduleId}><div className="flex items-center justify-center h-full text-white/50 p-8 text-center uppercase tracking-widest font-mono text-xs">Sentiment Analysis Syncing...</div></ProductionAlertWrapper>;
+
         default:
             return (
                 <div className="flex items-center justify-center h-full text-white/20 uppercase font-black tracking-[1em] italic">
