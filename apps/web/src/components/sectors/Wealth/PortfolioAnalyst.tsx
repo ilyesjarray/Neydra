@@ -47,7 +47,7 @@ export default function PortfolioAnalyst() {
 
             if (data && data.length > 0) {
                 // Fetch real prices for all symbols in portfolio
-                const symbols = [...new Set(data.map(a => a.asset_symbol))];
+                const symbols = [...new Set(data.map((a: any) => a.asset_symbol))] as string[];
                 const livePrices = await fetchLivePrices(symbols);
 
                 const enriched = data.map(asset => {
