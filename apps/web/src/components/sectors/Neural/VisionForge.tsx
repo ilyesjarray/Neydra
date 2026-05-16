@@ -43,7 +43,7 @@ export function VisionForge() {
             // Default to 1024x1024. Using direct client-side fetch prevents the Vercel datacenter IP from being rate-limited.
             const targetUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=1024&height=1024&seed=${seed}&nologo=true&model=${selectedModel}`;
             
-            let response = null;
+            let response: Response | null = null;
             let retries = 6;
             let delayMs = 2000;
 
