@@ -7,7 +7,7 @@
   ],
   "scripts": {
     "build": "turbo build",
-    "vercel-build": "turbo run build --filter=web",
+    "vercel-build": "turbo run build --filter=neydra-web",
     "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
@@ -19,7 +19,7 @@
   },
   "packageManager": "npm@10.0.0",
   "engines": {
-    "node": ">=18"
+    "node": ">=18 <24"
   },
   "dependencies": {
     "@parcel/watcher": "^2.5.6",
