@@ -22,7 +22,7 @@ export function SoundProvider({ children }: { children: React.ReactNode }) {
         musicRef.current.volume = 0.3;
 
         // Initialize click sounds
-        const sounds = ['/assets/click-sound1.wav', '/assets/click-sound2.wav'];
+        const sounds = ['/assets/click-sound1.mp3', '/assets/click-sound2.mp3', '/assets/click-sound3.mp3'];
         clickRefs.current = sounds.map(src => {
             const audio = new Audio(src);
             audio.volume = 0.2;
