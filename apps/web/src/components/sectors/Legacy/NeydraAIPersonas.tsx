@@ -1,7 +1,54 @@
 'use client';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
+
+const MODELS = [
+    { id: 1, name: 'Friend', slug: 'friend', tier: 'low', rank: '03',
+    tierLabel: 'Bronze', desc: 'Casual companion — cheerful, honest, keeps it simple.' },
+    { id: 2, name: 'Professor', slug: 'professor', tier: 'medium', rank: '02',
+    tierLabel: 'Silver', desc: 'Country-aware scholar — adapts to your curriculum.' },
+    { id: 3, name: 'Builder', slug: 'builder', tier: 'high', rank: '01',
+    tierLabel: 'Elite', desc: 'Agent swarm — builds complete projects from scratch.' }
+];
 
 export function NeydraAIPersonas() {
+    const router = useRouter();
+    const [isLeaving, setIsLeaving] = useState(false);
+
+    const goBack = () => {
+        const m = document.getElementById('ai-theme2') as HTMLAudioElement;
+        if (m) { m.pause(); m.currentTime = 0; }
+        // We are already inside the OS dashboard, so going back could just mean selecting the previous sector or doing nothing
+        // Or if they want to go to the main page, we can route there, but typically it would change sector.
+        // Assuming there is a way to trigger Neydra command, but for now we just use window history
+        if (window.history.length > 1) {
+            window.history.back();
+        } else {
+            router.push('/en');
+        }
+    };
+
+    const selectModel = (model: typeof MODELS[0]) => {
+        setIsLeaving(true);
+        const music = document.getElementById('ai-theme2') as HTMLAudioElement;
+        if (music) {
+            let vol = music.volume;
+            const fade = setInterval(() => { 
+                vol -= 0.05; 
+                if (vol <= 0) { 
+                    clearInterval(fade); 
+                    music.pause(); 
+                } else {
+                    music.volume = vol; 
+                }
+            }, 60);
+        }
+        setTimeout(() => { 
+            router.push(`/en/ai/${model.slug}`); 
+        }, 900);
+    };
+
     return (
         <div className="neydra-legacy-container flex-1 h-full w-full relative overflow-y-auto overflow-x-hidden bg-black text-white">
             <style dangerouslySetInnerHTML={{ __html: `
@@ -48,15 +95,20 @@ export function NeydraAIPersonas() {
       cursor: pointer;
       opacity: 0;
       transform: translateY(60px) scale(.85);
-      transition: transform .6s cubic-bezier(.22, 1, .36, 1), filter .4s ease;
+      animation: revealCard .6s cubic-bezier(.22, 1, .36, 1) forwards;
       aspect-ratio: 3/4.2;
       background: #000000;
       z-index: 1;
+      transition: transform .3s ease, filter .3s ease;
     }
-    .model-card.revealed {
-      opacity: 1;
-      transform: translateY(0) scale(1);
+    
+    @keyframes revealCard {
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
     }
+    
     .model-card:hover { z-index: 10; }
 
     /* Inner wrapper clips image */
@@ -137,7 +189,6 @@ export function NeydraAIPersonas() {
 
     /* ═══════════════════════════════════
        TIER 1: FRIEND — Basic (Red)
-       Clean, subtle, low intensity red
        ═══════════════════════════════════ */
     .card-low .rank-number { color: rgba(255,0,0,.5); text-shadow: 0 0 15px rgba(255,0,0,.2); }
     .card-low .tier-badge { background: rgba(255,0,0,.06); color: #ff0000; border: 1px solid rgba(255,0,0,.2); }
@@ -157,7 +208,6 @@ export function NeydraAIPersonas() {
 
     /* ═══════════════════════════════════
        TIER 2: PROFESSOR — Advanced (Red)
-       Animated rotating border, ambient glow
        ═══════════════════════════════════ */
     .card-medium .rank-number { color: rgba(255,0,0,.65); text-shadow: 0 0 20px rgba(255,0,0,.35); }
     .card-medium .tier-badge {
@@ -167,7 +217,6 @@ export function NeydraAIPersonas() {
       box-shadow: 0 0 12px rgba(255,0,0,.1);
     }
 
-    /* Rotating conic-gradient border */
     .card-medium::before {
       content: '';
       position: absolute;
@@ -188,7 +237,6 @@ export function NeydraAIPersonas() {
     @property --angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
     @keyframes spinBorder { to { --angle: 360deg; } }
 
-    /* Ambient glow underneath */
     .card-medium .card-glow {
       position: absolute;
       inset: -20px;
@@ -206,8 +254,6 @@ export function NeydraAIPersonas() {
 
     /* ═══════════════════════════════════
        TIER 3: BUILDER — Gold-Red / Elite
-       Full animated border, particle aura,
-       holographic shimmer, floating effect
        ═══════════════════════════════════ */
     .card-high {
       animation: eliteFloat 4s ease-in-out infinite;
@@ -242,7 +288,6 @@ export function NeydraAIPersonas() {
       50% { box-shadow: 0 0 20px rgba(255,0,0,.3), 0 0 35px rgba(255,0,0,.1); }
     }
 
-    /* Double rotating border — fast + slow */
     .card-high::before {
       content: '';
       position: absolute;
@@ -262,7 +307,6 @@ export function NeydraAIPersonas() {
       z-index: 1;
     }
 
-    /* Holographic shine sweep */
     .card-high .holo-shine {
       position: absolute;
       inset: 0;
@@ -286,7 +330,6 @@ export function NeydraAIPersonas() {
       100% { transform: translateX(100%) translateY(30%) rotate(25deg); }
     }
 
-    /* Multi-layered glow aura */
     .card-high .card-glow {
       position: absolute;
       inset: -30px;
@@ -306,7 +349,6 @@ export function NeydraAIPersonas() {
       filter: drop-shadow(0 25px 50px rgba(255,0,0,.25)) drop-shadow(0 0 80px rgba(255,0,0,.08));
     }
 
-    /* ═══ Particle Canvas per card ═══ */
     .card-particles {
       position: absolute;
       inset: -40px;
@@ -314,7 +356,6 @@ export function NeydraAIPersonas() {
       pointer-events: none;
     }
 
-    /* ═══ Selection Title ═══ */
     .selection-title {
       font-size: clamp(1rem, 2.8vw, 1.8rem) !important;
       letter-spacing: 8px !important;
@@ -322,82 +363,57 @@ export function NeydraAIPersonas() {
     }
   ` }} />
             
-  <audio id="ai-theme2" src="/assets/aiassistants/aitheme-music2.mp3" loop preload="auto"></audio>
-  <canvas id="galaxyCanvas" className="galaxy-canvas"></canvas>
-  <button className="back-btn" onClick={() => { try { eval('goBack()'); } catch(e){} }} title="Back">◂</button>
+            <audio id="ai-theme2" src="/assets/aiassistants/aitheme-music2.mp3" loop preload="auto" autoPlay></audio>
+            <canvas id="galaxyCanvas" className="galaxy-canvas"></canvas>
+            <button className="back-btn" onClick={goBack} title="Back">◂</button>
 
-  <div className="selection-screen" id="selectionScreen">
-    <h1 className="selection-title" id="selTitle" style={{"opacity":"0"}}>Choose Your Model</h1>
-    <div className="models-grid" id="modelsGrid"></div>
-  </div>
-
-  
-
-            <script dangerouslySetInnerHTML={{ __html: `
-const MODELS = [
-    { id: 1, name: 'Friend', slug: 'friend', tier: 'low', rank: '03',
-    tierLabel: 'Bronze', desc: 'Casual companion — cheerful, honest, keeps it simple.' },
-    { id: 2, name: 'Professor', slug: 'professor', tier: 'medium', rank: '02',
-    tierLabel: 'Silver', desc: 'Country-aware scholar — adapts to your curriculum.' },
-    { id: 3, name: 'Builder', slug: 'builder', tier: 'high', rank: '01',
-    tierLabel: 'Elite', desc: 'Agent swarm — builds complete projects from scratch.' }
-];
-
-// Expose function for inline onClick
-window.goBack = function() {
-    const m = document.getElementById('ai-theme2');
-    if (m) { m.pause(); m.currentTime = 0; }
-    // Using React navigation ideally, but fallback to Next.js routing if possible
-    window.location.href = '/';
-};
-
-window.selectModel = function(model) {
-    try { sessionStorage.setItem('neydra_bot', JSON.stringify(model)); } catch (e) {}
-    const music = document.getElementById('ai-theme2');
-    if(music) {
-        let vol = music.volume;
-        const fade = setInterval(() => { vol -= 0.05; if (vol <= 0) { clearInterval(fade); music.pause(); } else music.volume = vol; }, 60);
-    }
-    document.getElementById('selectionScreen').style.transition = 'opacity .8s ease';
-    document.getElementById('selectionScreen').style.opacity = '0';
-    setTimeout(() => { window.location.href = '/'; }, 900);
-};
-
-setTimeout(() => {
-    const grid = document.getElementById('modelsGrid');
-    if(!grid) return;
-    if(grid.children.length === 0) {
-        MODELS.forEach((model) => {
-        const card = document.createElement('div');
-        card.className = "model-card card-" + model.tier;
-        card.id = "card-" + model.id;
-
-        let extras = '';
-        if (model.tier === 'medium' || model.tier === 'high') {
-            extras += '<div class="card-glow"></div>';
-        }
-        if (model.tier === 'high') {
-            extras += '<div class="holo-shine"></div>';
-            extras += '<canvas class="card-particles" id="particles-' + model.id + '"></canvas>';
-        }
-
-        card.innerHTML = extras +
-            '<div class="card-inner">' +
-            '<img src="/assets/aiassistants/botcards/' + model.slug + 'card.png" alt="' + model.name + '" />' +
-            '</div>' +
-            '<div class="rank-number">' + model.rank + '</div>' +
-            '<span class="tier-badge">' + model.tierLabel + '</span>' +
-            '<div class="card-border"></div>' +
-            '<div class="card-info">' +
-            '<div class="card-name">' + model.name + '</div>' +
-            '<div class="card-desc">' + model.desc + '</div>' +
-            '</div>';
-        card.addEventListener('click', () => selectModel(model));
-        grid.appendChild(card);
-        });
-    }
-}, 100);
-    ` }} />
+            <motion.div 
+                className="selection-screen" 
+                id="selectionScreen"
+                animate={{ opacity: isLeaving ? 0 : 1 }}
+                transition={{ duration: 0.8 }}
+            >
+                <motion.h1 
+                    className="selection-title" 
+                    id="selTitle"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.2 }}
+                >
+                    Choose Your Model
+                </motion.h1>
+                <div className="models-grid" id="modelsGrid">
+                    {MODELS.map((model, index) => (
+                        <div 
+                            key={model.id}
+                            className={`model-card card-${model.tier}`}
+                            onClick={() => selectModel(model)}
+                            style={{ animationDelay: `${index * 0.15}s` }}
+                        >
+                            {(model.tier === 'medium' || model.tier === 'high') && (
+                                <div className="card-glow"></div>
+                            )}
+                            {model.tier === 'high' && (
+                                <>
+                                    <div className="holo-shine"></div>
+                                    <canvas className="card-particles" id={`particles-${model.id}`}></canvas>
+                                </>
+                            )}
+                            
+                            <div className="card-inner">
+                                <img src={`/assets/aiassistants/botcards/${model.slug}card.png`} alt={model.name} />
+                            </div>
+                            <div className="rank-number">{model.rank}</div>
+                            <span className="tier-badge">{model.tierLabel}</span>
+                            <div className="card-border"></div>
+                            <div className="card-info">
+                                <div className="card-name">{model.name}</div>
+                                <div className="card-desc">{model.desc}</div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </motion.div>
         </div>
     );
 }

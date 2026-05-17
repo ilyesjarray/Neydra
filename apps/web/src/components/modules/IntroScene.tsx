@@ -25,26 +25,7 @@ export function IntroScene({ onComplete }: { onComplete?: () => void }) {
     useEffect(() => {
         if (!shouldPlay || isFinished) return;
 
-        // Attempt Fullscreen and Landscape lock
-        const goFullscreen = async () => {
-            try {
-                if (document.documentElement.requestFullscreen) {
-                    await document.documentElement.requestFullscreen();
-                }
 
-                // @ts-ignore - Some browsers support this
-                if (screen.orientation && screen.orientation.lock) {
-                    // @ts-ignore
-                    await screen.orientation.lock('landscape').catch(() => {
-                        // Ignore lock errors (common on desktop or unsupported iOS)
-                    });
-                }
-            } catch (err) {
-                console.warn('Fullscreen/Landscape lock failed:', err);
-            }
-        };
-
-        goFullscreen();
 
         // Attempt autoplay
         if (videoRef.current) {
@@ -67,16 +48,7 @@ export function IntroScene({ onComplete }: { onComplete?: () => void }) {
         setIsFinished(true);
         localStorage.setItem('neydra_intro_played', 'true');
 
-        // Attempt to exit fullscreen if we entered it
-        if (document.fullscreenElement) {
-            await document.exitFullscreen().catch(() => { });
-        }
 
-        // @ts-ignore
-        if (screen.orientation && screen.orientation.unlock) {
-            // @ts-ignore
-            screen.orientation.unlock();
-        }
 
         if (onComplete) onComplete();
     };

@@ -147,16 +147,17 @@ export function NeydraSplash({ onComplete }: NeydraSplashProps) {
     };
 
     const handleBiometric = async () => {
-        // Force Fullscreen for the entire platform experience
-        try {
-            if (document.documentElement.requestFullscreen) {
-                await document.documentElement.requestFullscreen();
-            }
-        } catch (err) {
-            console.warn('Fullscreen request denied or failed:', err);
+        // Transition to scanning state
+        setState('BIOMETRIC');
+        
+        // Wait for preload to finish
+        if (!downloadComplete) {
+            await handleDownloadResources();
+        } else {
+            await new Promise(r => setTimeout(r, 1500)); // Fake scan delay if already cached
         }
         
-        // Direct transition to auth form
+        // Transition to auth form
         setState('AUTH_FORM');
     };
 
@@ -275,47 +276,10 @@ export function NeydraSplash({ onComplete }: NeydraSplashProps) {
                                 <div className="flex items-center gap-3 w-full">
                                     <button
                                         onClick={() => { playClick(); handleBiometric(); }}
-                                        className="flex-1 group flex items-center justify-center gap-3 px-6 py-5 bg-neydra-accent text-carbon-black rounded-2xl font-black text-xs tracking-widest transition-all shadow-neon-red/40 hover:scale-105 active:scale-95"
+                                        className="w-full group flex items-center justify-center gap-3 px-6 py-5 bg-neydra-accent text-carbon-black rounded-2xl font-black text-xs tracking-widest transition-all shadow-neon-red/40 hover:scale-105 active:scale-95"
                                     >
                                         <Fingerprint className="w-5 h-5 shrink-0" />
-                                        <span className="truncate">BIOMETRIC</span>
-                                    </button>
-                                    
-                                    <button
-                                        onClick={() => { playClick(); if (!downloading && !downloadComplete) handleDownloadResources(); }}
-                                        className="w-20 h-20 shrink-0 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl flex flex-col items-center justify-center transition-all relative overflow-hidden"
-                                    >
-                                        {downloadComplete ? (
-                                            <>
-                                                <Check className="w-5 h-5 text-red-600 mb-1" />
-                                                <span className="text-[7px] font-black tracking-widest text-red-600">CACHED</span>
-                                            </>
-                                        ) : downloading ? (
-                                            <>
-                                                <div className="relative flex items-center justify-center w-8 h-8 mb-1">
-                                                    <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 100 100">
-                                                        <circle cx="50" cy="50" r="40" stroke="rgba(255,255,255,0.1)" strokeWidth="12" fill="none" />
-                                                        <circle 
-                                                            cx="50" cy="50" r="40" 
-                                                            stroke="#ff0000" strokeWidth="12" fill="none" 
-                                                            strokeDasharray="251.2" 
-                                                            strokeDashoffset={251.2 - (251.2 * (downloadProgress.loaded / (downloadProgress.total || 1)))} 
-                                                            strokeLinecap="round" 
-                                                            className="transition-all duration-300"
-                                                        />
-                                                    </svg>
-                                                    <span className="text-[8px] font-black text-neydra-accent relative z-10">{Math.round((downloadProgress.loaded / (downloadProgress.total || 1)) * 100)}%</span>
-                                                </div>
-                                                <span className="text-[6px] text-white/40 tracking-widest font-mono">
-                                                    {(downloadProgress.loaded / 1024 / 1024).toFixed(1)}MB / {(downloadProgress.total / 1024 / 1024).toFixed(1)}MB
-                                                </span>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <DownloadCloud className="w-6 h-6 text-neydra-accent mb-1" />
-                                                <span className="text-[7px] font-black text-white/50 uppercase tracking-widest leading-none">PRELOAD<br/>ASSETS</span>
-                                            </>
-                                        )}
+                                        <span className="truncate">BIOMETRIC AUTHORIZATION</span>
                                     </button>
                                 </div>
                                 
@@ -356,9 +320,19 @@ export function NeydraSplash({ onComplete }: NeydraSplashProps) {
                                     />
                                 </div>
                             </div>
-                            <div className="text-center space-y-2">
+                            <div className="text-center space-y-4">
                                 <h3 className="text-2xl font-black text-white italic tracking-[0.3em] uppercase">Scanning_Identity</h3>
-                                <p className="text-[10px] text-neydra-accent uppercase font-mono tracking-widest animate-pulse">Neural_Pattern_Matching_Active</p>
+                                <div className="space-y-1">
+                                    <p className="text-[10px] text-neydra-accent uppercase font-mono tracking-widest">
+                                        {downloading ? 'Caching Imperial Assets...' : 'Neural Pattern Matching...'}
+                                    </p>
+                                    {downloading && (
+                                        <div className="text-[8px] font-mono text-white/50">
+                                            {Math.round((downloadProgress.loaded / (downloadProgress.total || 1)) * 100)}% 
+                                            ({(downloadProgress.loaded / 1024 / 1024).toFixed(1)}MB / {(downloadProgress.total / 1024 / 1024).toFixed(1)}MB)
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </motion.div>
                     )}
