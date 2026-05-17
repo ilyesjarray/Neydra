@@ -2,6 +2,7 @@
 
 
 
+// @ts-ignore
 import dynamic from 'next/dynamic';
 
 const OmniIntelligence = dynamic(() => import('@/components/sectors/Neural/OmniIntelligence').then(mod => mod.OmniIntelligence));
