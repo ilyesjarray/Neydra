@@ -37,7 +37,7 @@ export function NeydraPayment() {
     })();
   </script> */}
 
-  <style>
+  <style dangerouslySetInnerHTML={{ __html: `
     /* --- RESET & BASE STYLES --- */
     * {
       box-sizing: border-box;
@@ -275,7 +275,7 @@ export function NeydraPayment() {
         font-size: 1.8rem;
       }
     }
-  </style>
+  `}} />
 
 
 
