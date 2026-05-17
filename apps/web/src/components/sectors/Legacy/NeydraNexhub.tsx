@@ -43,22 +43,6 @@ export function NeydraNexhub() {
         Unfortunately, we do not have the funds for development.
         Anyone who wants to help and invest, please send to our wallet using **USDT TRC-20** address :
         <strong>TADjFCvPPwwzV7MQqHneKmvWKQPwF5MGFM</strong>.
-      </p>
-    </div>
-
-    {/* Navigation bar positioned at the bottom center of the header */}
-    <nav className="bottom-nav">
-      <ul>
-        <li><a href="/welcome/home"><img src="/assets/home-icon.png" alt="Home" /></a></li>
-        <li><a href="/welcome/about"><img src="/assets/about-icon.png" alt="About" /></a></li>
-        <li><a href="/welcome/nexhub"><img src="/assets/neydra-icon.png" alt="Neydra" /></a></li>
-        <li><a href="/welcome/exchange"><img src="/assets/switch-icon.png" alt="Exchange" /></a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <footer>
-    <div className="section__container footer__container">
       <div className="footer__content">
         <h2>Contact Us</h2>
         <p>Reach out through our contact page or social media channels.</p>

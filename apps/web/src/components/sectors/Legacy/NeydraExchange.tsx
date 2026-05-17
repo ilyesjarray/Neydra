@@ -617,21 +617,6 @@ export function NeydraExchange() {
             </div>
         </footer>
 
-    </div>
-
-    {/* BOTTOM NAV */}
-    <nav className="bottom-nav">
-        <ul>
-            <li><a href="/welcome/home"><i className="ri-home-5-fill"></i><span>HOME</span></a></li>
-            <li><a href="/welcome/about"><i className="ri-information-fill"></i><span>ABOUT</span></a></li>
-            <li><a href="/welcome/nexhub"><i className="ri-sword-fill"></i><span>NEXHUB</span></a></li>
-            <li><a href="/welcome/exchange" className="active"><i
-                        className="ri-exchange-dollar-fill"></i><span>EXCHANGE</span></a></li>
-        </ul>
-    </nav>
-
-    {/* SCRIPTS */}
-    {/* <script src="https://static.elfsight.com/platform/platform.js" async></script> */}
     <div className="elfsight-app-f0694651-f050-4245-909a-6b38d447d146" data-elfsight-app-lazy></div>
     {/* <script src="/js/auth.js"></script> */}
 

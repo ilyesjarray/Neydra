@@ -1,7 +1,7 @@
 {
   "name": "Oracle",
   "short_name": "Oracle",
-  "description": "Sovereign AI Command Terminal",
+  "description": "Neydra AI Command Terminal",
   "start_url": "/oracle/",
   "display": "fullscreen",
   "orientation": "portrait",

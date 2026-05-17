@@ -294,7 +294,7 @@ export function NeydraPayment() {
       <button id="payWithHelio" className="btn-unlock">Proceed to Payment</button>
     </div>
 
-    <a href="/welcome/home" className="back-link"><i className="ri-arrow-left-line"></i> Back to Home</a>
+    <a href="/" className="back-link"><i className="ri-arrow-left-line"></i> Back to Home</a>
   </div>
 
 

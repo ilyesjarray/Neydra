@@ -42,28 +42,6 @@ export function NeydraAbout() {
       <p>Welcome to NEYDRA – Where Imagination Becomes Reality. We are dedicated to breaking limits and reshaping
         reality itself<br /><br />
         <strong> The Founder : </strong> ILYES JARRAY.
-      </p>
-    </div>
-
-    {/* 🔹 شريط التنقل السفلي في وسط الهيدر */}
-    <nav className="bottom-nav">
-      <ul>
-        <li>
-          <a href="/welcome/home"><img src="/assets/home-icon.png" alt="Home" /></a>
-        </li>
-        <li>
-          <a href="/welcome/about"><img src="/assets/about-icon.png" alt="About" /></a>
-        </li>
-        <li>
-          <a href="/welcome/nexhub"><img src="/assets/neydra-icon.png" alt="Neydra" /></a>
-        </li>
-        <li><a href="/welcome/exchange"><img src="/assets/switch-icon.png" alt="Exchange" /></a></li>
-      </ul>
-    </nav>
-  </header>
-
-  {/* Elfsight Poll */}
-  {/* <script src="https://static.elfsight.com/platform/platform.js" async></script> */}
   <div className="elfsight-app-f0694651-f050-4245-909a-6b38d447d146" data-elfsight-app-lazy></div>
 
   <footer>
