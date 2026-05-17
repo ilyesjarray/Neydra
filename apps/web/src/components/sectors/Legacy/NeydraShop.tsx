@@ -1,5 +1,4 @@
 'use client';
-import Script from 'next/script';
 import React, { useEffect } from 'react';
 
 export function NeydraShop() {
@@ -1109,7 +1108,7 @@ export function NeydraShop() {
         <span id="intro-cursor"></span>
       </div>
       <img id="intro-guide-img" src="/assets/guide.png" alt="Guide"
-        onError="this.src='https://placehold.co/250x350/1a0000/ff0000?text=GUIDE'" />
+        onError={() => { try { eval(`this.src='https://placehold.co/250x350/1a0000/ff0000?text=GUIDE'`); } catch(e){} }} />
     </div>
   </div>
 
@@ -1117,7 +1116,7 @@ export function NeydraShop() {
   <div id="warning-popup" className="popup-overlay">
     <div className="popup-content">
       <img src="/assets/warning.png" alt="Warning"
-        onError="this.src='https://placehold.co/300x200/1a0000/ff0000?text=WARNING'" />
+        onError={() => { try { eval(`this.src='https://placehold.co/300x200/1a0000/ff0000?text=WARNING'`); } catch(e){} }} />
       <h3 className="font-display text-xl glow-red mb-4">PAYMENT REQUIRED</h3>
       <p className="text-gray-400 text-sm mb-4">You need to complete the payment to download this item. Please try again!
       </p>
@@ -1211,7 +1210,7 @@ export function NeydraShop() {
             {/* Character Mascot */}
             <div className="character-mascot">
               <img src="/assets/character_mascot.png" alt="Mascot" className="character-img"
-                onError="this.src='https://placehold.co/300x500/1a0000/ff0000?text=MASCOT'" />
+                onError={() => { try { eval(`this.src='https://placehold.co/300x500/1a0000/ff0000?text=MASCOT'`); } catch(e){} }} />
             </div>
 
             {/* Mystery Items */}
@@ -1239,7 +1238,7 @@ export function NeydraShop() {
           <div className="featured-character" id="fashion-featured">
             <div className="new-badge">NEW</div>
             <img src="/assets/fashion_character.png" alt="Fashion Model"
-              onError="this.src='https://placehold.co/200x300/1a0000/ff0000?text=OUTFIT'" />
+              onError={() => { try { eval(`this.src='https://placehold.co/200x300/1a0000/ff0000?text=OUTFIT'`); } catch(e){} }} />
           </div>
         </div>
       </section>
@@ -1266,7 +1265,7 @@ export function NeydraShop() {
   </div>
 
   
-    <Script src="/neydrashop.js" strategy="lazyOnload" />
+    <script src="/neydrashop.js" defer></script>
 
 
 

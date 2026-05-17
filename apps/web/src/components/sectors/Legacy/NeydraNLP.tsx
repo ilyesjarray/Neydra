@@ -1,5 +1,4 @@
 'use client';
-import Script from 'next/script';
 import React, { useEffect } from 'react';
 
 export function NeydraNLP() {
@@ -784,7 +783,7 @@ export function NeydraNLP() {
         rel="stylesheet" />
     {/* <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> */}
     
-    <Script src="/neydranlp.js" strategy="lazyOnload" />
+    <script src="/neydranlp.js" defer></script>
 
     
 

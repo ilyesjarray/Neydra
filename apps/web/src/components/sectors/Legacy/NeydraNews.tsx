@@ -1,5 +1,4 @@
 'use client';
-import Script from 'next/script';
 import React, { useEffect } from 'react';
 
 export function NeydraNews() {
@@ -2364,7 +2363,7 @@ export function NeydraNews() {
                 <div className="tv-frame-container" id="tv-container">
                     <iframe id="tv-frame"
                         src="https://www.youtube.com/embed/live_stream?channel=UCNye-wNBqNL5ZzHSJj3l8Bg&autoplay=1&mute=1&playsinline=1"
-                        allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
+                        allow="autoplay; encrypted-media" allowFullScreen loading="lazy"></iframe>
                 </div>
             </div>
             {/* SYSTEM CONTROLS */}
@@ -2442,7 +2441,7 @@ export function NeydraNews() {
                     <button className="breaking-close" onClick={() => { try { eval(`closeAlert()`); } catch(e){} }}>X</button>
                     <div className="breaking-content">
                         <div className="breaking-image"><img id="alert-image" src="" alt="News Image"
-                                onError="this.style.display='none'" /></div>
+                                onError={() => { try { eval(`this.style.display='none'`); } catch(e){} }} /></div>
                         <div className="breaking-text">
                             <div className="breaking-title" id="alert-title">Loading...</div>
                             <div className="breaking-summary" id="alert-summary">Please wait...</div>
@@ -2645,7 +2644,7 @@ export function NeydraNews() {
     </div>
 
     
-    <Script src="/neydranews.js" strategy="lazyOnload" />
+    <script src="/neydranews.js" defer></script>
 
 
 

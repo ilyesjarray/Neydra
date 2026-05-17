@@ -1,5 +1,4 @@
 'use client';
-import Script from 'next/script';
 import React, { useEffect } from 'react';
 
 export function NeydraP2P() {
@@ -1138,7 +1137,7 @@ export function NeydraP2P() {
     </nav>
 
     
-    <Script src="/neydrap2p.js" strategy="lazyOnload" />
+    <script src="/neydrap2p.js" defer></script>
 
 
 

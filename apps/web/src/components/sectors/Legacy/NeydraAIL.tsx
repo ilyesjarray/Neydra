@@ -1,5 +1,4 @@
 'use client';
-import Script from 'next/script';
 import React, { useEffect } from 'react';
 
 export function NeydraAIL() {
@@ -792,7 +791,7 @@ export function NeydraAIL() {
         rel="stylesheet" />
     {/* <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> */}
     
-    <Script src="/neydraail.js" strategy="lazyOnload" />
+    <script src="/neydraail.js" defer></script>
 
     
 

@@ -1,5 +1,4 @@
 'use client';
-import Script from 'next/script';
 import React, { useEffect } from 'react';
 
 export function NeydraAccount() {
@@ -347,7 +346,7 @@ export function NeydraAccount() {
   </div>
 
   
-    <Script src="/neydraaccount.js" strategy="lazyOnload" />
+    <script src="/neydraaccount.js" defer></script>
 
   {/* <script>
     // --- CONFIGURATION ---

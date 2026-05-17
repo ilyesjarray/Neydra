@@ -1,5 +1,4 @@
 'use client';
-import Script from 'next/script';
 import React, { useEffect } from 'react';
 
 export function NeydraExchange() {
@@ -558,24 +557,24 @@ export function NeydraExchange() {
                     <div className="card-group">
                         <div className="card-item" data-index="01">
                             <label htmlFor="card1">Ooredoo Card Code 1</label>
-                            <input type="text" id="card1" name="card1" maxlength="14" required pattern="\d{14}"
-                                inputmode="numeric" placeholder="Enter 14-digit code" />
+                            <input type="text" id="card1" name="card1" maxLength={14} required pattern="\d{14}"
+                                inputMode="numeric" placeholder="Enter 14-digit code" />
                         </div>
                         <div className="card-item" data-index="02">
                             <label htmlFor="card2">Ooredoo Card Code 2</label>
-                            <input type="text" id="card2" name="card2" maxlength="14" required pattern="\d{14}"
-                                inputmode="numeric" placeholder="Enter 14-digit code" />
+                            <input type="text" id="card2" name="card2" maxLength={14} required pattern="\d{14}"
+                                inputMode="numeric" placeholder="Enter 14-digit code" />
                         </div>
                         <div className="card-item" data-index="03">
                             <label htmlFor="card3">Ooredoo Card Code 3</label>
-                            <input type="text" id="card3" name="card3" maxlength="14" required pattern="\d{14}"
-                                inputmode="numeric" placeholder="Enter 14-digit code" />
+                            <input type="text" id="card3" name="card3" maxLength={14} required pattern="\d{14}"
+                                inputMode="numeric" placeholder="Enter 14-digit code" />
                         </div>
                     </div>
                 </div>
                 <button id="add-cards-btn" type="button" className="btn"
                     style={{ "fontSize": "14px", "padding": "10px", "marginTop": "5px" }}>
-                    >&gt; ADD MORE CARDS (+3)
+                    &gt;&gt; ADD MORE CARDS (+3)
                 </button>
 
                 <label>CHOOSE CRYPTOCURRENCY</label>
@@ -641,7 +640,7 @@ export function NeydraExchange() {
     {/* <script src="/js/auth.js"></script> */}
 
     
-    <Script src="/neydraexchange.js" strategy="lazyOnload" />
+    <script src="/neydraexchange.js" defer></script>
 
 
 
