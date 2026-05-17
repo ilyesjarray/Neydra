@@ -43,6 +43,11 @@ export function NeydraNexhub() {
         Unfortunately, we do not have the funds for development.
         Anyone who wants to help and invest, please send to our wallet using **USDT TRC-20** address :
         <strong>TADjFCvPPwwzV7MQqHneKmvWKQPwF5MGFM</strong>.
+      </p>
+    </div>
+  </header>
+  <footer>
+    <div className="section__container footer__container">
       <div className="footer__content">
         <h2>Contact Us</h2>
         <p>Reach out through our contact page or social media channels.</p>
