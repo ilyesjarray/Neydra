@@ -199,10 +199,9 @@ CRITICAL RULES:
 
 async function fetchMarketContext(): Promise<string> {
     try {
-        // @ts-ignore
         const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd&include_24hr_change=true', {
             next: { revalidate: 300 }
-        });
+        } as any);
         const data = await response.json();
         return `BTC: $${data.bitcoin?.usd?.toLocaleString()} (${data.bitcoin?.usd_24h_change?.toFixed(2)}%), ETH: $${data.ethereum?.usd?.toLocaleString()} (${data.ethereum?.usd_24h_change?.toFixed(2)}%), SOL: $${data.solana?.usd?.toLocaleString()} (${data.solana?.usd_24h_change?.toFixed(2)}%)`;
     } catch {
