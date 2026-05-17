@@ -1100,7 +1100,7 @@ export function NeydraShop() {
   {/* INTRO SCENE OVERLAY */}
   <div id="intro-overlay" className="blur-active">
     <audio id="intro-sound" preload="auto">
-      <source src="/assets/guide.wav" type="audio/wav">
+      <source src="/assets/guide.wav" type="audio/wav" />
     </audio>
     <div id="intro-guide-container">
       <div id="intro-text-container">
@@ -1108,7 +1108,7 @@ export function NeydraShop() {
         <span id="intro-cursor"></span>
       </div>
       <img id="intro-guide-img" src="/assets/guide.png" alt="Guide"
-        onerror="this.src='https://placehold.co/250x350/1a0000/ff0000?text=GUIDE'" />
+        onError="this.src='https://placehold.co/250x350/1a0000/ff0000?text=GUIDE'" />
     </div>
   </div>
 
@@ -1116,11 +1116,11 @@ export function NeydraShop() {
   <div id="warning-popup" className="popup-overlay">
     <div className="popup-content">
       <img src="/assets/warning.png" alt="Warning"
-        onerror="this.src='https://placehold.co/300x200/1a0000/ff0000?text=WARNING'" />
+        onError="this.src='https://placehold.co/300x200/1a0000/ff0000?text=WARNING'" />
       <h3 className="font-display text-xl glow-red mb-4">PAYMENT REQUIRED</h3>
       <p className="text-gray-400 text-sm mb-4">You need to complete the payment to download this item. Please try again!
       </p>
-      <button className="popup-close-btn" onClick="closeWarningPopup()">CLOSE</button>
+      <button className="popup-close-btn" onClick={() => { /* closeWarningPopup() */ }}>CLOSE</button>
     </div>
   </div>
 
@@ -1137,7 +1137,7 @@ export function NeydraShop() {
 
   {/* RANDOM NOTIFICATION POPUP */}
   <div id="notification-popup" className="notification-popup top-right">
-    <button className="notification-close" onClick="closeNotification()">&times;</button>
+    <button className="notification-close" onClick={() => { /* closeNotification() */ }}>&times;</button>
     <div className="notification-title" id="notification-title">🟥 NEW PURCHASE!</div>
     <p className="notification-text" id="notification-text">Loading...</p>
   </div>
@@ -1147,12 +1147,12 @@ export function NeydraShop() {
 
   {/* Alert Sound */}
   <audio id="alert-sound" preload="auto">
-    <source src="/assets/alert2.wav" type="audio/wav">
+    <source src="/assets/alert2.wav" type="audio/wav" />
   </audio>
 
   {/* Background Music */}
   <audio id="bg-music" loop>
-    <source src="/assets/theme-music3.mp3" type="audio/mpeg">
+    <source src="/assets/theme-music3.mp3" type="audio/mpeg" />
   </audio>
 
   {/* Main Content */}
@@ -1173,7 +1173,7 @@ export function NeydraShop() {
           </div>
         </div>
 
-        <button className="exit-btn" onClick="location.href='/welcome/home'">EXIT</button>
+        <button className="exit-btn" onClick={() => { /* location.href='/welcome/home' */ }}>EXIT</button>
       </div>
 
       {/* Category Navigation */}
@@ -1210,7 +1210,7 @@ export function NeydraShop() {
             {/* Character Mascot */}
             <div className="character-mascot">
               <img src="/assets/character_mascot.png" alt="Mascot" className="character-img"
-                onerror="this.src='https://placehold.co/300x500/1a0000/ff0000?text=MASCOT'" />
+                onError="this.src='https://placehold.co/300x500/1a0000/ff0000?text=MASCOT'" />
             </div>
 
             {/* Mystery Items */}
@@ -1238,7 +1238,7 @@ export function NeydraShop() {
           <div className="featured-character" id="fashion-featured">
             <div className="new-badge">NEW</div>
             <img src="/assets/fashion_character.png" alt="Fashion Model"
-              onerror="this.src='https://placehold.co/200x300/1a0000/ff0000?text=OUTFIT'" />
+              onError="this.src='https://placehold.co/200x300/1a0000/ff0000?text=OUTFIT'" />
           </div>
         </div>
       </section>
@@ -1569,10 +1569,10 @@ export function NeydraShop() {
 
     function renderMysteryItems() {
       mysteryGrid.innerHTML = mysteryItems.map(item => `
-        <div className="mystery-item" onClick="startPurchase(mysteryItems[${item.id - 1}], 'mystery', ${item.id})">
+        <div className="mystery-item" onClick={() => { /* startPurchase(mysteryItems[${item.id - 1}], 'mystery', ${item.id}) */ }}>
           <div className="discount-tag">${item.discount}%</div>
           <img src="/assets/mystery_item_${item.id}.png" alt="${item.name}" className="mystery-item-img" 
-               onerror="this.src='https://placehold.co/60x60/1a0000/ff0000?text=${item.id}'" />
+               onError="this.src='https://placehold.co/60x60/1a0000/ff0000?text=${item.id}'" />
           <div className="mystery-item-name">${item.name}</div>
           <div className="mystery-item-price">
             <span className="price-old">${item.oldPrice}</span>
@@ -1588,21 +1588,21 @@ export function NeydraShop() {
         : products.filter(p => p.category.toLowerCase() === currentCategory);
 
       productGrid.innerHTML = filtered.map((item, index) => `
-        <div className="product-card" onClick="startPurchase(products[${item.id - 1}], 'product', ${item.id})">
+        <div className="product-card" onClick={() => { /* startPurchase(products[${item.id - 1}], 'product', ${item.id}) */ }}>
           <div className="timer-badge">
             <div className="timer-dot"></div>
             <span>NEW</span>
           </div>
           <div className="product-img-box">
             <img src="/assets/product${item.id}.png" alt="${item.name}"
-                 onerror="this.src='https://placehold.co/120x120/1a0000/ff0000?text=${item.name}'" />
+                 onError="this.src='https://placehold.co/120x120/1a0000/ff0000?text=${item.name}'" />
           </div>
           <div className="product-info">
             <div className="product-category">${item.category}</div>
             <h3 className="product-name">${item.name}</h3>
             <div className="product-price-row">
               <span className="product-price">$${item.price}</span>
-              <button className="product-buy-btn" onClick="event.stopPropagation(); startPurchase(products[${item.id - 1}], 'product', ${item.id})">BUY</button>
+              <button className="product-buy-btn" onClick={() => { /* event.stopPropagation(); startPurchase(products[${item.id - 1}], 'product', ${item.id}) */ }}>BUY</button>
             </div>
           </div>
         </div>

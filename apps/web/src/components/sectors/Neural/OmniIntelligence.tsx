@@ -1,17 +1,11 @@
+'use client';
 import { Send, Bot, User, Brain, BookOpen, Briefcase, Coffee, Terminal, Zap, Shield, Copy, Check, Maximize2, RotateCcw, Code2, Sparkles, Image as ImageIcon, Video, FileJson, Search, FileText, BarChart, Settings2, Languages, Microscope, ChevronRight, Download, Loader2, AlertTriangle, Layers, Maximize, X } from 'lucide-react';
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-'use client';
+
 import { cn } from '@/lib/utils';
 
-import {
-    Send, Bot, User, Brain, BookOpen,
-    Briefcase, Coffee, Terminal, Zap, Shield,
-    Copy, Check, Maximize2, RotateCcw, Code2,
-    Sparkles, Image as ImageIcon, Video, FileJson, Search,
-    FileText, BarChart, Settings2, Languages, Microscope
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
+
 
 type OracleMessage = {
     role: 'user' | 'assistant';
