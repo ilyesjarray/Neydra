@@ -451,7 +451,7 @@ export function NeydraAccount() {
           switchMode('signin');
         } else if (data.session) {
           // If this happens, email confirmation is OFF (fallback)
-          window.location.href = 'https://n-s-c.vercel.app/Welcome';
+          window.location.href = '/';
         } else {
           throw new Error("Unknown error occurred.");
         }
@@ -494,7 +494,7 @@ export function NeydraAccount() {
         }
 
         console.log("Sign in successful, redirecting...");
-        window.location.href = '/welcome/home';
+        window.location.href = '/';
 
       } catch (err) {
         console.error("Sign In Error:", err);

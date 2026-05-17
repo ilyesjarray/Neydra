@@ -1173,7 +1173,7 @@ export function NeydraShop() {
           </div>
         </div>
 
-        <button className="exit-btn" onClick={() => { (window as any).location.href='/welcome/home'; }}>EXIT</button>
+        <button className="exit-btn" onClick={() => { (window as any).location.href='/'; }}>EXIT</button>
       </div>
 
       {/* Category Navigation */}

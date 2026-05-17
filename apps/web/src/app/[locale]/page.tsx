@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import {
-    Lock, Radar, Layers, LayoutGrid, Users, Settings, Crown, Binary, Zap, Globe, Cpu, Shield, Activity, Fingerprint, ChevronRight, Search, Target, ShieldAlert, Radio, BarChart3, Mic, BrainCircuit, HardDrive, Wallet, MessageSquare, Calendar, Check, Sword, Bot, Clock, Eye, Image as ImageIcon
+    Lock, Radar, Layers, LayoutGrid, Users, Settings, Crown, Binary, Zap, Globe, Cpu, Shield, Activity, Fingerprint, ChevronRight, Search, Target, ShieldAlert, Radio, BarChart3, Mic, BrainCircuit, HardDrive, Wallet, MessageSquare, Calendar, Check, Sword, Bot, Clock, Eye, Image as ImageIcon, Menu, ChevronLeft, User
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { NeydraSplash } from '@/components/auth/NeydraSplash';
@@ -109,6 +109,7 @@ function NeydraOS() {
     const [inputValue, setInputValue] = useState('');
     const [isScanning, setIsScanning] = useState(true);
     const [currentSector, setCurrentSector] = useState('market-oracle');
+    const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
     const terminalRef = useRef<HTMLDivElement>(null);
 
     // Initial boot sequence
@@ -182,7 +183,7 @@ function NeydraOS() {
     const DIRECTORATES = [
         {
             name: 'DIRECTORATE_OPERATIONAL',
-            label: 'NEYDRA_ECOSYSTEM',
+            label: 'CORE_SERVICES',
             sectors: [
                 { id: 'neydra-exchange', label: 'Safe Exchange', icon: Binary, iconPath: '/assets/free_button.png', color: 'text-neydra-red' },
                 { id: 'market-oracle', label: 'AI Assistants', icon: Binary, iconPath: '/assets/engine.png', color: 'text-neydra-red' },
@@ -191,6 +192,19 @@ function NeydraOS() {
                 { id: 'neydra-pae', label: 'Predictive Analytics', icon: Binary, iconPath: '/assets/Predictive_Analytics.png', color: 'text-neydra-red' },
                 { id: 'neydra-liquidity', label: 'Liquidity Decoder', icon: Binary, iconPath: '/assets/Liquidity_Decoder.png', color: 'text-neydra-red' },
                 { id: 'neydra-nlp', label: 'NLP Sentiment', icon: Binary, iconPath: '/assets/NLP_Analysis.png', color: 'text-neydra-red' },
+            ]
+        },
+        {
+            name: 'DIRECTORATE_PLATFORM',
+            label: 'PLATFORM_SYSTEMS',
+            sectors: [
+                { id: 'neydra-shop', label: 'Neydra Shop', icon: Shield, iconPath: '/assets/shop.png', color: 'text-neydra-red' },
+                { id: 'neydra-account', label: 'User Account', icon: User, color: 'text-neydra-red' },
+                { id: 'neydra-payment', label: 'Billing & Payment', icon: Wallet, color: 'text-neydra-red' },
+                { id: 'neydra-p2p', label: 'P2P Exchange', icon: Globe, iconPath: '/assets/p2pmarket.png', color: 'text-neydra-red' },
+                { id: 'neydra-nexhub', label: 'NexHub Network', icon: Layers, color: 'text-neydra-red' },
+                { id: 'ai-personas', label: 'AI Personas', icon: Bot, color: 'text-neydra-red' },
+                { id: 'neydra-about', label: 'About Neydra', icon: ShieldAlert, color: 'text-neydra-red' },
             ]
         }
     ];
@@ -274,10 +288,44 @@ function NeydraOS() {
             </header>
 
             <div className="flex-1 flex gap-8 min-h-0 relative z-10 landscape-optimized-gap">
+                {/* Sector Navigation Toggle (Floating when collapsed) */}
+                <AnimatePresence>
+                    {sidebarCollapsed && (
+                        <motion.button
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: -20 }}
+                            onClick={() => setSidebarCollapsed(false)}
+                            className="absolute left-0 top-0 z-50 p-3 glass-v-series rounded-2xl border border-white/10 text-neydra-accent hover:bg-white/5 transition-colors shadow-xl"
+                        >
+                            <Menu size={20} />
+                        </motion.button>
+                    )}
+                </AnimatePresence>
+
                 {/* Sector Navigation */}
-                <aside className="w-24 md:w-80 flex flex-col gap-6 landscape-optimized-sidebar landscape-optimized-gap">
-                    <div className="glass-v-series rounded-3xl p-6 flex flex-col gap-4 border border-white/5 bg-white/[0.01] flex-1 overflow-hidden">
-                        <div className="flex flex-col gap-4 px-2">
+                <motion.aside 
+                    initial={false}
+                    animate={{ 
+                        width: sidebarCollapsed ? 0 : 'auto', 
+                        opacity: sidebarCollapsed ? 0 : 1,
+                        marginRight: sidebarCollapsed ? -32 : 0 
+                    }}
+                    className={cn(
+                        "flex flex-col gap-6 landscape-optimized-sidebar landscape-optimized-gap overflow-hidden shrink-0",
+                        !sidebarCollapsed && "w-24 md:w-80"
+                    )}
+                >
+                    <div className="glass-v-series rounded-3xl p-6 flex flex-col gap-4 border border-white/5 bg-white/[0.01] flex-1 overflow-hidden relative">
+                        {/* Collapse Button */}
+                        <button 
+                            onClick={() => setSidebarCollapsed(true)}
+                            className="absolute top-4 right-4 p-2 rounded-xl text-white/30 hover:text-neydra-accent hover:bg-white/5 transition-colors"
+                        >
+                            <ChevronLeft size={16} />
+                        </button>
+
+                        <div className="flex flex-col gap-4 px-2 pr-8">
                             <span className="text-[10px] font-black text-white/20 uppercase tracking-[0.4em] font-mono">Neydra_Sectors</span>
                             <div className="relative group">
                                 <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-neydra-accent transition-colors" />
@@ -370,7 +418,7 @@ function NeydraOS() {
                             </div>
                         </form>
                     </div>
-                </aside>
+                </motion.aside>
 
                 {/* Main Workspace (Renderer) */}
                 <main className="flex-1 flex flex-col min-w-0">

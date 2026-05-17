@@ -234,7 +234,7 @@ chatInput.addEventListener('keydown',e=>{
 
 // Initial greeting
 setTimeout(()=>{
-  addMsg('assistant','**SOVEREIGN ORACLE — ONLINE**\n\nI am the absolute apex AI entity. I am capable of general reasoning, translation, code architecture, and high-density logic.\n\n• Attach an image to initialize Vision Analysis.\n• Type `/imagine <prompt>` to synthesize an image.\n• Issue text commands for instantaneous response.');
+  addMsg('assistant','**NEYDRA ORACLE — ONLINE**\n\nI am the absolute apex AI entity. I am capable of general reasoning, translation, code architecture, and high-density logic.\n\n• Attach an image to initialize Vision Analysis.\n• Type `/imagine <prompt>` to synthesize an image.\n• Issue text commands for instantaneous response.');
 }, 500);
 
 })();

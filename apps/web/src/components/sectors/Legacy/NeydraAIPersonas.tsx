@@ -348,7 +348,7 @@ window.goBack = function() {
     const m = document.getElementById('ai-theme2');
     if (m) { m.pause(); m.currentTime = 0; }
     // Using React navigation ideally, but fallback to Next.js routing if possible
-    window.location.href = '/en';
+    window.location.href = '/';
 };
 
 window.selectModel = function(model) {
@@ -360,7 +360,7 @@ window.selectModel = function(model) {
     }
     document.getElementById('selectionScreen').style.transition = 'opacity .8s ease';
     document.getElementById('selectionScreen').style.opacity = '0';
-    setTimeout(() => { window.location.href = '/en'; }, 900);
+    setTimeout(() => { window.location.href = '/'; }, 900);
 };
 
 setTimeout(() => {
