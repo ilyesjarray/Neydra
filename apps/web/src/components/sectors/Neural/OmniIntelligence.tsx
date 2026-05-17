@@ -6,7 +6,7 @@ import { Brain, Search, ImageIcon, Sparkles, Coffee, BookOpen, Code2 } from 'luc
 
 const AI_MODELS = [
     { id: 1, name: 'Neydra Oracle', slug: 'oracle', tier: 'high', rank: '01',
-      tierLabel: 'Sovereign', desc: 'The ultimate imperial AI system for complex logic and strategy.', image: 'bot1card.png', route: '/en/ai/oracle', icon: Brain },
+      tierLabel: 'Sovereign', desc: 'The ultimate imperial AI system for complex logic and strategy.', image: 'oracle_card.png', route: '/en/ai/oracle', icon: Brain },
     { id: 2, name: 'Friend', slug: 'friend', tier: 'low', rank: '02',
       tierLabel: 'Bronze', desc: 'Casual companion — cheerful, honest, keeps it simple.', image: 'friendcard.png', route: '/en/ai/friend', icon: Coffee },
     { id: 3, name: 'Professor', slug: 'professor', tier: 'medium', rank: '03',
@@ -14,11 +14,11 @@ const AI_MODELS = [
     { id: 4, name: 'Builder', slug: 'builder', tier: 'high', rank: '04',
       tierLabel: 'Elite', desc: 'Agent swarm — builds complete projects from scratch.', image: 'buildercard.png', route: '/en/ai/builder', icon: Code2 },
     { id: 5, name: 'Vision Scout', slug: 'scout', tier: 'medium', rank: '05',
-      tierLabel: 'Recon', desc: 'High-speed image analysis and text extraction.', image: 'bot2card.png', route: '/en/ai/scout', icon: Search },
+      tierLabel: 'Recon', desc: 'High-speed image analysis and text extraction.', image: 'scout_card.png', route: '/en/ai/scout', icon: Search },
     { id: 6, name: 'Vision Forge', slug: 'forge', tier: 'medium', rank: '06',
-      tierLabel: 'Synth', desc: 'Advanced neural text-to-image generation.', image: 'bot3card.png', route: '/en/ai/forge', icon: ImageIcon },
+      tierLabel: 'Synth', desc: 'Advanced neural text-to-image generation.', image: 'forge_card.png', route: '/en/ai/forge', icon: ImageIcon },
     { id: 7, name: 'Lite App', slug: 'lite', tier: 'low', rank: '07',
-      tierLabel: 'Fast', desc: 'Installable ultra-fast unified chatbot interface.', image: 'bot4card.png', route: '/oracle/', icon: Sparkles }
+      tierLabel: 'Fast', desc: 'Installable ultra-fast unified chatbot interface.', image: 'lite_card.png', route: '/oracle/', icon: Sparkles }
 ];
 
 export function OmniIntelligence() {
