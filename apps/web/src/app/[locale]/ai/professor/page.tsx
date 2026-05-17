@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import NeuralModelChat from '@/components/ai/NeuralModelChat';
 import { BookOpen } from 'lucide-react';
