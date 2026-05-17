@@ -468,7 +468,7 @@ function NeuralOraclePanel() {
 }
 
 
-import { cn } from '@/lib/utils';
+
 
 declare global {
     interface Window {
@@ -735,14 +735,7 @@ function VisionForgePanel() {
 }
 
 
-import {
-    Send, Bot, User, Brain, BookOpen,
-    Briefcase, Coffee, Terminal, Zap, Shield,
-    Copy, Check, Maximize2, RotateCcw, Code2, X,
-    Sparkles, Image as ImageIcon, Video, FileJson, Search,
-    FileText, BarChart, Settings2, Languages, Microscope
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
+
 
 type ScoutMessage = {
     role: 'user' | 'assistant';
@@ -868,7 +861,7 @@ function VisionScoutPanel() {
         if ((!userMsg && selectedImages.length === 0) || isTyping) return;
 
         setInput('');
-        const newMsg: Message = { role: 'user', content: userMsg || 'Analyze this image.', mode: currentMode.id, images: selectedImages, timestamp: new Date() };
+        const newMsg: ScoutMessage = { role: 'user', content: userMsg || 'Analyze this image.', mode: currentMode.id, images: selectedImages, timestamp: new Date() };
         setMessages(prev => [...prev, newMsg]);
         setIsTyping(true);
         const imagesToSend = [...selectedImages];

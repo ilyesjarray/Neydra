@@ -775,7 +775,7 @@ export function NeydraNLP() {
 
 
     {/* <script src="/js/security.js"></script> */}
-    <meta charset="UTF-8" />
+    <meta charSet="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="/assets/icon.png" type="image/png" />
     <title>NEYDRA | RED PROTOCOL [ULTRA NLP]</title>
@@ -827,14 +827,14 @@ export function NeydraNLP() {
 
 
 
-    <!-- LOCAL AUDIO ASSETS (RED PROTOCOL) -->
+    {/* LOCAL AUDIO ASSETS (RED PROTOCOL) */}
     <audio id="snd-engage" src="/assets/engage.wav" preload="auto"></audio>
     <audio id="snd-alert" src="/assets/alert.wav" preload="auto"></audio>
     <audio id="snd-tick" src="/assets/tick.wav" preload="auto"></audio>
     <audio id="snd-ambient" src="/assets/ambient.wav" preload="auto"></audio>
     <audio id="snd-glitch" src="/assets/glitch.wav" preload="auto"></audio>
 
-    <!-- CONNECTION MODAL -->
+    {/* CONNECTION MODAL */}
     <div className="modal-overlay" id="connection-modal">
         <div className="modal-content connection-panel">
             <h2>CONNECT TO NLP ENGINE</h2>
@@ -851,7 +851,7 @@ export function NeydraNLP() {
         </div>
     </div>
 
-    <!-- HOW TO USE MODAL -->
+    {/* HOW TO USE MODAL */}
     <div className="modal-overlay active" id="howto-modal">
         <div className="modal-content">
             <div className="modal-header">
@@ -859,7 +859,7 @@ export function NeydraNLP() {
                 <button className="modal-close" onClick="closeHowToModal()">✕</button>
             </div>
             <div className="modal-body">
-                <!-- STEP 1 -->
+                {/* STEP 1 */}
                 <div className="step-container">
                     <div className="step-title">
                         <span className="step-number">1</span>
@@ -871,7 +871,7 @@ export function NeydraNLP() {
                     </div>
                 </div>
 
-                <!-- STEP 2 -->
+                {/* STEP 2 */}
                 <div className="step-container">
                     <div className="step-title">
                         <span className="step-number">2</span>
@@ -891,7 +891,7 @@ export function NeydraNLP() {
                     </div>
                 </div>
 
-                <!-- STEP 3 -->
+                {/* STEP 3 */}
                 <div className="step-container">
                     <div className="step-title">
                         <span className="step-number">3</span>
@@ -907,7 +907,7 @@ export function NeydraNLP() {
                     </div>
                 </div>
 
-                <!-- STEP 4 -->
+                {/* STEP 4 */}
                 <div className="step-container">
                     <div className="step-title">
                         <span className="step-number">4</span>
@@ -926,7 +926,7 @@ export function NeydraNLP() {
                     </div>
                 </div>
 
-                <!-- STEP 5 -->
+                {/* STEP 5 */}
                 <div className="step-container">
                     <div className="step-title">
                         <span className="step-number">5</span>
@@ -938,7 +938,7 @@ export function NeydraNLP() {
                     </div>
                 </div>
 
-                <!-- DOWNLOAD SECTION -->
+                {/* DOWNLOAD SECTION */}
                 <div className="download-section">
                     <div className="download-title">📥 Download NLP Package</div>
                     <a href="/downloads/neydra-nlp-package.rar" download className="btn-download"
@@ -952,7 +952,7 @@ export function NeydraNLP() {
                     </a>
                 </div>
 
-                <!-- WARNING -->
+                {/* WARNING */}
                 <div className="warning-box">
                     Extract the .rar file and run the .exe application. No Python installation required.
                 </div>
@@ -988,7 +988,7 @@ export function NeydraNLP() {
         </div>
 
         <div className="main-display">
-            <!-- Sentiment Meter (Replaces Chart) -->
+            {/* Sentiment Meter (Replaces Chart) */}
             <div className="sentiment-container panel">
                 <div className="overlay-text">
                     <div style={{ "fontSize": "14px", "color": "#888" }}>GLOBAL SENTIMENT</div>
@@ -997,7 +997,7 @@ export function NeydraNLP() {
                 <div className="regime-display" id="marketRegime">ANALYZING...</div>
             </div>
 
-            <!-- News Feed (Replaces Metrics) -->
+            {/* News Feed (Replaces Metrics) */}
             <div className="panel news-feed-container">
                 <div className="panel-header">LIVE GLOBAL NEWS WIRE</div>
                 <div id="newsFeed">Loading stream...</div>
@@ -1005,14 +1005,14 @@ export function NeydraNLP() {
         </div>
 
         <div className="sidebar-right">
-            <!-- Volatility Panel -->
+            {/* Volatility Panel */}
             <div className="panel metric-card">
                 <span className="m-label">PREDICTED ATR SHIFT</span>
                 <span className="m-val" id="volValue">0.0%</span>
                 <div id="volAlert" className="vol-alert">STABLE</div>
             </div>
 
-            <!-- Keywords Panel -->
+            {/* Keywords Panel */}
             <div className="panel" style={{ "height": "100%" }}>
                 <div className="panel-header">TOP KEYWORDS</div>
                 <div className="keywords-list" id="keywordsList">

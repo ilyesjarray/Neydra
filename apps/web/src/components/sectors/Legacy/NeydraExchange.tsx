@@ -442,24 +442,24 @@ export function NeydraExchange() {
 
 
     {/* <script src="/js/security.js"></script> */}
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <!-- Updated Viewport for Mobile Fullscreen & No Zoom -->
+    <meta charSet="UTF-8" />
+    <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+    {/* Updated Viewport for Mobile Fullscreen & No Zoom */}
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>Exchange | NEYDRA™ [RED PROTOCOL]</title>
 
-    <!-- Red Protocol Fonts -->
+    {/* Red Protocol Fonts */}
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700;800&family=Share+Tech+Mono&display=swap"
         rel="stylesheet" />
-    <!-- Source 2 Icons -->
+    {/* Source 2 Icons */}
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.0.0/fonts/remixicon.css" rel="stylesheet" />
 
-    <!-- Assets -->
+    {/* Assets */}
     <link rel="icon" href="/assets/icon.png" type="image/png" />
     <link rel="manifest" href="/manifest.json" />
 
-    <!-- EmailJS SDK -->
+    {/* EmailJS SDK */}
     {/* <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script> */}
     {/* <script type="text/javascript">
         (function () {
@@ -472,7 +472,7 @@ export function NeydraExchange() {
 
 
 
-    <!-- AUDIO ASSETS -->
+    {/* AUDIO ASSETS */}
     <audio id="snd-engage" src="/assets/engage.wav" preload="auto"></audio>
     <audio id="snd-alert" src="/assets/alert.wav" preload="auto"></audio>
     <audio id="snd-tick" src="/assets/tick.wav" preload="auto"></audio>
@@ -486,7 +486,7 @@ export function NeydraExchange() {
 
     <div className="container">
 
-        <!-- HEADER SECTION -->
+        {/* HEADER SECTION */}
         <header className="header-section">
             <h1>NEYDRA <span>EXCHANGE</span></h1>
             <p className="section__subtitle"
@@ -505,7 +505,7 @@ export function NeydraExchange() {
             </div>
         </header>
 
-        <!-- ABOUT SECTION -->
+        {/* ABOUT SECTION */}
         <section className="panel about__container">
             <div className="deco-line dl-1"></div>
             <div className="deco-line dl-2"></div>
@@ -539,7 +539,7 @@ export function NeydraExchange() {
             </div>
         </section>
 
-        <!-- SERVICE / FORM SECTION -->
+        {/* SERVICE / FORM SECTION */}
         <section className="panel service__container">
             <div className="deco-line dl-1"></div>
             <div className="deco-line dl-2"></div>
@@ -600,7 +600,7 @@ export function NeydraExchange() {
             </p>
         </section>
 
-        <!-- FOOTER -->
+        {/* FOOTER */}
         <footer className="panel">
             <div className="deco-line dl-1"></div>
             <div className="deco-line dl-2"></div>
@@ -623,7 +623,7 @@ export function NeydraExchange() {
 
     </div>
 
-    <!-- BOTTOM NAV -->
+    {/* BOTTOM NAV */}
     <nav className="bottom-nav">
         <ul>
             <li><a href="/welcome/home"><i className="ri-home-5-fill"></i><span>HOME</span></a></li>
@@ -634,7 +634,7 @@ export function NeydraExchange() {
         </ul>
     </nav>
 
-    <!-- SCRIPTS -->
+    {/* SCRIPTS */}
     {/* <script src="https://static.elfsight.com/platform/platform.js" async></script> */}
     <div className="elfsight-app-f0694651-f050-4245-909a-6b38d447d146" data-elfsight-app-lazy></div>
     {/* <script src="/js/auth.js"></script> */}

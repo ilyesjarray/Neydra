@@ -19,8 +19,8 @@ export function NeydraAbout() {
 
 
   {/* <script src="/js/security.js"></script> */}
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta charSet="UTF-8" />
+  <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://cdn.jsdelivr.net/npm/remixicon@3.0.0/fonts/remixicon.css" rel="stylesheet" />
   <link rel="stylesheet" href="/styles.css" />
@@ -45,7 +45,7 @@ export function NeydraAbout() {
       </p>
     </div>
 
-    <!-- 🔹 شريط التنقل السفلي في وسط الهيدر -->
+    {/* 🔹 شريط التنقل السفلي في وسط الهيدر */}
     <nav className="bottom-nav">
       <ul>
         <li>
@@ -62,7 +62,7 @@ export function NeydraAbout() {
     </nav>
   </header>
 
-  <!-- Elfsight Poll -->
+  {/* Elfsight Poll */}
   {/* <script src="https://static.elfsight.com/platform/platform.js" async></script> */}
   <div className="elfsight-app-f0694651-f050-4245-909a-6b38d447d146" data-elfsight-app-lazy></div>
 

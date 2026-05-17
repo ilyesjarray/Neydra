@@ -19,17 +19,17 @@ export function NeydraPayment() {
 
 
   {/* <script src="/js/security.js"></script> */}
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta charSet="UTF-8" />
+  <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" href="/assets/icon.png" type="image/png" />
   <title>NEYDRA | Secure Subscription</title>
   
 
-  <!-- Fonts & Icons -->
+  {/* Fonts & Icons */}
   <link href="https://cdn.jsdelivr.net/npm/remixicon@3.0.0/fonts/remixicon.css" rel="stylesheet" />
 
-  <!-- EmailJS SDK (Using your existing Public Key) -->
+  {/* EmailJS SDK (Using your existing Public Key) */}
   {/* <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script> */}
   {/* <script type="text/javascript">
     (function () {
@@ -292,7 +292,7 @@ export function NeydraPayment() {
       <div className="plan-subprice">Recurring Monthly Charge</div>
     </div>
 
-    <!-- Replace the old Form with this Container -->
+    {/* Replace the old Form with this Container */}
     <div id="helio-container" style={{ "textAlign": "center" }}>
       <p style={{ "marginBottom": "20px", "color": "#aaa" }}>Click below to launch secure payment .</p>
       <button id="payWithHelio" className="btn-unlock">Proceed to Payment</button>

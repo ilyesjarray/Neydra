@@ -783,7 +783,7 @@ export function NeydraAIL() {
 
 
     {/* <script src="/js/security.js"></script> */}
-    <meta charset="UTF-8" />
+    <meta charSet="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="/assets/icon.png" type="image/png" />
     <title>NEYDRA | INSTITUTIONAL DECODER [RED PROTOCOL]</title>
@@ -835,14 +835,14 @@ export function NeydraAIL() {
 
 
 
-    <!-- LOCAL AUDIO ASSETS (RED PROTOCOL) -->
+    {/* LOCAL AUDIO ASSETS (RED PROTOCOL) */}
     <audio id="snd-engage" src="/assets/engage.wav" preload="auto"></audio>
     <audio id="snd-alert" src="/assets/alert.wav" preload="auto"></audio>
     <audio id="snd-tick" src="/assets/tick.wav" preload="auto"></audio>
     <audio id="snd-ambient" src="/assets/ambient.wav" preload="auto"></audio>
     <audio id="snd-glitch" src="/assets/glitch.wav" preload="auto"></audio>
 
-    <!-- CONNECTION MODAL -->
+    {/* CONNECTION MODAL */}
     <div className="modal-overlay" id="connection-modal">
         <div className="modal-content connection-panel">
             <h2>CONNECT TO DECODER</h2>
@@ -859,7 +859,7 @@ export function NeydraAIL() {
         </div>
     </div>
 
-    <!-- HOW TO USE MODAL -->
+    {/* HOW TO USE MODAL */}
     <div className="modal-overlay active" id="howto-modal">
         <div className="modal-content">
             <div className="modal-header">
@@ -867,7 +867,7 @@ export function NeydraAIL() {
                 <button className="modal-close" onClick="closeHowToModal()">✕</button>
             </div>
             <div className="modal-body">
-                <!-- STEP 1 -->
+                {/* STEP 1 */}
                 <div className="step-container">
                     <div className="step-title">
                         <span className="step-number">1</span>
@@ -879,7 +879,7 @@ export function NeydraAIL() {
                     </div>
                 </div>
 
-                <!-- STEP 2 -->
+                {/* STEP 2 */}
                 <div className="step-container">
                     <div className="step-title">
                         <span className="step-number">2</span>
@@ -899,7 +899,7 @@ export function NeydraAIL() {
                     </div>
                 </div>
 
-                <!-- STEP 3 -->
+                {/* STEP 3 */}
                 <div className="step-container">
                     <div className="step-title">
                         <span className="step-number">3</span>
@@ -915,7 +915,7 @@ export function NeydraAIL() {
                     </div>
                 </div>
 
-                <!-- STEP 4 -->
+                {/* STEP 4 */}
                 <div className="step-container">
                     <div className="step-title">
                         <span className="step-number">4</span>
@@ -934,7 +934,7 @@ export function NeydraAIL() {
                     </div>
                 </div>
 
-                <!-- STEP 5 -->
+                {/* STEP 5 */}
                 <div className="step-container">
                     <div className="step-title">
                         <span className="step-number">5</span>
@@ -946,7 +946,7 @@ export function NeydraAIL() {
                     </div>
                 </div>
 
-                <!-- DOWNLOAD SECTION -->
+                {/* DOWNLOAD SECTION */}
                 <div className="download-section">
                     <div className="download-title">📥 Download Decoder Package</div>
                     <a href="/downloads/neydra-ail-package.rar" download className="btn-download"
@@ -960,7 +960,7 @@ export function NeydraAIL() {
                     </a>
                 </div>
 
-                <!-- WARNING -->
+                {/* WARNING */}
                 <div className="warning-box">
                     If MetaTrader 5 is not installed or running, the decoder will operate in SIMULATION MODE with
                     synthetic data. No Python installation required.
@@ -987,7 +987,7 @@ export function NeydraAIL() {
             </div>
         </div>
 
-        <!-- LEFT: MEMORY STREAM (VISUAL DESIGN) -->
+        {/* LEFT: MEMORY STREAM (VISUAL DESIGN) */}
         <div className="sidebar-left">
             <div className="panel" style={{ "height": "100%", "display": "flex", "flexDirection": "column" }}>
                 <div className="panel-header">MEMORY STREAM</div>
@@ -999,10 +999,10 @@ export function NeydraAIL() {
             </div>
         </div>
 
-        <!-- CENTER: WHALE ORDERS & DEPTH (TARGET LOGIC) -->
+        {/* CENTER: WHALE ORDERS & DEPTH (TARGET LOGIC) */}
         <div className="main-display">
 
-            <!-- WHALE ORDER FLOW -->
+            {/* WHALE ORDER FLOW */}
             <div className="panel whale-container">
                 <div className="panel-header">WHALE ORDER FLOW [DETECTED]</div>
                 <div className="overlay-text">
@@ -1014,14 +1014,14 @@ export function NeydraAIL() {
                 </div>
             </div>
 
-            <!-- MARKET DEPTH -->
+            {/* MARKET DEPTH */}
             <div className="panel depth-container">
                 <div className="panel-header">MARKET DEPTH [SYNTHETIC]</div>
                 <div id="depth-chart">Scanning Depth...</div>
             </div>
         </div>
 
-        <!-- RIGHT: LIQUIDITY CLUSTERS (TARGET LOGIC) -->
+        {/* RIGHT: LIQUIDITY CLUSTERS (TARGET LOGIC) */}
         <div className="sidebar-right">
             <div className="panel" style={{ "height": "100%" }}>
                 <div className="panel-header">LIQUIDITY CLUSTERS</div>
@@ -1033,7 +1033,7 @@ export function NeydraAIL() {
             </div>
         </div>
 
-        <!-- FOOTER: LOGS & CONTROLS -->
+        {/* FOOTER: LOGS & CONTROLS */}
         <div className="footer-section">
             <div className="terminal" id="sys-log">
                 <div className="log-line">> SYSTEM INITIALIZED</div>

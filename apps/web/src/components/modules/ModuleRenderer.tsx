@@ -90,9 +90,7 @@ export function ModuleRenderer({ moduleId }: ModuleRendererProps) {
             return <OmniIntelligence />;
         case 'neydra-social':
             return <NeydraSocial />;
-        case 'neydra-vault':
-            return <NeydraVault />;
-        
+
         // Sectors Under Construction
         case 'war-council':
             return <ProductionAlertWrapper sectorName="Stratagem_Council" moduleId={moduleId}><TierGuardWrapper sectorName="Stratagem_Council" requiredTier="ULTRA"><WarCouncil /></TierGuardWrapper></ProductionAlertWrapper>;

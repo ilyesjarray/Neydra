@@ -2270,7 +2270,7 @@ export function NeydraNews() {
 
 
     {/* <script src="/js/security.js"></script> */}
-    <meta charset="UTF-8" />
+    <meta charSet="UTF-8" />
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <link rel="icon" href="/assets/icon.png" type="image/png" />
@@ -2280,7 +2280,7 @@ export function NeydraNews() {
     <link
         href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700;800&family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Amiri:wght@400;700&display=swap"
         rel="stylesheet" />
-    <!-- Three.js -->
+    {/* Three.js */}
     {/* <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script> */}
 
     
@@ -2325,7 +2325,7 @@ export function NeydraNews() {
             <div className="live-badge">
                 <div className="live-dot"></div>LIVE
             </div>
-            <!-- Mobile Menu Button -->
+            {/* Mobile Menu Button */}
             <button className="mobile-menu-btn" onClick="toggleMobileSidebar()">☰</button>
         </div>
 
@@ -2351,7 +2351,7 @@ export function NeydraNews() {
                     </div>
                 </div>
             </div>
-            <!-- LIVE TV PANEL -->
+            {/* LIVE TV PANEL */}
             <div className="panel live-tv-panel" style={{ "flex": "1", "minHeight": "0" }}>
                 <div className="panel-header"><span>📡 LIVE TV</span><span id="tv-status">STREAMING</span></div>
                 <div className="tv-tabs" id="tv-tabs">
@@ -2366,7 +2366,7 @@ export function NeydraNews() {
                         allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
                 </div>
             </div>
-            <!-- SYSTEM CONTROLS -->
+            {/* SYSTEM CONTROLS */}
             <div className="panel" style={{ "flex": "0 0 auto" }}>
                 <div className="panel-header">SYSTEM CONTROLS</div>
                 <div className="controls">
@@ -2387,7 +2387,7 @@ export function NeydraNews() {
 
         <div className="main-view">
             <div className="earth-container panel">
-                <!-- Three.js Globe Canvas -->
+                {/* Three.js Globe Canvas */}
                 <canvas id="earth-canvas"></canvas>
 
                 <div className="hud-overlay">
@@ -2417,11 +2417,11 @@ export function NeydraNews() {
                     </div>
                 </div>
 
-                <!-- Earth Mode Toggle -->
+                {/* Earth Mode Toggle */}
                 <button className="earth-mode-toggle" id="earth-mode-btn" onClick="toggleEarthMode()">⬡ WIREFRAME
                     MODE</button>
 
-                <!-- Target Indicator -->
+                {/* Target Indicator */}
                 <div className="target-indicator" id="target-indicator">
                     <div className="target-outer"></div>
                     <div className="target-inner"></div>
@@ -2469,12 +2469,12 @@ export function NeydraNews() {
                 <div className="panel-header">
                     <span>LIVE NEWS FEED</span>
                     <span id="news-count">0</span>
-                    <!-- Close button for mobile sidebar -->
+                    {/* Close button for mobile sidebar */}
                     <button className="close-btn"
                         style={{ "display": "none", "position": "absolute", "right": "5px", "top": "5px", "width": "25px", "height": "25px", "borderColor": "var(--primary)", "color": "var(--primary)" }}
                         onClick="toggleMobileSidebar()">X</button>
                 </div>
-                <!-- Language switcher -->
+                {/* Language switcher */}
                 <div className="lang-switcher">
                     <button className="lang-btn active" onClick="switchLang('en')">EN</button>
                     <button className="lang-btn" onClick="switchLang('fr')">FR</button>
@@ -2489,7 +2489,7 @@ export function NeydraNews() {
             </div>
         </div>
 
-        <!-- URGENT BAR -->
+        {/* URGENT BAR */}
         <div className="urgent-bar" id="urgent-bar">
             <div className="urgent-label">⚠ URGENT</div>
             <div className="urgent-content">
@@ -2506,7 +2506,7 @@ export function NeydraNews() {
         </div>
     </div>
 
-    <!-- Country Image Popup -->
+    {/* Country Image Popup */}
     <div className="country-popup" id="country-popup">
         <div className="country-popup-content">
             <div className="country-popup-header">
@@ -2524,7 +2524,7 @@ export function NeydraNews() {
         </div>
     </div>
 
-    <!-- CONNECTION OVERLAY (Legacy - kept as optional) -->
+    {/* CONNECTION OVERLAY (Legacy - kept as optional) */}
     <div className="connection-overlay" id="connection-overlay">
         <div className="connection-panel">
             <h2>LEGACY MODE — CONNECT TO SERVER</h2>

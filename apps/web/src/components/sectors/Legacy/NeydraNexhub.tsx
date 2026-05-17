@@ -19,8 +19,8 @@ export function NeydraNexhub() {
 
 
   {/* <script src="/js/security.js"></script> */}
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta charSet="UTF-8" />
+  <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://cdn.jsdelivr.net/npm/remixicon@3.0.0/fonts/remixicon.css" rel="stylesheet" />
   <link rel="stylesheet" href="/styles.css" />
@@ -46,7 +46,7 @@ export function NeydraNexhub() {
       </p>
     </div>
 
-    <!-- Navigation bar positioned at the bottom center of the header -->
+    {/* Navigation bar positioned at the bottom center of the header */}
     <nav className="bottom-nav">
       <ul>
         <li><a href="/welcome/home"><img src="/assets/home-icon.png" alt="Home" /></a></li>
@@ -68,7 +68,7 @@ export function NeydraNexhub() {
         </div>
       </div>
       <div className="privacy-policy">
-        <!-- Elfsight Popup | Untitled Popup -->
+        {/* Elfsight Popup | Untitled Popup */}
         {/* <script src="https://static.elfsight.com/platform/platform.js" async></script> */}
         <div className="elfsight-app-ae803dce-38d8-46a4-aef9-ae083790c7f8" data-elfsight-app-lazy></div>
       </div>

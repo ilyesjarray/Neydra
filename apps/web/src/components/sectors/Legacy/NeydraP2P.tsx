@@ -900,20 +900,20 @@ export function NeydraP2P() {
 
 
     {/* <script src="/js/security.js"></script> */}
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charSet="UTF-8" />
+    <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>NEYDRA P2P MARKETPLACE</title>
 
-    <!-- Fonts & Icons -->
+    {/* Fonts & Icons */}
     <link
         href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700;800&family=Share+Tech+Mono&display=swap"
         rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.0.0/fonts/remixicon.css" rel="stylesheet" />
     <link rel="icon" href="/assets/icon.png" type="image/png" />
 
-    <!-- Supabase SDK -->
+    {/* Supabase SDK */}
     {/* <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> */}
 
     
@@ -922,13 +922,13 @@ export function NeydraP2P() {
 
     <div className="aero-bg" id="aero-bg"></div>
 
-    <!-- Audio -->
+    {/* Audio */}
     <audio id="snd-engage" src="/assets/engage.wav" preload="auto"></audio>
     <audio id="snd-alert" src="/assets/alert.wav" preload="auto"></audio>
     <audio id="snd-tick" src="/assets/tick.wav" preload="auto"></audio>
 
     <div className="container">
-        <!-- AUTH VIEW -->
+        {/* AUTH VIEW */}
         <div id="auth-view" className="view active">
             <div className="auth-container">
                 <div style={{ "textAlign": "center", "marginBottom": "40px" }}>
@@ -967,7 +967,7 @@ export function NeydraP2P() {
             </div>
         </div>
 
-        <!-- MARKETPLACE VIEW -->
+        {/* MARKETPLACE VIEW */}
         <div id="market-view" className="view">
             <header className="main-header">
                 <h1>MARKETPLACE</h1>
@@ -989,7 +989,7 @@ export function NeydraP2P() {
                 </div>
             </div>
 
-            <!-- No filters for crypto as it's USDT only -->
+            {/* No filters for crypto as it's USDT only */}
             <div className="filter-bar" style={{ "justifyContent": "space-between" }}>
                 <h3 style={{ "color": "#fff", "margin": "0", "fontSize": "16px" }}><i className="ri-filter-line"></i> FILTER BY SELLER LEVEL
                 </h3>
@@ -1004,7 +1004,7 @@ export function NeydraP2P() {
             <div className="offers-grid" id="offers-container"></div>
         </div>
 
-        <!-- CREATE OFFER VIEW -->
+        {/* CREATE OFFER VIEW */}
         <div id="create-view" className="view">
             <header className="main-header">
                 <h1>CREATE OFFER</h1>
@@ -1037,7 +1037,7 @@ export function NeydraP2P() {
             </div>
         </div>
 
-        <!-- DASHBOARD VIEW -->
+        {/* DASHBOARD VIEW */}
         <div id="dash-view" className="view">
             <header className="main-header">
                 <h1>DASHBOARD</h1>
@@ -1056,7 +1056,7 @@ export function NeydraP2P() {
                         NEW OFFER</button>
                 </div>
 
-                <!-- Pending Trades Section for Security -->
+                {/* Pending Trades Section for Security */}
                 <div className="dashboard-card" style={{ "gridColumn": "1 / -1" }}>
                     <h3>TRADES MANAGEMENT</h3>
                     <p style={{ "fontSize": "12px", "color": "var(--text-dim)", "marginBottom": "15px" }}>Manage your active trades.</p>
@@ -1078,7 +1078,7 @@ export function NeydraP2P() {
         </div>
     </div>
 
-    <!-- Modals -->
+    {/* Modals */}
     <div className="notification-panel" id="notif-panel">
         <div className="notification-header">
             <h3 style={{ "color": "#fff" }}>NOTIFICATIONS</h3>
