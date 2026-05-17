@@ -1027,7 +1027,7 @@ export function NeydraP2P() {
                 <input type="text" id="offer-wallet" placeholder="TJx..." />
 
                 <label>NOTES (OPTIONAL)</label>
-                <textarea id="offer-notes" rows="2" placeholder="Terms or notes"></textarea>
+                <textarea id="offer-notes" rows={2} placeholder="Terms or notes"></textarea>
 
                 <div style={{ "display": "flex", "gap": "10px", "marginTop": "20px" }}>
                     <button className="btn btn-outline" onClick={() => { try { eval(`showView('market-view')`); } catch(e){} }}>CANCEL</button>
@@ -1096,7 +1096,7 @@ export function NeydraP2P() {
             <label>STORE NAME</label>
             <input type="text" id="store-name" placeholder="Name" />
             <label>DESCRIPTION</label>
-            <textarea id="store-desc" rows="2" placeholder="What do you offer?"></textarea>
+            <textarea id="store-desc" rows={2} placeholder="What do you offer?"></textarea>
             <p style={{ "color": "var(--warning)", "fontSize": "12px", "margin": "10px 0" }}>You will be redirected to payment gateway.
             </p>
             <button className="btn btn-success" onClick={() => { try { eval(`initiateStorePayment()`); } catch(e){} }}>PAY 30 TND & CREATE</button>
