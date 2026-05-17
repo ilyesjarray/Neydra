@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
-export type LoaderVariant = 'neydra-blue' | 'neon-blue' | 'obsidian';
+export type LoaderVariant = 'neydra-red' | 'neon-red' | 'obsidian';
 
 interface NeydraLoaderProps {
     variant?: LoaderVariant;
@@ -13,12 +13,12 @@ interface NeydraLoaderProps {
 }
 
 const variantColors: Record<LoaderVariant, { primary: string; glow: string; gradient: string }> = {
-    'neydra-blue': {
+    'neydra-red': {
         primary: '#ff0000',
         glow: 'rgba(255, 0, 0, 0.4)',
         gradient: 'from-[#ff0000] to-[#ff0000]',
     },
-    'neon-blue': {
+    'neon-red': {
         primary: '#ff0000',
         glow: 'rgba(255, 0, 0, 0.4)',
         gradient: 'from-[#ff0000] to-[#ff0000]',
@@ -37,7 +37,7 @@ const sizeConfig = {
 };
 
 export function NeydraLoader({
-    variant = 'neydra-blue',
+    variant = 'neydra-red',
     size = 'md',
     text,
     showDiamondDust = true,
@@ -189,13 +189,13 @@ export function NeydraLoader({
 
 // Preset variants for different tiers
 export function GuestLoader(props: Omit<NeydraLoaderProps, 'variant'>) {
-    return <NeydraLoader variant="neydra-blue" {...props} />;
+    return <NeydraLoader variant="neydra-red" {...props} />;
 }
 
 export function CommanderLoader(props: Omit<NeydraLoaderProps, 'variant'>) {
-    return <NeydraLoader variant="neydra-blue" {...props} />;
+    return <NeydraLoader variant="neydra-red" {...props} />;
 }
 
 export function EliteLoader(props: Omit<NeydraLoaderProps, 'variant'>) {
-    return <NeydraLoader variant="neon-blue" {...props} />;
+    return <NeydraLoader variant="neon-red" {...props} />;
 }

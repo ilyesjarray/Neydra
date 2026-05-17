@@ -9,14 +9,17 @@ export interface ProvidersProps {
 }
 
 import { SoundProvider } from '@/providers/SoundProvider';
+import { SmoothScrollProvider } from '@/providers/SmoothScrollProvider';
 
 export function Providers({ children }: ProvidersProps) {
     return (
-        <SoundProvider>
-            <NeydraThemeProvider>
-                {children}
-                <Toaster position="top-right" expand={false} richColors />
-            </NeydraThemeProvider>
-        </SoundProvider>
+        <SmoothScrollProvider>
+            <SoundProvider>
+                <NeydraThemeProvider>
+                    {children}
+                    <Toaster position="top-right" expand={false} richColors />
+                </NeydraThemeProvider>
+            </SoundProvider>
+        </SmoothScrollProvider>
     );
 }
