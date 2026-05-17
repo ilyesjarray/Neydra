@@ -42,7 +42,7 @@ export default function AcquisitionPage() {
 
             {/* Custom Scroll Progress Bar */}
             <motion.div
-                className="fixed bottom-0 left-0 right-0 h-1 bg-neydra-accent z-[101] origin-left shadow-neon-cyan"
+                className="fixed bottom-0 left-0 right-0 h-1 bg-neydra-accent z-[101] origin-left shadow-neon-red"
                 style={{ scaleX: 0 }} // This would normally use useScroll from framer-motion
                 whileInView={{ scaleX: 1 }}
             />

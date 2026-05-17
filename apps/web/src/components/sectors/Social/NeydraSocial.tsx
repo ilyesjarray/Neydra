@@ -243,7 +243,7 @@ export default function NeydraSocial() {
                     <div className="flex justify-between items-center border-b border-white/5 pb-6">
                         <div>
                             <h1 className="text-3xl font-black text-white italic tracking-tighter uppercase">Neydra_Social</h1>
-                            <p className="text-[10px] text-hyper-cyan uppercase tracking-[0.4em] font-mono mt-1">Global_Connection // Neural_Feed</p>
+                            <p className="text-[10px] text-neydra-accent uppercase tracking-[0.4em] font-mono mt-1">Global_Connection // Neural_Feed</p>
                         </div>
                         <div className="flex bg-white/[0.03] p-1 rounded-xl border border-white/5">
                             {['FEED', 'TRENDING', 'INTEL'].map((tab) => (
@@ -252,7 +252,7 @@ export default function NeydraSocial() {
                                     onClick={() => setActiveTab(tab as any)}
                                     className={cn(
                                         "px-4 py-2 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all",
-                                        activeTab === tab ? "bg-hyper-cyan text-carbon-black" : "text-white/20 hover:text-white/40"
+                                        activeTab === tab ? "bg-neydra-accent text-carbon-black" : "text-white/20 hover:text-white/40"
                                     )}
                                 >
                                     {tab}
@@ -278,13 +278,13 @@ export default function NeydraSocial() {
                             whileHover={{ scale: 1.05 }}
                             onClick={() => storyInputRef.current?.click()}
                             disabled={isUploadingStory}
-                            className="w-20 h-32 lg:w-24 lg:h-40 shrink-0 rounded-2xl border-2 border-dashed border-white/10 flex flex-col items-center justify-center gap-2 hover:border-hyper-cyan/30 transition-all bg-white/[0.02]"
+                            className="w-20 h-32 lg:w-24 lg:h-40 shrink-0 rounded-2xl border-2 border-dashed border-white/10 flex flex-col items-center justify-center gap-2 hover:border-neydra-accent/30 transition-all bg-white/[0.02]"
                         >
                             {isUploadingStory ? (
-                                <Loader2 size={16} className="text-hyper-cyan animate-spin" />
+                                <Loader2 size={16} className="text-neydra-accent animate-spin" />
                             ) : (
                                 <>
-                                    <div className="w-8 h-8 rounded-full bg-hyper-cyan/10 flex items-center justify-center border border-hyper-cyan/30 text-hyper-cyan">
+                                    <div className="w-8 h-8 rounded-full bg-neydra-accent/10 flex items-center justify-center border border-neydra-accent/30 text-neydra-accent">
                                         <Plus size={16} />
                                     </div>
                                     <span className="text-[8px] font-black text-white/30 uppercase">Add_Story</span>
@@ -297,7 +297,7 @@ export default function NeydraSocial() {
                                 key={story.id}
                                 whileHover={{ scale: 1.05 }}
                                 onClick={() => { setStoryStartIdx(i); setStoryViewerOpen(true); }}
-                                className="w-20 h-32 lg:w-24 lg:h-40 shrink-0 rounded-2xl border-2 border-hyper-cyan/40 p-0.5 relative group cursor-pointer"
+                                className="w-20 h-32 lg:w-24 lg:h-40 shrink-0 rounded-2xl border-2 border-neydra-accent/40 p-0.5 relative group cursor-pointer"
                             >
                                 <div className="absolute inset-0 rounded-[0.8rem] overflow-hidden bg-white/5">
                                     {story.media_type === 'VIDEO' ? (
@@ -321,7 +321,7 @@ export default function NeydraSocial() {
                     {/* Post Composer */}
                     <div className="bg-white/[0.02] border border-white/5 rounded-[2.5rem] p-6 lg:p-8 space-y-4 shadow-2xl relative overflow-hidden">
                         <div className="absolute top-0 right-0 p-4 opacity-5">
-                            <Zap size={60} className="text-hyper-cyan" />
+                            <Zap size={60} className="text-neydra-accent" />
                         </div>
 
                         <div className="flex gap-4">
@@ -354,13 +354,13 @@ export default function NeydraSocial() {
                             <div className="flex gap-2">
                                 <button
                                     onClick={() => { if (fileInputRef.current) { fileInputRef.current.accept = 'image/*'; fileInputRef.current.click(); } }}
-                                    className="p-3 rounded-xl bg-white/[0.03] border border-white/5 text-white/30 hover:text-hyper-cyan hover:border-hyper-cyan/30 transition-all"
+                                    className="p-3 rounded-xl bg-white/[0.03] border border-white/5 text-white/30 hover:text-neydra-accent hover:border-neydra-accent/30 transition-all"
                                 >
                                     <ImageIcon size={18} />
                                 </button>
                                 <button
                                     onClick={() => { if (fileInputRef.current) { fileInputRef.current.accept = 'video/*'; fileInputRef.current.click(); } }}
-                                    className="p-3 rounded-xl bg-white/[0.03] border border-white/5 text-white/30 hover:text-rose-500 hover:border-rose-500/30 transition-all"
+                                    className="p-3 rounded-xl bg-white/[0.03] border border-white/5 text-white/30 hover:text-red-600 hover:border-red-600/30 transition-all"
                                 >
                                     <Video size={18} />
                                 </button>
@@ -371,7 +371,7 @@ export default function NeydraSocial() {
                                 disabled={isPosting || (!newPostContent.trim() && !mediaFile)}
                                 className={cn(
                                     "flex items-center gap-3 px-8 py-3 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all",
-                                    (newPostContent.trim() || mediaFile) ? "bg-hyper-cyan text-carbon-black shadow-neon-cyan" : "bg-white/5 text-white/10 cursor-not-allowed"
+                                    (newPostContent.trim() || mediaFile) ? "bg-neydra-accent text-carbon-black shadow-neon-red" : "bg-white/5 text-white/10 cursor-not-allowed"
                                 )}
                             >
                                 {isPosting ? 'Transmitting...' : (
@@ -394,7 +394,7 @@ export default function NeydraSocial() {
                                 animate={{ opacity: 1, y: 0 }}
                                 className="p-6 lg:p-8 bg-white/[0.01] border border-white/5 rounded-[2.5rem] space-y-6 group hover:border-white/10 transition-all relative overflow-hidden"
                             >
-                                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-hyper-cyan/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-neydra-accent/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
 
                                 <div className="flex justify-between items-start">
                                     <div className="flex gap-4">
@@ -408,7 +408,7 @@ export default function NeydraSocial() {
                                         <div>
                                             <div className="flex items-center gap-2">
                                                 <h4 className="text-sm font-black text-white uppercase italic">{post.profiles?.full_name || 'ANONYMOUS_COMMANDER'}</h4>
-                                                <Shield size={10} className="text-hyper-cyan shadow-neon-cyan" />
+                                                <Shield size={10} className="text-neydra-accent shadow-neon-red" />
                                             </div>
                                             <span className="text-[8px] font-mono text-white/20 uppercase tracking-[0.2em]">{new Date(post.created_at).toLocaleString()}</span>
                                         </div>
@@ -436,7 +436,7 @@ export default function NeydraSocial() {
                                     <div className="flex gap-6">
                                         <button
                                             onClick={() => handleLike(post.id)}
-                                            className="flex items-center gap-2 text-[10px] font-black text-white/20 hover:text-rose-500 transition-colors uppercase tracking-widest group/like"
+                                            className="flex items-center gap-2 text-[10px] font-black text-white/20 hover:text-red-600 transition-colors uppercase tracking-widest group/like"
                                         >
                                             <Heart size={16} className="group-hover/like:scale-125 transition-transform" />
                                             <span>{post.likes_count}</span>
@@ -446,7 +446,7 @@ export default function NeydraSocial() {
                                                 const text = `${post.profiles?.full_name || 'Commander'}: ${post.content.slice(0, 100)}`;
                                                 navigator.clipboard.writeText(text);
                                             }}
-                                            className="flex items-center gap-2 text-[10px] font-black text-white/20 hover:text-hyper-cyan transition-colors uppercase tracking-widest"
+                                            className="flex items-center gap-2 text-[10px] font-black text-white/20 hover:text-neydra-accent transition-colors uppercase tracking-widest"
                                         >
                                             <MessageSquare size={16} />
                                             <span>Copy</span>
@@ -460,7 +460,7 @@ export default function NeydraSocial() {
                                                 navigator.clipboard.writeText(post.content);
                                             }
                                         }}
-                                        className="flex items-center gap-2 text-[10px] font-black text-white/10 hover:text-hyper-cyan transition-colors uppercase tracking-widest"
+                                        className="flex items-center gap-2 text-[10px] font-black text-white/10 hover:text-neydra-accent transition-colors uppercase tracking-widest"
                                     >
                                         <Share2 size={16} />
                                         <span>Share</span>

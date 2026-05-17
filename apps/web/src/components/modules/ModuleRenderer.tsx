@@ -52,15 +52,15 @@ function ProductionAlertWrapper({ children, sectorName, moduleId }: { children: 
                             initial={{ y: -20, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             exit={{ y: -20, opacity: 0 }}
-                            className="bg-[#111] border border-amber-500/30 rounded-2xl p-6 max-w-md w-full shadow-2xl shadow-amber-500/5"
+                            className="bg-[#111] border border-red-600/30 rounded-2xl p-6 max-w-md w-full shadow-2xl shadow-red-600/5"
                         >
                             <div className="flex items-center gap-4 mb-4">
-                                <div className="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center shrink-0">
-                                    <AlertTriangle className="text-amber-500" size={24} />
+                                <div className="w-12 h-12 rounded-xl bg-red-600/10 border border-red-600/20 flex items-center justify-center shrink-0">
+                                    <AlertTriangle className="text-red-600" size={24} />
                                 </div>
                                 <div>
                                     <h3 className="text-white font-black uppercase tracking-wider text-sm">{sectorName}</h3>
-                                    <p className="text-amber-500/80 text-[10px] uppercase tracking-widest font-mono">Restricted Production Zone</p>
+                                    <p className="text-red-600/80 text-[10px] uppercase tracking-widest font-mono">Restricted Production Zone</p>
                                 </div>
                             </div>
                             
@@ -70,7 +70,7 @@ function ProductionAlertWrapper({ children, sectorName, moduleId }: { children: 
 
                             <button 
                                 onClick={() => setAcknowledged(true)}
-                                className="w-full py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-black uppercase tracking-widest text-xs transition-colors"
+                                className="w-full py-3 rounded-xl bg-red-600 hover:bg-red-500 text-black font-black uppercase tracking-widest text-xs transition-colors"
                             >
                                 Acknowledge & Proceed
                             </button>

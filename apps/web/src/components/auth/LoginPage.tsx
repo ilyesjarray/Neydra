@@ -404,9 +404,9 @@ export default function LoginPage() {
                                 className="space-y-6"
                             >
                                 <div>
-                                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 mb-4">
-                                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                                        <span className="text-[9px] font-black uppercase tracking-widest text-emerald-500">Key Verified</span>
+                                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-600/10 border border-red-600/20 mb-4">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse" />
+                                        <span className="text-[9px] font-black uppercase tracking-widest text-red-600">Key Verified</span>
                                     </div>
                                     <h2 className="text-2xl font-black tracking-tight mb-1" style={{ color: 'var(--ivory)' }}>
                                         Enter the Command

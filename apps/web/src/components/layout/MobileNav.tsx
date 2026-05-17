@@ -58,7 +58,7 @@ export function MobileNav({ currentSector, onSectorChange, onExpandMenu }: Mobil
                             {isActive && (
                                 <motion.div
                                     layoutId="mobile-nav-indicator"
-                                    className="absolute bottom-0 w-8 h-0.5 bg-neydra-accent rounded-full shadow-neon-cyan"
+                                    className="absolute bottom-0 w-8 h-0.5 bg-neydra-accent rounded-full shadow-neon-red"
                                 />
                             )}
                         </button>

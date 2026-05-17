@@ -79,13 +79,13 @@ export function AICommandCenter() {
             {/* Header */}
             <div className="p-4 border-b border-white/5 flex items-center justify-between bg-white/5">
                 <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded bg-cyan-500/20 flex items-center justify-center border border-cyan-500/30">
-                        <Cpu className="w-4 h-4 text-cyan-400" />
+                    <div className="w-8 h-8 rounded bg-red-600/20 flex items-center justify-center border border-red-600/30">
+                        <Cpu className="w-4 h-4 text-red-500" />
                     </div>
                     <div>
                         <h3 className="text-xs font-black uppercase tracking-widest text-white">Neural Interface</h3>
-                        <div className="flex items-center gap-1.5 text-[8px] text-cyan-400/60 uppercase font-mono">
-                            <span className="h-1 w-1 rounded-full bg-cyan-500 animate-pulse" />
+                        <div className="flex items-center gap-1.5 text-[8px] text-red-500/60 uppercase font-mono">
+                            <span className="h-1 w-1 rounded-full bg-red-600 animate-pulse" />
                             Direct Satellite Link // Active
                         </div>
                     </div>
@@ -106,7 +106,7 @@ export function AICommandCenter() {
                             className="h-full flex flex-col items-center justify-center text-center space-y-4 min-h-[200px]"
                         >
                             <div className="p-4 rounded-full bg-white/5 border border-white/5">
-                                <Bot className="w-8 h-8 text-cyan-500/40" />
+                                <Bot className="w-8 h-8 text-red-600/40" />
                             </div>
                             <div className="space-y-1">
                                 <p className="text-xs font-mono text-zinc-500 uppercase tracking-widest">Awaiting Command</p>
@@ -124,9 +124,9 @@ export function AICommandCenter() {
                             className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
                         >
                             <div className={`max-w-[85%] flex gap-3 ${m.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
-                                <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border ${m.role === 'user' ? 'bg-zinc-800 border-white/10' : 'bg-cyan-500/10 border-cyan-500/20'
+                                <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border ${m.role === 'user' ? 'bg-zinc-800 border-white/10' : 'bg-red-600/10 border-red-600/20'
                                     }`}>
-                                    {m.role === 'user' ? <User className="w-4 h-4 text-zinc-400" /> : <Bot className="w-4 h-4 text-cyan-400" />}
+                                    {m.role === 'user' ? <User className="w-4 h-4 text-zinc-400" /> : <Bot className="w-4 h-4 text-red-500" />}
                                 </div>
                                 <div className={`p-4 rounded-2xl text-sm leading-relaxed ${m.role === 'user'
                                         ? 'bg-zinc-900 text-white rounded-tr-none border border-white/5 font-medium'
@@ -142,7 +142,7 @@ export function AICommandCenter() {
                                     {m.role !== 'user' && m.content && (
                                         <button
                                             onClick={() => speak(m.content)}
-                                            className="mt-2 text-[9px] flex items-center gap-1.5 text-cyan-400/40 hover:text-cyan-400 transition-colors uppercase tracking-widest"
+                                            className="mt-2 text-[9px] flex items-center gap-1.5 text-red-500/40 hover:text-red-500 transition-colors uppercase tracking-widest"
                                         >
                                             <Volume2 className="w-3 h-3" /> Re-Transmit
                                         </button>
@@ -153,7 +153,7 @@ export function AICommandCenter() {
                     ))}
                     {isLoading && messages[messages.length - 1]?.role !== 'assistant' && (
                         <div className="flex justify-start">
-                            <div className="flex items-center gap-3 text-cyan-400/60 animate-pulse">
+                            <div className="flex items-center gap-3 text-red-500/60 animate-pulse">
                                 <Loader2 className="w-4 h-4 animate-spin" />
                                 <span className="text-[10px] font-mono uppercase tracking-widest">Processing Intelligence...</span>
                             </div>
@@ -165,8 +165,8 @@ export function AICommandCenter() {
             {/* Input Area */}
             <form onSubmit={handleSubmit} className="p-6 pt-0">
                 <div className="relative group">
-                    <div className="absolute -inset-0.5 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-xl blur opacity-0 group-focus-within:opacity-100 transition duration-500" />
-                    <div className="relative flex items-center gap-2 bg-zinc-900/80 border border-white/10 rounded-xl p-2 pr-3 focus-within:border-cyan-500/50 transition-all">
+                    <div className="absolute -inset-0.5 bg-gradient-to-r from-red-600/20 to-red-600/20 rounded-xl blur opacity-0 group-focus-within:opacity-100 transition duration-500" />
+                    <div className="relative flex items-center gap-2 bg-zinc-900/80 border border-white/10 rounded-xl p-2 pr-3 focus-within:border-red-600/50 transition-all">
                         <div className="pl-3 py-2 border-r border-white/10 mr-2">
                             <Terminal className="w-4 h-4 text-zinc-500" />
                         </div>
@@ -179,7 +179,7 @@ export function AICommandCenter() {
                         <button
                             type="submit"
                             disabled={isLoading || !input.trim()}
-                            className="bg-cyan-600/10 hover:bg-cyan-600/20 text-cyan-400 p-2 rounded-lg transition-all border border-cyan-500/20 disabled:opacity-30"
+                            className="bg-cyan-600/10 hover:bg-cyan-600/20 text-red-500 p-2 rounded-lg transition-all border border-red-600/20 disabled:opacity-30"
                         >
                             {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
                         </button>

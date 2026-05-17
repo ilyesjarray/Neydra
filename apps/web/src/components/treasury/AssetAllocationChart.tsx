@@ -82,7 +82,7 @@ export function AssetAllocationChart() {
                 </div>
                 <div>
                     <div className="text-[9px] text-neon-blue/40 uppercase tracking-widest mb-1">24h Volatility</div>
-                    <div className={`text-xl font-black tracking-tighter ${globalData.market_cap_change_percentage_24h_usd >= 0 ? 'text-neydra-blue' : 'text-rose-500'}`}>
+                    <div className={`text-xl font-black tracking-tighter ${globalData.market_cap_change_percentage_24h_usd >= 0 ? 'text-neydra-blue' : 'text-red-600'}`}>
                         {globalData.market_cap_change_percentage_24h_usd > 0 ? '+' : ''}
                         {globalData.market_cap_change_percentage_24h_usd.toFixed(2)}%
                     </div>

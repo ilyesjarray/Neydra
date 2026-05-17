@@ -43,18 +43,18 @@ const AGENTS: Agent[] = [
         name: 'Oracle Primus',
         role: 'THE_STRATEGIST',
         icon: Brain,
-        color: 'text-amber-400',
-        borderColor: 'border-amber-400/30',
-        bgColor: 'bg-amber-500/10'
+        color: 'text-red-500',
+        borderColor: 'border-red-500/30',
+        bgColor: 'bg-red-600/10'
     },
     {
         id: 'aegis',
         name: 'Shadow Aegis',
         role: 'THE_SENTINEL',
         icon: Eye,
-        color: 'text-rose-400',
-        borderColor: 'border-rose-400/30',
-        bgColor: 'bg-rose-500/10'
+        color: 'text-red-500',
+        borderColor: 'border-red-500/30',
+        bgColor: 'bg-red-600/10'
     }
 ];
 
@@ -100,9 +100,9 @@ export function WarCouncil() {
                 {/* Council Header */}
                 <div className="flex justify-between items-end border-b border-white/5 pb-10">
                     <div className="flex items-center gap-6">
-                        <div className="w-16 h-16 rounded-[2rem] bg-amber-500/10 border border-amber-500/30 flex items-center justify-center shadow-neon-amber/20 group cursor-pointer overflow-hidden p-3">
+                        <div className="w-16 h-16 rounded-[2rem] bg-red-600/10 border border-red-600/30 flex items-center justify-center shadow-neon-amber/20 group cursor-pointer overflow-hidden p-3">
                             <motion.div animate={isDebating ? { rotate: 360 } : {}} transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}>
-                                <Hexagon className="w-8 h-8 text-amber-500" />
+                                <Hexagon className="w-8 h-8 text-red-600" />
                             </motion.div>
                         </div>
                         <div>
@@ -118,7 +118,7 @@ export function WarCouncil() {
                             "group flex items-center gap-4 px-10 py-5 rounded-[2rem] font-black text-xs uppercase tracking-widest transition-all",
                             isDebating
                                 ? "bg-white/5 border border-white/10 text-white/20 cursor-not-allowed"
-                                : "bg-amber-500 text-carbon-black hover:bg-amber-400 hover:shadow-neon-amber"
+                                : "bg-red-600 text-carbon-black hover:bg-red-500 hover:shadow-neon-amber"
                         )}
                     >
                         {isDebating ? <RefreshCw className="animate-spin" /> : <Play size={20} />}
@@ -253,10 +253,10 @@ export function WarCouncil() {
 
                     {/* Imperial Directive */}
                     <div className="glass-v-series rounded-[3rem] bg-white/[0.01] border border-white/10 p-10 flex flex-col space-y-8 relative overflow-hidden group">
-                        <div className="absolute inset-0 bg-amber-500/[0.02] group-hover:bg-amber-500/[0.04] transition-all" />
+                        <div className="absolute inset-0 bg-red-600/[0.02] group-hover:bg-red-600/[0.04] transition-all" />
 
                         <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center space-y-6">
-                            <Sword className="text-amber-500/20 group-hover:text-amber-500 transition-colors" size={48} />
+                            <Sword className="text-red-600/20 group-hover:text-red-600 transition-colors" size={48} />
                             <h4 className="text-[10px] font-black text-white/40 uppercase tracking-[0.5em]">Imperial_Directive</h4>
 
                             <AnimatePresence mode="wait">
@@ -267,7 +267,7 @@ export function WarCouncil() {
                                         animate={{ opacity: 1, scale: 1 }}
                                         className="space-y-6"
                                     >
-                                        <h2 className="text-3xl font-black text-amber-500 italic tracking-tighter uppercase shadow-neon-amber/20 drop-shadow-md">
+                                        <h2 className="text-3xl font-black text-red-600 italic tracking-tighter uppercase shadow-neon-amber/20 drop-shadow-md">
                                             {directive.label}
                                         </h2>
                                         <p className="text-xs font-bold text-white/60 uppercase tracking-widest leading-relaxed">
@@ -295,7 +295,7 @@ export function WarCouncil() {
 
                         <div className="relative z-10 pt-6 border-t border-white/5">
                             <div className="flex items-center gap-3 text-[9px] font-black text-white/20 uppercase">
-                                <AlertCircle size={14} className="text-amber-500/40" />
+                                <AlertCircle size={14} className="text-red-600/40" />
                                 <span>Directive_Authorized_By_Council</span>
                             </div>
                         </div>

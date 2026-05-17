@@ -32,18 +32,18 @@ export function RealityMetrics() {
     }, []);
 
     const metrics = [
-        { label: 'Network_Neydras', value: stats.users, suffix: '', icon: Globe, color: 'text-hyper-cyan' },
-        { label: 'Intelligence_Flow', value: stats.signals24h, suffix: '+', icon: SignalHigh, color: 'text-amber-500' },
-        { label: 'System_Sync_Rate', value: stats.syncRate, suffix: '%', icon: Activity, color: 'text-emerald-500' },
-        { label: 'Neural_Latency', value: stats.latency, suffix: 'ms', icon: Cpu, color: 'text-rose-500' }
+        { label: 'Network_Neydras', value: stats.users, suffix: '', icon: Globe, color: 'text-neydra-accent' },
+        { label: 'Intelligence_Flow', value: stats.signals24h, suffix: '+', icon: SignalHigh, color: 'text-red-600' },
+        { label: 'System_Sync_Rate', value: stats.syncRate, suffix: '%', icon: Activity, color: 'text-red-600' },
+        { label: 'Neural_Latency', value: stats.latency, suffix: 'ms', icon: Cpu, color: 'text-red-600' }
     ];
 
     return (
         <section className="py-32 px-10 bg-carbon-black relative overflow-hidden">
             <div className="max-w-7xl mx-auto space-y-20 relative z-10">
                 <div className="flex flex-col items-center text-center space-y-4">
-                    <div className="flex items-center gap-4 text-hyper-cyan">
-                        <div className="w-2 h-2 rounded-full bg-hyper-cyan animate-ping" />
+                    <div className="flex items-center gap-4 text-neydra-accent">
+                        <div className="w-2 h-2 rounded-full bg-neydra-accent animate-ping" />
                         <span className="text-[10px] font-black uppercase tracking-[0.5em] font-mono italic">Reality_Integration_Audit</span>
                     </div>
                     <h2 className="text-6xl font-black text-white italic tracking-tighter uppercase">100% Data-Driven Architecture</h2>
@@ -60,14 +60,14 @@ export function RealityMetrics() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: i * 0.1 }}
-                            className="p-10 glass-v-series rounded-[3rem] bg-white/[0.01] border border-white/5 relative overflow-hidden group hover:border-hyper-cyan/20 transition-all"
+                            className="p-10 glass-v-series rounded-[3rem] bg-white/[0.01] border border-white/5 relative overflow-hidden group hover:border-neydra-accent/20 transition-all"
                         >
                             <div className="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:scale-110 transition-transform">
                                 <m.icon size={120} className={m.color} />
                             </div>
 
                             <div className="space-y-6 relative z-10">
-                                <div className={cn("p-4 w-fit rounded-2xl bg-white/5 border border-white/10 group-hover:border-hyper-cyan/20 transition-colors", m.color)}>
+                                <div className={cn("p-4 w-fit rounded-2xl bg-white/5 border border-white/10 group-hover:border-neydra-accent/20 transition-colors", m.color)}>
                                     <m.icon size={28} />
                                 </div>
                                 <div className="space-y-1">
@@ -83,10 +83,10 @@ export function RealityMetrics() {
                 </div>
 
                 {/* Decentralized Proof */}
-                <div className="p-10 rounded-[3rem] bg-hyper-cyan/[0.03] border border-hyper-cyan/10 flex flex-col md:flex-row items-center justify-between gap-10">
+                <div className="p-10 rounded-[3rem] bg-neydra-accent/[0.03] border border-neydra-accent/10 flex flex-col md:flex-row items-center justify-between gap-10">
                     <div className="flex items-center gap-8">
-                        <div className="w-20 h-20 rounded-2xl bg-carbon-black border border-hyper-cyan/30 flex items-center justify-center shadow-neon-cyan">
-                            <Database className="text-hyper-cyan w-10 h-10" />
+                        <div className="w-20 h-20 rounded-2xl bg-carbon-black border border-neydra-accent/30 flex items-center justify-center shadow-neon-red">
+                            <Database className="text-neydra-accent w-10 h-10" />
                         </div>
                         <div className="space-y-2">
                             <h4 className="text-xl font-black text-white italic tracking-tighter uppercase">Verified Ledger Synchronization</h4>
@@ -98,9 +98,9 @@ export function RealityMetrics() {
                     <div className="px-10 py-5 bg-white/5 rounded-2xl border border-white/10 flex items-center gap-6">
                         <div className="flex flex-col items-end">
                             <span className="text-[8px] font-black text-white/20 uppercase tracking-widest font-mono">Archive_Status</span>
-                            <span className="text-sm font-bold text-emerald-500 uppercase italic">Immutable</span>
+                            <span className="text-sm font-bold text-red-600 uppercase italic">Immutable</span>
                         </div>
-                        <div className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse shadow-neon-emerald" />
+                        <div className="w-3 h-3 rounded-full bg-red-600 animate-pulse shadow-neon-emerald" />
                     </div>
                 </div>
             </div>

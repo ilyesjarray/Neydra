@@ -71,7 +71,7 @@ export function TierGuardWrapper({ children, sectorName, requiredTier }: TierGua
     if (isAuthorized === null) {
         return (
             <div className="w-full h-full flex items-center justify-center">
-                <Zap className="text-hyper-cyan animate-pulse" size={24} />
+                <Zap className="text-neydra-accent animate-pulse" size={24} />
             </div>
         );
     }
@@ -109,7 +109,7 @@ export function TierGuardWrapper({ children, sectorName, requiredTier }: TierGua
                                 </div>
                                 
                                 <p className="text-white/60 text-sm leading-relaxed font-medium">
-                                    Commander, your current clearance level is insufficient to engage with the <span className="text-hyper-cyan font-bold">{sectorName}</span> subsystem. A <span className="text-[#FF0000] font-bold">{requiredTier}</span> tier subscription is required.
+                                    Commander, your current clearance level is insufficient to engage with the <span className="text-neydra-accent font-bold">{sectorName}</span> subsystem. A <span className="text-[#FF0000] font-bold">{requiredTier}</span> tier subscription is required.
                                 </p>
 
                                 <div className="flex flex-col gap-3 mt-4">

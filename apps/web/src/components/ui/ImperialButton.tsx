@@ -30,7 +30,7 @@ export function ImperialButton({
     const variants = {
         primary: "bg-neon-blue text-black hover:bg-black hover:text-neon-blue border border-neon-blue/50 shadow-glow-gold",
         secondary: "bg-black border border-neon-blue/20 text-neon-blue/60 hover:bg-neon-blue/5 hover:border-neon-blue/40 hover:text-neon-blue",
-        danger: "bg-black border border-rose-500/50 text-rose-500 hover:bg-rose-500/10 hover:border-rose-400 shadow-glow-red",
+        danger: "bg-black border border-red-600/50 text-red-600 hover:bg-red-600/10 hover:border-red-500 shadow-glow-red",
         ghost: "bg-transparent border border-transparent text-neon-blue/60 hover:text-neon-blue",
         emerald: "bg-black text-neydra-blue hover:bg-neydra-blue/5 border border-neydra-blue/50 shadow-glow-emerald"
     };

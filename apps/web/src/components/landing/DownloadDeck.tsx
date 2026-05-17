@@ -18,7 +18,7 @@ export function DownloadDeck() {
     return (
         <section className="py-40 px-10 bg-carbon-black relative overflow-hidden">
             {/* Focal Point Background */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[1200px] bg-hyper-cyan/[0.03] rounded-full blur-[160px] pointer-events-none" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[1200px] bg-neydra-accent/[0.03] rounded-full blur-[160px] pointer-events-none" />
 
             <div className="max-w-5xl mx-auto relative z-10">
                 <div className="glass-v-series rounded-[4rem] p-16 md:p-24 bg-white/[0.01] border border-white/10 relative overflow-hidden group">
@@ -30,11 +30,11 @@ export function DownloadDeck() {
                     <div className="grid md:grid-cols-2 gap-20 items-center">
                         <div className="space-y-10">
                             <div className="space-y-4">
-                                <div className="flex items-center gap-4 text-hyper-cyan">
+                                <div className="flex items-center gap-4 text-neydra-accent">
                                     <Lock className="w-4 h-4" />
                                     <span className="text-[10px] font-black uppercase tracking-[0.5em] font-mono italic">SECURE_DUE_DILIGENCE</span>
                                 </div>
-                                <h2 className="text-6xl font-black text-white italic tracking-tighter uppercase leading-tight">Download the <br /> <span className="text-hyper-cyan italic drop-shadow-neon-cyan text-7xl">Sales Deck</span></h2>
+                                <h2 className="text-6xl font-black text-white italic tracking-tighter uppercase leading-tight">Download the <br /> <span className="text-neydra-accent italic drop-shadow-neon-red text-7xl">Sales Deck</span></h2>
                             </div>
 
                             <p className="text-white/40 text-lg font-bold italic leading-relaxed uppercase">
@@ -49,7 +49,7 @@ export function DownloadDeck() {
                                     'Market Dominance Strategy'
                                 ].map((item, i) => (
                                     <li key={i} className="flex items-center gap-4 text-[10px] font-black text-white/60 uppercase tracking-widest italic">
-                                        <div className="w-2 h-2 rounded-full bg-hyper-cyan" />
+                                        <div className="w-2 h-2 rounded-full bg-neydra-accent" />
                                         {item}
                                     </li>
                                 ))}
@@ -67,14 +67,14 @@ export function DownloadDeck() {
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
                                             placeholder="ENTER_YOUR_CORPORATE_EMAIL..."
-                                            className="w-full bg-white/[0.02] border border-white/10 rounded-2xl py-6 pl-16 pr-8 text-sm font-black text-white placeholder:text-white/10 outline-none focus:border-hyper-cyan/40 transition-all font-mono tracking-tighter italic"
+                                            className="w-full bg-white/[0.02] border border-white/10 rounded-2xl py-6 pl-16 pr-8 text-sm font-black text-white placeholder:text-white/10 outline-none focus:border-neydra-accent/40 transition-all font-mono tracking-tighter italic"
                                         />
                                     </div>
                                 </div>
 
                                 <button
                                     onClick={handleDownload}
-                                    className="w-full py-7 bg-white text-carbon-black rounded-[1.5rem] font-black text-sm uppercase tracking-[0.4em] hover:bg-hyper-cyan transition-all shadow-neon-cyan flex items-center justify-center gap-4 italic"
+                                    className="w-full py-7 bg-white text-carbon-black rounded-[1.5rem] font-black text-sm uppercase tracking-[0.4em] hover:bg-neydra-accent transition-all shadow-neon-red flex items-center justify-center gap-4 italic"
                                 >
                                     <Download size={20} />
                                     Initialize_PDF_Export

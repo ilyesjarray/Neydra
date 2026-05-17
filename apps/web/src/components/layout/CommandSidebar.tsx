@@ -67,8 +67,8 @@ export default function CommandSidebar() {
                         animate={{ opacity: 1, x: 0 }}
                         className="flex items-center gap-4"
                     >
-                        <div className="w-10 h-10 bg-neydra-accent/10 rounded-2xl flex items-center justify-center border border-neydra-accent/20 shadow-neon-cyan/20 group cursor-pointer hover:bg-neydra-accent/20 transition-all duration-500">
-                            <Shield size={20} className="text-neydra-accent group-hover:scale-110 transition-transform shadow-neon-cyan" />
+                        <div className="w-10 h-10 bg-neydra-accent/10 rounded-2xl flex items-center justify-center border border-neydra-accent/20 shadow-neon-red/20 group cursor-pointer hover:bg-neydra-accent/20 transition-all duration-500">
+                            <Shield size={20} className="text-neydra-accent group-hover:scale-110 transition-transform shadow-neon-red" />
                         </div>
                         <div className="flex flex-col">
                             <span className="text-xl font-black tracking-[0.2em] text-white italic">NEYDRA</span>
@@ -77,8 +77,8 @@ export default function CommandSidebar() {
                     </motion.div>
                 )}
                 {collapsed && (
-                    <div className="w-10 h-10 bg-neydra-accent/10 rounded-2xl flex items-center justify-center border border-neydra-accent/20 shadow-neon-cyan/20">
-                        <Shield size={20} className="text-neydra-accent shadow-neon-cyan" />
+                    <div className="w-10 h-10 bg-neydra-accent/10 rounded-2xl flex items-center justify-center border border-neydra-accent/20 shadow-neon-red/20">
+                        <Shield size={20} className="text-neydra-accent shadow-neon-red" />
                     </div>
                 )}
                 <button
@@ -121,9 +121,9 @@ export default function CommandSidebar() {
 
                                             <div className={`
                                                 p-3 rounded-xl transition-all duration-500
-                                                ${isActive ? 'bg-neydra-accent/10 text-neydra-accent shadow-neon-cyan/20' : 'bg-transparent group-hover:text-neydra-accent'}
+                                                ${isActive ? 'bg-neydra-accent/10 text-neydra-accent shadow-neon-red/20' : 'bg-transparent group-hover:text-neydra-accent'}
                                             `}>
-                                                <mod.icon size={22} className={isActive ? 'shadow-neon-cyan' : ''} />
+                                                <mod.icon size={22} className={isActive ? 'shadow-neon-red' : ''} />
                                             </div>
 
                                             {!collapsed && (
@@ -163,7 +163,7 @@ export default function CommandSidebar() {
                         <div className="w-12 h-12 rounded-2xl bg-carbon-black border border-white/10 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-neydra-accent/40 shadow-premium">
                             <Fingerprint size={24} className="text-neydra-accent/40 group-hover:text-neydra-accent transition-colors" />
                         </div>
-                        <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-neydra-accent border-4 border-carbon-black animate-pulse shadow-neon-cyan" />
+                        <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-neydra-accent border-4 border-carbon-black animate-pulse shadow-neon-red" />
                     </div>
 
                     {!collapsed && (

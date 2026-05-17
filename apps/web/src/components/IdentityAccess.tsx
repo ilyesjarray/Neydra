@@ -85,18 +85,18 @@ export function IdentityAccess({ onSectorChange }: IdentityAccessProps) {
         <div className="relative" ref={dropdownRef}>
             <button
                 onClick={handleToggle}
-                className="flex items-center gap-3 pl-2 pr-3 py-1.5 rounded-xl bg-white/5 border border-white/5 hover:border-hyper-cyan/30 transition-all group relative overflow-hidden"
+                className="flex items-center gap-3 pl-2 pr-3 py-1.5 rounded-xl bg-white/5 border border-white/5 hover:border-neydra-accent/30 transition-all group relative overflow-hidden"
             >
-                <div className="absolute inset-0 bg-gradient-to-br from-hyper-cyan/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute inset-0 bg-gradient-to-br from-neydra-accent/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
 
                 {/* Avatar or Fingerprint fallback */}
-                <div className="w-8 h-8 rounded-lg border border-hyper-cyan/30 flex items-center justify-center relative z-10 overflow-hidden">
+                <div className="w-8 h-8 rounded-lg border border-neydra-accent/30 flex items-center justify-center relative z-10 overflow-hidden">
                     {avatarUrl ? (
                         <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
                     ) : (
-                        <Fingerprint className="w-5 h-5 text-hyper-cyan group-hover:scale-110 transition-transform" />
+                        <Fingerprint className="w-5 h-5 text-neydra-accent group-hover:scale-110 transition-transform" />
                     )}
-                    <div className="absolute bottom-0 left-0 w-full h-[2px] bg-hyper-cyan animate-pulse" />
+                    <div className="absolute bottom-0 left-0 w-full h-[2px] bg-neydra-accent animate-pulse" />
                 </div>
 
                 <div className="hidden lg:flex flex-col items-start relative z-10 text-left">
@@ -105,14 +105,14 @@ export function IdentityAccess({ onSectorChange }: IdentityAccessProps) {
                     </span>
                     <span className={cn(
                         "text-[8px] font-bold uppercase tracking-tighter leading-none mt-1",
-                        userTier === 'EMPIRE' ? "text-blue-400" : userTier === 'NEYDRA' ? "text-hyper-cyan" : userTier === 'ELITE' ? "text-white/80" : "text-white/40"
+                        userTier === 'EMPIRE' ? "text-red-500" : userTier === 'NEYDRA' ? "text-neydra-accent" : userTier === 'ELITE' ? "text-white/80" : "text-white/40"
                     )}>
                         {userTier} ACCESS
                     </span>
                 </div>
 
                 <ChevronDown
-                    className="w-3.5 h-3.5 text-white/20 transition-transform duration-300 group-hover:text-hyper-cyan"
+                    className="w-3.5 h-3.5 text-white/20 transition-transform duration-300 group-hover:text-neydra-accent"
                     style={{ transform: isOpen ? 'rotate(180deg)' : 'none' }}
                 />
             </button>
@@ -139,14 +139,14 @@ export function IdentityAccess({ onSectorChange }: IdentityAccessProps) {
                                 className="fixed w-72 glass-v-series border border-white/10 z-[110] shadow-premium rounded-2xl overflow-hidden"
                             >
                         {/* Header: User Profile Segment */}
-                        <div className="px-6 py-6 border-b border-white/5 bg-gradient-to-br from-hyper-cyan/5 to-transparent">
+                        <div className="px-6 py-6 border-b border-white/5 bg-gradient-to-br from-neydra-accent/5 to-transparent">
                             <div className="flex items-center gap-4 mb-4">
                                 {/* Avatar display */}
-                                <div className="w-12 h-12 rounded-xl border border-hyper-cyan/40 overflow-hidden shadow-neon-cyan flex items-center justify-center bg-hyper-cyan/20">
+                                <div className="w-12 h-12 rounded-xl border border-neydra-accent/40 overflow-hidden shadow-neon-red flex items-center justify-center bg-neydra-accent/20">
                                     {avatarUrl ? (
                                         <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
                                     ) : (
-                                        <User className="w-6 h-6 text-hyper-cyan" />
+                                        <User className="w-6 h-6 text-neydra-accent" />
                                     )}
                                 </div>
                                 <div className="flex flex-col overflow-hidden">
@@ -157,9 +157,9 @@ export function IdentityAccess({ onSectorChange }: IdentityAccessProps) {
                                 </div>
                             </div>
 
-                            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-hyper-cyan/10 border border-hyper-cyan/20">
-                                <Zap className="w-3 h-3 text-hyper-cyan" />
-                                <span className="text-[9px] font-black text-hyper-cyan uppercase tracking-widest">Empire Tier Active</span>
+                            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-neydra-accent/10 border border-neydra-accent/20">
+                                <Zap className="w-3 h-3 text-neydra-accent" />
+                                <span className="text-[9px] font-black text-neydra-accent uppercase tracking-widest">Empire Tier Active</span>
                             </div>
                         </div>
 
@@ -174,7 +174,7 @@ export function IdentityAccess({ onSectorChange }: IdentityAccessProps) {
                                     }}
                                 >
                                     <div className="flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-white/5 transition-all group border border-transparent hover:border-white/5">
-                                        <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-white/40 group-hover:text-hyper-cyan group-hover:bg-hyper-cyan/10 transition-colors">
+                                        <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-white/40 group-hover:text-neydra-accent group-hover:bg-neydra-accent/10 transition-colors">
                                             <item.icon className="w-4 h-4" />
                                         </div>
                                         <div className="flex flex-col text-left">
@@ -192,7 +192,7 @@ export function IdentityAccess({ onSectorChange }: IdentityAccessProps) {
                         <div className="p-3 border-t border-white/5 bg-white/2">
                             <button
                                 onClick={handleSignOut}
-                                className="w-full flex items-center gap-4 px-4 py-3 rounded-xl text-blue-500/60 hover:text-blue-500 hover:bg-blue-500/10 transition-all group font-black uppercase tracking-[0.2em] text-[10px]"
+                                className="w-full flex items-center gap-4 px-4 py-3 rounded-xl text-red-600/60 hover:text-red-600 hover:bg-red-600/10 transition-all group font-black uppercase tracking-[0.2em] text-[10px]"
                             >
                                 <LogOut className="w-4 h-4" />
                                 <span>Terminate Link</span>

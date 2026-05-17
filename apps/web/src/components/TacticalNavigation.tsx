@@ -26,12 +26,12 @@ export function TacticalNavigation() {
         <aside className="w-20 lg:w-72 h-screen flex flex-col bg-carbon-black border-r border-white/5 relative z-50">
             {/* Logo Sector */}
             <div className="h-24 flex items-center px-6 border-b border-white/5">
-                <div className="w-10 h-10 rounded-xl bg-hyper-cyan/10 flex items-center justify-center border border-hyper-cyan/30 shadow-neon-cyan">
-                    <Shield size={20} className="text-hyper-cyan" />
+                <div className="w-10 h-10 rounded-xl bg-neydra-accent/10 flex items-center justify-center border border-neydra-accent/30 shadow-neon-red">
+                    <Shield size={20} className="text-neydra-accent" />
                 </div>
                 <div className="hidden lg:flex flex-col ml-4">
                     <span className="text-sm font-black text-white tracking-widest uppercase italic">Neydra</span>
-                    <span className="text-[9px] text-hyper-cyan font-bold tracking-[0.4em] uppercase">V-Series_Elite</span>
+                    <span className="text-[9px] text-neydra-accent font-bold tracking-[0.4em] uppercase">V-Series_Elite</span>
                 </div>
             </div>
 
@@ -47,16 +47,16 @@ export function TacticalNavigation() {
                             href={item.href}
                             className={cn(
                                 "flex items-center gap-4 p-4 rounded-xl transition-all duration-500 group relative",
-                                isActive ? "bg-hyper-cyan/10 text-white" : "text-white/30 hover:bg-white/[0.02] hover:text-white"
+                                isActive ? "bg-neydra-accent/10 text-white" : "text-white/30 hover:bg-white/[0.02] hover:text-white"
                             )}
                         >
                             {isActive && (
                                 <motion.div
                                     layoutId="nav-active"
-                                    className="absolute left-0 w-1 h-6 bg-hyper-cyan rounded-r-full shadow-neon-cyan"
+                                    className="absolute left-0 w-1 h-6 bg-neydra-accent rounded-r-full shadow-neon-red"
                                 />
                             )}
-                            <Icon size={20} className={cn("transition-colors", isActive ? "text-hyper-cyan" : "group-hover:text-hyper-cyan/60")} />
+                            <Icon size={20} className={cn("transition-colors", isActive ? "text-neydra-accent" : "group-hover:text-neydra-accent/60")} />
                             <div className="hidden lg:block">
                                 <span className="text-[11px] font-black uppercase tracking-widest italic">{item.label}</span>
                             </div>
@@ -70,7 +70,7 @@ export function TacticalNavigation() {
             <div className="p-6 border-t border-white/5 space-y-4">
                 <div className="hidden lg:block glass-v-series p-4 rounded-xl border border-white/5 bg-white/[0.01]">
                     <div className="flex items-center gap-3">
-                        <div className="w-2 h-2 rounded-full bg-hyper-cyan animate-pulse shadow-neon-cyan" />
+                        <div className="w-2 h-2 rounded-full bg-neydra-accent animate-pulse shadow-neon-red" />
                         <span className="text-[9px] font-black text-white/40 uppercase tracking-widest font-mono italic">Node_Alpha_Synced</span>
                     </div>
                 </div>

@@ -38,7 +38,7 @@ export function FlashAlert({ value, className, children }: FlashAlertProps) {
                         exit={{ opacity: 0 }}
                         className={cn(
                             'absolute inset-0 rounded-none pointer-events-none',
-                            flash === 'up' ? 'bg-neydra-blue border border-neydra-blue/50' : 'bg-rose-500 border border-rose-500/50'
+                            flash === 'up' ? 'bg-neydra-blue border border-neydra-blue/50' : 'bg-red-600 border border-red-600/50'
                         )}
                         style={{ filter: 'blur(8px)' }}
                     />
@@ -46,7 +46,7 @@ export function FlashAlert({ value, className, children }: FlashAlertProps) {
             </AnimatePresence>
             <span className={cn(
                 'relative z-10 transition-colors duration-500 font-black italic',
-                flash === 'up' ? 'text-neydra-blue shadow-glow-emerald' : flash === 'down' ? 'text-rose-500 shadow-glow-red' : ''
+                flash === 'up' ? 'text-neydra-blue shadow-glow-emerald' : flash === 'down' ? 'text-red-600 shadow-glow-red' : ''
             )}>
                 {children}
             </span>

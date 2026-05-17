@@ -78,9 +78,9 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ response: "SYSTEM_ERROR: Invalid request payload." }, { status: 400 });
         }
 
-        const { message, mode = 'executive', history = [] } = body;
+        const { message, mode = 'executive', history = [], hasImages = false } = body;
 
-        if (!message?.trim()) {
+        if (!message?.trim() && !hasImages) {
             return NextResponse.json({ response: "ORACLE_ERROR: Empty command received." }, { status: 400 });
         }
 
@@ -148,7 +148,7 @@ CRITICAL RULES:
                         'Accept': 'application/json'
                     },
                     body: JSON.stringify({
-                        model: 'llama-3.3-70b-versatile',
+                        model: hasImages ? 'llama-3.2-11b-vision-preview' : 'llama-3.3-70b-versatile',
                         messages: conversationMessages,
                         max_tokens: 2048,
                         temperature: 0.7,

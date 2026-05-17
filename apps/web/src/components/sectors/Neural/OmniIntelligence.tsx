@@ -2,6 +2,8 @@
 import { Send, Bot, User, Brain, BookOpen, Briefcase, Coffee, Terminal, Zap, Shield, Copy, Check, Maximize2, RotateCcw, Code2, Sparkles, Image as ImageIcon, Video, FileJson, Search, FileText, BarChart, Settings2, Languages, Microscope, ChevronRight, Download, Loader2, AlertTriangle, Layers, Maximize, X } from 'lucide-react';
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { NeydraAIPersonas } from '../Legacy/NeydraAIPersonas';
+
 
 import { cn } from '@/lib/utils';
 
@@ -16,10 +18,10 @@ type OracleMessage = {
 
 const ORACLE_MODES = [
     { id: 'executive', label: 'EXECUTIVE', icon: Briefcase, color: 'text-neydra-accent', bg: 'bg-neydra-accent/10', border: 'border-neydra-accent/30', desc: 'Business, Strategy & Investments' },
-    { id: 'academic', label: 'ACADEMIC', icon: BookOpen, color: 'text-purple-400', bg: 'bg-purple-500/10', border: 'border-purple-500/30', desc: 'Research, Science & Learning' },
-    { id: 'philosophy', label: 'SAPIENS', icon: Brain, color: 'text-amber-400', bg: 'bg-amber-500/10', border: 'border-amber-500/30', desc: 'Philosophy, Psychology & Wisdom' },
+    { id: 'academic', label: 'ACADEMIC', icon: BookOpen, color: 'text-red-500', bg: 'bg-red-600/10', border: 'border-red-600/30', desc: 'Research, Science & Learning' },
+    { id: 'philosophy', label: 'SAPIENS', icon: Brain, color: 'text-red-500', bg: 'bg-red-600/10', border: 'border-red-600/30', desc: 'Philosophy, Psychology & Wisdom' },
     { id: 'casual', label: 'PERSONAL', icon: Coffee, color: 'text-red-500', bg: 'bg-red-600/10', border: 'border-red-600/30', desc: 'Life, Creativity & Daily Help' },
-    { id: 'code', label: 'CODE', icon: Code2, color: 'text-rose-400', bg: 'bg-rose-500/10', border: 'border-rose-500/30', desc: 'Programming & Engineering' },
+    { id: 'code', label: 'CODE', icon: Code2, color: 'text-red-500', bg: 'bg-red-600/10', border: 'border-red-600/30', desc: 'Programming & Engineering' },
 ];
 
 
@@ -616,7 +618,7 @@ function VisionForgePanel() {
                                     "w-full py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-2 transition-all",
                                     isGenerating || !prompt.trim() 
                                         ? "bg-white/5 text-white/20 cursor-not-allowed" 
-                                        : "bg-neydra-accent text-carbon-black hover:shadow-neon-cyan"
+                                        : "bg-neydra-accent text-carbon-black hover:shadow-neon-red"
                                 )}
                             >
                                 {isGenerating ? <Loader2 className="animate-spin" size={16} /> : <ImageIcon size={16} />}
@@ -634,7 +636,7 @@ function VisionForgePanel() {
                             <div className="space-y-3">
                                 <label className="text-[9px] font-black text-white/40 uppercase tracking-widest flex items-center justify-between">
                                     Neural_Model
-                                    <span className="text-[7px] text-amber-500/50">SOME REQUIRE CREDITS</span>
+                                    <span className="text-[7px] text-red-600/50">SOME REQUIRE CREDITS</span>
                                 </label>
                                 <select 
                                     value={selectedModel}
@@ -653,7 +655,7 @@ function VisionForgePanel() {
                         </div>
 
                         {error && (
-                            <div className="p-4 rounded-xl border border-rose-500/30 bg-rose-500/10 flex gap-3 text-rose-500 text-xs font-medium">
+                            <div className="p-4 rounded-xl border border-red-600/30 bg-red-600/10 flex gap-3 text-red-600 text-xs font-medium">
                                 <AlertTriangle size={16} className="shrink-0 mt-0.5" />
                                 {error}
                             </div>
@@ -1251,7 +1253,7 @@ export function OmniIntelligence() {
                         <div className="flex items-center gap-3"><ImageIcon size={16} /> <span className="text-[10px] font-black uppercase tracking-widest">Vision Forge</span></div>
                         {activeTab === 'forge' && <ChevronRight size={14} />}
                     </button>
-                    <button onClick={() => setActiveTab('scout')} className={cn("w-full flex items-center justify-between p-3 rounded-xl transition-all", activeTab === 'scout' ? "bg-amber-500/10 border border-amber-500/30 text-amber-500" : "text-white/40 hover:bg-white/5 hover:text-white")}>
+                    <button onClick={() => setActiveTab('scout')} className={cn("w-full flex items-center justify-between p-3 rounded-xl transition-all", activeTab === 'scout' ? "bg-red-600/10 border border-red-600/30 text-red-600" : "text-white/40 hover:bg-white/5 hover:text-white")}>
                         <div className="flex items-center gap-3"><Search size={16} /> <span className="text-[10px] font-black uppercase tracking-widest">Vision Scout</span></div>
                         {activeTab === 'scout' && <ChevronRight size={14} />}
                     </button>
@@ -1261,9 +1263,9 @@ export function OmniIntelligence() {
             {/* Content Area */}
             <div className="flex-1 relative overflow-hidden">
                 {activeTab === 'oracle' && <NeuralOraclePanel />}
-                {activeTab === 'personas' && <div className="p-8 text-white">Personas Module Syncing...</div>}
-                {activeTab === 'forge' && <VisionForgePanel />}
-                {activeTab === 'scout' && <VisionScoutPanel />}
+                {activeTab === 'personas' && <NeydraAIPersonas />}
+                {activeTab === 'forge' && <NeuralOraclePanel />}
+                {activeTab === 'scout' && <NeuralOraclePanel />}
             </div>
         </div>
     );

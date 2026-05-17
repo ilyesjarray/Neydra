@@ -81,7 +81,7 @@ export function ImperialCommunity() {
             <div className="w-80 border-r border-white/5 flex flex-col bg-white/[0.01]">
                 <div className="p-8 border-b border-white/5">
                     <h3 className="text-sm font-black text-white uppercase tracking-widest italic flex items-center gap-3">
-                        <Users className="text-hyper-cyan" size={18} />
+                        <Users className="text-neydra-accent" size={18} />
                         Nexus_Community
                     </h3>
                     <p className="text-[9px] text-white/20 uppercase font-bold tracking-[0.3em] mt-2">Connecting the Elite Nodes</p>
@@ -101,13 +101,13 @@ export function ImperialCommunity() {
                                         className={cn(
                                             "w-full p-4 rounded-xl flex items-center gap-4 transition-all duration-300 border",
                                             activeForum?.id === forum.id
-                                                ? "bg-hyper-cyan/10 border-hyper-cyan/30 text-white"
+                                                ? "bg-neydra-accent/10 border-neydra-accent/30 text-white"
                                                 : "bg-white/[0.02] border-transparent text-white/30 hover:bg-white/[0.05]"
                                         )}
                                     >
                                         <div className={cn(
                                             "w-8 h-8 rounded-lg flex items-center justify-center transition-colors",
-                                            activeForum?.id === forum.id ? "bg-hyper-cyan text-carbon-black shadow-neon-cyan" : "bg-white/5"
+                                            activeForum?.id === forum.id ? "bg-neydra-accent text-carbon-black shadow-neon-red" : "bg-white/5"
                                         )}>
                                             <Icon size={16} />
                                         </div>
@@ -127,12 +127,12 @@ export function ImperialCommunity() {
                         <div className="space-y-4">
                             {[1, 2, 3].map(i => (
                                 <div key={i} className="flex items-center gap-4 px-2 group cursor-pointer">
-                                    <div className="relative w-8 h-8 rounded-full border border-white/10 p-0.5 group-hover:border-hyper-cyan/40 transition-colors">
+                                    <div className="relative w-8 h-8 rounded-full border border-white/10 p-0.5 group-hover:border-neydra-accent/40 transition-colors">
                                         <div className="w-full h-full rounded-full bg-white/5 overflow-hidden border border-white/5" />
-                                        <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-carbon-black" />
+                                        <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-red-600 border-2 border-carbon-black" />
                                     </div>
                                     <div className="flex-1">
-                                        <div className="text-[9px] font-black text-white/60 uppercase italic group-hover:text-hyper-cyan transition-colors">Commander_Node_{i}</div>
+                                        <div className="text-[9px] font-black text-white/60 uppercase italic group-hover:text-neydra-accent transition-colors">Commander_Node_{i}</div>
                                         <div className="text-[7px] text-white/20 uppercase font-black">Online & Syncing</div>
                                     </div>
                                 </div>
@@ -144,7 +144,7 @@ export function ImperialCommunity() {
                 <div className="p-6 border-t border-white/5">
                     <button
                         onClick={() => setIsComposing(!isComposing)}
-                        className="w-full py-4 bg-hyper-cyan/10 hover:bg-hyper-cyan text-hyper-cyan hover:text-carbon-black rounded-xl border border-hyper-cyan/10 font-black text-[9px] uppercase tracking-[0.4em] transition-all italic"
+                        className="w-full py-4 bg-neydra-accent/10 hover:bg-neydra-accent text-neydra-accent hover:text-carbon-black rounded-xl border border-neydra-accent/10 font-black text-[9px] uppercase tracking-[0.4em] transition-all italic"
                     >
                         {isComposing ? 'ABORT_TRANSMISSION' : 'INITIATE_NEW_THREAD'}
                     </button>
@@ -157,7 +157,7 @@ export function ImperialCommunity() {
                 <div className="p-8 border-b border-white/5 flex items-center justify-between">
                     <div>
                         <div className="flex items-center gap-3">
-                            <span className="text-[10px] text-hyper-cyan font-black tracking-widest uppercase">/portal/nexus/</span>
+                            <span className="text-[10px] text-neydra-accent font-black tracking-widest uppercase">/portal/nexus/</span>
                             <span className="text-[10px] text-white/20 font-black tracking-widest uppercase italic">{activeForum?.label}</span>
                         </div>
                         <h2 className="text-4xl font-black text-white uppercase italic tracking-tighter mt-2">{activeForum?.label}</h2>
@@ -170,7 +170,7 @@ export function ImperialCommunity() {
                     </div>
                 </div>
 
-                <div className="mx-12 mt-10 glass-v-series rounded-[3rem] p-10 bg-hyper-cyan/[0.02] border border-white/5 relative overflow-hidden flex flex-col items-center justify-center min-h-[250px]">
+                <div className="mx-12 mt-10 glass-v-series rounded-[3rem] p-10 bg-neydra-accent/[0.02] border border-white/5 relative overflow-hidden flex flex-col items-center justify-center min-h-[250px]">
                     <div className="absolute inset-0 opacity-10">
                         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,186,211,0.1)_0%,transparent_70%)]" />
                         <motion.div
@@ -181,7 +181,7 @@ export function ImperialCommunity() {
                             transition={{ duration: 4, repeat: Infinity }}
                             className="absolute inset-0 flex items-center justify-center"
                         >
-                            <Globe size={400} className="text-hyper-cyan/20" />
+                            <Globe size={400} className="text-neydra-accent/20" />
                         </motion.div>
                     </div>
 
@@ -190,17 +190,17 @@ export function ImperialCommunity() {
                             <motion.div
                                 animate={{ rotate: 360 }}
                                 transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                                className="w-32 h-32 border border-hyper-cyan/10 rounded-full flex items-center justify-center"
+                                className="w-32 h-32 border border-neydra-accent/10 rounded-full flex items-center justify-center"
                             >
-                                <div className="absolute inset-0 border-t-2 border-hyper-cyan/40 rounded-full" />
+                                <div className="absolute inset-0 border-t-2 border-neydra-accent/40 rounded-full" />
                             </motion.div>
                             <div className="absolute inset-0 flex items-center justify-center">
                                 <motion.div
                                     animate={{ scale: [1, 1.2, 1] }}
                                     transition={{ duration: 2, repeat: Infinity }}
-                                    className="w-16 h-16 bg-hyper-cyan/20 rounded-full flex items-center justify-center blur-xl"
+                                    className="w-16 h-16 bg-neydra-accent/20 rounded-full flex items-center justify-center blur-xl"
                                 />
-                                <Activity size={32} className="text-hyper-cyan absolute z-20" />
+                                <Activity size={32} className="text-neydra-accent absolute z-20" />
                             </div>
                         </div>
                         <div className="mt-8 text-center">
@@ -208,17 +208,17 @@ export function ImperialCommunity() {
                             <div className="flex gap-8 mt-4">
                                 <div className="flex flex-col items-center gap-1">
                                     <span className="text-[7px] text-white/20 uppercase font-bold">Latency</span>
-                                    <span className="text-[9px] font-mono text-hyper-cyan">14ms</span>
+                                    <span className="text-[9px] font-mono text-neydra-accent">14ms</span>
                                 </div>
                                 <div className="w-px h-6 bg-white/10" />
                                 <div className="flex flex-col items-center gap-1">
                                     <span className="text-[7px] text-white/20 uppercase font-bold">Sync</span>
-                                    <span className="text-[9px] font-mono text-emerald-500">OPTIMAL</span>
+                                    <span className="text-[9px] font-mono text-red-600">OPTIMAL</span>
                                 </div>
                                 <div className="w-px h-6 bg-white/10" />
                                 <div className="flex flex-col items-center gap-1">
                                     <span className="text-[7px] text-white/20 uppercase font-bold">Active_Nodes</span>
-                                    <span className="text-[9px] font-mono text-amber-500">2,841</span>
+                                    <span className="text-[9px] font-mono text-red-600">2,841</span>
                                 </div>
                             </div>
                         </div>
@@ -233,21 +233,21 @@ export function ImperialCommunity() {
                                 initial={{ opacity: 0, height: 0, y: -20 }}
                                 animate={{ opacity: 1, height: 'auto', y: 0 }}
                                 exit={{ opacity: 0, height: 0, y: -20 }}
-                                className="max-w-4xl mx-auto space-y-4 mb-12 glass-v-series p-8 rounded-3xl border border-hyper-cyan/30 bg-hyper-cyan/[0.02]"
+                                className="max-w-4xl mx-auto space-y-4 mb-12 glass-v-series p-8 rounded-3xl border border-neydra-accent/30 bg-neydra-accent/[0.02]"
                             >
                                 <input
                                     type="text"
                                     value={newPostTitle}
                                     onChange={e => setNewPostTitle(e.target.value)}
                                     placeholder="TRANSMISSION_SUBJECT..."
-                                    className="w-full bg-transparent border-b border-white/10 p-4 text-white text-lg font-black uppercase italic outline-none focus:border-hyper-cyan transition-colors placeholder:text-white/20"
+                                    className="w-full bg-transparent border-b border-white/10 p-4 text-white text-lg font-black uppercase italic outline-none focus:border-neydra-accent transition-colors placeholder:text-white/20"
                                 />
                                 <textarea
                                     value={newPostContent}
                                     onChange={e => setNewPostContent(e.target.value)}
                                     placeholder="Enter encrypted message here..."
                                     rows={4}
-                                    className="w-full bg-white/[0.02] border border-white/5 rounded-2xl p-6 text-white text-sm outline-none focus:border-hyper-cyan/50 transition-colors custom-scrollbar resize-none placeholder:text-white/20 italic"
+                                    className="w-full bg-white/[0.02] border border-white/5 rounded-2xl p-6 text-white text-sm outline-none focus:border-neydra-accent/50 transition-colors custom-scrollbar resize-none placeholder:text-white/20 italic"
                                 />
                                 <div className="flex justify-end gap-4 pt-4">
                                     <button
@@ -259,7 +259,7 @@ export function ImperialCommunity() {
                                     <button
                                         onClick={handleCreatePost}
                                         disabled={isSubmitting || !newPostTitle || !newPostContent}
-                                        className="px-8 py-3 bg-hyper-cyan text-carbon-black rounded-xl text-[10px] font-black uppercase tracking-[0.3em] italic hover:shadow-neon-cyan transition-all disabled:opacity-50"
+                                        className="px-8 py-3 bg-neydra-accent text-carbon-black rounded-xl text-[10px] font-black uppercase tracking-[0.3em] italic hover:shadow-neon-red transition-all disabled:opacity-50"
                                     >
                                         {isSubmitting ? 'BROADCASTING...' : 'BROADCAST_SIGNAL'}
                                     </button>
@@ -269,7 +269,7 @@ export function ImperialCommunity() {
                     </AnimatePresence>
 
                     {loading ? (
-                        <div className="h-full flex items-center justify-center text-hyper-cyan uppercase font-black tracking-[1em] italic animate-pulse">
+                        <div className="h-full flex items-center justify-center text-neydra-accent uppercase font-black tracking-[1em] italic animate-pulse">
                             SYNCING_NODES...
                         </div>
                     ) : posts.length > 0 ? posts.map((post) => (
@@ -293,26 +293,26 @@ export function ImperialCommunity() {
                                 </div>
                                 {post.is_pinned && (
                                     <div className="flex items-center gap-2">
-                                        <Star size={14} className="text-hyper-cyan shadow-neon-cyan" />
-                                        <span className="text-[10px] font-black text-hyper-cyan uppercase italic">Pinned</span>
+                                        <Star size={14} className="text-neydra-accent shadow-neon-red" />
+                                        <span className="text-[10px] font-black text-neydra-accent uppercase italic">Pinned</span>
                                     </div>
                                 )}
                             </div>
 
-                            <p className="text-white/60 text-sm leading-relaxed border-l-2 border-hyper-cyan/20 pl-6 py-2 uppercase italic">
+                            <p className="text-white/60 text-sm leading-relaxed border-l-2 border-neydra-accent/20 pl-6 py-2 uppercase italic">
                                 "{post.content}"
                             </p>
 
                             <div className="flex items-center gap-8 py-2 border-t border-white/5 pt-6">
-                                <button className="flex items-center gap-3 text-white/30 hover:text-hyper-cyan transition-colors group/btn">
+                                <button className="flex items-center gap-3 text-white/30 hover:text-neydra-accent transition-colors group/btn">
                                     <Heart size={16} className="group-hover/btn:scale-110 transition-transform" />
                                     <span className="text-[9px] font-black uppercase tracking-widest italic">{post.likes_count} Nodes Affinity</span>
                                 </button>
-                                <button className="flex items-center gap-3 text-white/30 hover:text-hyper-cyan transition-colors group/btn">
+                                <button className="flex items-center gap-3 text-white/30 hover:text-neydra-accent transition-colors group/btn">
                                     <MessageSquare size={16} className="group-hover/btn:scale-110 transition-transform" />
                                     <span className="text-[9px] font-black uppercase tracking-widest italic">{post.replies_count} Signal Replies</span>
                                 </button>
-                                <button className="flex items-center gap-3 text-white/30 hover:text-hyper-cyan transition-colors group/btn">
+                                <button className="flex items-center gap-3 text-white/30 hover:text-neydra-accent transition-colors group/btn">
                                     <Share2 size={16} className="group-hover/btn:scale-110 transition-transform" />
                                     <span className="text-[9px] font-black uppercase tracking-widest italic">Broadcast Link</span>
                                 </button>

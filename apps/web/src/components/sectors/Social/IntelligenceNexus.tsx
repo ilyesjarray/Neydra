@@ -60,9 +60,9 @@ export default function IntelligenceNexus() {
 
     const StatusBadge = ({ status, score }: { status: string, score: number }) => {
         const config = {
-            VERIFIED: { icon: <ShieldCheck size={14} />, bg: 'bg-emerald-500/10', text: 'text-emerald-500', border: 'border-emerald-500/20' },
-            DISPUTED: { icon: <AlertTriangle size={14} />, bg: 'bg-amber-500/10', text: 'text-amber-500', border: 'border-amber-500/20' },
-            FAKE: { icon: <XCircle size={14} />, bg: 'bg-rose-500/10', text: 'text-rose-500', border: 'border-rose-500/20' }
+            VERIFIED: { icon: <ShieldCheck size={14} />, bg: 'bg-red-600/10', text: 'text-red-600', border: 'border-red-600/20' },
+            DISPUTED: { icon: <AlertTriangle size={14} />, bg: 'bg-red-600/10', text: 'text-red-600', border: 'border-red-600/20' },
+            FAKE: { icon: <XCircle size={14} />, bg: 'bg-red-600/10', text: 'text-red-600', border: 'border-red-600/20' }
         };
 
         const active = (config as any)[status];
@@ -83,7 +83,7 @@ export default function IntelligenceNexus() {
                 <div className="flex justify-between items-end border-b border-white/5 pb-8">
                     <div>
                         <div className="flex items-center gap-3 mb-2">
-                            <div className="w-10 h-10 rounded-xl bg-hyper-cyan/10 border border-hyper-cyan/30 flex items-center justify-center text-hyper-cyan">
+                            <div className="w-10 h-10 rounded-xl bg-neydra-accent/10 border border-neydra-accent/30 flex items-center justify-center text-neydra-accent">
                                 <Search size={20} />
                             </div>
                             <h1 className="text-3xl font-black text-white italic tracking-tighter uppercase">Intelligence_Nexus</h1>
@@ -108,7 +108,7 @@ export default function IntelligenceNexus() {
                         </div>
                         <button
                             onClick={simulateFetch}
-                            className="p-3 bg-hyper-cyan text-carbon-black rounded-xl hover:shadow-neon-cyan transition-all"
+                            className="p-3 bg-neydra-accent text-carbon-black rounded-xl hover:shadow-neon-red transition-all"
                         >
                             <RefreshCw size={18} className={isLoading ? "animate-spin" : ""} />
                         </button>
@@ -118,10 +118,10 @@ export default function IntelligenceNexus() {
                 {/* Dashboard Stats */}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
                     {[
-                        { label: 'Signal_Vetting_Rate', val: `${stats.signals24h.toLocaleString()} / 24h`, icon: <TrendingUp className="text-hyper-cyan" /> },
-                        { label: 'AI_Confidence_Avg', val: `${stats.syncRate}%`, icon: <Zap className="text-amber-500" /> },
-                        { label: 'Network_Nodes_Live', val: stats.users.toLocaleString(), icon: <Twitter className="text-hyper-cyan" /> },
-                        { label: 'Verified_Signals', val: (stats.signals24h * 0.7).toFixed(0), icon: <ShieldCheck className="text-emerald-500" /> },
+                        { label: 'Signal_Vetting_Rate', val: `${stats.signals24h.toLocaleString()} / 24h`, icon: <TrendingUp className="text-neydra-accent" /> },
+                        { label: 'AI_Confidence_Avg', val: `${stats.syncRate}%`, icon: <Zap className="text-red-600" /> },
+                        { label: 'Network_Nodes_Live', val: stats.users.toLocaleString(), icon: <Twitter className="text-neydra-accent" /> },
+                        { label: 'Verified_Signals', val: (stats.signals24h * 0.7).toFixed(0), icon: <ShieldCheck className="text-red-600" /> },
                     ].map((stat, i: number) => (
                         <div key={i} className="p-6 bg-white/[0.02] border border-white/5 rounded-[2rem] flex items-center gap-4">
                             <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center">
@@ -166,8 +166,8 @@ export default function IntelligenceNexus() {
                                             "{item.content}"
                                         </div>
 
-                                        <div className="p-5 bg-hyper-cyan/5 rounded-2xl border border-hyper-cyan/10 space-y-3">
-                                            <div className="flex items-center gap-2 text-[9px] font-black text-hyper-cyan uppercase tracking-widest">
+                                        <div className="p-5 bg-neydra-accent/5 rounded-2xl border border-neydra-accent/10 space-y-3">
+                                            <div className="flex items-center gap-2 text-[9px] font-black text-neydra-accent uppercase tracking-widest">
                                                 <Zap size={12} />
                                                 <span>AI_Truth_Verification_Summary</span>
                                             </div>
@@ -201,7 +201,7 @@ export default function IntelligenceNexus() {
                 {/* Footer Status */}
                 <div className="flex justify-between items-center py-6 border-t border-white/5">
                     <div className="flex items-center gap-4 text-[9px] font-black text-white/20 uppercase tracking-widest">
-                        <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-neon-emerald" />
+                        <div className="w-2 h-2 bg-red-600 rounded-full animate-pulse shadow-neon-emerald" />
                         Truth_Engine_Latency: 142ms // Accuracy: 99.8%
                     </div>
                     <div className="text-[8px] font-mono text-white/10 uppercase italic">

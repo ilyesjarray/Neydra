@@ -242,7 +242,7 @@ export default function OoredooActivation() {
         <div className="min-h-screen flex items-center justify-center p-4 bg-black relative overflow-hidden">
             {/* Background atmosphere */}
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,240,255,0.03)_0%,transparent_70%)]" />
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-hyper-cyan/[0.02] blur-[150px]" />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-neydra-accent/[0.02] blur-[150px]" />
 
             {/* Grid pattern */}
             <div
@@ -268,13 +268,13 @@ export default function OoredooActivation() {
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
                         transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
-                        className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-hyper-cyan/10 border border-hyper-cyan/20 flex items-center justify-center shadow-[0_0_30px_rgba(0,240,255,0.1)]"
+                        className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-neydra-accent/10 border border-neydra-accent/20 flex items-center justify-center shadow-[0_0_30px_rgba(0,240,255,0.1)]"
                     >
-                        <Smartphone className="w-8 h-8 text-hyper-cyan" />
+                        <Smartphone className="w-8 h-8 text-neydra-accent" />
                     </motion.div>
 
                     <h1 className="text-2xl font-black tracking-tight text-white uppercase mb-2">
-                        Account <span className="text-hyper-cyan">Activation</span>
+                        Account <span className="text-neydra-accent">Activation</span>
                     </h1>
                     <p className="text-sm text-white/40 font-mono">
                         Enter your 14-digit Ooredoo recharge card to activate
@@ -310,7 +310,7 @@ export default function OoredooActivation() {
                                         Recharge_Card_PIN
                                     </label>
                                     <div className="relative group">
-                                        <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20 group-focus-within:text-hyper-cyan transition-colors" />
+                                        <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20 group-focus-within:text-neydra-accent transition-colors" />
                                         <input
                                             ref={inputRef}
                                             type="text"
@@ -320,16 +320,16 @@ export default function OoredooActivation() {
                                             value={formatPinDisplay(pinInput)}
                                             onChange={handlePinChange}
                                             maxLength={17} /* 14 digits + 3 dashes */
-                                            className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-4 pl-12 pr-4 text-lg font-mono font-bold text-white tracking-[0.15em] placeholder:text-white/10 outline-none focus:border-hyper-cyan/40 focus:shadow-[0_0_20px_rgba(0,240,255,0.1)] transition-all text-center"
+                                            className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-4 pl-12 pr-4 text-lg font-mono font-bold text-white tracking-[0.15em] placeholder:text-white/10 outline-none focus:border-neydra-accent/40 focus:shadow-[0_0_20px_rgba(0,240,255,0.1)] transition-all text-center"
                                             autoFocus
                                         />
                                         {/* Digit counter */}
                                         <div className="absolute right-4 top-1/2 -translate-y-1/2">
                                             <span className={`text-xs font-mono font-bold transition-colors ${
                                                 pinInput.length === 14
-                                                    ? 'text-emerald-400'
+                                                    ? 'text-red-500'
                                                     : pinInput.length > 0
-                                                        ? 'text-amber-400'
+                                                        ? 'text-red-500'
                                                         : 'text-white/20'
                                             }`}>
                                                 {pinInput.length}/14
@@ -339,7 +339,7 @@ export default function OoredooActivation() {
 
                                     {/* Validation hint */}
                                     {pinInput.length > 0 && !isValidPin && (
-                                        <p className="text-[10px] font-mono text-amber-400/60 pl-1">
+                                        <p className="text-[10px] font-mono text-red-500/60 pl-1">
                                             Enter exactly 14 digits from your Ooredoo recharge card
                                         </p>
                                     )}
@@ -349,7 +349,7 @@ export default function OoredooActivation() {
                                 <button
                                     type="submit"
                                     disabled={!isValidPin}
-                                    className="w-full py-4 rounded-xl font-black text-sm uppercase tracking-[0.2em] transition-all duration-500 flex items-center justify-center gap-3 disabled:opacity-30 disabled:cursor-not-allowed bg-hyper-cyan/10 border border-hyper-cyan/30 text-hyper-cyan hover:bg-hyper-cyan/20 hover:shadow-[0_0_30px_rgba(0,240,255,0.2)] active:scale-[0.98]"
+                                    className="w-full py-4 rounded-xl font-black text-sm uppercase tracking-[0.2em] transition-all duration-500 flex items-center justify-center gap-3 disabled:opacity-30 disabled:cursor-not-allowed bg-neydra-accent/10 border border-neydra-accent/30 text-neydra-accent hover:bg-neydra-accent/20 hover:shadow-[0_0_30px_rgba(0,240,255,0.2)] active:scale-[0.98]"
                                 >
                                     <Zap className="w-4 h-4" />
                                     Activate Account
@@ -375,7 +375,7 @@ export default function OoredooActivation() {
                                 exit={{ opacity: 0 }}
                                 className="py-12 flex flex-col items-center gap-4"
                             >
-                                <Loader2 className="w-8 h-8 text-hyper-cyan animate-spin" />
+                                <Loader2 className="w-8 h-8 text-neydra-accent animate-spin" />
                                 <p className="text-sm font-mono text-white/40">Submitting...</p>
                             </motion.div>
                         )}
@@ -396,7 +396,7 @@ export default function OoredooActivation() {
                                         {[0, 1, 2].map((i) => (
                                             <motion.div
                                                 key={i}
-                                                className="absolute inset-0 rounded-full border border-hyper-cyan/20"
+                                                className="absolute inset-0 rounded-full border border-neydra-accent/20"
                                                 animate={{
                                                     scale: [1, 1.5 + i * 0.3],
                                                     opacity: [0.4, 0],
@@ -414,9 +414,9 @@ export default function OoredooActivation() {
                                             <motion.div
                                                 animate={{ rotate: 360 }}
                                                 transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
-                                                className="w-16 h-16 rounded-full border-2 border-hyper-cyan/30 border-t-hyper-cyan flex items-center justify-center"
+                                                className="w-16 h-16 rounded-full border-2 border-neydra-accent/30 border-t-neydra-accent flex items-center justify-center"
                                             >
-                                                <Wifi className="w-6 h-6 text-hyper-cyan" />
+                                                <Wifi className="w-6 h-6 text-neydra-accent" />
                                             </motion.div>
                                         </div>
                                     </div>
@@ -429,7 +429,7 @@ export default function OoredooActivation() {
                                     </h3>
                                     <div className="flex items-center justify-center gap-2">
                                         <motion.div
-                                            className="w-1.5 h-1.5 rounded-full bg-hyper-cyan"
+                                            className="w-1.5 h-1.5 rounded-full bg-neydra-accent"
                                             animate={{ opacity: [1, 0.3, 1] }}
                                             transition={{ duration: 1.5, repeat: Infinity }}
                                         />
@@ -449,7 +449,7 @@ export default function OoredooActivation() {
                                     ].map((step, i) => (
                                         <div key={i} className="flex items-center gap-3">
                                             {step.done ? (
-                                                <CheckCircle className="w-4 h-4 text-emerald-400 shrink-0" />
+                                                <CheckCircle className="w-4 h-4 text-red-500 shrink-0" />
                                             ) : (
                                                 <motion.div
                                                     className="w-4 h-4 rounded-full border border-white/20 shrink-0"
@@ -488,14 +488,14 @@ export default function OoredooActivation() {
                                     initial={{ scale: 0 }}
                                     animate={{ scale: 1 }}
                                     transition={{ delay: 0.1, type: 'spring', stiffness: 200 }}
-                                    className="w-20 h-20 mx-auto rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center shadow-[0_0_40px_rgba(16,185,129,0.2)]"
+                                    className="w-20 h-20 mx-auto rounded-full bg-red-600/10 border border-red-600/30 flex items-center justify-center shadow-[0_0_40px_rgba(16,185,129,0.2)]"
                                 >
-                                    <CheckCircle className="w-10 h-10 text-emerald-400" />
+                                    <CheckCircle className="w-10 h-10 text-red-500" />
                                 </motion.div>
 
                                 <div>
                                     <h3 className="text-xl font-black text-white uppercase tracking-tight mb-2">
-                                        Activation <span className="text-emerald-400">Successful</span>
+                                        Activation <span className="text-red-500">Successful</span>
                                     </h3>
                                     <p className="text-sm text-white/40 font-mono">
                                         Your account is now active and ready
@@ -503,8 +503,8 @@ export default function OoredooActivation() {
                                 </div>
 
                                 <div className="flex items-center justify-center gap-2">
-                                    <Loader2 className="w-3 h-3 text-hyper-cyan animate-spin" />
-                                    <p className="text-[10px] font-mono text-hyper-cyan/60 uppercase tracking-widest">
+                                    <Loader2 className="w-3 h-3 text-neydra-accent animate-spin" />
+                                    <p className="text-[10px] font-mono text-neydra-accent/60 uppercase tracking-widest">
                                         Redirecting to Command Center...
                                     </p>
                                 </div>
@@ -537,7 +537,7 @@ export default function OoredooActivation() {
 
                                 <button
                                     onClick={handleRetry}
-                                    className="w-full py-4 rounded-xl font-black text-sm uppercase tracking-[0.2em] transition-all duration-500 flex items-center justify-center gap-3 bg-white/[0.03] border border-white/10 text-white/60 hover:text-white hover:border-hyper-cyan/30 hover:bg-hyper-cyan/5"
+                                    className="w-full py-4 rounded-xl font-black text-sm uppercase tracking-[0.2em] transition-all duration-500 flex items-center justify-center gap-3 bg-white/[0.03] border border-white/10 text-white/60 hover:text-white hover:border-neydra-accent/30 hover:bg-neydra-accent/5"
                                 >
                                     <RefreshCw className="w-4 h-4" />
                                     Try Again with New Card

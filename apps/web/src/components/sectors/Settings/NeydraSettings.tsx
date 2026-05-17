@@ -181,7 +181,7 @@ export function NeydraSettings() {
             <div className="w-80 border-r border-white/5 flex flex-col bg-white/[0.01]">
                 <div className="p-8 border-b border-white/5">
                     <h3 className="text-sm font-black text-white uppercase tracking-widest italic flex items-center gap-3">
-                        <Settings className="text-hyper-cyan animate-spin-slow" size={18} />
+                        <Settings className="text-neydra-accent animate-spin-slow" size={18} />
                         Core_Configuration
                     </h3>
                     <p className="text-[9px] text-white/20 uppercase font-bold tracking-[0.3em] mt-2">v-Series System Governance</p>
@@ -195,13 +195,13 @@ export function NeydraSettings() {
                             className={cn(
                                 "w-full p-4 rounded-xl flex items-center gap-4 transition-all duration-300 border group",
                                 activeSection === section.id
-                                    ? "bg-hyper-cyan/10 border-hyper-cyan/30 text-white"
+                                    ? "bg-neydra-accent/10 border-neydra-accent/30 text-white"
                                     : "bg-white/[0.01] border-transparent text-white/30 hover:bg-white/[0.03]"
                             )}
                         >
                             <section.icon size={18} className={cn(
                                 "transition-colors",
-                                activeSection === section.id ? "text-hyper-cyan shadow-neon-cyan" : "group-hover:text-hyper-cyan/50"
+                                activeSection === section.id ? "text-neydra-accent shadow-neon-red" : "group-hover:text-neydra-accent/50"
                             )} />
                             <span className="text-[10px] font-black uppercase tracking-widest italic">{section.label}</span>
                             <ChevronRight size={14} className={cn("ml-auto transition-transform", activeSection === section.id ? "translate-x-0 opacity-100" : "translate-x-4 opacity-0")} />
@@ -212,13 +212,13 @@ export function NeydraSettings() {
                 <div className="p-8 space-y-4 border-t border-white/5 bg-white/[0.01]">
                     <div className="flex items-center justify-between">
                         <span className="text-[8px] font-black text-white/20 uppercase tracking-widest">Storage_Used</span>
-                        <span className="text-[8px] font-black text-hyper-cyan uppercase tracking-widest">1.2 GB / 50 GB</span>
+                        <span className="text-[8px] font-black text-neydra-accent uppercase tracking-widest">1.2 GB / 50 GB</span>
                     </div>
                     <div className="h-1 bg-white/5 rounded-full overflow-hidden">
                         <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: '12%' }}
-                            className="h-full bg-hyper-cyan shadow-neon-cyan"
+                            className="h-full bg-neydra-accent shadow-neon-red"
                         />
                     </div>
                 </div>
@@ -229,7 +229,7 @@ export function NeydraSettings() {
                 <div className="max-w-3xl mx-auto space-y-12">
                     {/* Header */}
                     <div>
-                        <span className="text-[10px] text-hyper-cyan font-black tracking-[0.5em] uppercase italic">/system/kernel/config/</span>
+                        <span className="text-[10px] text-neydra-accent font-black tracking-[0.5em] uppercase italic">/system/kernel/config/</span>
                         <h2 className="text-5xl font-black text-white uppercase italic tracking-tighter mt-2">{activeSection.replace('_', ' ')}</h2>
                     </div>
 
@@ -237,9 +237,9 @@ export function NeydraSettings() {
                     <div className="space-y-10">
                         {activeSection === 'subscriptions' && (
                             <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-                                <div className="glass-v-series p-10 rounded-3xl border border-hyper-cyan/30 bg-hyper-cyan/[0.02]">
+                                <div className="glass-v-series p-10 rounded-3xl border border-neydra-accent/30 bg-neydra-accent/[0.02]">
                                     <div className="flex items-center gap-4 mb-4">
-                                        <Zap className="text-hyper-cyan w-8 h-8" />
+                                        <Zap className="text-neydra-accent w-8 h-8" />
                                         <h3 className="text-2xl font-black text-white italic tracking-widest uppercase">Elite Commander Upgrade</h3>
                                     </div>
                                     <p className="text-xs text-white/50 mb-8 max-w-lg leading-relaxed font-bold uppercase tracking-widest">
@@ -247,7 +247,7 @@ export function NeydraSettings() {
                                     </p>
 
                                     <div className="grid lg:grid-cols-3 gap-6">
-                                        <div className="p-8 rounded-2xl bg-white/[0.01] border border-white/10 hover:border-hyper-cyan/40 transition-colors flex flex-col">
+                                        <div className="p-8 rounded-2xl bg-white/[0.01] border border-white/10 hover:border-neydra-accent/40 transition-colors flex flex-col">
                                             <div className="text-[10px] font-black text-white/40 uppercase tracking-[0.3em] mb-2">Standard</div>
                                             <div className="text-3xl font-black text-white mb-6">$15<span className="text-sm text-white/30">/mo</span></div>
                                             <ul className="space-y-3 mb-8 flex-1 text-xs text-white/60 font-bold tracking-widest uppercase">
@@ -264,37 +264,37 @@ export function NeydraSettings() {
                                             </button>
                                         </div>
 
-                                        <div className="p-8 rounded-2xl bg-hyper-cyan/5 border border-hyper-cyan/20 hover:border-hyper-cyan/40 transition-colors flex flex-col">
-                                            <div className="text-[10px] font-black text-hyper-cyan uppercase tracking-[0.3em] mb-2">Premium</div>
+                                        <div className="p-8 rounded-2xl bg-neydra-accent/5 border border-neydra-accent/20 hover:border-neydra-accent/40 transition-colors flex flex-col">
+                                            <div className="text-[10px] font-black text-neydra-accent uppercase tracking-[0.3em] mb-2">Premium</div>
                                             <div className="text-3xl font-black text-white mb-6">$40<span className="text-sm text-white/30">/mo</span></div>
                                             <ul className="space-y-3 mb-8 flex-1 text-xs text-white/60 font-bold tracking-widest uppercase">
-                                                <li className="text-hyper-cyan/80">- Institutional Liquidity Decoder</li>
+                                                <li className="text-neydra-accent/80">- Institutional Liquidity Decoder</li>
                                                 <li>- Whale Order Tracking</li>
                                                 <li>- Premium Intel Feeds</li>
                                                 <li>- 100GB Quantum Vault</li>
                                             </ul>
                                             <button
                                                 onClick={() => handleSubscribe('premium')}
-                                                className="w-full py-4 border border-hyper-cyan/30 rounded-xl hover:bg-hyper-cyan/10 font-black text-[10px] uppercase tracking-widest text-hyper-cyan transition-colors"
+                                                className="w-full py-4 border border-neydra-accent/30 rounded-xl hover:bg-neydra-accent/10 font-black text-[10px] uppercase tracking-widest text-neydra-accent transition-colors"
                                             >
                                                 Initialize_Premium
                                             </button>
                                         </div>
 
-                                        <div className="p-8 rounded-2xl bg-amber-500/10 border border-amber-500/40 flex flex-col relative overflow-hidden shadow-[0_0_30px_rgba(245,158,11,0.1)]">
-                                            <div className="absolute top-4 right-4 text-[8px] font-black bg-amber-500 text-carbon-black px-3 py-1 rounded-full uppercase tracking-widest">Maximum Power</div>
-                                            <div className="text-[10px] font-black text-amber-500 uppercase tracking-[0.3em] mb-2">Ultra Overlord</div>
+                                        <div className="p-8 rounded-2xl bg-red-600/10 border border-red-600/40 flex flex-col relative overflow-hidden shadow-[0_0_30px_rgba(245,158,11,0.1)]">
+                                            <div className="absolute top-4 right-4 text-[8px] font-black bg-red-600 text-carbon-black px-3 py-1 rounded-full uppercase tracking-widest">Maximum Power</div>
+                                            <div className="text-[10px] font-black text-red-600 uppercase tracking-[0.3em] mb-2">Ultra Overlord</div>
                                             <div className="text-3xl font-black text-white mb-6">$90<span className="text-sm text-white/30">/mo</span></div>
                                             <ul className="space-y-3 mb-8 flex-1 text-xs text-white/80 font-bold tracking-widest uppercase">
-                                                <li className="text-amber-500">- Real-Time NLP Sentiment Analyzer</li>
-                                                <li className="text-amber-500">- Full Llama 3.3 Overlord Access</li>
+                                                <li className="text-red-600">- Real-Time NLP Sentiment Analyzer</li>
+                                                <li className="text-red-600">- Full Llama 3.3 Overlord Access</li>
                                                 <li>- B2B Syndicate Control</li>
                                                 <li>- Unlimited Quantum Vault</li>
                                                 <li>- Priority AI Node Routing</li>
                                             </ul>
                                             <button
                                                 onClick={() => handleSubscribe('ultra')}
-                                                className="w-full py-4 bg-amber-500 hover:bg-white text-carbon-black rounded-xl font-black text-[10px] uppercase tracking-widest transition-all shadow-neon-amber"
+                                                className="w-full py-4 bg-red-600 hover:bg-white text-carbon-black rounded-xl font-black text-[10px] uppercase tracking-widest transition-all shadow-neon-amber"
                                             >
                                                 Ascend_To_Ultra
                                             </button>
@@ -308,7 +308,7 @@ export function NeydraSettings() {
                             <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
                                 <div className="glass-v-series p-10 rounded-3xl border border-white/5 bg-white/[0.01]">
                                     <div className="flex items-center gap-4 mb-4">
-                                        <Users className="text-hyper-cyan w-8 h-8" />
+                                        <Users className="text-neydra-accent w-8 h-8" />
                                         <h3 className="text-2xl font-black text-white italic tracking-widest uppercase">Syndicate Command Center</h3>
                                     </div>
                                     <p className="text-xs text-white/50 mb-8 max-w-lg leading-relaxed font-bold uppercase tracking-widest">
@@ -322,11 +322,11 @@ export function NeydraSettings() {
                                             placeholder="OPERATIVE_EMAIL_COORDINATES..."
                                             value={inviteEmail}
                                             onChange={e => setInviteEmail(e.target.value)}
-                                            className="flex-1 bg-black/40 border border-white/10 rounded-xl px-6 py-4 text-xs font-mono text-white outline-none focus:border-hyper-cyan/50 placeholder:text-white/20 uppercase"
+                                            className="flex-1 bg-black/40 border border-white/10 rounded-xl px-6 py-4 text-xs font-mono text-white outline-none focus:border-neydra-accent/50 placeholder:text-white/20 uppercase"
                                         />
                                         <button
                                             onClick={handleInviteToSyndicate}
-                                            className="px-8 bg-hyper-cyan/10 hover:bg-hyper-cyan text-hyper-cyan hover:text-carbon-black border border-hyper-cyan/30 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all flex items-center gap-2"
+                                            className="px-8 bg-neydra-accent/10 hover:bg-neydra-accent text-neydra-accent hover:text-carbon-black border border-neydra-accent/30 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all flex items-center gap-2"
                                         >
                                             <UserPlus size={16} /> Deploy_Invite
                                         </button>
@@ -340,13 +340,13 @@ export function NeydraSettings() {
                                         <h4 className="text-[10px] font-black uppercase text-white/40 tracking-[0.3em] mb-4">Active_Operatives</h4>
                                         <div className="p-6 rounded-2xl border border-white/5 bg-white/[0.01] flex items-center justify-between">
                                             <div className="flex items-center gap-4">
-                                                <div className="w-10 h-10 rounded-full bg-hyper-cyan/20 flex items-center justify-center font-black text-hyper-cyan border border-hyper-cyan">A</div>
+                                                <div className="w-10 h-10 rounded-full bg-neydra-accent/20 flex items-center justify-center font-black text-neydra-accent border border-neydra-accent">A</div>
                                                 <div>
                                                     <span className="text-xs font-black text-white uppercase tracking-widest block">{emailNode}</span>
-                                                    <span className="text-[9px] text-hyper-cyan uppercase font-mono mt-1 block">Syndicate_Commander (Owner)</span>
+                                                    <span className="text-[9px] text-neydra-accent uppercase font-mono mt-1 block">Syndicate_Commander (Owner)</span>
                                                 </div>
                                             </div>
-                                            <span className="text-[9px] font-black tracking-widest text-emerald-500 bg-emerald-500/10 px-3 py-1 rounded-md">ONLINE</span>
+                                            <span className="text-[9px] font-black tracking-widest text-red-600 bg-red-600/10 px-3 py-1 rounded-md">ONLINE</span>
                                         </div>
 
                                         {syndicateMembers.map(member => (
@@ -358,7 +358,7 @@ export function NeydraSettings() {
                                                         <span className="text-[9px] text-white/30 uppercase font-mono mt-1 block">Role: {member.role}</span>
                                                     </div>
                                                 </div>
-                                                <span className="text-[9px] font-black tracking-widest text-amber-500 bg-amber-500/10 px-3 py-1 rounded-md">{member.status}</span>
+                                                <span className="text-[9px] font-black tracking-widest text-red-600 bg-red-600/10 px-3 py-1 rounded-md">{member.status}</span>
                                             </div>
                                         ))}
                                     </div>
@@ -378,13 +378,13 @@ export function NeydraSettings() {
                                 />
 
                                 <div className="flex items-center gap-8 p-10 glass-v-series rounded-3xl border border-white/5 bg-white/[0.01] relative overflow-hidden">
-                                    <div className="absolute inset-0 bg-gradient-to-r from-hyper-cyan/5 to-transparent pointer-events-none" />
+                                    <div className="absolute inset-0 bg-gradient-to-r from-neydra-accent/5 to-transparent pointer-events-none" />
                                     
                                     {/* Clickable Avatar Upload Zone */}
                                     <button
                                         onClick={() => fileInputRef.current?.click()}
                                         disabled={isUploading}
-                                        className="w-24 h-24 rounded-2xl border border-white/10 flex items-center justify-center relative group cursor-pointer overflow-hidden shrink-0 hover:border-hyper-cyan/40 transition-all z-10"
+                                        className="w-24 h-24 rounded-2xl border border-white/10 flex items-center justify-center relative group cursor-pointer overflow-hidden shrink-0 hover:border-neydra-accent/40 transition-all z-10"
                                     >
                                         {avatarUrl ? (
                                             <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
@@ -394,11 +394,11 @@ export function NeydraSettings() {
                                         {/* Camera Hover Overlay */}
                                         <div className="absolute inset-0 bg-carbon-black/70 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center transition-opacity gap-1">
                                             {isUploading ? (
-                                                <Loader2 size={24} className="text-hyper-cyan animate-spin" />
+                                                <Loader2 size={24} className="text-neydra-accent animate-spin" />
                                             ) : (
                                                 <>
-                                                    <Camera size={24} className="text-hyper-cyan" />
-                                                    <span className="text-[7px] font-black text-hyper-cyan uppercase tracking-widest">Upload</span>
+                                                    <Camera size={24} className="text-neydra-accent" />
+                                                    <span className="text-[7px] font-black text-neydra-accent uppercase tracking-widest">Upload</span>
                                                 </>
                                             )}
                                         </div>
@@ -406,11 +406,11 @@ export function NeydraSettings() {
 
                                     <div className="flex-1 relative z-10">
                                         <div className="text-2xl font-black text-white italic">{fullName || 'UNNAMED_COMMANDER'}</div>
-                                        <div className="text-[10px] text-hyper-cyan font-black tracking-widest mt-1 uppercase">{userTier}_Clearance_Active</div>
+                                        <div className="text-[10px] text-neydra-accent font-black tracking-widest mt-1 uppercase">{userTier}_Clearance_Active</div>
                                         <div className="flex gap-4 mt-4">
                                             <button
                                                 onClick={() => fileInputRef.current?.click()}
-                                                className="text-[9px] font-black text-hyper-cyan/60 hover:text-hyper-cyan uppercase tracking-widest italic border-b border-hyper-cyan/20 hover:border-hyper-cyan/60 transition-colors flex items-center gap-1.5"
+                                                className="text-[9px] font-black text-neydra-accent/60 hover:text-neydra-accent uppercase tracking-widest italic border-b border-neydra-accent/20 hover:border-neydra-accent/60 transition-colors flex items-center gap-1.5"
                                             >
                                                 <Camera size={10} /> Change_Avatar
                                             </button>
@@ -431,9 +431,9 @@ export function NeydraSettings() {
                                     <div className="flex items-center justify-between">
                                         <div>
                                             <div className="text-[9px] font-black text-white/20 uppercase tracking-[0.4em] mb-2">Neydra_Credits</div>
-                                            <div className="text-3xl font-black text-hyper-cyan italic">{neydraCredits.toLocaleString()} <span className="text-sm text-white/20">SCR</span></div>
+                                            <div className="text-3xl font-black text-neydra-accent italic">{neydraCredits.toLocaleString()} <span className="text-sm text-white/20">SCR</span></div>
                                         </div>
-                                        <Zap className="w-10 h-10 text-hyper-cyan/20" />
+                                        <Zap className="w-10 h-10 text-neydra-accent/20" />
                                     </div>
                                 </div>
                             </div>
@@ -453,18 +453,18 @@ export function NeydraSettings() {
                                                 key={lang.code}
                                                 className={cn(
                                                     "p-6 rounded-2xl border flex items-center justify-between group transition-all",
-                                                    "bg-hyper-cyan/10 border-hyper-cyan/30 text-white"
+                                                    "bg-neydra-accent/10 border-neydra-accent/30 text-white"
                                                 )}
                                             >
                                                 <div className="flex items-center gap-3">
                                                     <span className="text-[11px] font-black uppercase tracking-widest italic">{lang.label}</span>
                                                 </div>
-                                                <div className="w-2 h-2 rounded-full bg-hyper-cyan shadow-neon-cyan animate-pulse" />
+                                                <div className="w-2 h-2 rounded-full bg-neydra-accent shadow-neon-red animate-pulse" />
                                             </button>
                                         ))}
                                     </div>
-                                    <div className="flex items-center gap-3 p-4 bg-hyper-cyan/5 border border-hyper-cyan/10 rounded-2xl">
-                                        <span className="text-[9px] text-hyper-cyan/60 font-black uppercase tracking-widest">Current Protocol: ENGLISH — System-wide enforcement active</span>
+                                    <div className="flex items-center gap-3 p-4 bg-neydra-accent/5 border border-neydra-accent/10 rounded-2xl">
+                                        <span className="text-[9px] text-neydra-accent/60 font-black uppercase tracking-widest">Current Protocol: ENGLISH — System-wide enforcement active</span>
                                     </div>
                                 </div>
                             </div>
@@ -514,8 +514,8 @@ export function NeydraSettings() {
                             className={cn(
                                 "flex items-center gap-4 px-10 py-4 font-black text-[10px] uppercase tracking-[0.4em] rounded-xl hover:scale-105 transition-all italic disabled:opacity-50",
                                 saveSuccess
-                                    ? "bg-emerald-500 text-carbon-black shadow-[0_0_20px_rgba(16,185,129,0.3)]"
-                                    : "bg-hyper-cyan text-carbon-black shadow-neon-cyan"
+                                    ? "bg-red-600 text-carbon-black shadow-[0_0_20px_rgba(16,185,129,0.3)]"
+                                    : "bg-neydra-accent text-carbon-black shadow-neon-red"
                             )}
                         >
                             <Save size={16} className={cn(isSaving && "animate-pulse")} />
@@ -533,13 +533,13 @@ function SettingsField({ label, value, onChange, readOnly }: { label: string, va
         <div className="space-y-3 group">
             <div className="flex items-center gap-2 ml-2">
                 <label className="text-[9px] font-black text-white/20 uppercase tracking-[0.4em]">{label}</label>
-                {readOnly && <span className="text-[7px] font-black text-amber-500/50 uppercase tracking-widest">System_Locked</span>}
+                {readOnly && <span className="text-[7px] font-black text-red-600/50 uppercase tracking-widest">System_Locked</span>}
             </div>
             <div className={cn(
                 "p-5 rounded-2xl border transition-all",
                 readOnly
                     ? "bg-white/[0.01] border-white/5 opacity-60"
-                    : "bg-white/[0.02] border-white/5 group-focus-within:border-hyper-cyan/40"
+                    : "bg-white/[0.02] border-white/5 group-focus-within:border-neydra-accent/40"
             )}>
                 <input
                     value={value}
@@ -561,7 +561,7 @@ function SecurityToggle({ label, desc, active, onToggle, icon: Icon }: any) {
             <div className="flex items-center gap-6">
                 <div className={cn(
                     "w-12 h-12 rounded-xl flex items-center justify-center border transition-all shadow-lg",
-                    active ? "bg-hyper-cyan/10 border-hyper-cyan/20 text-hyper-cyan shadow-neon-cyan/20" : "bg-white/5 border-white/10 text-white/20"
+                    active ? "bg-neydra-accent/10 border-neydra-accent/20 text-neydra-accent shadow-neon-red/20" : "bg-white/5 border-white/10 text-white/20"
                 )}>
                     <Icon size={20} />
                 </div>
@@ -573,14 +573,14 @@ function SecurityToggle({ label, desc, active, onToggle, icon: Icon }: any) {
 
             <div className={cn(
                 "w-14 h-7 rounded-full p-1 transition-colors duration-500",
-                active ? "bg-hyper-cyan/20" : "bg-white/5"
+                active ? "bg-neydra-accent/20" : "bg-white/5"
             )}>
                 <motion.div
                     animate={{ x: active ? 28 : 0 }}
                     transition={{ type: 'spring', stiffness: 500, damping: 30 }}
                     className={cn(
                         "w-5 h-5 rounded-full flex items-center justify-center shadow-lg",
-                        active ? "bg-hyper-cyan" : "bg-white/20"
+                        active ? "bg-neydra-accent" : "bg-white/20"
                     )}
                 >
                     {active && <Zap size={10} className="text-carbon-black" />}

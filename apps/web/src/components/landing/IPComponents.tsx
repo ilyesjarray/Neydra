@@ -44,8 +44,8 @@ export function IPComponents() {
             <div className="max-w-7xl mx-auto space-y-24">
                 <div className="flex flex-col md:flex-row items-end justify-between gap-10">
                     <div className="space-y-4">
-                        <div className="flex items-center gap-4 text-hyper-cyan">
-                            <div className="h-[1px] w-12 bg-hyper-cyan/40" />
+                        <div className="flex items-center gap-4 text-neydra-accent">
+                            <div className="h-[1px] w-12 bg-neydra-accent/40" />
                             <span className="text-[10px] font-black uppercase tracking-[0.6em] font-mono italic">IP_ASSET_INVENTORY</span>
                         </div>
                         <h2 className="text-7xl font-black text-white italic tracking-tighter uppercase leading-none">The Technology <br /> <span className="text-white/20">Moat</span></h2>
@@ -60,7 +60,7 @@ export function IPComponents() {
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
                             transition={{ delay: i * 0.1 }}
-                            className="p-12 glass-v-series rounded-[3.5rem] bg-white/[0.01] border border-white/5 group hover:border-hyper-cyan/30 transition-all duration-700 relative overflow-hidden"
+                            className="p-12 glass-v-series rounded-[3.5rem] bg-white/[0.01] border border-white/5 group hover:border-neydra-accent/30 transition-all duration-700 relative overflow-hidden"
                         >
                             <div className="absolute top-0 right-0 p-12 opacity-[0.02] group-hover:opacity-[0.05] transition-opacity">
                                 <asset.icon size={180} />
@@ -70,7 +70,7 @@ export function IPComponents() {
                                 <div className="space-y-3">
                                     <div className="flex gap-2">
                                         {asset.tags.map(tag => (
-                                            <span key={tag} className="px-3 py-1 bg-white/5 rounded-full text-[7px] font-black text-white/30 tracking-widest uppercase italic group-hover:text-hyper-cyan/40 transition-colors">
+                                            <span key={tag} className="px-3 py-1 bg-white/5 rounded-full text-[7px] font-black text-white/30 tracking-widest uppercase italic group-hover:text-neydra-accent/40 transition-colors">
                                                 {tag}
                                             </span>
                                         ))}
@@ -82,7 +82,7 @@ export function IPComponents() {
                                 </p>
                                 <div className="flex items-center gap-4 pt-6">
                                     <div className="h-[1px] flex-1 bg-white/10" />
-                                    <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-white/20 group-hover:text-hyper-cyan group-hover:border-hyper-cyan/40 transition-all">
+                                    <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-white/20 group-hover:text-neydra-accent group-hover:border-neydra-accent/40 transition-all">
                                         <asset.icon size={24} />
                                     </div>
                                 </div>
@@ -95,7 +95,7 @@ export function IPComponents() {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-12">
                     {techStack.map((tech, i) => (
                         <div key={i} className="flex flex-col gap-4 p-8 bg-white/[0.01] border border-white/5 rounded-[2rem] hover:bg-white/[0.02] transition-colors">
-                            <tech.icon className="w-6 h-6 text-hyper-cyan/40" />
+                            <tech.icon className="w-6 h-6 text-neydra-accent/40" />
                             <div className="space-y-1">
                                 <div className="text-xs font-black text-white uppercase tracking-widest italic">{tech.label}</div>
                                 <div className="text-[8px] font-black text-white/20 uppercase tracking-widest font-mono italic">{tech.detail}</div>

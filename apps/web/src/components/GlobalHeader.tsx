@@ -40,8 +40,8 @@ export function GlobalHeader() {
       {/* Left: Search */}
       <div className="flex-1 max-w-xl">
         <div className="relative group">
-          <div className="absolute inset-x-0 -bottom-px h-px bg-gradient-to-r from-transparent via-hyper-cyan/20 to-transparent opacity-0 group-focus-within:opacity-100 transition-opacity" />
-          <Search className="absolute left-0 top-1/2 -translate-y-1/2 text-white/20 w-4 h-4 group-focus-within:text-hyper-cyan transition-colors" />
+          <div className="absolute inset-x-0 -bottom-px h-px bg-gradient-to-r from-transparent via-neydra-accent/20 to-transparent opacity-0 group-focus-within:opacity-100 transition-opacity" />
+          <Search className="absolute left-0 top-1/2 -translate-y-1/2 text-white/20 w-4 h-4 group-focus-within:text-neydra-accent transition-colors" />
           <input
             type="text"
             placeholder="SEARCH_COMMANDS_AND_NODES..."
@@ -58,7 +58,7 @@ export function GlobalHeader() {
             <span className="text-sm font-black text-white italic font-mono">
               ${btcPrice.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
             </span>
-            <span className={`text-[10px] font-black flex items-center gap-1 ${btcChange >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+            <span className={`text-[10px] font-black flex items-center gap-1 ${btcChange >= 0 ? 'text-red-500' : 'text-red-400'}`}>
               {btcChange >= 0 ? <TrendingUp size={10} /> : <TrendingDown size={10} />}
               {btcChange >= 0 ? '+' : ''}{btcChange.toFixed(2)}%
             </span>
@@ -75,8 +75,8 @@ export function GlobalHeader() {
         <div className="hidden md:flex flex-col items-end">
           <span className="text-[8px] text-white/20 uppercase font-black tracking-widest font-mono italic">Neural_Latency</span>
           <div className="flex items-center gap-2">
-            <span className="text-xs font-black text-hyper-cyan italic">{latency}ms</span>
-            <Activity size={14} className="text-hyper-cyan animate-pulse" />
+            <span className="text-xs font-black text-neydra-accent italic">{latency}ms</span>
+            <Activity size={14} className="text-neydra-accent animate-pulse" />
           </div>
         </div>
 
@@ -86,26 +86,26 @@ export function GlobalHeader() {
         <motion.button
           whileTap={{ scale: 0.9 }}
           onClick={toggleTheme}
-          className="p-2 text-white/30 hover:text-hyper-cyan transition-colors rounded-lg hover:bg-white/5"
+          className="p-2 text-white/30 hover:text-neydra-accent transition-colors rounded-lg hover:bg-white/5"
           title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
         >
           {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
         </motion.button>
 
         {/* Notifications */}
-        <button className="relative p-2 text-white/30 hover:text-hyper-cyan transition-colors group">
+        <button className="relative p-2 text-white/30 hover:text-neydra-accent transition-colors group">
           <Bell size={20} />
-          <div className="absolute top-2 right-2 w-1.5 h-1.5 bg-hyper-cyan rounded-full shadow-neon-cyan animate-ping" />
+          <div className="absolute top-2 right-2 w-1.5 h-1.5 bg-neydra-accent rounded-full shadow-neon-red animate-ping" />
         </button>
 
         {/* User */}
-        <div className="flex items-center gap-4 glass-v-series px-4 py-2 rounded-xl border border-white/5 bg-white/[0.02] hover:border-hyper-cyan/20 transition-all cursor-pointer group">
-          <div className="w-8 h-8 rounded-lg bg-hyper-cyan/10 flex items-center justify-center border border-hyper-cyan/20 group-hover:shadow-neon-cyan transition-all">
-            <User size={16} className="text-hyper-cyan" />
+        <div className="flex items-center gap-4 glass-v-series px-4 py-2 rounded-xl border border-white/5 bg-white/[0.02] hover:border-neydra-accent/20 transition-all cursor-pointer group">
+          <div className="w-8 h-8 rounded-lg bg-neydra-accent/10 flex items-center justify-center border border-neydra-accent/20 group-hover:shadow-neon-red transition-all">
+            <User size={16} className="text-neydra-accent" />
           </div>
           <div className="hidden lg:flex flex-col items-start pr-2">
             <span className="text-[10px] font-black text-white uppercase italic tracking-tighter">Imperial_User</span>
-            <span className="text-[8px] text-hyper-cyan font-bold uppercase tracking-widest font-mono">Elite_Level</span>
+            <span className="text-[8px] text-neydra-accent font-bold uppercase tracking-widest font-mono">Elite_Level</span>
           </div>
         </div>
       </div>

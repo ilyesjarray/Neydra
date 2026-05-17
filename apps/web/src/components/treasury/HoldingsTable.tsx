@@ -63,7 +63,7 @@ export function HoldingsTable() {
                                 <td className="px-6 py-4 font-black tabular-nums">
                                     <div className={`flex items-center gap-1 px-2 py-1 rounded bg-black/40 border inline-flex ${coin.price_change_percentage_24h >= 0
                                             ? 'text-neydra-blue border-neydra-blue/20 shadow-[0_0_10px_rgba(80,200,120,0.1)]'
-                                            : 'text-rose-500 border-rose-500/20 shadow-[0_0_10px_rgba(224,82,82,0.1)]'
+                                            : 'text-red-600 border-red-600/20 shadow-[0_0_10px_rgba(224,82,82,0.1)]'
                                         }`}>
                                         {coin.price_change_percentage_24h > 0 ? '+' : ''}
                                         {coin.price_change_percentage_24h.toFixed(2)}%

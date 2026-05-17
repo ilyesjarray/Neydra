@@ -69,8 +69,8 @@ export function PortfolioTracker() {
         <div className="liquid-glass rounded-[2rem] p-8 border-white/5 shadow-2xl">
             <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                        <Briefcase className="w-6 h-6 text-emerald-500" />
+                    <div className="w-12 h-12 rounded-2xl bg-red-600/10 border border-red-600/20 flex items-center justify-center">
+                        <Briefcase className="w-6 h-6 text-red-600" />
                     </div>
                     <div>
                         <h3 className="text-white text-lg font-black uppercase tracking-tighter">PORTFOLIO VAULT</h3>
@@ -80,7 +80,7 @@ export function PortfolioTracker() {
 
                 <button
                     onClick={() => setIsAddingNew(!isAddingNew)}
-                    className="px-4 py-2 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-emerald-500 hover:bg-emerald-500/20 transition-all flex items-center gap-2"
+                    className="px-4 py-2 bg-red-600/10 border border-red-600/20 rounded-xl text-red-600 hover:bg-red-600/20 transition-all flex items-center gap-2"
                 >
                     <Plus className="w-4 h-4" />
                     <span className="text-xs font-black uppercase">Add Holding</span>
@@ -99,12 +99,12 @@ export function PortfolioTracker() {
                 </div>
                 <div className={cn(
                     "p-4 border rounded-xl",
-                    stats.totalPnL >= 0 ? "bg-emerald-500/5 border-emerald-500/20" : "bg-red-500/5 border-red-500/20"
+                    stats.totalPnL >= 0 ? "bg-red-600/5 border-red-600/20" : "bg-red-500/5 border-red-500/20"
                 )}>
                     <div className="text-[9px] text-white/40 uppercase font-black tracking-widest mb-2">P/L</div>
                     <div className={cn(
                         "text-xl font-black flex items-center gap-2",
-                        stats.totalPnL >= 0 ? "text-emerald-500" : "text-red-500"
+                        stats.totalPnL >= 0 ? "text-red-600" : "text-red-500"
                     )}>
                         {stats.totalPnL >= 0 ? <TrendingUp className="w-5 h-5" /> : <TrendingDown className="w-5 h-5" />}
                         ${Math.abs(stats.totalPnL).toLocaleString()} ({stats.totalPnLPercentage.toFixed(2)}%)
@@ -127,26 +127,26 @@ export function PortfolioTracker() {
                                 placeholder="Symbol (BTC)"
                                 value={newHolding.symbol}
                                 onChange={(e) => setNewHolding({ ...newHolding, symbol: e.target.value })}
-                                className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-white/30 focus:outline-none focus:border-emerald-500/50"
+                                className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-white/30 focus:outline-none focus:border-red-600/50"
                             />
                             <input
                                 type="number"
                                 placeholder="Amount"
                                 value={newHolding.amount}
                                 onChange={(e) => setNewHolding({ ...newHolding, amount: e.target.value })}
-                                className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-white/30 focus:outline-none focus:border-emerald-500/50"
+                                className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-white/30 focus:outline-none focus:border-red-600/50"
                             />
                             <input
                                 type="number"
                                 placeholder="Buy Price"
                                 value={newHolding.buyPrice}
                                 onChange={(e) => setNewHolding({ ...newHolding, buyPrice: e.target.value })}
-                                className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-white/30 focus:outline-none focus:border-emerald-500/50"
+                                className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-white/30 focus:outline-none focus:border-red-600/50"
                             />
                         </div>
                         <button
                             onClick={addHolding}
-                            className="mt-4 w-full px-4 py-2 bg-emerald-500 text-white rounded-lg font-black uppercase text-xs hover:bg-emerald-600 transition-all"
+                            className="mt-4 w-full px-4 py-2 bg-red-600 text-white rounded-lg font-black uppercase text-xs hover:bg-emerald-600 transition-all"
                         >
                             Add to Portfolio
                         </button>
@@ -189,7 +189,7 @@ export function PortfolioTracker() {
                                     <div className="text-right">
                                         <div className={cn(
                                             "text-sm font-black",
-                                            pnl >= 0 ? "text-emerald-500" : "text-red-500"
+                                            pnl >= 0 ? "text-red-600" : "text-red-500"
                                         )}>
                                             {pnl >= 0 ? '+' : ''}{pnl.toFixed(2)} USD
                                         </div>

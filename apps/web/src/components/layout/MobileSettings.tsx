@@ -14,8 +14,8 @@ import { createClient } from '@/lib/supabase/client';
 
 const SECTIONS = [
     { id: 'profile', label: 'IMPERIAL_PROFILE', icon: User, color: 'text-neydra-accent' },
-    { id: 'syndicate', label: 'SYNDICATE_COMMAND', icon: Users, color: 'text-purple-400' },
-    { id: 'subscriptions', label: 'IMPERIAL_TREASURY', icon: Zap, color: 'text-amber-400' },
+    { id: 'syndicate', label: 'SYNDICATE_COMMAND', icon: Users, color: 'text-red-500' },
+    { id: 'subscriptions', label: 'IMPERIAL_TREASURY', icon: Zap, color: 'text-red-500' },
     { id: 'security', label: 'GUARD_PROTOCOLS', icon: Shield, color: 'text-red-500' },
     { id: 'language', label: 'LINGUA_CENTER', icon: Languages, color: 'text-red-500' },
 ];
@@ -309,7 +309,7 @@ export function MobileSettings() {
                                             <span className="text-xs font-black text-white uppercase truncate">{m.email}</span>
                                             <span className="text-[9px] text-white/40 font-mono mt-0.5">{m.role}</span>
                                         </div>
-                                        <span className="text-[8px] font-black text-amber-500 bg-amber-500/10 px-2 py-1 rounded">{m.status}</span>
+                                        <span className="text-[8px] font-black text-red-600 bg-red-600/10 px-2 py-1 rounded">{m.status}</span>
                                     </div>
                                 ))}
                             </div>
@@ -320,7 +320,7 @@ export function MobileSettings() {
                         <div className="space-y-4">
                             <SubscriptionCard tier="Standard" price="15" features={['Basic Neural Access', '10GB Vault', 'Standard Intel']} onClick={() => handleSubscribe('standard')} color="text-white" border="border-white/20" bg="bg-white/5" />
                             <SubscriptionCard tier="Premium" price="40" features={['Whale Order Tracking', 'Premium Intel', '100GB Quantum Vault']} onClick={() => handleSubscribe('premium')} color="text-neydra-accent" border="border-neydra-accent/30" bg="bg-neydra-accent/5" />
-                            <SubscriptionCard tier="Ultra" price="90" features={['Llama 3.3 Overlord', 'B2B Syndicate Control', 'Unlimited Vault']} onClick={() => handleSubscribe('ultra')} color="text-amber-500" border="border-amber-500/40" bg="bg-amber-500/10" isMax />
+                            <SubscriptionCard tier="Ultra" price="90" features={['Llama 3.3 Overlord', 'B2B Syndicate Control', 'Unlimited Vault']} onClick={() => handleSubscribe('ultra')} color="text-red-600" border="border-red-600/40" bg="bg-red-600/10" isMax />
                         </div>
                     )}
 
@@ -373,7 +373,7 @@ function MobileField({ label, value, onChange, readOnly }: any) {
 function SubscriptionCard({ tier, price, features, onClick, color, border, bg, isMax }: any) {
     return (
         <div className={cn("p-6 rounded-2xl border flex flex-col relative overflow-hidden", border, bg)}>
-            {isMax && <div className="absolute top-0 right-0 bg-amber-500 text-black text-[8px] font-black px-3 py-1 rounded-bl-xl tracking-widest">MAX</div>}
+            {isMax && <div className="absolute top-0 right-0 bg-red-600 text-black text-[8px] font-black px-3 py-1 rounded-bl-xl tracking-widest">MAX</div>}
             <span className={cn("text-[10px] font-black uppercase tracking-[0.3em] mb-1", color)}>{tier}</span>
             <div className="text-2xl font-black text-white mb-4">${price}<span className="text-xs text-white/30">/mo</span></div>
             <div className="space-y-2 mb-6">
@@ -381,7 +381,7 @@ function SubscriptionCard({ tier, price, features, onClick, color, border, bg, i
                     <div key={i} className="text-[10px] text-white/70 font-bold uppercase tracking-widest truncate">- {f}</div>
                 ))}
             </div>
-            <button onClick={onClick} className={cn("w-full py-3 rounded-xl font-black text-[10px] uppercase tracking-widest", isMax ? "bg-amber-500 text-black" : "border border-white/20 text-white")}>
+            <button onClick={onClick} className={cn("w-full py-3 rounded-xl font-black text-[10px] uppercase tracking-widest", isMax ? "bg-red-600 text-black" : "border border-white/20 text-white")}>
                 Initialize
             </button>
         </div>

@@ -229,7 +229,7 @@ function NeydraOS() {
                                 className="relative w-32 h-32 mx-auto"
                             >
                                 <Fingerprint size={128} className="text-neydra-accent opacity-20" />
-                                <div className="absolute inset-0 border-t-2 border-neydra-accent rounded-full shadow-neon-cyan animate-pulse" />
+                                <div className="absolute inset-0 border-t-2 border-neydra-accent rounded-full shadow-neon-red animate-pulse" />
                             </motion.div>
                             <div className="space-y-2">
                                 <h2 className="text-neydra-accent font-black tracking-[0.8em] uppercase text-sm italic">NEYDRA_PROTOCOL</h2>
@@ -390,7 +390,7 @@ function NeydraOS() {
                 </div>
                 <div className="flex items-center gap-6">
                     <div className="flex items-center gap-3">
-                        <div className="w-1.5 h-1.5 rounded-full bg-neydra-accent shadow-neon-cyan" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-neydra-accent shadow-neon-red" />
                         <span>NEURAL_SYNC: ACTIVE</span>
                     </div>
                     <div className="w-px h-6 bg-white/10 mx-2" />

@@ -65,7 +65,7 @@
     letter-spacing: 0.05em;
   }
 
-  .shadow-neon-cyan {
+  .shadow-neon-red {
     box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
   }
 
@@ -221,3 +221,6 @@
   animation: touch-ripple 0.5s ease-out;
   pointer-events: none;
 }
+/* Global Scrollbar Hiding */
+::-webkit-scrollbar { display: none !important; }
+* { -ms-overflow-style: none !important; scrollbar-width: none !important; }

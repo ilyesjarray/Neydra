@@ -223,9 +223,9 @@ export function NeydraSplash({ onComplete }: NeydraSplashProps) {
                             exit={{ opacity: 0 }}
                             className="flex flex-col items-center space-y-8"
                         >
-                            <div className="w-16 h-16 border-b-2 border-hyper-cyan rounded-full animate-spin" />
+                            <div className="w-16 h-16 border-b-2 border-neydra-accent rounded-full animate-spin" />
                             <div className="space-y-2">
-                                <p className="text-[10px] font-black text-hyper-cyan tracking-[0.8em] uppercase animate-pulse">
+                                <p className="text-[10px] font-black text-neydra-accent tracking-[0.8em] uppercase animate-pulse">
                                     System_Warmup_Active
                                 </p>
                                 <p className="text-white/20 text-[8px] uppercase tracking-widest font-mono">
@@ -247,11 +247,11 @@ export function NeydraSplash({ onComplete }: NeydraSplashProps) {
                                 <motion.div
                                     animate={{ scale: [1, 1.05, 1], opacity: [0.3, 0.6, 0.3] }}
                                     transition={{ duration: 4, repeat: Infinity }}
-                                    className="absolute inset-0 bg-hyper-cyan/20 blur-3xl rounded-full"
+                                    className="absolute inset-0 bg-neydra-accent/20 blur-3xl rounded-full"
                                 />
                                 <div className="w-40 h-40 bg-white/[0.02] border border-white/10 rounded-full flex items-center justify-center relative overflow-hidden shadow-2xl backdrop-blur-xl">
                                     <img src="/assets/icon.png" alt="Neydra Icon" className="w-24 h-24 object-contain z-10" />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-hyper-cyan/10 to-transparent" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-neydra-accent/10 to-transparent" />
                                 </div>
                             </div>
 
@@ -259,7 +259,7 @@ export function NeydraSplash({ onComplete }: NeydraSplashProps) {
                                 <motion.div
                                     animate={{ opacity: [0.4, 1, 0.4] }}
                                     transition={{ duration: 2, repeat: Infinity }}
-                                    className="text-[10px] font-black text-hyper-cyan tracking-[0.8em] uppercase"
+                                    className="text-[10px] font-black text-neydra-accent tracking-[0.8em] uppercase"
                                 >
                                     NEYDRA_PROTOCOL_Initialize
                                 </motion.div>
@@ -275,7 +275,7 @@ export function NeydraSplash({ onComplete }: NeydraSplashProps) {
                                 <div className="flex items-center gap-3 w-full">
                                     <button
                                         onClick={() => { playClick(); handleBiometric(); }}
-                                        className="flex-1 group flex items-center justify-center gap-3 px-6 py-5 bg-hyper-cyan text-carbon-black rounded-2xl font-black text-xs tracking-widest transition-all shadow-neon-cyan/40 hover:scale-105 active:scale-95"
+                                        className="flex-1 group flex items-center justify-center gap-3 px-6 py-5 bg-neydra-accent text-carbon-black rounded-2xl font-black text-xs tracking-widest transition-all shadow-neon-red/40 hover:scale-105 active:scale-95"
                                     >
                                         <Fingerprint className="w-5 h-5 shrink-0" />
                                         <span className="truncate">BIOMETRIC</span>
@@ -287,8 +287,8 @@ export function NeydraSplash({ onComplete }: NeydraSplashProps) {
                                     >
                                         {downloadComplete ? (
                                             <>
-                                                <Check className="w-5 h-5 text-emerald-500 mb-1" />
-                                                <span className="text-[7px] font-black tracking-widest text-emerald-500">CACHED</span>
+                                                <Check className="w-5 h-5 text-red-600 mb-1" />
+                                                <span className="text-[7px] font-black tracking-widest text-red-600">CACHED</span>
                                             </>
                                         ) : downloading ? (
                                             <>
@@ -304,7 +304,7 @@ export function NeydraSplash({ onComplete }: NeydraSplashProps) {
                                                             className="transition-all duration-300"
                                                         />
                                                     </svg>
-                                                    <span className="text-[8px] font-black text-hyper-cyan relative z-10">{Math.round((downloadProgress.loaded / (downloadProgress.total || 1)) * 100)}%</span>
+                                                    <span className="text-[8px] font-black text-neydra-accent relative z-10">{Math.round((downloadProgress.loaded / (downloadProgress.total || 1)) * 100)}%</span>
                                                 </div>
                                                 <span className="text-[6px] text-white/40 tracking-widest font-mono">
                                                     {(downloadProgress.loaded / 1024 / 1024).toFixed(1)}MB / {(downloadProgress.total / 1024 / 1024).toFixed(1)}MB
@@ -312,7 +312,7 @@ export function NeydraSplash({ onComplete }: NeydraSplashProps) {
                                             </>
                                         ) : (
                                             <>
-                                                <DownloadCloud className="w-6 h-6 text-hyper-cyan mb-1" />
+                                                <DownloadCloud className="w-6 h-6 text-neydra-accent mb-1" />
                                                 <span className="text-[7px] font-black text-white/50 uppercase tracking-widest leading-none">PRELOAD<br/>ASSETS</span>
                                             </>
                                         )}
@@ -345,20 +345,20 @@ export function NeydraSplash({ onComplete }: NeydraSplashProps) {
                                         opacity: [0.2, 0.5, 0.2]
                                     }}
                                     transition={{ duration: 2, repeat: Infinity }}
-                                    className="absolute inset-0 bg-hyper-cyan rounded-full blur-3xl"
+                                    className="absolute inset-0 bg-neydra-accent rounded-full blur-3xl"
                                 />
-                                <div className="w-48 h-48 rounded-full border-2 border-hyper-cyan/20 flex items-center justify-center relative overflow-hidden">
-                                    <Fingerprint className="w-24 h-24 text-hyper-cyan animate-pulse" />
+                                <div className="w-48 h-48 rounded-full border-2 border-neydra-accent/20 flex items-center justify-center relative overflow-hidden">
+                                    <Fingerprint className="w-24 h-24 text-neydra-accent animate-pulse" />
                                     <motion.div
                                         animate={{ y: [-100, 100, -100] }}
                                         transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                                        className="absolute inset-x-0 h-1 bg-hyper-cyan/50 shadow-neon-cyan"
+                                        className="absolute inset-x-0 h-1 bg-neydra-accent/50 shadow-neon-red"
                                     />
                                 </div>
                             </div>
                             <div className="text-center space-y-2">
                                 <h3 className="text-2xl font-black text-white italic tracking-[0.3em] uppercase">Scanning_Identity</h3>
-                                <p className="text-[10px] text-hyper-cyan uppercase font-mono tracking-widest animate-pulse">Neural_Pattern_Matching_Active</p>
+                                <p className="text-[10px] text-neydra-accent uppercase font-mono tracking-widest animate-pulse">Neural_Pattern_Matching_Active</p>
                             </div>
                         </motion.div>
                     )}
@@ -399,31 +399,31 @@ export function NeydraSplash({ onComplete }: NeydraSplashProps) {
                                                     value={fullName}
                                                     onChange={(e) => setFullName(e.target.value)}
                                                     placeholder="COMMANDER_NAME"
-                                                    className="w-full bg-white/[0.02] border border-white/10 rounded-xl py-4 px-4 text-xs font-bold text-white placeholder:text-white/10 outline-none focus:border-hyper-cyan/40 transition-all uppercase tracking-widest"
+                                                    className="w-full bg-white/[0.02] border border-white/10 rounded-xl py-4 px-4 text-xs font-bold text-white placeholder:text-white/10 outline-none focus:border-neydra-accent/40 transition-all uppercase tracking-widest"
                                                 />
                                             </motion.div>
                                         )}
                                     </AnimatePresence>
                                     <div className="relative group">
-                                        <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20 group-focus-within:text-hyper-cyan transition-colors" />
+                                        <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20 group-focus-within:text-neydra-accent transition-colors" />
                                         <input
                                             type="email"
                                             required
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
                                             placeholder="IDENTITY@NEYDRA"
-                                            className="w-full bg-white/[0.02] border border-white/10 rounded-xl py-4 pl-12 pr-4 text-xs font-bold text-white placeholder:text-white/10 outline-none focus:border-hyper-cyan/40 transition-all uppercase tracking-widest"
+                                            className="w-full bg-white/[0.02] border border-white/10 rounded-xl py-4 pl-12 pr-4 text-xs font-bold text-white placeholder:text-white/10 outline-none focus:border-neydra-accent/40 transition-all uppercase tracking-widest"
                                         />
                                     </div>
                                     <div className="relative group">
-                                        <Key className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20 group-focus-within:text-hyper-cyan transition-colors" />
+                                        <Key className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20 group-focus-within:text-neydra-accent transition-colors" />
                                         <input
                                             type="password"
                                             required
                                             value={password}
                                             onChange={(e) => setPassword(e.target.value)}
                                             placeholder="CIPHER_KEY"
-                                            className="w-full bg-white/[0.02] border border-white/10 rounded-xl py-4 pl-12 pr-4 text-xs font-bold text-white placeholder:text-white/10 outline-none focus:border-hyper-cyan/40 transition-all uppercase tracking-widest"
+                                            className="w-full bg-white/[0.02] border border-white/10 rounded-xl py-4 pl-12 pr-4 text-xs font-bold text-white placeholder:text-white/10 outline-none focus:border-neydra-accent/40 transition-all uppercase tracking-widest"
                                         />
                                     </div>
                                     <AnimatePresence>
@@ -439,7 +439,7 @@ export function NeydraSplash({ onComplete }: NeydraSplashProps) {
                                                     value={confirmPassword}
                                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                                     placeholder="VERIFY_CIPHER"
-                                                    className="w-full bg-white/[0.02] border border-white/10 rounded-xl py-4 px-4 text-xs font-bold text-white placeholder:text-white/10 outline-none focus:border-hyper-cyan/40 transition-all uppercase tracking-widest"
+                                                    className="w-full bg-white/[0.02] border border-white/10 rounded-xl py-4 px-4 text-xs font-bold text-white placeholder:text-white/10 outline-none focus:border-neydra-accent/40 transition-all uppercase tracking-widest"
                                                 />
                                             </motion.div>
                                         )}
@@ -450,7 +450,7 @@ export function NeydraSplash({ onComplete }: NeydraSplashProps) {
                                     <motion.div
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
-                                        className="p-3 bg-rose-500/10 border border-rose-500/20 rounded-lg text-rose-500 text-[9px] font-black uppercase tracking-widest"
+                                        className="p-3 bg-red-600/10 border border-red-600/20 rounded-lg text-red-600 text-[9px] font-black uppercase tracking-widest"
                                     >
                                         Error: {error}
                                     </motion.div>
@@ -459,7 +459,7 @@ export function NeydraSplash({ onComplete }: NeydraSplashProps) {
                                 <button
                                     type="submit"
                                     disabled={loading}
-                                    className="w-full flex items-center justify-center gap-3 py-4 bg-hyper-cyan text-carbon-black rounded-xl font-black text-xs uppercase tracking-[0.2em] hover:shadow-neon-cyan transition-all disabled:opacity-50"
+                                    className="w-full flex items-center justify-center gap-3 py-4 bg-neydra-accent text-carbon-black rounded-xl font-black text-xs uppercase tracking-[0.2em] hover:shadow-neon-red transition-all disabled:opacity-50"
                                 >
                                     {loading ? 'Processing...' : (authMode === 'LOGIN' ? 'Authorize' : 'Initialize')}
                                     {authMode === 'LOGIN' ? <LogIn size={16} /> : <UserPlus size={16} />}
@@ -471,7 +471,7 @@ export function NeydraSplash({ onComplete }: NeydraSplashProps) {
                             <div className="mt-8 pt-6 border-t border-white/5 flex flex-col items-center gap-4">
                                 <button
                                     onClick={() => setAuthMode(authMode === 'LOGIN' ? 'SIGNUP' : 'LOGIN')}
-                                    className="text-[9px] font-black text-white/40 uppercase tracking-widest hover:text-hyper-cyan transition-colors"
+                                    className="text-[9px] font-black text-white/40 uppercase tracking-widest hover:text-neydra-accent transition-colors"
                                 >
                                     {authMode === 'LOGIN' ? 'Create new imperial node?' : 'Already have an uplink?'}
                                 </button>
@@ -488,16 +488,16 @@ export function NeydraSplash({ onComplete }: NeydraSplashProps) {
                             key="verify-email"
                             initial={{ opacity: 0, scale: 0.9 }}
                             animate={{ opacity: 1, scale: 1 }}
-                            className="w-full max-w-sm glass-v-series p-10 border border-amber-500/30 rounded-[2.5rem] bg-amber-500/5 text-center space-y-6"
+                            className="w-full max-w-sm glass-v-series p-10 border border-red-600/30 rounded-[2.5rem] bg-red-600/5 text-center space-y-6"
                         >
-                            <div className="w-16 h-16 bg-amber-500/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-amber-500/40">
-                                <Mail className="w-8 h-8 text-amber-500 animate-bounce" />
+                            <div className="w-16 h-16 bg-red-600/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-red-600/40">
+                                <Mail className="w-8 h-8 text-red-600 animate-bounce" />
                             </div>
                             <h3 className="text-xl font-black text-white italic uppercase tracking-tighter">Verification Required</h3>
                             <p className="text-white/40 text-xs uppercase tracking-widest leading-relaxed">
                                 Please check your email to activate your imperial access.
                                 <br />
-                                <span className="text-amber-500/60 mt-2 block">({email})</span>
+                                <span className="text-red-600/60 mt-2 block">({email})</span>
                             </p>
                             <button
                                 onClick={() => setState('AUTH_FORM')}
@@ -519,21 +519,21 @@ export function NeydraSplash({ onComplete }: NeydraSplashProps) {
                                 <motion.div
                                     animate={{ rotate: 360 }}
                                     transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-                                    className="w-32 h-32 border-2 border-hyper-cyan/10 border-t-hyper-cyan rounded-full"
+                                    className="w-32 h-32 border-2 border-neydra-accent/10 border-t-neydra-accent rounded-full"
                                 />
-                                <Fingerprint className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 text-hyper-cyan animate-pulse" />
+                                <Fingerprint className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 text-neydra-accent animate-pulse" />
                             </div>
 
                             <div className="w-full space-y-4">
                                 <div className="flex justify-between items-end mb-2">
-                                    <span className="text-[10px] font-black text-hyper-cyan uppercase tracking-[0.5em] italic">Neural_Link_Sync</span>
+                                    <span className="text-[10px] font-black text-neydra-accent uppercase tracking-[0.5em] italic">Neural_Link_Sync</span>
                                     <span className="text-xs font-mono text-white/40">{Math.floor(progress)}%</span>
                                 </div>
                                 <div className="h-1 bg-white/5 rounded-full overflow-hidden">
                                     <motion.div
                                         initial={{ width: 0 }}
                                         animate={{ width: `${progress}%` }}
-                                        className="h-full bg-hyper-cyan shadow-neon-cyan"
+                                        className="h-full bg-neydra-accent shadow-neon-red"
                                     />
                                 </div>
                                 <div className="flex justify-between text-[7px] font-bold text-white/20 uppercase tracking-[0.3em]">
@@ -551,12 +551,12 @@ export function NeydraSplash({ onComplete }: NeydraSplashProps) {
                             animate={{ opacity: 1, scale: 1 }}
                             className="flex flex-col items-center space-y-6"
                         >
-                            <div className="w-24 h-24 bg-hyper-cyan/10 border border-hyper-cyan/20 rounded-full flex items-center justify-center shadow-neon-cyan animate-bounce">
-                                <ShieldCheck className="w-12 h-12 text-hyper-cyan" />
+                            <div className="w-24 h-24 bg-neydra-accent/10 border border-neydra-accent/20 rounded-full flex items-center justify-center shadow-neon-red animate-bounce">
+                                <ShieldCheck className="w-12 h-12 text-neydra-accent" />
                             </div>
                             <div className="flex flex-col space-y-2">
                                 <h2 className="text-4xl font-black text-white tracking-tighter uppercase italic">Access Granted</h2>
-                                <p className="text-hyper-cyan/60 text-[10px] font-black tracking-[0.5em] uppercase">Identity Verified: Redirecting</p>
+                                <p className="text-neydra-accent/60 text-[10px] font-black tracking-[0.5em] uppercase">Identity Verified: Redirecting</p>
                             </div>
                         </motion.div>
                     )}
@@ -567,7 +567,7 @@ export function NeydraSplash({ onComplete }: NeydraSplashProps) {
             <div className="absolute bottom-12 left-0 right-0 flex justify-center px-10">
                 <div className="flex items-center gap-6 bg-white/[0.02] px-8 py-3 border border-white/10 rounded-full backdrop-blur-md">
                     <div className="flex items-center gap-3">
-                        <div className="w-1.5 h-1.5 bg-hyper-cyan rounded-full animate-pulse shadow-neon-cyan" />
+                        <div className="w-1.5 h-1.5 bg-neydra-accent rounded-full animate-pulse shadow-neon-red" />
                         <span className="text-[9px] font-black text-white/40 uppercase tracking-widest">
                             Neydra <span className="text-white">OS 4.0</span>
                         </span>
