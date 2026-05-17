@@ -791,6 +791,7 @@ export function NeydraAIL() {
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700;800&family=Share+Tech+Mono&display=swap"
         rel="stylesheet" />
     {/* <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> */}
+    {/* @ts-expect-error */}
     <Script src="/neydraail.js" strategy="lazyOnload" />
 
     

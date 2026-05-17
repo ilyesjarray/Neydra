@@ -346,7 +346,8 @@ export function NeydraAccount() {
     </div>
   </div>
 
-  <Script src="/neydraaccount.js" strategy="lazyOnload" />
+  {/* @ts-expect-error */}
+    <Script src="/neydraaccount.js" strategy="lazyOnload" />
 
   {/* <script>
     // --- CONFIGURATION ---

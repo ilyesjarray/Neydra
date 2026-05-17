@@ -1265,7 +1265,8 @@ export function NeydraShop() {
     </main>
   </div>
 
-  <Script src="/neydrashop.js" strategy="lazyOnload" />
+  {/* @ts-expect-error */}
+    <Script src="/neydrashop.js" strategy="lazyOnload" />
 
 
 

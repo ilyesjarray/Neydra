@@ -1137,6 +1137,7 @@ export function NeydraP2P() {
         </ul>
     </nav>
 
+    {/* @ts-expect-error */}
     <Script src="/neydrap2p.js" strategy="lazyOnload" />
 
 

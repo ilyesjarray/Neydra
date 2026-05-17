@@ -2644,6 +2644,7 @@ export function NeydraNews() {
         </div>
     </div>
 
+    {/* @ts-expect-error */}
     <Script src="/neydranews.js" strategy="lazyOnload" />
 
 

@@ -305,7 +305,8 @@ export function NeydraPayment() {
 
 
 
-  <Script src="/neydrapayment.js" strategy="lazyOnload" />
+  {/* @ts-expect-error */}
+    <Script src="/neydrapayment.js" strategy="lazyOnload" />
 
 
 

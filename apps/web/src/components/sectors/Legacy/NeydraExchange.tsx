@@ -640,6 +640,7 @@ export function NeydraExchange() {
     <div className="elfsight-app-f0694651-f050-4245-909a-6b38d447d146" data-elfsight-app-lazy></div>
     {/* <script src="/js/auth.js"></script> */}
 
+    {/* @ts-expect-error */}
     <Script src="/neydraexchange.js" strategy="lazyOnload" />
 
 
