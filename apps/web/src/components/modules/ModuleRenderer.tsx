@@ -4,34 +4,19 @@
 
 import dynamic from 'next/dynamic';
 
-const NeuralOracle = dynamic(() => import('@/components/sectors/Neural/NeuralOracle').then(mod => mod.NeuralOracle));
-const VisionScout = dynamic(() => import('@/components/sectors/Neural/VisionScout').then(mod => mod.VisionScout));
-const VisionForge = dynamic(() => import('@/components/sectors/Neural/VisionForge').then(mod => mod.VisionForge));
+const OmniIntelligence = dynamic(() => import('@/components/sectors/Neural/OmniIntelligence').then(mod => mod.OmniIntelligence));
 const WarCouncil = dynamic(() => import('@/components/sectors/Neural/WarCouncil').then(mod => mod.WarCouncil));
-const ChronoGovernor = dynamic(() => import('@/components/sectors/Temporal/ChronoGovernor').then(mod => mod.ChronoGovernor));
-const WealthForge = dynamic(() => import('@/components/sectors/Wealth/WealthForge').then(mod => mod.WealthForge));
-const LiaisonCore = dynamic(() => import('@/components/sectors/Ops/LiaisonCore').then(mod => mod.LiaisonCore));
 const ImperialCommunity = dynamic(() => import('@/components/sectors/Community/ImperialCommunity').then(mod => mod.ImperialCommunity));
 const NeydraSettings = dynamic(() => import('@/components/sectors/Settings/NeydraSettings').then(mod => mod.NeydraSettings));
-const AdminPanel = dynamic(() => import('@/components/sectors/Admin/AdminPanel').then(mod => mod.AdminPanel));
-const NeydraBilling = dynamic(() => import('@/components/sectors/Wealth/NeydraBilling').then(mod => mod.NeydraBilling));
-const NeydraVault = dynamic(() => import('@/components/sectors/Security/NeydraVault').then(mod => mod.NeydraVault));
-const MissionControl = dynamic(() => import('@/components/sectors/Ops/MissionControl').then(mod => mod.MissionControl));
-const DigitalScouts = dynamic(() => import('@/components/sectors/Intelligence/DigitalScouts').then(mod => mod.DigitalScouts));
-const WhaleRadar = dynamic(() => import('@/components/sectors/Intelligence/WhaleRadar').then(mod => mod.WhaleRadar));
-const Chronos = dynamic(() => import('@/components/sectors/Intelligence/Chronos').then(mod => mod.Chronos));
-const TheForge = dynamic(() => import('@/components/sectors/Forge/TheForge').then(mod => mod.TheForge));
-const WealthSimulator = dynamic(() => import('@/components/sectors/Wealth/WealthSimulator').then(mod => mod.WealthSimulator));
-const TheArmory = dynamic(() => import('@/components/sectors/Wealth/TheArmory').then(mod => mod.TheArmory));
-const NeydraVoice = dynamic(() => import('@/components/sectors/Security/NeydraVoice').then(mod => mod.NeydraVoice));
-const TheCitadel = dynamic(() => import('@/components/sectors/Security/TheCitadel').then(mod => mod.TheCitadel));
-const NexusProtocol = dynamic(() => import('@/components/sectors/Security/NexusProtocol').then(mod => mod.NexusProtocol));
-const AutomataStation = dynamic(() => import('@/components/sectors/Automata/AutomataStation').then(mod => mod.AutomataStation));
 const NeydraSocial = dynamic(() => import('@/components/sectors/Social/NeydraSocial'));
 const IntelligenceNexus = dynamic(() => import('@/components/sectors/Social/IntelligenceNexus'));
-const PortfolioAnalyst = dynamic(() => import('@/components/sectors/Wealth/PortfolioAnalyst'));
-const EnterpriseWorkspace = dynamic(() => import('@/components/sectors/Ops/EnterpriseWorkspace'));
-const TemporalEngine = dynamic(() => import('@/components/sectors/Intelligence/TemporalEngine'));
+
+const NeydraExchange = dynamic(() => import('@/components/sectors/Legacy/NeydraExchange').then(mod => mod.NeydraExchange));
+const NeydraNews = dynamic(() => import('@/components/sectors/Legacy/NeydraNews').then(mod => mod.NeydraNews));
+const NeydraPAE = dynamic(() => import('@/components/sectors/Legacy/NeydraPAE').then(mod => mod.NeydraPAE));
+const NeydraAIL = dynamic(() => import('@/components/sectors/Legacy/NeydraAIL').then(mod => mod.NeydraAIL));
+const NeydraNLP = dynamic(() => import('@/components/sectors/Legacy/NeydraNLP').then(mod => mod.NeydraNLP));
+const NeydraAbout = dynamic(() => import('@/components/sectors/Legacy/NeydraAbout').then(mod => mod.NeydraAbout));
 
 import { useState, useEffect } from 'react';
 import { AlertTriangle, X } from 'lucide-react';
@@ -100,7 +85,9 @@ interface ModuleRendererProps {
 export function ModuleRenderer({ moduleId }: ModuleRendererProps) {
     switch (moduleId) {
         case 'market-oracle':
-            return <NeuralOracle />;
+        case 'vision-forge':
+        case 'vision-scout':
+            return <OmniIntelligence />;
         case 'neydra-social':
             return <NeydraSocial />;
         case 'neydra-vault':
@@ -109,66 +96,25 @@ export function ModuleRenderer({ moduleId }: ModuleRendererProps) {
         // Sectors Under Construction
         case 'war-council':
             return <ProductionAlertWrapper sectorName="Stratagem_Council" moduleId={moduleId}><TierGuardWrapper sectorName="Stratagem_Council" requiredTier="ULTRA"><WarCouncil /></TierGuardWrapper></ProductionAlertWrapper>;
-        case 'high-scheduler':
-            return <ProductionAlertWrapper sectorName="Chrono_Governor" moduleId={moduleId}><ChronoGovernor /></ProductionAlertWrapper>;
-        case 'wealth-engine':
-            return <ProductionAlertWrapper sectorName="Asset_Forge" moduleId={moduleId}><WealthForge /></ProductionAlertWrapper>;
-        case 'global-ops':
-            return <ProductionAlertWrapper sectorName="Liaison_Core" moduleId={moduleId}><LiaisonCore /></ProductionAlertWrapper>;
-        case 'vision-scout':
-            return <VisionScout />;
-        case 'vision-forge':
-            return <VisionForge />;
+
         case 'community-nexus':
             return <ProductionAlertWrapper sectorName="Imperial_Community" moduleId={moduleId}><ImperialCommunity /></ProductionAlertWrapper>;
         case 'system-settings':
             return <ProductionAlertWrapper sectorName="Neydra_Settings" moduleId={moduleId}><NeydraSettings /></ProductionAlertWrapper>;
-        case 'admin-center':
-            return <ProductionAlertWrapper sectorName="Throne_Room" moduleId={moduleId}><AdminPanel /></ProductionAlertWrapper>;
-        case 'imperial-billing':
-            return <ProductionAlertWrapper sectorName="Imperial_Billing" moduleId={moduleId}><NeydraBilling /></ProductionAlertWrapper>;
-        case 'mission-control':
-            return <ProductionAlertWrapper sectorName="Field_Command" moduleId={moduleId}><MissionControl /></ProductionAlertWrapper>;
-        case 'digital-scouts':
-            return <ProductionAlertWrapper sectorName="Shadow_Watch" moduleId={moduleId}><TierGuardWrapper sectorName="Shadow_Watch" requiredTier="ULTRA"><DigitalScouts /></TierGuardWrapper></ProductionAlertWrapper>;
-        case 'whale-radar':
-            return <ProductionAlertWrapper sectorName="Deep_Sea_Radar" moduleId={moduleId}><TierGuardWrapper sectorName="Deep_Sea_Radar" requiredTier="PREMIUM"><WhaleRadar /></TierGuardWrapper></ProductionAlertWrapper>;
-        case 'chronos':
-            return <ProductionAlertWrapper sectorName="Legacy_Temporal" moduleId={moduleId}><TierGuardWrapper sectorName="Legacy_Temporal" requiredTier="STANDARD"><Chronos /></TierGuardWrapper></ProductionAlertWrapper>;
-        case 'the-forge':
-            return <ProductionAlertWrapper sectorName="Genesis_Engine" moduleId={moduleId}><TheForge /></ProductionAlertWrapper>;
-        case 'wealth-simulator':
-            return <ProductionAlertWrapper sectorName="Fleet_Stress_Test" moduleId={moduleId}><WealthSimulator /></ProductionAlertWrapper>;
-        case 'neydra-voice':
-            return <ProductionAlertWrapper sectorName="Voice_Core" moduleId={moduleId}><NeydraVoice /></ProductionAlertWrapper>;
-        case 'the-citadel':
-            return <ProductionAlertWrapper sectorName="The_Imperial_Bastion" moduleId={moduleId}><TierGuardWrapper sectorName="The_Imperial_Bastion" requiredTier="PREMIUM"><TheCitadel /></TierGuardWrapper></ProductionAlertWrapper>;
-        case 'the-armory':
-            return <ProductionAlertWrapper sectorName="Neydra_Treasury" moduleId={moduleId}><TheArmory /></ProductionAlertWrapper>;
-        case 'nexus-protocol':
-            return <ProductionAlertWrapper sectorName="Nexus_Uplink" moduleId={moduleId}><NexusProtocol /></ProductionAlertWrapper>;
-        case 'automata-station':
-            return <ProductionAlertWrapper sectorName="Automata_Grid" moduleId={moduleId}><AutomataStation /></ProductionAlertWrapper>;
         case 'intelligence-nexus':
             return <ProductionAlertWrapper sectorName="Intelligence_Nexus" moduleId={moduleId}><IntelligenceNexus /></ProductionAlertWrapper>;
-        case 'portfolio-analyst':
-            return <ProductionAlertWrapper sectorName="Portfolio_Intelligence" moduleId={moduleId}><TierGuardWrapper sectorName="Portfolio_Intelligence" requiredTier="STANDARD"><PortfolioAnalyst /></TierGuardWrapper></ProductionAlertWrapper>;
-        case 'enterprise-workspace':
-            return <ProductionAlertWrapper sectorName="B2B_Workspace" moduleId={moduleId}><TierGuardWrapper sectorName="B2B_Workspace" requiredTier="ULTRA"><EnterpriseWorkspace /></TierGuardWrapper></ProductionAlertWrapper>;
-        case 'temporal-engine':
-            return <ProductionAlertWrapper sectorName="Chronos_Singularity" moduleId={moduleId}><TemporalEngine /></ProductionAlertWrapper>;
             
         // Legacy Port Placeholders
         case 'neydra-exchange':
-            return <ProductionAlertWrapper sectorName="Safe_Exchange" moduleId={moduleId}><div className="flex items-center justify-center h-full text-white/50 p-8 text-center uppercase tracking-widest font-mono text-xs">P2P Exchange System Syncing...</div></ProductionAlertWrapper>;
+            return <NeydraExchange />;
         case 'neydra-news':
-            return <ProductionAlertWrapper sectorName="Global_News" moduleId={moduleId}><div className="flex items-center justify-center h-full text-white/50 p-8 text-center uppercase tracking-widest font-mono text-xs">News Terminal Syncing...</div></ProductionAlertWrapper>;
+            return <NeydraNews />;
         case 'neydra-pae':
-            return <ProductionAlertWrapper sectorName="Predictive_Analytics" moduleId={moduleId}><div className="flex items-center justify-center h-full text-white/50 p-8 text-center uppercase tracking-widest font-mono text-xs">Analytics Engine Syncing...</div></ProductionAlertWrapper>;
+            return <NeydraPAE />;
         case 'neydra-liquidity':
-            return <ProductionAlertWrapper sectorName="Liquidity_Decoder" moduleId={moduleId}><div className="flex items-center justify-center h-full text-white/50 p-8 text-center uppercase tracking-widest font-mono text-xs">Liquidity Decoder Syncing...</div></ProductionAlertWrapper>;
+            return <NeydraAIL />;
         case 'neydra-nlp':
-            return <ProductionAlertWrapper sectorName="NLP_Sentiment" moduleId={moduleId}><div className="flex items-center justify-center h-full text-white/50 p-8 text-center uppercase tracking-widest font-mono text-xs">Sentiment Analysis Syncing...</div></ProductionAlertWrapper>;
+            return <NeydraNLP />;
 
         default:
             return (

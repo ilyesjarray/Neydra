@@ -1,0 +1,1285 @@
+'use client';
+import React, { useEffect } from 'react';
+
+export function NeydraAIL() {
+    return (
+        <div className="neydra-legacy-container h-full w-full relative overflow-y-auto overflow-x-hidden bg-black text-white">
+            <style dangerouslySetInnerHTML={{ __html: `
+                
+        /* * =========================================
+         * CORE SYSTEM ARCHITECTURE [CSS - RED PROTOCOL]
+         * =========================================
+         */
+        :root {
+            --primary: #ff0000;
+            /* BLOOD RED */
+            --dim-red: #550000;
+            /* DRIED BLOOD */
+            --dark-red: #220000;
+            /* DARKNESS */
+            --bg-solid: #000000;
+            /* VOID */
+            --bg-panel: rgba(10, 0, 0, 0.85);
+            --text-main: #ffcccc;
+            --scan-line: rgba(255, 0, 0, 0.05);
+            --grid-line: rgba(255, 0, 0, 0.1);
+
+            --font-ui: 'Rajdhani', sans-serif;
+            --font-code: 'Share Tech Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            outline: none;
+            user-select: none;
+            scrollbar-width: none;
+            /* Firefox */
+        }
+
+        body {
+            background-color: var(--bg-solid);
+            color: var(--primary);
+            font-family: var(--font-ui);
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            /* Infinite Grid Background */
+            background-image:
+                linear-gradient(var(--grid-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size: 30px 30px;
+            perspective: 1000px;
+        }
+
+        /* --- POST-PROCESSING FILTERS --- */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, transparent 50%, #000 100%);
+            z-index: 900;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+                linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(255, 0, 0, 0.02), rgba(255, 0, 0, 0.06));
+            z-index: 999;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+            animation: flicker 0.15s infinite;
+        }
+
+        /* --- LAYOUT GRID --- */
+        .viewport {
+            display: grid;
+            grid-template-columns: 250px 1fr 250px;
+            /* Left Sidebar, Center, Right Sidebar */
+            grid-template-rows: 80px 1fr 150px;
+            /* Header, Main, Footer */
+            width: 100%;
+            height: 100%;
+            padding: 10px;
+            gap: 10px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* --- GLOBAL PANEL STYLING --- */
+        .panel {
+            background: var(--bg-panel);
+            border: 1px solid var(--dark-red);
+            position: relative;
+            backdrop-filter: blur(4px);
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 1);
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            /* Ensure content stays inside */
+        }
+
+        .panel:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.2), inset 0 0 20px rgba(0, 0, 0, 1);
+        }
+
+        .panel-header {
+            background: var(--dark-red);
+            color: var(--primary);
+            font-family: var(--font-code);
+            font-size: 11px;
+            padding: 4px 8px;
+            border-bottom: 1px solid var(--primary);
+            letter-spacing: 2px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* --- TOP HEADER --- */
+        .header-section {
+            grid-column: 1 / -1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            border-bottom: 2px solid var(--primary);
+            background: linear-gradient(90deg, #000 0%, var(--dark-red) 50%, #000 100%);
+        }
+
+        h1 {
+            font-size: 48px;
+            margin: 0;
+            letter-spacing: 10px;
+            color: #fff;
+            text-shadow: 4px 4px 0px var(--primary);
+            font-weight: 800;
+            font-style: italic;
+            position: relative;
+        }
+
+        h1 span {
+            color: var(--primary);
+            text-shadow: none;
+        }
+
+        .sys-info {
+            font-family: var(--font-code);
+            text-align: right;
+            font-size: 12px;
+            color: var(--primary);
+            line-height: 1.4;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn-howto {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            font-family: var(--font-code);
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 8px 15px;
+            cursor: pointer;
+            transition: 0.2s;
+            clip-path: polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px);
+        }
+
+        .btn-howto:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 15px var(--primary);
+        }
+
+        /* --- LEFT SIDEBAR: HEX DUMP (DECORATION) --- */
+        .sidebar-left {
+            grid-row: 2 / 3;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        #hex-dump {
+            flex: 1;
+            overflow: hidden;
+            font-family: var(--font-code);
+            font-size: 10px;
+            color: var(--dim-red);
+            padding: 10px;
+            opacity: 0.7;
+            mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+        }
+
+        /* --- CENTER: TARGET DATA --- */
+        .main-display {
+            grid-column: 2 / 3;
+            grid-row: 2 / 3;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Whale Panel (Top) */
+        .whale-container {
+            flex: 2;
+            /* Takes more space */
+            position: relative;
+            background: #000;
+            border: 1px solid var(--primary);
+            overflow-y: auto;
+        }
+
+        /* Depth Panel (Bottom) */
+        .depth-container {
+            flex: 1;
+            background: rgba(20, 0, 0, 0.9);
+            border: 1px solid var(--dark-red);
+            padding: 10px;
+            overflow-y: auto;
+        }
+
+        /* --- RIGHT SIDEBAR: LIQUIDITY (TARGET DATA) --- */
+        .sidebar-right {
+            grid-row: 2 / 3;
+            grid-column: 3 / 4;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .liquidity-list {
+            height: 100%;
+            overflow: hidden;
+            padding: 5px;
+            font-family: var(--font-code);
+            font-size: 12px;
+            overflow-y: auto;
+        }
+
+        /* --- FOOTER: LOGS & CONTROLS --- */
+        .footer-section {
+            grid-column: 1 / -1;
+            grid-row: 3 / 4;
+            display: grid;
+            grid-template-columns: 1fr 200px;
+            gap: 10px;
+        }
+
+        .terminal {
+            background: #020000;
+            border: 1px solid var(--primary);
+            padding: 10px;
+            font-family: var(--font-code);
+            font-size: 12px;
+            overflow-y: auto;
+            color: #aaa;
+            box-shadow: inset 0 0 20px #000;
+        }
+
+        .log-line {
+            margin-bottom: 2px;
+        }
+
+        .log-err {
+            color: var(--primary);
+            background: rgba(255, 0, 0, 0.1);
+        }
+
+        .log-suc {
+            color: #fff;
+            text-shadow: 0 0 5px #fff;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        button {
+            flex: 1;
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            font-family: var(--font-ui);
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            cursor: pointer;
+            transition: 0.2s;
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+        }
+
+        button:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        button.engaged {
+            background: var(--primary);
+            color: black;
+            animation: pulse-btn 1s infinite;
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes pulse-btn {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes flicker {
+            0% {
+                opacity: 0.97;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0.98;
+            }
+        }
+
+        /* Decoration lines */
+        .deco-line {
+            position: absolute;
+            background: var(--primary);
+            opacity: 0.3;
+        }
+
+        .dl-1 {
+            top: 0;
+            left: 0;
+            width: 20px;
+            height: 1px;
+        }
+
+        .dl-2 {
+            top: 0;
+            left: 0;
+            width: 1px;
+            height: 20px;
+        }
+
+        .dl-3 {
+            bottom: 0;
+            right: 0;
+            width: 20px;
+            height: 1px;
+        }
+
+        .dl-4 {
+            bottom: 0;
+            right: 0;
+            width: 1px;
+            height: 20px;
+        }
+
+        /* --- TARGET SPECIFIC STYLING (Mapped to Red Protocol) --- */
+
+        /* Whale Log */
+        .log-entry {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px;
+            border-bottom: 1px dashed var(--dim-red);
+            font-family: var(--font-code);
+            font-size: 11px;
+            color: #ccc;
+        }
+
+        .log-entry:last-child {
+            border-bottom: none;
+        }
+
+        .buy {
+            color: #fff;
+            text-shadow: 0 0 5px var(--primary);
+            font-weight: bold;
+        }
+
+        .sell {
+            color: var(--dim-red);
+        }
+
+        /* Liquidity Pools */
+        .pool-item {
+            padding: 8px;
+            margin-bottom: 5px;
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 3px solid var(--primary);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .pool-item:hover {
+            background: rgba(255, 0, 0, 0.1);
+        }
+
+        .pool-price {
+            font-weight: bold;
+            color: #fff;
+            display: block;
+        }
+
+        .pool-type {
+            font-size: 9px;
+            color: #888;
+            text-transform: uppercase;
+        }
+
+        /* Depth Chart */
+        .depth-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2px;
+            height: 14px;
+            font-family: var(--font-code);
+        }
+
+        .depth-price {
+            width: 70px;
+            font-size: 10px;
+            text-align: right;
+            margin-right: 10px;
+            color: #888;
+        }
+
+        .depth-bar {
+            height: 100%;
+            background: var(--primary);
+            opacity: 0.6;
+            border-radius: 2px;
+            box-shadow: 0 0 5px var(--primary);
+        }
+
+        /* Big Price Display Overlay */
+        .overlay-text {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            pointer-events: none;
+            text-align: right;
+            z-index: 5;
+        }
+
+        .big-price {
+            font-size: 42px;
+            font-family: var(--font-code);
+            color: #fff;
+            text-shadow: 0 0 10px var(--primary);
+            font-weight: 800;
+        }
+
+        .price-label {
+            font-size: 10px;
+            color: var(--dim-red);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* =========================================
+         * HOW TO USE & CONNECTION MODAL STYLES
+         * =========================================
+         */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-panel);
+            border: 2px solid var(--primary);
+            width: 90%;
+            max-width: 700px;
+            max-height: 85vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 0 50px rgba(255, 0, 0, 0.3), inset 0 0 30px rgba(0, 0, 0, 1);
+            clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
+        }
+
+        .modal-header {
+            background: var(--dark-red);
+            border-bottom: 2px solid var(--primary);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 24px;
+            letter-spacing: 5px;
+            color: var(--primary);
+            text-transform: uppercase;
+            font-family: var(--font-ui);
+        }
+
+        .modal-close {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            width: 35px;
+            height: 35px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            clip-path: polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px);
+        }
+
+        .modal-close:hover {
+            background: var(--primary);
+            color: #000;
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .step-container {
+            margin-bottom: 25px;
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            color: #000;
+            font-size: 20px;
+            font-weight: bold;
+            font-family: var(--font-code);
+            margin-right: 15px;
+            clip-path: polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px);
+        }
+
+        .step-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .step-description {
+            font-family: var(--font-code);
+            font-size: 13px;
+            color: var(--text-main);
+            line-height: 1.8;
+            margin-left: 55px;
+            padding: 10px;
+            background: rgba(255, 0, 0, 0.05);
+            border-left: 2px solid var(--dim-red);
+        }
+
+        .step-description a {
+            color: var(--primary);
+            text-decoration: none;
+            border-bottom: 1px dashed var(--primary);
+        }
+
+        .step-description a:hover {
+            color: #fff;
+            border-bottom-color: #fff;
+        }
+
+        .download-section {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid var(--primary);
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .download-title {
+            font-size: 14px;
+            color: var(--primary);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            font-family: var(--font-code);
+        }
+
+        .btn-download {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--primary);
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: var(--font-ui);
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+        }
+
+        .btn-download:hover {
+            background: #fff;
+            color: var(--primary);
+            box-shadow: 0 0 30px var(--primary);
+            transform: scale(1.02);
+        }
+
+        .btn-download svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .requirements-list {
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px dashed var(--dim-red);
+        }
+
+        .requirements-list h4 {
+            color: var(--primary);
+            margin: 0 0 10px 0;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .requirements-list ul {
+            margin: 0;
+            padding-left: 20px;
+            color: var(--text-main);
+            font-family: var(--font-code);
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        .requirements-list code,
+        .step-description code {
+            background: var(--dark-red);
+            color: var(--primary);
+            padding: 2px 6px;
+            font-family: var(--font-code);
+        }
+
+        .cmd-box {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+            align-items: center;
+        }
+
+        .cmd-box code {
+            flex: 1;
+            background: #110000;
+            border: 1px solid #330000;
+            padding: 8px 12px;
+            color: #ff6666;
+            display: block;
+        }
+
+        .warning-box {
+            background: rgba(255, 0, 0, 0.15);
+            border: 1px solid var(--primary);
+            padding: 15px;
+            margin-top: 20px;
+            font-family: var(--font-code);
+            font-size: 11px;
+            color: var(--primary);
+        }
+
+        .warning-box::before {
+            content: "⚠ WARNING:";
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            letter-spacing: 2px;
+        }
+
+        /* Connection Specific Styles */
+        .connection-panel h2 {
+            margin: 0;
+            padding: 15px 20px;
+            background: linear-gradient(90deg, var(--primary), var(--dark-red));
+            color: #000;
+        }
+
+        .connection-panel {
+            padding: 0;
+            text-align: center;
+        }
+
+        .connection-panel .inner {
+            padding: 30px;
+        }
+
+        .connection-panel p {
+            color: #aaa;
+            font-size: 13px;
+            margin-bottom: 20px;
+            font-family: var(--font-code);
+        }
+
+        .connection-panel input {
+            width: 100%;
+            background: #000;
+            border: 1px solid var(--primary);
+            color: #fff;
+            padding: 15px;
+            font-family: var(--font-code);
+            font-size: 16px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .connection-panel input::placeholder {
+            color: #550000;
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+            width: 0;
+            height: 0;
+        }
+    
+            `}} />
+            
+            
+
+
+
+    {/* <script src="/js/security.js"></script> */}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/assets/icon.png" type="image/png" />
+    <title>NEYDRA | INSTITUTIONAL DECODER [RED PROTOCOL]</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700;800&family=Share+Tech+Mono&display=swap"
+        rel="stylesheet" />
+    {/* <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> */}
+    {/* <script>
+        (function () {
+            const SUPABASE_URL = 'https://ybrtpasetldpxanrhsle.supabase.co';
+            const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlicnRwYXNldGxkcHhhbnJoc2xlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAzMTgyMjksImV4cCI6MjA4NTg5NDIyOX0.Rdj0S0oGV4HmQDERePPbxjQifJ8euDjOTMfgWtdz7gQ';
+            let serviceGuard = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+            // Page Requirements
+            const pageName = window.location.pathname;
+            let requiredPlan = 'STANDARD';
+            if (pageName.includes('/welcome/ail')) requiredPlan = 'PREMIUM';
+            if (pageName.includes('/welcome/nlp')) requiredPlan = 'ULTRA';
+
+            async function verifyAccess() {
+                // 1. Check Session
+                const { data: { session } } = await serviceGuard.auth.getSession();
+                if (!session) return window.location.href = '/welcome/account';
+
+                // 2. Check Subscription
+                const { data, error } = await serviceGuard
+                    .from('subscribers')
+                    .select('plan_type, expires_at, status')
+                    .eq('email', session.user.email)
+                    .single();
+
+                if (error || !data || data.status !== 'active' || (data.expires_at && new Date(data.expires_at) < new Date())) {
+                    return window.location.href = '/welcome/home'; // Send back to buy plan
+                }
+
+                // 3. Check Plan Tier
+                const userPlan = data.plan_type.toUpperCase();
+                if (userPlan === 'ULTRA') return; // Ultra accesses everything
+                if (userPlan !== requiredPlan) {
+                    alert(`Your current plan (${data.plan_type}) does not support this feature. Upgrade to ${requiredPlan}.`);
+                    return window.location.href = '/welcome/home';
+                }
+            }
+            verifyAccess();
+        })();
+    </script> */}
+
+    
+
+
+
+
+    <!-- LOCAL AUDIO ASSETS (RED PROTOCOL) -->
+    <audio id="snd-engage" src="/assets/engage.wav" preload="auto"></audio>
+    <audio id="snd-alert" src="/assets/alert.wav" preload="auto"></audio>
+    <audio id="snd-tick" src="/assets/tick.wav" preload="auto"></audio>
+    <audio id="snd-ambient" src="/assets/ambient.wav" preload="auto"></audio>
+    <audio id="snd-glitch" src="/assets/glitch.wav" preload="auto"></audio>
+
+    <!-- CONNECTION MODAL -->
+    <div className="modal-overlay" id="connection-modal">
+        <div className="modal-content connection-panel">
+            <h2>CONNECT TO DECODER</h2>
+            <div className="inner">
+                <p>Enter your LocalTunnel URL to connect to the Liquidity Decoder.</p>
+                <input type="text" id="url-input" placeholder="https://your-url.loca.lt" />
+                <button onClick="initializeConnection()"
+                    style={{ "width": "100%", "padding": "15px", "fontSize": "16px" }}>CONNECT</button>
+                <p style={{ "marginTop": "15px", "fontSize": "11px", "color": "#666" }}>
+                    Run <span style={{ "color": "var(--primary)" }}>npx localtunnel --port 8000</span> in your terminal to
+                    generate a URL.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- HOW TO USE MODAL -->
+    <div className="modal-overlay active" id="howto-modal">
+        <div className="modal-content">
+            <div className="modal-header">
+                <h2>⚙ HOW TO USE</h2>
+                <button className="modal-close" onClick="closeHowToModal()">✕</button>
+            </div>
+            <div className="modal-body">
+                <!-- STEP 1 -->
+                <div className="step-container">
+                    <div className="step-title">
+                        <span className="step-number">1</span>
+                        Install Node.js
+                    </div>
+                    <div className="step-description">
+                        Node.js is required to create the tunnel link. Download the LTS version for your system.<br />
+                        <a href="https://nodejs.org/en/download/" target="_blank">https://nodejs.org/en/download/</a>
+                    </div>
+                </div>
+
+                <!-- STEP 2 -->
+                <div className="step-container">
+                    <div className="step-title">
+                        <span className="step-number">2</span>
+                        Download & Run Backend
+                    </div>
+                    <div className="step-description">
+                        Download the NEYDRA DECODER Package below. Extract the <code>.rar</code> file, then double-click
+                        <code>liquidity_decoder.exe</code> to start the engine.
+                        <div className="requirements-list">
+                            <h4>Instructions</h4>
+                            <ul>
+                                <li>Extract the <code>.rar</code> file to a folder</li>
+                                <li>Double-click <code>liquidity_decoder.exe</code> to run</li>
+                                <li>Wait for the console to show <code>"ONLINE"</code></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 3 -->
+                <div className="step-container">
+                    <div className="step-title">
+                        <span className="step-number">3</span>
+                        Create Public URL
+                    </div>
+                    <div className="step-description">
+                        Open a <strong>NEW</strong> terminal and run the tunnel command:
+                        <div className="cmd-box">
+                            <code>npx localtunnel --port 8000</code>
+                            <button className="btn-download" style={{ "padding": "8px 15px", "fontSize": "12px" }}
+                                onClick="copyCommand('npx localtunnel --port 8000')">COPY</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 4 -->
+                <div className="step-container">
+                    <div className="step-title">
+                        <span className="step-number">4</span>
+                        Unlock Tunnel (Password)
+                    </div>
+                    <div className="step-description">
+                        Open the generated URL in your browser. It will ask for a password.
+                        <br /><strong>Password = Your Public IP.</strong>
+                        <br /><br />Click below to find your IP, then paste it into the tunnel page.
+                        <div style={{ "marginTop": "8px" }}>
+                            <a href="https://www.whatismyip.com/" target="_blank" className="btn-download"
+                                style={{ "padding": "10px 20px", "fontSize": "12px", "background": "#660000" }}>
+                                🔍 FIND MY IP ADDRESS
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 5 -->
+                <div className="step-container">
+                    <div className="step-title">
+                        <span className="step-number">5</span>
+                        Connect Dashboard
+                    </div>
+                    <div className="step-description">
+                        Once the tunnel page shows "system": "NEYDRA DECODER API ONLINE", paste the URL into the
+                        connection panel and click Connect.
+                    </div>
+                </div>
+
+                <!-- DOWNLOAD SECTION -->
+                <div className="download-section">
+                    <div className="download-title">📥 Download Decoder Package</div>
+                    <a href="/downloads/neydra-ail-package.rar" download className="btn-download"
+                        style={{ "textDecoration": "none" }}>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                            <polyline points="7 10 12 15 17 10" />
+                            <line x1="12" y1="15" x2="12" y2="3" />
+                        </svg>
+                        DOWNLOAD NEYDRA AIL PACKAGE
+                    </a>
+                </div>
+
+                <!-- WARNING -->
+                <div className="warning-box">
+                    If MetaTrader 5 is not installed or running, the decoder will operate in SIMULATION MODE with
+                    synthetic data. No Python installation required.
+                </div>
+
+                <div style={{ "textAlign": "center", "marginTop": "30px" }}>
+                    <button onClick="closeHowToModal()"
+                        style={{ "width": "auto", "padding": "15px 50px", "fontSize": "18px" }}>CONTINUE TO DASHBOARD</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div className="viewport">
+        <div className="header-section">
+            <h1>NEYDRA <span>DECODER</span></h1>
+            <div className="header-buttons">
+                <button className="btn-howto" onClick="openHowToModal()">HOW TO USE</button>
+                <div className="sys-info">
+                    MODE: INSTITUTIONAL<br />
+                    SOURCE: EXTERNAL API<br />
+                    TRACKING: TRUE
+                </div>
+            </div>
+        </div>
+
+        <!-- LEFT: MEMORY STREAM (VISUAL DESIGN) -->
+        <div className="sidebar-left">
+            <div className="panel" style={{ "height": "100%", "display": "flex", "flexDirection": "column" }}>
+                <div className="panel-header">MEMORY STREAM</div>
+                <div id="hex-dump"></div>
+                <div className="deco-line dl-1"></div>
+                <div className="deco-line dl-2"></div>
+                <div className="deco-line dl-3"></div>
+                <div className="deco-line dl-4"></div>
+            </div>
+        </div>
+
+        <!-- CENTER: WHALE ORDERS & DEPTH (TARGET LOGIC) -->
+        <div className="main-display">
+
+            <!-- WHALE ORDER FLOW -->
+            <div className="panel whale-container">
+                <div className="panel-header">WHALE ORDER FLOW [DETECTED]</div>
+                <div className="overlay-text">
+                    <div className="price-label">XAUUSD</div>
+                    <div className="big-price" id="main-price">0.00</div>
+                </div>
+                <div id="whale-log" style={{ "marginTop": "60px", "padding": "0 10px" }}>
+                    Waiting for signal...
+                </div>
+            </div>
+
+            <!-- MARKET DEPTH -->
+            <div className="panel depth-container">
+                <div className="panel-header">MARKET DEPTH [SYNTHETIC]</div>
+                <div id="depth-chart">Scanning Depth...</div>
+            </div>
+        </div>
+
+        <!-- RIGHT: LIQUIDITY CLUSTERS (TARGET LOGIC) -->
+        <div className="sidebar-right">
+            <div className="panel" style={{ "height": "100%" }}>
+                <div className="panel-header">LIQUIDITY CLUSTERS</div>
+                <div className="liquidity-list" id="pool-list">
+                    Calculating KMeans...
+                </div>
+                <div className="deco-line dl-3"></div>
+                <div className="deco-line dl-4"></div>
+            </div>
+        </div>
+
+        <!-- FOOTER: LOGS & CONTROLS -->
+        <div className="footer-section">
+            <div className="terminal" id="sys-log">
+                <div className="log-line">> SYSTEM INITIALIZED</div>
+                <div className="log-line">> AWAITING CONNECTION...</div>
+            </div>
+            <div className="controls">
+                <button id="btn-start" onClick="toggleEngine()">ACTIVATE</button>
+                <button id="btn-kill" onClick="killSwitch()" style={{ "borderColor": "#555", "color": "#555" }}>KILL</button>
+            </div>
+        </div>
+    </div>
+
+    {/* <script>
+        /** * =========================================
+         * NEYDRA CORE ENGINE [INSTITUTIONAL DECODER]
+         * VISUALS: RED PROTOCOL
+         * LOGIC: TARGET API (127.0.0.1:8000/data)
+         * AUDIO: LOCAL FILES
+         * =========================================
+         * /
+
+        // --- CONFIGURATION ---
+        let API_URL = null; // Set by user input
+
+        // --- DOM ELEMENTS ---
+        const elPrice = document.getElementById('main-price');
+        const elLog = document.getElementById('sys-log');
+        const elHex = document.getElementById('hex-dump');
+        const btnStart = document.getElementById('btn-start');
+
+        // Target Elements
+        const whaleDiv = document.getElementById('whale-log');
+        const poolDiv = document.getElementById('pool-list');
+        const depthDiv = document.getElementById('depth-chart');
+
+        let isRunning = false;
+
+        // --- AUDIO SYSTEM (LOCAL FILES) ---
+        function sfx(type) {
+            const el = document.getElementById('snd-' + type);
+            if (el) {
+                el.currentTime = 0;
+                el.play().catch(e => { console.log("Audio play failed:", e); });
+            }
+        }
+
+        // --- MODAL FUNCTIONS ---
+        function openHowToModal() {
+            document.getElementById('howto-modal').classList.add('active');
+            sfx('tick');
+        }
+
+        function closeHowToModal() {
+            document.getElementById('howto-modal').classList.remove('active');
+            document.getElementById('connection-modal').classList.add('active');
+        }
+
+        function copyCommand(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert("Command copied to clipboard: " + text);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+
+        document.getElementById('connection-modal').addEventListener('click', function (e) {
+            if (e.target === this) {
+                // do nothing, force user to connect or close tab
+            }
+        });
+
+        // --- CONNECTION LOGIC ---
+        function initializeConnection() {
+            const urlInput = document.getElementById('url-input');
+            let url = urlInput.value.trim();
+
+            if (!url) {
+                alert("Please enter a valid URL.");
+                return;
+            }
+
+            if (url.endsWith("/")) {
+                url = url.slice(0, -1);
+            }
+
+            if (!url.startsWith("http")) {
+                alert("URL must start with http:// or https://");
+                return;
+            }
+
+            API_URL = url;
+
+            log(`Connecting to ${API_URL}...`);
+
+            // Test connection
+            fetch(`${API_URL}/`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === "ONLINE" || data.system) {
+                        log("DECODER CONNECTION ESTABLISHED", "suc");
+                        document.getElementById('connection-modal').classList.remove('active');
+                        sfx('engage');
+                    } else {
+                        alert("Connected but server status unknown.");
+                        document.getElementById('connection-modal').classList.remove('active');
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("Could not connect. Check URL and Tunnel status.");
+                });
+        }
+
+        // --- VISUAL GENERATORS (DESIGN ONLY) ---
+        function generateHex() {
+            const chars = "0123456789ABCDEF";
+            let str = "0x";
+            for (let i = 0; i < 8; i++) str += chars[Math.floor(Math.random() * 16)];
+            const div = document.createElement('div');
+            div.innerText = `${str} :: ${Math.random() > 0.5 ? 'READ' : 'WRITE'}`;
+            elHex.prepend(div);
+            if (elHex.children.length > 20) elHex.lastChild.remove();
+        }
+
+        function log(msg, type = "norm") {
+            const d = new Date();
+            const ts = `${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}.${d.getMilliseconds()}`;
+            const line = document.createElement('div');
+            line.className = "log-line";
+            if (type === "err") line.className += " log-err";
+            if (type === "suc") line.className += " log-suc";
+            line.innerText = `[${ts}] ${msg}`;
+            elLog.appendChild(line);
+            elLog.scrollTop = elLog.scrollHeight;
+        }
+
+        // --- MAIN TARGET API LOGIC ---
+        async function updateDashboard() {
+            if (!isRunning || !API_URL) return;
+
+            try {
+                const response = await fetch(`${API_URL}/data`);
+                if (!response.ok) throw new Error("API Error");
+                const data = await response.json();
+
+                // 1. UPDATE PRICE
+                if (data.current_price) {
+                    elPrice.innerText = data.current_price.toFixed(2);
+                    elPrice.style.color = "var(--primary)";
+                }
+
+                // 2. UPDATE WHALE LOG
+                whaleDiv.innerHTML = "";
+                const recentWhales = data.whales.slice().reverse();
+                if (recentWhales.length === 0) {
+                    whaleDiv.innerHTML = "<div style='padding:10px; color:#444;'>SCANNING...</div>";
+                } else {
+                    recentWhales.forEach(w => {
+                        const row = document.createElement('div');
+                        row.className = 'log-entry';
+                        const isBuy = w.action.includes("BUY");
+                        row.innerHTML = `
+                            <span>${w.time}</span>
+                            <span className="${isBuy ? 'buy' : 'sell'}">${w.action}</span>
+                            <span>Vol: ${w.volume}</span>
+                            <span>@ ${w.price.toFixed(2)}</span>
+                        `;
+                        whaleDiv.appendChild(row);
+                    });
+                    if (Math.random() > 0.9) sfx('tick');
+                }
+
+                // 3. UPDATE LIQUIDITY POOLS
+                poolDiv.innerHTML = "";
+                if (data.liquidity_pools) {
+                    data.liquidity_pools.forEach(pool => {
+                        const div = document.createElement('div');
+                        div.className = 'pool-item';
+                        div.innerHTML = `
+                            <span className="pool-price">${pool.price.toFixed(2)}</span>
+                            <span className="pool-type">${pool.type}</span>
+                        `;
+                        poolDiv.appendChild(div);
+                    });
+                }
+
+                // 4. UPDATE DEPTH CHART
+                depthDiv.innerHTML = "";
+                if (data.depth && data.depth.length > 0) {
+                    const maxVol = Math.max(...data.depth.map(d => d.volume));
+                    data.depth.forEach(d => {
+                        const widthPct = (d.volume / maxVol) * 100;
+                        const row = document.createElement('div');
+                        row.className = 'depth-row';
+                        const isCurrent = Math.abs(d.price - data.current_price) < 0.1;
+                        const color = isCurrent ? "#fff" : "var(--primary)";
+                        row.innerHTML = `
+                            <div className="depth-price" style={{ "${isCurrent ? 'color": "#fff", "fontWeight": "bold", "'": "''}" }}>${d.price.toFixed(2)}</div>
+                            <div className="depth-bar" style={{ "width": "${widthPct}%", "background": "${color}", "opacity": "${isCurrent ? 1 : 0.5}" }}></div>
+                        `;
+                        depthDiv.appendChild(row);
+                    });
+                }
+
+                // 5. GENERATORS
+                generateHex();
+                if (Math.random() > 0.95) sfx('ambient');
+
+            } catch (error) {
+                if (Math.random() > 0.95) log("DECODER CONNECTION UNSTABLE", "err");
+            }
+        }
+
+        // --- CONTROLS ---
+        function toggleEngine() {
+            if (!API_URL) {
+                alert("Please connect to a server URL first.");
+                return;
+            }
+
+            if (isRunning) {
+                isRunning = false;
+                btnStart.innerText = "ACTIVATE";
+                btnStart.classList.remove("engaged");
+                log("PROCESS SUSPENDED BY USER");
+            } else {
+                isRunning = true;
+                btnStart.innerText = "RUNNING";
+                btnStart.classList.add("engaged");
+                log("INSTITUTIONAL DECODER ENGAGED", "suc");
+                sfx('engage');
+                setInterval(updateDashboard, 1000);
+            }
+        }
+
+        function killSwitch() {
+            isRunning = false;
+            document.body.innerHTML = "<h1 style='color:red; text-align:center; padding-top:20%; font-family:monospace;'>SYSTEM PURGED</h1>";
+            sfx('glitch');
+        }
+
+    </script> */}
+
+
+
+
+        </div>
+    );
+}
