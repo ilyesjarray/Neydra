@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from 'next/server';
 const intlMiddleware = createMiddleware(routing);
 
 export default async function middleware(request: NextRequest) {
-  const intlResponse = (await intlMiddleware(request)) as NextResponse;
+  const intlResponse = (await intlMiddleware(request)) as unknown as NextResponse;
   const supabaseResponse = await updateSession(request);
 
   // Merge Supabase Set-Cookie headers into intl response for session refresh
