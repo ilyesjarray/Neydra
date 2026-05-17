@@ -1,4 +1,5 @@
 'use client';
+import Script from 'next/script';
 import React, { useEffect } from 'react';
 
 export function NeydraAccount() {
@@ -345,12 +346,7 @@ export function NeydraAccount() {
     </div>
   </div>
 
-  {/* <script>
-    window.onerror = function (message, source, lineno, colno, error) {
-      alert("JAVASCRIPT ERROR:\n" + message + "\nLine: " + lineno);
-      return false;
-    };
-  </script> */}
+  <Script src="/neydraaccount.js" strategy="lazyOnload" />
 
   {/* <script>
     // --- CONFIGURATION ---

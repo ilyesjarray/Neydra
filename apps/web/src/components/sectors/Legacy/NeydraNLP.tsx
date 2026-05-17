@@ -1,4 +1,5 @@
 'use client';
+import Script from 'next/script';
 import React, { useEffect } from 'react';
 
 export function NeydraNLP() {
@@ -782,45 +783,7 @@ export function NeydraNLP() {
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700;800&family=Share+Tech+Mono&display=swap"
         rel="stylesheet" />
     {/* <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> */}
-    {/* <script>
-        (function () {
-            const SUPABASE_URL = 'https://ybrtpasetldpxanrhsle.supabase.co';
-            const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlicnRwYXNldGxkcHhhbnJoc2xlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAzMTgyMjksImV4cCI6MjA4NTg5NDIyOX0.Rdj0S0oGV4HmQDERePPbxjQifJ8euDjOTMfgWtdz7gQ';
-            let serviceGuard = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-            // Page Requirements
-            const pageName = window.location.pathname;
-            let requiredPlan = 'STANDARD';
-            if (pageName.includes('/welcome/ail')) requiredPlan = 'PREMIUM';
-            if (pageName.includes('/welcome/nlp')) requiredPlan = 'ULTRA';
-
-            async function verifyAccess() {
-                // 1. Check Session
-                const { data: { session } } = await serviceGuard.auth.getSession();
-                if (!session) return window.location.href = '/welcome/account';
-
-                // 2. Check Subscription
-                const { data, error } = await serviceGuard
-                    .from('subscribers')
-                    .select('plan_type, expires_at, status')
-                    .eq('email', session.user.email)
-                    .single();
-
-                if (error || !data || data.status !== 'active' || (data.expires_at && new Date(data.expires_at) < new Date())) {
-                    return window.location.href = '/welcome/home'; // Send back to buy plan
-                }
-
-                // 3. Check Plan Tier
-                const userPlan = data.plan_type.toUpperCase();
-                if (userPlan === 'ULTRA') return; // Ultra accesses everything
-                if (userPlan !== requiredPlan) {
-                    alert(`Your current plan (${data.plan_type}) does not support this feature. Upgrade to ${requiredPlan}.`);
-                    return window.location.href = '/welcome/home';
-                }
-            }
-            verifyAccess();
-        })();
-    </script> */}
+    <Script src="/neydranlp.js" strategy="lazyOnload" />
 
     
 
@@ -841,7 +804,7 @@ export function NeydraNLP() {
             <div className="inner">
                 <p>Enter your LocalTunnel URL to connect to the Sentiment Decoder.</p>
                 <input type="text" id="url-input" placeholder="https://your-url.loca.lt" />
-                <button onClick="initializeConnection()"
+                <button onClick={() => { try { eval(`initializeConnection()`); } catch(e){} }}
                     style={{ "width": "100%", "padding": "15px", "fontSize": "16px" }}>CONNECT</button>
                 <p style={{ "marginTop": "15px", "fontSize": "11px", "color": "#666" }}>
                     Run <span style={{ "color": "var(--primary)" }}>npx localtunnel --port 8000</span> in your terminal to
@@ -856,7 +819,7 @@ export function NeydraNLP() {
         <div className="modal-content">
             <div className="modal-header">
                 <h2>⚙ HOW TO USE</h2>
-                <button className="modal-close" onClick="closeHowToModal()">✕</button>
+                <button className="modal-close" onClick={() => { try { eval(`closeHowToModal()`); } catch(e){} }}>✕</button>
             </div>
             <div className="modal-body">
                 {/* STEP 1 */}
@@ -902,7 +865,7 @@ export function NeydraNLP() {
                         <div className="cmd-box">
                             <code>npx localtunnel --port 8000</code>
                             <button className="btn-download" style={{ "padding": "8px 15px", "fontSize": "12px" }}
-                                onClick="copyCommand('npx localtunnel --port 8000')">COPY</button>
+                                onClick={() => { try { eval(`copyCommand('npx localtunnel --port 8000')`); } catch(e){} }}>COPY</button>
                         </div>
                     </div>
                 </div>
@@ -958,7 +921,7 @@ export function NeydraNLP() {
                 </div>
 
                 <div style={{ "textAlign": "center", "marginTop": "30px" }}>
-                    <button onClick="closeHowToModal()"
+                    <button onClick={() => { try { eval(`closeHowToModal()`); } catch(e){} }}
                         style={{ "width": "auto", "padding": "15px 50px", "fontSize": "18px" }}>CONTINUE TO DASHBOARD</button>
                 </div>
             </div>
@@ -1030,8 +993,8 @@ export function NeydraNLP() {
                 <div className="log-line">> AWAITING CONNECTION...</div>
             </div>
             <div className="controls">
-                <button id="btn-start" onClick="toggleEngine()">ACTIVATE</button>
-                <button id="btn-kill" onClick="killSwitch()" style={{ "borderColor": "#555", "color": "#555" }}>KILL</button>
+                <button id="btn-start" onClick={() => { try { eval(`toggleEngine()`); } catch(e){} }}>ACTIVATE</button>
+                <button id="btn-kill" onClick={() => { try { eval(`killSwitch()`); } catch(e){} }} style={{ "borderColor": "#555", "color": "#555" }}>KILL</button>
             </div>
         </div>
     </div>
