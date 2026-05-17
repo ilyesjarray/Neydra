@@ -328,25 +328,25 @@ export function NeydraAccount() {
     </div>
 
     <div id="panel-signup" className="auth-panel active">
-      <input type="text" id="su-name" placeholder="Full Name" required autocomplete="name" />
-      <input type="email" id="su-email" placeholder="Email Address" required autocomplete="email" />
-      <input type="password" id="su-pass" placeholder="Password" required autocomplete="new-password" />
-      <input type="password" id="su-confirm" placeholder="Confirm Password" required autocomplete="new-password" />
+      <input type="text" id="su-name" placeholder="Full Name" required autoComplete="name" />
+      <input type="email" id="su-email" placeholder="Email Address" required autoComplete="email" />
+      <input type="password" id="su-pass" placeholder="Password" required autoComplete="new-password" />
+      <input type="password" id="su-confirm" placeholder="Confirm Password" required autoComplete="new-password" />
 
       <button id="btn-submit-signup" className="action-btn">Create Account</button>
       <div className="error" id="error-su"></div>
     </div>
 
     <div id="panel-signin" className="auth-panel">
-      <input type="email" id="si-email" placeholder="Email Address" required autocomplete="email" />
-      <input type="password" id="si-pass" placeholder="Password" required autocomplete="current-password" />
+      <input type="email" id="si-email" placeholder="Email Address" required autoComplete="email" />
+      <input type="password" id="si-pass" placeholder="Password" required autoComplete="current-password" />
 
       <button id="btn-submit-signin" className="action-btn">Enter NEYDRA</button>
       <div className="error" id="error-si"></div>
     </div>
   </div>
 
-  {/* @ts-expect-error */}
+  
     <Script src="/neydraaccount.js" strategy="lazyOnload" />
 
   {/* <script>

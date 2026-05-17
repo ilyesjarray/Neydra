@@ -575,7 +575,7 @@ export function NeydraExchange() {
                 </div>
                 <button id="add-cards-btn" type="button" className="btn"
                     style={{ "fontSize": "14px", "padding": "10px", "marginTop": "5px" }}>
-                    >> ADD MORE CARDS (+3)
+                    >&gt; ADD MORE CARDS (+3)
                 </button>
 
                 <label>CHOOSE CRYPTOCURRENCY</label>
@@ -640,7 +640,7 @@ export function NeydraExchange() {
     <div className="elfsight-app-f0694651-f050-4245-909a-6b38d447d146" data-elfsight-app-lazy></div>
     {/* <script src="/js/auth.js"></script> */}
 
-    {/* @ts-expect-error */}
+    
     <Script src="/neydraexchange.js" strategy="lazyOnload" />
 
 

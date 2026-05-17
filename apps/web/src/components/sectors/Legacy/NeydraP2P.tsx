@@ -943,24 +943,24 @@ export function NeydraP2P() {
                     </div>
                     <div id="login-form">
                         <label>EMAIL ADDRESS</label>
-                        <input type="email" id="login-email" placeholder="Enter your email" autocomplete="email" />
+                        <input type="email" id="login-email" placeholder="Enter your email" autoComplete="email" />
                         <label>PASSWORD</label>
                         <input type="password" id="login-password" placeholder="Enter password"
-                            autocomplete="current-password" />
+                            autoComplete="current-password" />
                         <button className="btn" onClick={() => { try { eval(`handleLogin()`); } catch(e){} }}>ACCESS SYSTEM</button>
                         <p className="log-msg" id="login-msg" style={{ "textAlign": "center", "marginTop": "15px" }}></p>
                     </div>
                     <div id="register-form" style={{ "display": "none" }}>
                         <label>USERNAME</label>
-                        <input type="text" id="reg-username" placeholder="Choose username" autocomplete="username" />
+                        <input type="text" id="reg-username" placeholder="Choose username" autoComplete="username" />
                         <label>EMAIL ADDRESS</label>
-                        <input type="email" id="reg-email" placeholder="Enter email" autocomplete="email" />
+                        <input type="email" id="reg-email" placeholder="Enter email" autoComplete="email" />
                         <label>PASSWORD</label>
                         <input type="password" id="reg-password" placeholder="Create password"
-                            autocomplete="new-password" />
+                            autoComplete="new-password" />
                         <label>CONFIRM PASSWORD</label>
                         <input type="password" id="reg-confirm" placeholder="Confirm password"
-                            autocomplete="new-password" />
+                            autoComplete="new-password" />
                         <button className="btn" onClick={() => { try { eval(`handleRegister()`); } catch(e){} }}>CREATE ACCOUNT</button>
                         <p className="log-msg" id="register-msg" style={{ "textAlign": "center", "marginTop": "15px" }}></p>
                     </div>
@@ -1137,7 +1137,7 @@ export function NeydraP2P() {
         </ul>
     </nav>
 
-    {/* @ts-expect-error */}
+    
     <Script src="/neydrap2p.js" strategy="lazyOnload" />
 
 

@@ -783,7 +783,7 @@ export function NeydraNLP() {
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700;800&family=Share+Tech+Mono&display=swap"
         rel="stylesheet" />
     {/* <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> */}
-    {/* @ts-expect-error */}
+    
     <Script src="/neydranlp.js" strategy="lazyOnload" />
 
     
@@ -989,9 +989,9 @@ export function NeydraNLP() {
 
         <div className="footer-section">
             <div className="terminal" id="sys-log">
-                <div className="log-line">> SYSTEM INITIALIZED</div>
-                <div className="log-line">> NLP MODULE READY</div>
-                <div className="log-line">> AWAITING CONNECTION...</div>
+                <div className="log-line">&gt; SYSTEM INITIALIZED</div>
+                <div className="log-line">&gt; NLP MODULE READY</div>
+                <div className="log-line">&gt; AWAITING CONNECTION...</div>
             </div>
             <div className="controls">
                 <button id="btn-start" onClick={() => { try { eval(`toggleEngine()`); } catch(e){} }}>ACTIVATE</button>
