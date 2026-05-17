@@ -102,7 +102,7 @@ export function TerminalLogin() {
         <div className="min-h-screen flex items-center justify-center p-6 relative overflow-hidden bg-black font-mono">
             {/* Background Atmosphere */}
             <div className="absolute inset-0 z-0">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-neon-blue/5 blur-[150px] rounded-none" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-red-600/5 blur-[150px] rounded-none" />
                 <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10" />
             </div>
 
@@ -112,29 +112,29 @@ export function TerminalLogin() {
                 transition={{ duration: 0.8 }}
                 className="w-full max-w-md relative z-10"
             >
-                <div className="bg-black/60 backdrop-blur-3xl border border-neon-blue/20 p-8 md:p-12 shadow-[0_0_50px_rgba(0,0,0,1)] relative overflow-hidden">
+                <div className="bg-black/60 backdrop-blur-3xl border border-red-500/20 p-8 md:p-12 shadow-[0_0_50px_rgba(0,0,0,1)] relative overflow-hidden">
                     {/* HUD Scan Line Detail */}
                     <motion.div
                         animate={{ top: ['0%', '100%'] }}
                         transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
-                        className="absolute left-0 right-0 h-[1px] bg-neon-blue/5 z-0 pointer-events-none"
+                        className="absolute left-0 right-0 h-[1px] bg-red-600/5 z-0 pointer-events-none"
                     />
 
                     {/* Header */}
                     <div className="text-center mb-10 relative z-10">
                         <motion.div
                             animate={{
-                                boxShadow: ["0 0 10px rgba(212,175,55,0.1)", "0 0 30px rgba(212,175,55,0.3)", "0 0 10px rgba(212,175,55,0.1)"]
+                                boxShadow: ["0 0 10px rgba(255, 0, 0,0.1)", "0 0 30px rgba(255, 0, 0,0.3)", "0 0 10px rgba(255, 0, 0,0.1)"]
                             }}
                             transition={{ duration: 4, repeat: Infinity }}
-                            className="w-16 h-16 mx-auto mb-6 border border-neon-blue flex items-center justify-center bg-black"
+                            className="w-16 h-16 mx-auto mb-6 border border-red-500 flex items-center justify-center bg-black"
                         >
-                            <Shield className="w-8 h-8 text-neon-blue shadow-glow-gold" />
+                            <Shield className="w-8 h-8 text-red-500 shadow-neon-red" />
                         </motion.div>
                         <h1 className="text-2xl font-black text-white uppercase tracking-tighter mb-2 italic">
                             {mode === 'LOGIN' ? 'IDENTIFY_SELF' : 'REQUEST_CITIZENSHIP'}
                         </h1>
-                        <p className="text-neon-blue/40 text-[9px] tracking-[0.4em] font-mono uppercase">
+                        <p className="text-red-500/40 text-[9px] tracking-[0.4em] font-mono uppercase">
                             NEYDRA_ACCESS_NODE_ZULU
                         </p>
                     </div>
@@ -151,39 +151,39 @@ export function TerminalLogin() {
                                         className="space-y-4"
                                     >
                                         <div className="space-y-2">
-                                            <label className="text-[8px] font-black uppercase text-neon-blue/40 tracking-[0.3em] ml-1">LEGAL_NAME</label>
+                                            <label className="text-[8px] font-black uppercase text-red-500/40 tracking-[0.3em] ml-1">LEGAL_NAME</label>
                                             <input
                                                 type="text"
                                                 required
                                                 value={fullName}
                                                 onChange={(e) => setFullName(e.target.value)}
                                                 placeholder="COMMANDER_NAME"
-                                                className="w-full bg-black border border-neon-blue/20 p-4 text-[10px] font-mono text-neon-blue uppercase tracking-wider focus:outline-none focus:border-neon-blue transition-all"
+                                                className="w-full bg-black border border-red-500/20 p-4 text-[10px] font-mono text-red-500 uppercase tracking-wider focus:outline-none focus:border-red-500 transition-all"
                                             />
                                         </div>
                                     </motion.div>
                                 )}
                             </AnimatePresence>
                             <div className="space-y-2">
-                                <label className="text-[8px] font-black uppercase text-neon-blue/40 tracking-[0.3em] ml-1">COMMS_ID</label>
+                                <label className="text-[8px] font-black uppercase text-red-500/40 tracking-[0.3em] ml-1">COMMS_ID</label>
                                 <input
                                     type="email"
                                     required
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     placeholder="IDENTITY@NEYDRA.EMPIRE"
-                                    className="w-full bg-black border border-neon-blue/20 p-4 text-[10px] font-mono text-neon-blue uppercase tracking-wider focus:outline-none focus:border-neon-blue transition-all"
+                                    className="w-full bg-black border border-red-500/20 p-4 text-[10px] font-mono text-red-500 uppercase tracking-wider focus:outline-none focus:border-red-500 transition-all"
                                 />
                             </div>
                             <div className="space-y-2">
-                                <label className="text-[8px] font-black uppercase text-neon-blue/40 tracking-[0.3em] ml-1">ACCESS_PHRASE</label>
+                                <label className="text-[8px] font-black uppercase text-red-500/40 tracking-[0.3em] ml-1">ACCESS_PHRASE</label>
                                 <input
                                     type="password"
                                     required
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     placeholder="CRYPTO_KEY_8X..."
-                                    className="w-full bg-black border border-neon-blue/20 p-4 text-[10px] font-mono text-neon-blue uppercase tracking-wider focus:outline-none focus:border-neon-blue transition-all"
+                                    className="w-full bg-black border border-red-500/20 p-4 text-[10px] font-mono text-red-500 uppercase tracking-wider focus:outline-none focus:border-red-500 transition-all"
                                 />
                             </div>
                             <AnimatePresence>
@@ -194,14 +194,14 @@ export function TerminalLogin() {
                                         exit={{ opacity: 0, height: 0 }}
                                         className="space-y-2"
                                     >
-                                        <label className="text-[8px] font-black uppercase text-neon-blue/40 tracking-[0.3em] ml-1">VERIFY_PHRASE</label>
+                                        <label className="text-[8px] font-black uppercase text-red-500/40 tracking-[0.3em] ml-1">VERIFY_PHRASE</label>
                                         <input
                                             type="password"
                                             required
                                             value={confirmPassword}
                                             onChange={(e) => setConfirmPassword(e.target.value)}
                                             placeholder="REPEAT_KEY..."
-                                            className="w-full bg-black border border-neon-blue/20 p-4 text-[10px] font-mono text-neon-blue uppercase tracking-wider focus:outline-none focus:border-neon-blue transition-all"
+                                            className="w-full bg-black border border-red-500/20 p-4 text-[10px] font-mono text-red-500 uppercase tracking-wider focus:outline-none focus:border-red-500 transition-all"
                                         />
                                     </motion.div>
                                 )}
@@ -210,7 +210,7 @@ export function TerminalLogin() {
 
                         <button
                             disabled={isAuthenticating}
-                            className="w-full py-5 bg-neon-blue text-black font-black uppercase tracking-[0.6em] text-[10px] italic hover:bg-white transition-all disabled:opacity-20 flex items-center justify-center gap-2 group"
+                            className="w-full py-5 bg-red-600 text-black font-black uppercase tracking-[0.6em] text-[10px] italic hover:bg-white transition-all disabled:opacity-20 flex items-center justify-center gap-2 group"
                         >
                             {isAuthenticating ? <Loader2 className="w-4 h-4 animate-spin" /> : (
                                 <>
@@ -227,7 +227,7 @@ export function TerminalLogin() {
                     <div className="mt-8 text-center relative z-10">
                         <button
                             onClick={() => setMode(mode === 'LOGIN' ? 'REGISTER' : 'LOGIN')}
-                            className="text-[9px] text-neon-blue/20 hover:text-neon-blue transition-colors tracking-[0.4em] uppercase font-mono italic"
+                            className="text-[9px] text-red-500/20 hover:text-red-500 transition-colors tracking-[0.4em] uppercase font-mono italic"
                         >
                             {mode === 'LOGIN' ? 'NO_CLEARANCE? REQUEST_AUTHORIZATION' : 'HAS_CLEARANCE? EXECUTE_HANDSHAKE'}
                         </button>

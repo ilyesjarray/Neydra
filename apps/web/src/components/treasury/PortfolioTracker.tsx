@@ -146,7 +146,7 @@ export function PortfolioTracker() {
                         </div>
                         <button
                             onClick={addHolding}
-                            className="mt-4 w-full px-4 py-2 bg-red-600 text-white rounded-lg font-black uppercase text-xs hover:bg-emerald-600 transition-all"
+                            className="mt-4 w-full px-4 py-2 bg-red-600 text-white rounded-lg font-black uppercase text-xs hover:bg-red-700 transition-all"
                         >
                             Add to Portfolio
                         </button>

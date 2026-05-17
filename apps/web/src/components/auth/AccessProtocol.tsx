@@ -40,7 +40,7 @@ export function AccessProtocol() {
                 setStatus('GRANTED');
                 toast.success('IDENTITY_VERIFIED', {
                     description: 'Neydraty Guaranteed. Welcome back.',
-                    className: 'bg-black border border-neon-blue text-neon-blue font-mono',
+                    className: 'bg-black border border-red-500 text-red-500 font-mono',
                 });
 
                 setTimeout(() => {
@@ -72,8 +72,8 @@ export function AccessProtocol() {
                             onClick={status === 'IDLE' ? handleIdentify : undefined}
                             className={`
                                 relative w-64 h-64 flex items-center justify-center cursor-pointer
-                                rounded-full border border-neon-blue/20 group transition-all duration-500
-                                ${status === 'SCANNING' ? 'scale-110 border-neon-blue shadow-[0_0_50px_rgba(212,175,55,0.3)]' : 'hover:border-neon-blue/50'}
+                                rounded-full border border-red-500/20 group transition-all duration-500
+                                ${status === 'SCANNING' ? 'scale-110 border-red-500 shadow-[0_0_50px_rgba(255, 0, 0,0.3)]' : 'hover:border-red-500/50'}
                             `}
                         >
                             {/* [V4.0] Pulsing GOLD Aura */}
@@ -88,13 +88,13 @@ export function AccessProtocol() {
                             >
                                 <Fingerprint
                                     className={`w-32 h-32 transition-colors duration-500 
-                                    ${status === 'SCANNING' ? 'text-neon-blue' : 'text-amber-900 group-hover:text-amber-600'}`}
+                                    ${status === 'SCANNING' ? 'text-red-500' : 'text-red-900 group-hover:text-red-600'}`}
                                 />
                             </motion.div>
 
                             {/* Decorative HUD Elements */}
-                            <div className="absolute inset-0 rounded-full border-2 border-dashed border-neon-blue/10 animate-[spin_20s_linear_infinite]" />
-                            <div className="absolute -inset-8 border border-neon-blue/5 rounded-full" />
+                            <div className="absolute inset-0 rounded-full border-2 border-dashed border-red-500/10 animate-[spin_20s_linear_infinite]" />
+                            <div className="absolute -inset-8 border border-red-500/5 rounded-full" />
                         </div>
 
                         <motion.div
@@ -102,10 +102,10 @@ export function AccessProtocol() {
                             animate={{ opacity: 1 }}
                             className="mt-12 text-center"
                         >
-                            <h2 className="text-neon-blue text-2xl font-black tracking-[0.5em] uppercase mb-2">
+                            <h2 className="text-red-500 text-2xl font-black tracking-[0.5em] uppercase mb-2">
                                 {status === 'IDLE' ? 'IDENTIFY_SELF' : 'ACQUIRING_BIOMETRICS'}
                             </h2>
-                            <p className="text-neon-blue/40 text-[10px] tracking-[0.3em] font-mono">
+                            <p className="text-red-500/40 text-[10px] tracking-[0.3em] font-mono">
                                 {status === 'IDLE' ? 'TAP_SENSOR_FOR_NEYDRA_ACCESS' : 'INITIALIZING_CRYPTO_HANDSHAKE...'}
                             </p>
                         </motion.div>
@@ -119,13 +119,13 @@ export function AccessProtocol() {
                         className="w-full max-w-2xl px-6 relative z-10"
                     >
                         <div className="hud-border bg-black/80 p-8 backdrop-blur-xl">
-                            <div className="flex items-center gap-6 mb-8 border-b border-neon-blue/20 pb-6">
-                                <Cpu className="w-12 h-12 text-neon-blue animate-pulse" />
+                            <div className="flex items-center gap-6 mb-8 border-b border-red-500/20 pb-6">
+                                <Cpu className="w-12 h-12 text-red-500 animate-pulse" />
                                 <div>
-                                    <h3 className="text-neon-blue text-lg font-bold tracking-widest uppercase">
+                                    <h3 className="text-red-500 text-lg font-bold tracking-widest uppercase">
                                         Handshake_Protocol_Alpha
                                     </h3>
-                                    <div className="flex gap-2 text-[10px] text-neon-blue/50 font-mono">
+                                    <div className="flex gap-2 text-[10px] text-red-500/50 font-mono">
                                         <span>ENCRYPT_STRENGTH: 512B_QUANTUM</span>
                                         <span>|</span>
                                         <span>ORIGIN: NEYDRA_OS_CORE</span>
@@ -134,7 +134,7 @@ export function AccessProtocol() {
                             </div>
 
                             {/* [V4.0] Insane Speed Matrix Stream */}
-                            <div className="grid grid-cols-3 gap-2 h-48 overflow-hidden font-mono text-[10px] text-neon-blue/60 opacity-50">
+                            <div className="grid grid-cols-3 gap-2 h-48 overflow-hidden font-mono text-[10px] text-red-500/60 opacity-50">
                                 {matrixData.map((hex, i) => (
                                     <div key={i} className="animate-in fade-in slide-in-from-top-1 duration-100">
                                         {`0x${hex}_BLOCK_VERIFIED`}
@@ -142,13 +142,13 @@ export function AccessProtocol() {
                                 ))}
                             </div>
 
-                            <div className="mt-8 flex items-center justify-between border-t border-neon-blue/20 pt-6">
+                            <div className="mt-8 flex items-center justify-between border-t border-red-500/20 pt-6">
                                 <div className="flex gap-4">
-                                    <div className="w-2 h-2 bg-neon-blue animate-pulse" />
-                                    <div className="w-2 h-2 bg-neon-blue/40" />
-                                    <div className="w-2 h-2 bg-neon-blue/20" />
+                                    <div className="w-2 h-2 bg-red-600 animate-pulse" />
+                                    <div className="w-2 h-2 bg-red-600/40" />
+                                    <div className="w-2 h-2 bg-red-600/20" />
                                 </div>
-                                <span className="text-neon-blue text-xs tracking-widest animate-pulse font-black">
+                                <span className="text-red-500 text-xs tracking-widest animate-pulse font-black">
                                     DECRYPTING_NEYDRA_VAULT...
                                 </span>
                             </div>
@@ -166,14 +166,14 @@ export function AccessProtocol() {
                                 scale: [1, 1.2, 1],
                                 rotate: [0, 5, -5, 0],
                             }}
-                            className="w-32 h-32 bg-neon-blue rounded-full flex items-center justify-center shadow-[0_0_100px_rgba(212,175,55,0.6)]"
+                            className="w-32 h-32 bg-red-600 rounded-full flex items-center justify-center shadow-[0_0_100px_rgba(255, 0, 0,0.6)]"
                         >
                             <ShieldCheck className="w-16 h-16 text-black" />
                         </motion.div>
-                        <h1 className="mt-12 text-neon-blue text-4xl font-black tracking-[1rem] uppercase animate-pulse">
+                        <h1 className="mt-12 text-red-500 text-4xl font-black tracking-[1rem] uppercase animate-pulse">
                             ACCESS_GRANTED
                         </h1>
-                        <p className="mt-4 text-neon-blue/60 font-mono tracking-widest uppercase">
+                        <p className="mt-4 text-red-500/60 font-mono tracking-widest uppercase">
                             Redirecting to War Room...
                         </p>
                     </motion.div>
@@ -181,19 +181,19 @@ export function AccessProtocol() {
             </AnimatePresence>
 
             {/* Corner Decorative Elements */}
-            <div className="absolute top-8 left-8 w-24 h-24 border-t-2 border-l-2 border-neon-blue/20 rounded-none pointer-events-none" />
-            <div className="absolute top-8 right-8 w-24 h-24 border-t-2 border-r-2 border-neon-blue/20 rounded-none pointer-events-none" />
-            <div className="absolute bottom-8 left-8 w-24 h-24 border-b-2 border-l-2 border-neon-blue/20 rounded-none pointer-events-none" />
-            <div className="absolute bottom-8 right-8 w-24 h-24 border-b-2 border-r-2 border-neon-blue/20 rounded-none pointer-events-none" />
+            <div className="absolute top-8 left-8 w-24 h-24 border-t-2 border-l-2 border-red-500/20 rounded-none pointer-events-none" />
+            <div className="absolute top-8 right-8 w-24 h-24 border-t-2 border-r-2 border-red-500/20 rounded-none pointer-events-none" />
+            <div className="absolute bottom-8 left-8 w-24 h-24 border-b-2 border-l-2 border-red-500/20 rounded-none pointer-events-none" />
+            <div className="absolute bottom-8 right-8 w-24 h-24 border-b-2 border-r-2 border-red-500/20 rounded-none pointer-events-none" />
 
             <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-8 opacity-30">
                 <div className="flex items-center gap-2">
-                    <Zap className="w-4 h-4 text-neon-blue" />
-                    <span className="text-[10px] text-neon-blue font-mono tracking-widest uppercase">NEYDRA_V4_ACTIVE</span>
+                    <Zap className="w-4 h-4 text-red-500" />
+                    <span className="text-[10px] text-red-500 font-mono tracking-widest uppercase">NEYDRA_V4_ACTIVE</span>
                 </div>
                 <div className="flex items-center gap-2">
-                    <Lock className="w-4 h-4 text-neon-blue" />
-                    <span className="text-[10px] text-neon-blue font-mono tracking-widest uppercase">E2EE_ENCRYPTION_SAFE</span>
+                    <Lock className="w-4 h-4 text-red-500" />
+                    <span className="text-[10px] text-red-500 font-mono tracking-widest uppercase">E2EE_ENCRYPTION_SAFE</span>
                 </div>
             </div>
         </div>

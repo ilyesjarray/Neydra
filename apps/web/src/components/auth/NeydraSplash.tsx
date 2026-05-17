@@ -207,11 +207,11 @@ export function NeydraSplash({ onComplete }: NeydraSplashProps) {
     return (
         <div className="fixed inset-0 z-[1000] bg-carbon-black flex flex-col items-center justify-center font-sans overflow-hidden">
             {/* Background Ambience */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,243,255,0.05),transparent)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255, 0, 0,0.05),transparent)]" />
 
             {/* Animated Grid Background */}
             <div className="absolute inset-0 opacity-[0.03] pointer-events-none"
-                style={{ backgroundImage: 'radial-gradient(#00F3FF 0.5px, transparent 0.5px)', backgroundSize: '24px 24px' }} />
+                style={{ backgroundImage: 'radial-gradient(#ff0000 0.5px, transparent 0.5px)', backgroundSize: '24px 24px' }} />
 
             <div className="relative z-10 flex flex-col items-center max-w-xl w-full px-6 text-center">
                 <AnimatePresence mode="wait">

@@ -92,7 +92,7 @@ export function ComingSoon({ sectorName }: ComingSoonProps) {
                                 initial={{ width: 0 }}
                                 animate={{ width: '84.2%' }}
                                 transition={{ duration: 2, ease: "easeOut" }}
-                                className="h-full bg-gradient-to-r from-neydra-accent to-blue-600 rounded-full relative shadow-neon-red"
+                                className="h-full bg-gradient-to-r from-neydra-accent to-red-600 rounded-full relative shadow-neon-red"
                             >
                                 <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.2)_50%,transparent_75%)] bg-[length:20px_20px] animate-shimmer" />
                             </motion.div>

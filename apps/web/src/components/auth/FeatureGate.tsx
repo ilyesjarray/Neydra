@@ -78,11 +78,11 @@ export function FeatureGate({ children, feature, className, fallback }: FeatureG
                     animate={{ opacity: 1, y: 0 }}
                     className="max-w-xs w-full glass-panel p-6 rounded-2xl border-neydra-accent-gold/30 text-center shadow-2xl relative"
                 >
-                    <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-20 h-20 bg-neydra-accent-gold/10 blur-2xl rounded-full" />
+                    <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-20 h-20 bg-red-600/10 blur-2xl rounded-full" />
 
                     <div className="relative z-10 space-y-4">
                         <div className="flex justify-center">
-                            <div className="w-12 h-12 rounded-full bg-neydra-accent-gold/10 border border-neydra-accent-gold/30 flex items-center justify-center text-neydra-accent-gold">
+                            <div className="w-12 h-12 rounded-full bg-red-600/10 border border-neydra-accent-gold/30 flex items-center justify-center text-red-500">
                                 <Lock className="w-6 h-6" />
                             </div>
                         </div>
@@ -90,12 +90,12 @@ export function FeatureGate({ children, feature, className, fallback }: FeatureG
                         <div>
                             <h4 className="text-white font-bold text-sm uppercase tracking-widest">Locked Feature</h4>
                             <p className="text-[10px] text-gray-400 mt-1 font-mono">
-                                Access to <span className="text-neydra-accent-gold">{feature.replace(/_/g, ' ')}</span> is reserved for PRO & ELITE Commanders.
+                                Access to <span className="text-red-500">{feature.replace(/_/g, ' ')}</span> is reserved for PRO & ELITE Commanders.
                             </p>
                         </div>
 
                         <Link href="/pricing" className="block">
-                            <button className="w-full py-2 bg-neydra-accent-gold text-black text-[10px] font-bold rounded-lg hover:bg-yellow-500 transition-all flex items-center justify-center gap-2 group shadow-[0_0_15px_rgba(251,191,36,0.2)]">
+                            <button className="w-full py-2 bg-red-600 text-black text-[10px] font-bold rounded-lg hover:bg-red-600 transition-all flex items-center justify-center gap-2 group shadow-[0_0_15px_rgba(255, 0, 0,0.2)]">
                                 UNLOCK NEYDRA POWER
                                 <Sparkles className="w-3 h-3" />
                             </button>

@@ -762,8 +762,8 @@ const SCOUT_MODES = [
 ];
 
 const AI_SERVICES = [
-    { id: 'img-gen', label: 'GENERATE_IMAGE', icon: ImageIcon, color: 'text-pink-500' },
-    { id: 'vid-gen', label: 'GENERATE_VIDEO', icon: Video, color: 'text-violet-500' },
+    { id: 'img-gen', label: 'GENERATE_IMAGE', icon: ImageIcon, color: 'text-red-500' },
+    { id: 'vid-gen', label: 'GENERATE_VIDEO', icon: Video, color: 'text-red-500' },
     { id: 'data-analyze', label: 'ANALYZE_DATA', icon: BarChart, color: 'text-neydra-accent' },
 ];
 
@@ -1249,7 +1249,7 @@ export function OmniIntelligence() {
                         <div className="flex items-center gap-3"><Sparkles size={16} /> <span className="text-[10px] font-black uppercase tracking-widest">AI Personas</span></div>
                         {activeTab === 'personas' && <ChevronRight size={14} />}
                     </button>
-                    <button onClick={() => setActiveTab('forge')} className={cn("w-full flex items-center justify-between p-3 rounded-xl transition-all", activeTab === 'forge' ? "bg-pink-500/10 border border-pink-500/30 text-pink-500" : "text-white/40 hover:bg-white/5 hover:text-white")}>
+                    <button onClick={() => setActiveTab('forge')} className={cn("w-full flex items-center justify-between p-3 rounded-xl transition-all", activeTab === 'forge' ? "bg-red-600/10 border border-red-500/30 text-red-500" : "text-white/40 hover:bg-white/5 hover:text-white")}>
                         <div className="flex items-center gap-3"><ImageIcon size={16} /> <span className="text-[10px] font-black uppercase tracking-widest">Vision Forge</span></div>
                         {activeTab === 'forge' && <ChevronRight size={14} />}
                     </button>

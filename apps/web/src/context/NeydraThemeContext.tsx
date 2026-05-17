@@ -13,20 +13,20 @@ interface ThemeConfig {
 
 const sectorThemes: Record<Sector, ThemeConfig> = {
     hub: {
-        accent: '#00F3FF',
-        glow: 'rgba(212, 175, 55, 0.2)',
+        accent: '#ff0000',
+        glow: 'rgba(255, 0, 0, 0.2)',
         bg: '#000000',
         label: 'NEYDRA_COMMAND'
     },
     intel: {
-        accent: '#00F3FF',
-        glow: 'rgba(212, 175, 55, 0.2)',
+        accent: '#ff0000',
+        glow: 'rgba(255, 0, 0, 0.2)',
         bg: '#000000',
         label: 'INTELLIGENCE_CENTER'
     },
     vault: {
-        accent: '#00F3FF',
-        glow: 'rgba(212, 175, 55, 0.2)',
+        accent: '#ff0000',
+        glow: 'rgba(255, 0, 0, 0.2)',
         bg: '#000000',
         label: 'ASSET_VAULT_DECRYPTED'
     },
@@ -37,14 +37,14 @@ const sectorThemes: Record<Sector, ThemeConfig> = {
         label: 'OPERATIONAL_CONTROL'
     },
     bios: {
-        accent: '#00F3FF',
-        glow: 'rgba(212, 175, 55, 0.2)',
+        accent: '#ff0000',
+        glow: 'rgba(255, 0, 0, 0.2)',
         bg: '#000000',
         label: 'ELITE_BIOS_DECRYPT'
     },
     council: {
-        accent: '#00F3FF',
-        glow: 'rgba(212, 175, 55, 0.2)',
+        accent: '#ff0000',
+        glow: 'rgba(255, 0, 0, 0.2)',
         bg: '#000000',
         label: 'HIGH_COUNCIL'
     },
@@ -61,8 +61,8 @@ const sectorThemes: Record<Sector, ThemeConfig> = {
         label: 'NEURAL_NEXUS'
     },
     chronos: {
-        accent: '#00F3FF',
-        glow: 'rgba(212, 175, 55, 0.2)',
+        accent: '#ff0000',
+        glow: 'rgba(255, 0, 0, 0.2)',
         bg: '#000000',
         label: 'CHRONOS_COMMAND'
     },

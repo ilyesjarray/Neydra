@@ -281,7 +281,7 @@ export function NeydraSettings() {
                                             </button>
                                         </div>
 
-                                        <div className="p-8 rounded-2xl bg-red-600/10 border border-red-600/40 flex flex-col relative overflow-hidden shadow-[0_0_30px_rgba(245,158,11,0.1)]">
+                                        <div className="p-8 rounded-2xl bg-red-600/10 border border-red-600/40 flex flex-col relative overflow-hidden shadow-[0_0_30px_rgba(255, 0, 0,0.1)]">
                                             <div className="absolute top-4 right-4 text-[8px] font-black bg-red-600 text-carbon-black px-3 py-1 rounded-full uppercase tracking-widest">Maximum Power</div>
                                             <div className="text-[10px] font-black text-red-600 uppercase tracking-[0.3em] mb-2">Ultra Overlord</div>
                                             <div className="text-3xl font-black text-white mb-6">$90<span className="text-sm text-white/30">/mo</span></div>
@@ -514,7 +514,7 @@ export function NeydraSettings() {
                             className={cn(
                                 "flex items-center gap-4 px-10 py-4 font-black text-[10px] uppercase tracking-[0.4em] rounded-xl hover:scale-105 transition-all italic disabled:opacity-50",
                                 saveSuccess
-                                    ? "bg-red-600 text-carbon-black shadow-[0_0_20px_rgba(16,185,129,0.3)]"
+                                    ? "bg-red-600 text-carbon-black shadow-[0_0_20px_rgba(255, 0, 0,0.3)]"
                                     : "bg-neydra-accent text-carbon-black shadow-neon-red"
                             )}
                         >

@@ -130,7 +130,7 @@ export function AICommandCenter() {
                                 </div>
                                 <div className={`p-4 rounded-2xl text-sm leading-relaxed ${m.role === 'user'
                                         ? 'bg-zinc-900 text-white rounded-tr-none border border-white/5 font-medium'
-                                        : 'bg-white/5 text-cyan-50 border border-white/5 rounded-tl-none font-mono text-[13px]'
+                                        : 'bg-white/5 text-red-50 border border-white/5 rounded-tl-none font-mono text-[13px]'
                                     }`}>
                                     {m.content || (isLoading && m.role === 'assistant' && (
                                         <span className="inline-flex gap-1">
@@ -179,7 +179,7 @@ export function AICommandCenter() {
                         <button
                             type="submit"
                             disabled={isLoading || !input.trim()}
-                            className="bg-cyan-600/10 hover:bg-cyan-600/20 text-red-500 p-2 rounded-lg transition-all border border-red-600/20 disabled:opacity-30"
+                            className="bg-red-600/10 hover:bg-red-600/20 text-red-500 p-2 rounded-lg transition-all border border-red-600/20 disabled:opacity-30"
                         >
                             {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
                         </button>

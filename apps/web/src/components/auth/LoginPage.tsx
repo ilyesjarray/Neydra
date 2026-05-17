@@ -157,22 +157,22 @@ export default function LoginPage() {
                 <div className="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
 
                 <div
-                    className="absolute top-0 left-0 w-64 h-64 rounded-none blur-[100px] pointer-events-none bg-neon-blue/5"
+                    className="absolute top-0 left-0 w-64 h-64 rounded-none blur-[100px] pointer-events-none bg-red-600/5"
                 />
                 <div
-                    className="absolute bottom-0 right-0 w-80 h-80 rounded-none blur-[120px] pointer-events-none bg-neydra-blue/5"
+                    className="absolute bottom-0 right-0 w-80 h-80 rounded-none blur-[120px] pointer-events-none bg-red-600/5"
                 />
 
                 {/* Logo */}
                 <div className="relative z-10">
                     <div className="flex items-center gap-3 mb-2">
                         <div
-                            className="w-12 h-12 rounded-none border border-neon-blue flex items-center justify-center bg-black shadow-[0_0_15px_rgba(212,175,55,0.2)]"
+                            className="w-12 h-12 rounded-none border border-red-500 flex items-center justify-center bg-black shadow-[0_0_15px_rgba(255, 0, 0,0.2)]"
                         >
-                            <Shield className="w-6 h-6 text-neon-blue" />
+                            <Shield className="w-6 h-6 text-red-500" />
                         </div>
                         <span
-                            className="text-sm font-black tracking-[0.4em] uppercase text-neon-blue italic"
+                            className="text-sm font-black tracking-[0.4em] uppercase text-red-500 italic"
                         >
                             THE_NEYDRA
                         </span>
@@ -236,11 +236,11 @@ export default function LoginPage() {
                     {/* Mobile Logo */}
                     <div className="flex lg:hidden items-center gap-4 mb-12">
                         <div
-                            className="w-12 h-12 rounded-none border border-neon-blue flex items-center justify-center bg-black shadow-[0_0_15px_rgba(212,175,55,0.2)]"
+                            className="w-12 h-12 rounded-none border border-red-500 flex items-center justify-center bg-black shadow-[0_0_15px_rgba(255, 0, 0,0.2)]"
                         >
-                            <Shield className="w-6 h-6 text-neon-blue" />
+                            <Shield className="w-6 h-6 text-red-500" />
                         </div>
-                        <span className="text-sm font-black tracking-[0.3em] uppercase text-neon-blue italic">
+                        <span className="text-sm font-black tracking-[0.3em] uppercase text-red-500 italic">
                             THE_NEYDRA
                         </span>
                     </div>
@@ -310,7 +310,7 @@ export default function LoginPage() {
                                 <div className="text-center space-y-2">
                                     <button onClick={() => { setMode('choose'); setError(''); }} className="text-xs text-white/40 hover:text-white transition-colors">← Other methods</button>
                                     <br />
-                                    <button onClick={() => { setMode('register'); setError(''); }} className="text-xs text-neon-blue/60 hover:text-neon-blue transition-colors">No account? Create one →</button>
+                                    <button onClick={() => { setMode('register'); setError(''); }} className="text-xs text-red-500/60 hover:text-red-500 transition-colors">No account? Create one →</button>
                                 </div>
                             </motion.div>
                         )}
@@ -440,12 +440,12 @@ export default function LoginPage() {
                                 <button
                                     onClick={handleWeb3Login}
                                     disabled={loading}
-                                    className="neydra-btn w-full text-base py-3.5 disabled:opacity-50 disabled:cursor-not-allowed border border-neon-blue/40 bg-neon-blue/5 hover:bg-neon-blue/20 text-white flex items-center justify-center gap-2 transition-all shadow-[0_0_15px_rgba(0,243,255,0.1)] hover:shadow-[0_0_25px_rgba(0,243,255,0.3)]"
+                                    className="neydra-btn w-full text-base py-3.5 disabled:opacity-50 disabled:cursor-not-allowed border border-red-500/40 bg-red-600/5 hover:bg-red-600/20 text-white flex items-center justify-center gap-2 transition-all shadow-[0_0_15px_rgba(255, 0, 0,0.1)] hover:shadow-[0_0_25px_rgba(255, 0, 0,0.3)]"
                                 >
                                     {loading ? (
                                         <Loader2 className="w-5 h-5 animate-spin" />
                                     ) : (
-                                        <Hexagon className="w-5 h-5 text-neon-blue fill-neon-blue/20" />
+                                        <Hexagon className="w-5 h-5 text-red-500 fill-neon-blue/20" />
                                     )}
                                     Connect Web3 Wallet
                                 </button>

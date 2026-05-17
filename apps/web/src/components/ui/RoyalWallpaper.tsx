@@ -9,7 +9,7 @@ export function RoyalWallpaper() {
             <div
                 className="absolute inset-0 opacity-[0.03]"
                 style={{
-                    backgroundImage: `linear-gradient(to right, #00F3FF 1px, transparent 1px), linear-gradient(to bottom, #00F3FF 1px, transparent 1px)`,
+                    backgroundImage: `linear-gradient(to right, #ff0000 1px, transparent 1px), linear-gradient(to bottom, #ff0000 1px, transparent 1px)`,
                     backgroundSize: '80px 80px'
                 }}
             />
@@ -31,7 +31,7 @@ export function RoyalWallpaper() {
                     scale: [1, 1.15, 1]
                 }}
                 transition={{ duration: 20, repeat: Infinity, delay: 5, ease: "easeInOut" }}
-                className="absolute -bottom-1/4 -left-1/4 w-full h-full bg-neydra-blue/10 blur-[250px] rounded-full"
+                className="absolute -bottom-1/4 -left-1/4 w-full h-full bg-red-600/10 blur-[250px] rounded-full"
             />
         </div>
     );

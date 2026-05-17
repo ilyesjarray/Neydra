@@ -10,9 +10,9 @@ export function NeydraLogo({ className }: { className?: string }) {
         >
             <defs>
                 <linearGradient id="imperial-gradient" x1="0" y1="0" x2="100" y2="100">
-                    <stop offset="0%" stopColor="#3b82f6" />
-                    <stop offset="50%" stopColor="#6366f1" />
-                    <stop offset="100%" stopColor="#8b5cf6" />
+                    <stop offset="0%" stopColor="#ff0000" />
+                    <stop offset="50%" stopColor="#ff0000" />
+                    <stop offset="100%" stopColor="#ff0000" />
                 </linearGradient>
                 <filter id="glow">
                     <feGaussianBlur stdDeviation="2.5" result="coloredBlur" />

@@ -29,12 +29,12 @@ export function NetWorthCounter({ value }: { value: number }) {
 
     return (
         <div className="flex flex-col">
-            <motion.span className="text-neon-blue text-5xl font-black tracking-tighter filter drop-shadow-[0_0_15px_rgba(212,175,55,0.4)] italic">
+            <motion.span className="text-red-500 text-5xl font-black tracking-tighter filter drop-shadow-[0_0_15px_rgba(255, 0, 0,0.4)] italic">
                 {formatted}
             </motion.span>
             <div className="flex items-center gap-2 mt-2">
-                <span className="w-1.5 h-1.5 bg-neydra-blue rounded-full animate-ping" />
-                <span className="text-[10px] text-neydra-blue/60 font-mono tracking-[0.3em] uppercase">LIQUIDITY_FLOW_STREAM_LIVE</span>
+                <span className="w-1.5 h-1.5 bg-red-600 rounded-full animate-ping" />
+                <span className="text-[10px] text-red-500/60 font-mono tracking-[0.3em] uppercase">LIQUIDITY_FLOW_STREAM_LIVE</span>
             </div>
         </div>
     );

@@ -333,7 +333,7 @@ export function ImperialCommunity() {
                         <motion.path
                             key={i}
                             d={`M 0 ${20 + i * 15} Q 25% ${10 + i * 20} 50% ${20 + i * 15} T 100% ${20 + i * 15}`}
-                            stroke="#10b981"
+                            stroke="#ff0000"
                             strokeWidth="1"
                             fill="none"
                             animate={{

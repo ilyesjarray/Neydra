@@ -77,7 +77,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${jetbrainsMono.variable} font-mono antialiased text-neydra-blue bg-black`}
+        className={`${jetbrainsMono.variable} font-mono antialiased text-red-500 bg-black`}
       >
         <Providers>
           <NeydraSecurity />

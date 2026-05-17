@@ -488,7 +488,7 @@ export default function OoredooActivation() {
                                     initial={{ scale: 0 }}
                                     animate={{ scale: 1 }}
                                     transition={{ delay: 0.1, type: 'spring', stiffness: 200 }}
-                                    className="w-20 h-20 mx-auto rounded-full bg-red-600/10 border border-red-600/30 flex items-center justify-center shadow-[0_0_40px_rgba(16,185,129,0.2)]"
+                                    className="w-20 h-20 mx-auto rounded-full bg-red-600/10 border border-red-600/30 flex items-center justify-center shadow-[0_0_40px_rgba(255, 0, 0,0.2)]"
                                 >
                                     <CheckCircle className="w-10 h-10 text-red-500" />
                                 </motion.div>

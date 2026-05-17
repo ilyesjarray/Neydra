@@ -24,7 +24,7 @@ export async function POST(req: Request) {
   <style>
     body { background: #000; color: #e8decf; font-family: 'Courier New', monospace; margin: 0; padding: 0; }
     .container { max-width: 600px; margin: 0 auto; padding: 32px 24px; }
-    .header { border-bottom: 1px solid rgba(212,175,55,0.3); padding-bottom: 16px; margin-bottom: 24px; }
+    .header { border-bottom: 1px solid rgba(255, 0, 0,0.3); padding-bottom: 16px; margin-bottom: 24px; }
     .logo { font-size: 12px; letter-spacing: 0.4em; color: #d4af6e; text-transform: uppercase; font-weight: 900; }
     h1 { color: #d4af6e; font-size: 24px; margin: 8px 0; letter-spacing: -0.02em; }
     .date { font-size: 10px; color: rgba(232,222,204,0.4); letter-spacing: 0.2em; }

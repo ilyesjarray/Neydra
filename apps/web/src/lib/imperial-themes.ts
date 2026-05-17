@@ -20,19 +20,19 @@ export const SECTOR_THEMES: Record<string, SectorTheme> = {
         id: 'vault',
         name: 'The Vault',
         icon: Shield,
-        color: '#00F3FF',
+        color: '#ff0000',
         secondaryColor: '#A68245',
         atmosphere: 'cyber',
-        accentGlow: 'rgba(212, 175, 55, 0.2)'
+        accentGlow: 'rgba(255, 0, 0, 0.2)'
     },
     command: {
         id: 'command',
         name: 'Global Command',
         icon: Globe,
-        color: '#00F3FF',
+        color: '#ff0000',
         secondaryColor: '#A68245',
         atmosphere: 'void',
-        accentGlow: 'rgba(212, 175, 55, 0.2)'
+        accentGlow: 'rgba(255, 0, 0, 0.2)'
     },
     nexus: {
         id: 'nexus',
@@ -47,28 +47,28 @@ export const SECTOR_THEMES: Record<string, SectorTheme> = {
         id: 'bio',
         name: 'Bio-Sentinel',
         icon: Heart,
-        color: '#00F3FF',
+        color: '#ff0000',
         secondaryColor: '#A68245',
         atmosphere: 'organic',
-        accentGlow: 'rgba(212, 175, 55, 0.2)'
+        accentGlow: 'rgba(255, 0, 0, 0.2)'
     },
     projects: {
         id: 'projects',
         name: 'Imperial Projects',
         icon: Landmark,
-        color: '#00F3FF',
+        color: '#ff0000',
         secondaryColor: '#A68245',
         atmosphere: 'royal',
-        accentGlow: 'rgba(212, 175, 55, 0.2)'
+        accentGlow: 'rgba(255, 0, 0, 0.2)'
     },
     council: {
         id: 'council',
         name: 'High Council',
         icon: Gavel,
-        color: '#00F3FF',
+        color: '#ff0000',
         secondaryColor: '#A68245',
         atmosphere: 'royal',
-        accentGlow: 'rgba(212, 175, 55, 0.2)'
+        accentGlow: 'rgba(255, 0, 0, 0.2)'
     },
     shadow: {
         id: 'shadow',
@@ -83,28 +83,28 @@ export const SECTOR_THEMES: Record<string, SectorTheme> = {
         id: 'fleet',
         name: 'The Fleet',
         icon: Ship,
-        color: '#00F3FF',
+        color: '#ff0000',
         secondaryColor: '#A68245',
         atmosphere: 'industrial',
-        accentGlow: 'rgba(212, 175, 55, 0.2)'
+        accentGlow: 'rgba(255, 0, 0, 0.2)'
     },
     mint: {
         id: 'mint',
         name: 'The Mint',
         icon: Coins,
-        color: '#00F3FF',
+        color: '#ff0000',
         secondaryColor: '#A68245',
         atmosphere: 'royal',
-        accentGlow: 'rgba(212, 175, 55, 0.2)'
+        accentGlow: 'rgba(255, 0, 0, 0.2)'
     },
     citadel: {
         id: 'citadel',
         name: 'The Citadel',
         icon: Castle,
-        color: '#00F3FF',
+        color: '#ff0000',
         secondaryColor: '#A68245',
         atmosphere: 'industrial',
-        accentGlow: 'rgba(212, 175, 55, 0.2)'
+        accentGlow: 'rgba(255, 0, 0, 0.2)'
     },
     academy: {
         id: 'academy',
@@ -119,10 +119,10 @@ export const SECTOR_THEMES: Record<string, SectorTheme> = {
         id: 'forge',
         name: 'The Forge',
         icon: Hammer,
-        color: '#00F3FF',
+        color: '#ff0000',
         secondaryColor: '#A68245',
         atmosphere: 'industrial',
-        accentGlow: 'rgba(212, 175, 55, 0.2)'
+        accentGlow: 'rgba(255, 0, 0, 0.2)'
     },
     observatory: {
         id: 'observatory',
@@ -146,9 +146,9 @@ export const SECTOR_THEMES: Record<string, SectorTheme> = {
         id: 'agora',
         name: 'The Agora',
         icon: Users,
-        color: '#00F3FF',
+        color: '#ff0000',
         secondaryColor: '#A68245',
         atmosphere: 'organic',
-        accentGlow: 'rgba(212, 175, 55, 0.2)'
+        accentGlow: 'rgba(255, 0, 0, 0.2)'
     }
 };

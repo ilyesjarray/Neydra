@@ -28,11 +28,11 @@ export function ImperialButton({
 }: ImperialButtonProps) {
 
     const variants = {
-        primary: "bg-neon-blue text-black hover:bg-black hover:text-neon-blue border border-neon-blue/50 shadow-glow-gold",
-        secondary: "bg-black border border-neon-blue/20 text-neon-blue/60 hover:bg-neon-blue/5 hover:border-neon-blue/40 hover:text-neon-blue",
+        primary: "bg-red-600 text-black hover:bg-black hover:text-red-500 border border-red-500/50 shadow-neon-red",
+        secondary: "bg-black border border-red-500/20 text-red-500/60 hover:bg-red-600/5 hover:border-red-500/40 hover:text-red-500",
         danger: "bg-black border border-red-600/50 text-red-600 hover:bg-red-600/10 hover:border-red-500 shadow-glow-red",
-        ghost: "bg-transparent border border-transparent text-neon-blue/60 hover:text-neon-blue",
-        emerald: "bg-black text-neydra-blue hover:bg-neydra-blue/5 border border-neydra-blue/50 shadow-glow-emerald"
+        ghost: "bg-transparent border border-transparent text-red-500/60 hover:text-red-500",
+        emerald: "bg-black text-red-500 hover:bg-red-600/5 border border-neydra-blue/50 shadow-glow-emerald"
     };
 
     const sizes = {
@@ -57,8 +57,8 @@ export function ImperialButton({
             )}
         >
             {/* Terminal decorative corner */}
-            <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-neon-blue/40" />
-            <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-neon-blue/40" />
+            <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-red-500/40" />
+            <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-red-500/40" />
 
             {loading ? (
                 <span className="flex items-center gap-2 animate-pulse">

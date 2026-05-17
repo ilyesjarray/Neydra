@@ -11,8 +11,8 @@ export function BillingDashboard() {
     const [activeTier, setActiveTier] = useState<string>('ELITE');
 
     const tiers = [
-        { id: 'ELITE', name: 'ELITE', price: 19, icon: Zap, color: 'text-green-500' },
-        { id: 'NEYDRA', name: 'NEYDRA', price: 49, icon: Crown, color: 'text-neon-blue' },
+        { id: 'ELITE', name: 'ELITE', price: 19, icon: Zap, color: 'text-red-500' },
+        { id: 'NEYDRA', name: 'NEYDRA', price: 49, icon: Crown, color: 'text-red-500' },
         { id: 'EMPIRE', name: 'EMPIRE', price: 120, icon: Landmark, color: 'text-red-500' },
     ];
 
@@ -49,7 +49,7 @@ export function BillingDashboard() {
                         onClick={() => setActiveTier(tier.id)}
                         className={`
                             hud-border p-4 flex flex-col items-center gap-2 transition-all group
-                            ${activeTier === tier.id ? 'bg-green-500/10 border-green-500 shadow-[0_0_15px_rgba(0,255,65,0.3)]' : 'bg-white/[0.02] opacity-40 hover:opacity-100'}
+                            ${activeTier === tier.id ? 'bg-red-600/10 border-red-500 shadow-[0_0_15px_rgba(255, 0, 0,0.3)]' : 'bg-white/[0.02] opacity-40 hover:opacity-100'}
                         `}
                     >
                         <tier.icon className={`w-6 h-6 ${tier.color}`} />
@@ -60,10 +60,10 @@ export function BillingDashboard() {
             </div>
 
             {/* Language Selection - DEPRECATED for v-Series Kernel */}
-            <div className="flex items-center justify-between border-b border-green-500/20 pb-4">
+            <div className="flex items-center justify-between border-b border-red-500/20 pb-4">
                 <div className="flex items-center gap-3">
                     <Globe className="w-4 h-4 text-radar" />
-                    <span className="text-[10px] font-mono tracking-widest text-green-500/60 uppercase">LOCALIZATION_PROTOCOL: FIXED_ENGLISH</span>
+                    <span className="text-[10px] font-mono tracking-widest text-red-500/60 uppercase">LOCALIZATION_PROTOCOL: FIXED_ENGLISH</span>
                 </div>
             </div>
 
@@ -71,16 +71,16 @@ export function BillingDashboard() {
             <div className="flex-1 flex flex-col gap-4">
                 <div className="flex items-center gap-2">
                     <History className="w-4 h-4 text-radar opacity-40" />
-                    <span className="text-[10px] font-mono tracking-widest text-green-500/40 uppercase">LEDGER_HISTORY</span>
+                    <span className="text-[10px] font-mono tracking-widest text-red-500/40 uppercase">LEDGER_HISTORY</span>
                 </div>
                 <div className="space-y-2">
                     {history.map((inv) => (
-                        <div key={inv.id} className="hud-border bg-white/[0.01] p-4 flex items-center justify-between group hover:bg-green-500/5 transition-all">
+                        <div key={inv.id} className="hud-border bg-white/[0.01] p-4 flex items-center justify-between group hover:bg-red-600/5 transition-all">
                             <div className="flex items-center gap-4">
                                 <FileText className="w-6 h-6 text-radar/20 group-hover:text-radar/60" />
                                 <div className="flex flex-col">
                                     <span className="text-xs font-mono text-white/80">{inv.id}</span>
-                                    <span className="text-[8px] font-mono text-green-500/30">{inv.date}</span>
+                                    <span className="text-[8px] font-mono text-red-500/30">{inv.date}</span>
                                 </div>
                             </div>
                             <div className="flex items-center gap-6">
@@ -98,15 +98,15 @@ export function BillingDashboard() {
             </div>
 
             {/* Payment Gateway Mock */}
-            <div className="mt-auto border-t border-green-500/10 pt-6">
+            <div className="mt-auto border-t border-red-500/10 pt-6">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3 opacity-40">
                         <CreditCard className="w-4 h-4 text-radar" />
-                        <span className="text-[10px] font-mono text-green-500 uppercase">Gateway_Nexus_Active</span>
+                        <span className="text-[10px] font-mono text-red-500 uppercase">Gateway_Nexus_Active</span>
                     </div>
                     <div className="flex gap-4">
-                        <Shield className="w-4 h-4 text-green-500/20" />
-                        <Zap className="w-4 h-4 text-green-500/20" />
+                        <Shield className="w-4 h-4 text-red-500/20" />
+                        <Zap className="w-4 h-4 text-red-500/20" />
                     </div>
                 </div>
             </div>

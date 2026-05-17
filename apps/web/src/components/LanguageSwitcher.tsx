@@ -38,11 +38,11 @@ export function LanguageSwitcher() {
     <div className="relative font-mono" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-4 py-2 bg-black border border-neon-blue/10 hover:border-neon-blue/30 transition-all duration-200"
+        className="flex items-center gap-2 px-4 py-2 bg-black border border-red-500/10 hover:border-red-500/30 transition-all duration-200"
         aria-label="Switch language"
       >
-        <Globe className="w-3.5 h-3.5 text-neon-blue" />
-        <span className="text-[10px] font-black text-neon-blue/80 tracking-widest uppercase">{currentLang.label}</span>
+        <Globe className="w-3.5 h-3.5 text-red-500" />
+        <span className="text-[10px] font-black text-red-500/80 tracking-widest uppercase">{currentLang.label}</span>
       </button>
 
       <AnimatePresence>
@@ -52,19 +52,19 @@ export function LanguageSwitcher() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 5 }}
             transition={{ duration: 0.15 }}
-            className="absolute top-full mt-2 right-0 min-w-[180px] bg-black border border-neon-blue/20 shadow-[0_10px_30px_rgba(0,0,0,0.8)] z-[110]"
+            className="absolute top-full mt-2 right-0 min-w-[180px] bg-black border border-red-500/20 shadow-[0_10px_30px_rgba(0,0,0,0.8)] z-[110]"
           >
             {LANGUAGES.map((lang) => (
               <button
                 key={lang.code}
                 onClick={() => handleLanguageChange(lang.code)}
-                className="w-full flex items-center justify-between gap-4 px-4 py-3 hover:bg-neon-blue/5 transition-all text-left"
+                className="w-full flex items-center justify-between gap-4 px-4 py-3 hover:bg-red-600/5 transition-all text-left"
               >
                 <div className="flex items-center gap-3">
-                  <span className="text-[10px] font-black text-neon-blue/60 uppercase tracking-widest">{lang.label}</span>
+                  <span className="text-[10px] font-black text-red-500/60 uppercase tracking-widest">{lang.label}</span>
                 </div>
                 {locale === lang.code && (
-                  <Check className="w-3.5 h-3.5 text-neydra-blue" />
+                  <Check className="w-3.5 h-3.5 text-red-500" />
                 )}
               </button>
             ))}

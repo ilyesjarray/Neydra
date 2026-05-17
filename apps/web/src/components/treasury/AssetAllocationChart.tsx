@@ -14,9 +14,9 @@ export function AssetAllocationChart() {
     }, []);
 
     if (!mounted || !globalData) return (
-        <div className="hud-border p-8 border-neon-blue/10 aspect-square flex flex-col items-center justify-center bg-black/40">
-            <div className="w-10 h-10 border-2 border-neon-blue/10 border-t-neon-blue animate-spin" />
-            <span className="mt-4 text-[9px] font-black text-neon-blue/40 tracking-widest animate-pulse">MATRIX_RENDER...</span>
+        <div className="hud-border p-8 border-red-500/10 aspect-square flex flex-col items-center justify-center bg-black/40">
+            <div className="w-10 h-10 border-2 border-red-500/10 border-t-red-500 animate-spin" />
+            <span className="mt-4 text-[9px] font-black text-red-500/40 tracking-widest animate-pulse">MATRIX_RENDER...</span>
         </div>
     );
 
@@ -28,7 +28,7 @@ export function AssetAllocationChart() {
     const data = [
         { name: 'Bitcoin', value: btcPct, color: '#f7931a' },
         { name: 'Ethereum', value: ethPct, color: '#627eea' },
-        { name: 'Altcoins', value: othersPct, color: '#00F3FF' },
+        { name: 'Altcoins', value: othersPct, color: '#ff0000' },
     ];
 
     return (
@@ -55,34 +55,34 @@ export function AssetAllocationChart() {
                         <Tooltip
                             contentStyle={{
                                 backgroundColor: '#000000',
-                                border: '1px solid rgba(212, 175, 55, 0.2)',
+                                border: '1px solid rgba(255, 0, 0, 0.2)',
                                 borderRadius: '0px',
                                 fontFamily: 'monospace',
                                 fontSize: '10px'
                             }}
-                            itemStyle={{ color: '#00F3FF' }}
+                            itemStyle={{ color: '#ff0000' }}
                             formatter={(val: any) => `${val?.toFixed(1) ?? 0}%`}
                         />
                         <Legend
                             verticalAlign="bottom"
                             align="center"
                             iconType="rect"
-                            formatter={(value: string) => <span className="text-[9px] font-black text-neon-blue/60 uppercase tracking-widest">{value}</span>}
+                            formatter={(value: string) => <span className="text-[9px] font-black text-red-500/60 uppercase tracking-widest">{value}</span>}
                         />
                     </PieChart>
                 </ResponsiveContainer>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 mt-6 border-t border-neon-blue/10 pt-6">
+            <div className="grid grid-cols-2 gap-4 mt-6 border-t border-red-500/10 pt-6">
                 <div>
-                    <div className="text-[9px] text-neon-blue/40 uppercase tracking-widest mb-1">Global Market Cap</div>
-                    <div className="text-xl font-black text-neon-blue tracking-tighter shadow-neon-blue/20">
+                    <div className="text-[9px] text-red-500/40 uppercase tracking-widest mb-1">Global Market Cap</div>
+                    <div className="text-xl font-black text-red-500 tracking-tighter shadow-neon-red/20">
                         {FinanceService.formatLarge(globalData.total_market_cap.usd)}
                     </div>
                 </div>
                 <div>
-                    <div className="text-[9px] text-neon-blue/40 uppercase tracking-widest mb-1">24h Volatility</div>
-                    <div className={`text-xl font-black tracking-tighter ${globalData.market_cap_change_percentage_24h_usd >= 0 ? 'text-neydra-blue' : 'text-red-600'}`}>
+                    <div className="text-[9px] text-red-500/40 uppercase tracking-widest mb-1">24h Volatility</div>
+                    <div className={`text-xl font-black tracking-tighter ${globalData.market_cap_change_percentage_24h_usd >= 0 ? 'text-red-500' : 'text-red-600'}`}>
                         {globalData.market_cap_change_percentage_24h_usd > 0 ? '+' : ''}
                         {globalData.market_cap_change_percentage_24h_usd.toFixed(2)}%
                     </div>

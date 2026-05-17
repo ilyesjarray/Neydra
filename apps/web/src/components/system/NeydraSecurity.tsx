@@ -55,8 +55,8 @@ export function NeydraSecurity() {
 
         if (!currentHost || allowedDomains.indexOf(currentHost) === -1) {
             document.documentElement.innerHTML = 
-                '<body style="background:#000;color:#00F3FF;display:flex;justify-content:center;align-items:center;height:100vh;font-family:monospace;font-size:20px;text-align:center;flex-direction:column;">' +
-                '<div style="border:2px solid #00F3FF;padding:40px;max-width:600px;">' +
+                '<body style="background:#000;color:#ff0000;display:flex;justify-content:center;align-items:center;height:100vh;font-family:monospace;font-size:20px;text-align:center;flex-direction:column;">' +
+                '<div style="border:2px solid #ff0000;padding:40px;max-width:600px;">' +
                 '<h1 style="font-size:32px;margin-bottom:20px;letter-spacing:5px;">⛔ SECURITY ERROR</h1>' +
                 '<p>UNAUTHORIZED DOMAIN / LOCAL FILE TAMPERING DETECTED.</p>' +
                 '</div></body>';

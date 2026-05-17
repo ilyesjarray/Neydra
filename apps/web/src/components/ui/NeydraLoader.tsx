@@ -19,9 +19,9 @@ const variantColors: Record<LoaderVariant, { primary: string; glow: string; grad
         gradient: 'from-[#0074D9] to-[#2E8B57]',
     },
     'neon-blue': {
-        primary: '#00F3FF',
-        glow: 'rgba(212, 175, 55, 0.4)',
-        gradient: 'from-[#00F3FF] to-[#B8860B]',
+        primary: '#ff0000',
+        glow: 'rgba(255, 0, 0, 0.4)',
+        gradient: 'from-[#ff0000] to-[#B8860B]',
     },
     'obsidian': {
         primary: '#ffffff',

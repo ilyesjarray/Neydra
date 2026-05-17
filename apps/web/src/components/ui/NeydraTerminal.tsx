@@ -70,29 +70,29 @@ export function NeydraTerminal() {
                         initial={{ opacity: 0, scale: 0.98 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.98 }}
-                        className="w-full max-w-2xl bg-black border border-neon-blue/20 shadow-[0_0_50px_rgba(0,243,255,0.1)] overflow-hidden font-mono"
+                        className="w-full max-w-2xl bg-black border border-red-500/20 shadow-[0_0_50px_rgba(255, 0, 0,0.1)] overflow-hidden font-mono"
                     >
-                        <div className="flex items-center justify-between p-4 border-b border-neon-blue/10 bg-navy-stealth/20">
+                        <div className="flex items-center justify-between p-4 border-b border-red-500/10 bg-navy-stealth/20">
                             <div className="flex items-center gap-3">
-                                <TerminalIcon className="w-4 h-4 text-neon-blue" />
-                                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-neon-blue/60">NEYDRA_COMMAND_TERMINAL</span>
+                                <TerminalIcon className="w-4 h-4 text-red-500" />
+                                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-red-500/60">NEYDRA_COMMAND_TERMINAL</span>
                             </div>
                             <div className="flex items-center gap-4">
-                                <span className="text-[8px] text-neon-blue/20 font-black tracking-widest uppercase">ENCRYPTION: ACTIVE</span>
+                                <span className="text-[8px] text-red-500/20 font-black tracking-widest uppercase">ENCRYPTION: ACTIVE</span>
                             </div>
                         </div>
 
                         <div className="p-8 space-y-3 h-72 overflow-y-auto text-[10px] custom-scrollbar bg-black/20">
                             {logs.map((log, i) => (
-                                <div key={i} className={`flex gap-4 ${log.startsWith('>') ? 'text-neon-blue' : 'text-neydra-blue/40 italic'}`}>
+                                <div key={i} className={`flex gap-4 ${log.startsWith('>') ? 'text-red-500' : 'text-red-500/40 italic'}`}>
                                     <span className="shrink-0 font-black">{log.startsWith('>') ? '>>>' : '::'}</span>
                                     <p className="tracking-widest uppercase">{log}</p>
                                 </div>
                             ))}
                         </div>
 
-                        <form onSubmit={handleCommand} className="p-5 bg-black border-t border-neon-blue/10 flex items-center gap-5">
-                            <Search className="w-4 h-4 text-neon-blue/30" />
+                        <form onSubmit={handleCommand} className="p-5 bg-black border-t border-red-500/10 flex items-center gap-5">
+                            <Search className="w-4 h-4 text-red-500/30" />
                             <input
                                 ref={inputRef}
                                 type="text"
@@ -100,11 +100,11 @@ export function NeydraTerminal() {
                                 onChange={(e) => setInput(e.target.value)}
                                 disabled={isProcessing}
                                 placeholder={isProcessing ? "PROCESSING_OPERATION..." : "IDENTIFY_COMMAND_VECTOR..."}
-                                className={`bg-transparent border-none outline-none flex-1 text-neon-blue font-black text-xs tracking-[0.2em] placeholder:text-neon-blue/10 ${isProcessing ? 'opacity-50' : ''}`}
+                                className={`bg-transparent border-none outline-none flex-1 text-red-500 font-black text-xs tracking-[0.2em] placeholder:text-red-500/10 ${isProcessing ? 'opacity-50' : ''}`}
                             />
                             <div className="flex gap-3">
-                                <Cpu className="w-3.5 h-3.5 text-neon-blue/30" />
-                                <ShieldCheck className="w-3.5 h-3.5 text-neon-blue/30" />
+                                <Cpu className="w-3.5 h-3.5 text-red-500/30" />
+                                <ShieldCheck className="w-3.5 h-3.5 text-red-500/30" />
                             </div>
                         </form>
                     </motion.div>

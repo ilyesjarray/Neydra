@@ -28,12 +28,12 @@ const GhostTyping = ({ text }: { text: string }) => {
 };
 
 const WhaleTracker = () => (
-    <div className="hud-border bg-black/60 p-6 flex flex-col gap-4 mb-4 border-neon-blue/10">
-        <div className="flex items-center justify-between border-b border-neon-blue/5 pb-3">
-            <span className="text-[9px] text-neon-blue font-black tracking-[0.4em] uppercase flex items-center gap-2">
+    <div className="hud-border bg-black/60 p-6 flex flex-col gap-4 mb-4 border-red-500/10">
+        <div className="flex items-center justify-between border-b border-red-500/5 pb-3">
+            <span className="text-[9px] text-red-500 font-black tracking-[0.4em] uppercase flex items-center gap-2">
                 <BarChart3 className="w-3.5 h-3.5" /> NEYDRA_WHALE_MONITOR
             </span>
-            <span className="text-[7px] text-neon-blue/20 font-mono italic uppercase">DEPTH_OF_FIELD: ACTIVE</span>
+            <span className="text-[7px] text-red-500/20 font-mono italic uppercase">DEPTH_OF_FIELD: ACTIVE</span>
         </div>
         <div className="flex items-end gap-1.5 h-24 px-2">
             {[...Array(12)].map((_, i) => (
@@ -41,13 +41,13 @@ const WhaleTracker = () => (
                     <motion.div
                         initial={{ height: 0 }}
                         animate={{ height: `${20 + Math.random() * 60}%` }}
-                        className={`w-full ${i % 3 === 0 ? 'bg-red-500/40 shadow-[0_0_10px_#FF000020]' : 'bg-neon-blue/40 shadow-[0_0_10px_#00F3FF20]'} group-hover:opacity-100 transition-opacity`}
+                        className={`w-full ${i % 3 === 0 ? 'bg-red-500/40 shadow-[0_0_10px_#FF000020]' : 'bg-red-600/40 shadow-[0_0_10px_#ff000020]'} group-hover:opacity-100 transition-opacity`}
                     />
-                    <div className="w-0.5 h-4 bg-neon-blue/20" />
+                    <div className="w-0.5 h-4 bg-red-600/20" />
                 </div>
             ))}
         </div>
-        <div className="text-[8px] text-neon-blue/30 font-mono uppercase text-center mt-2 tracking-widest">
+        <div className="text-[8px] text-red-500/30 font-mono uppercase text-center mt-2 tracking-widest">
             NEYDRA_DETECTS_ANOMALY: WALL_ST_LIQUIDITY_GAP
         </div>
     </div>
@@ -60,9 +60,9 @@ const SentimentCloud = () => (
             transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
             className="w-full h-full relative"
         >
-            <Cloud className="w-full h-full text-neydra-blue animate-pulse" />
+            <Cloud className="w-full h-full text-red-500 animate-pulse" />
             <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-[10px] font-black text-neydra-blue tracking-[0.3em] uppercase">BULLISH</span>
+                <span className="text-[10px] font-black text-red-500 tracking-[0.3em] uppercase">BULLISH</span>
             </div>
         </motion.div>
     </div>
@@ -113,12 +113,12 @@ export function NeuralExecutive() {
             <SentimentCloud />
 
             {/* Terminal Header */}
-            <div className="border-b border-neon-blue/10 p-5 flex items-center justify-between bg-black/40 backdrop-blur-xl shrink-0 z-20">
+            <div className="border-b border-red-500/10 p-5 flex items-center justify-between bg-black/40 backdrop-blur-xl shrink-0 z-20">
                 <div className="flex items-center gap-4">
-                    <div className="w-2 h-2 bg-neon-blue shadow-[0_0_10px_#00F3FF] rounded-full animate-flicker" />
-                    <span className="text-[10px] text-neon-blue font-black tracking-[0.6em] uppercase">NEYDRA_CORE_V4</span>
+                    <div className="w-2 h-2 bg-red-600 shadow-[0_0_10px_#ff0000] rounded-full animate-flicker" />
+                    <span className="text-[10px] text-red-500 font-black tracking-[0.6em] uppercase">NEYDRA_CORE_V4</span>
                 </div>
-                <div className="text-[8px] text-neon-blue/30 uppercase tracking-[0.3em]">Neural_Load: 0.12ms</div>
+                <div className="text-[8px] text-red-500/30 uppercase tracking-[0.3em]">Neural_Load: 0.12ms</div>
             </div>
 
             {/* Content Area */}
@@ -137,8 +137,8 @@ export function NeuralExecutive() {
                             className={`flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'}`}
                         >
                             <div className={`p-6 rounded-xl max-w-[85%] border transition-all ${msg.role === 'user'
-                                    ? 'bg-neydra-blue/10 border-neydra-blue/30 text-neydra-blue'
-                                    : 'bg-black border-neon-blue/10 text-neon-blue shadow-2xl'
+                                    ? 'bg-red-600/10 border-neydra-blue/30 text-red-500'
+                                    : 'bg-black border-red-500/10 text-red-500 shadow-2xl'
                                 }`}>
                                 <div className="flex items-center gap-3 mb-4 opacity-40">
                                     <span className="text-[8px] font-black uppercase tracking-widest">{msg.role === 'user' ? 'NEYDRA_OP' : 'NEYDRA_EXECUTIVE'}</span>
@@ -154,20 +154,20 @@ export function NeuralExecutive() {
             </div>
 
             {/* Input Buffer */}
-            <div className="p-6 bg-black border-t border-neon-blue/10 relative z-20 shadow-[0_-10px_40px_rgba(0,0,0,0.8)]">
+            <div className="p-6 bg-black border-t border-red-500/10 relative z-20 shadow-[0_-10px_40px_rgba(0,0,0,0.8)]">
                 <div className="relative flex items-center">
-                    <span className="absolute left-6 text-neon-blue font-mono text-lg font-black italic">&gt;</span>
+                    <span className="absolute left-6 text-red-500 font-mono text-lg font-black italic">&gt;</span>
                     <input
                         type="text"
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
                         onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                         placeholder="INPUT_NEURAL_COMMAND..."
-                        className="w-full bg-neon-blue/[0.03] border border-neon-blue/20 p-5 pl-12 text-neon-blue font-mono text-sm focus:outline-none focus:border-neon-blue/50 transition-all placeholder:text-neon-blue/10 rounded-lg italic"
+                        className="w-full bg-red-600/[0.03] border border-red-500/20 p-5 pl-12 text-red-500 font-mono text-sm focus:outline-none focus:border-red-500/50 transition-all placeholder:text-red-500/10 rounded-lg italic"
                     />
                     <button
                         onClick={handleSend}
-                        className="absolute right-6 text-neon-blue/40 hover:text-neon-blue transition-colors"
+                        className="absolute right-6 text-red-500/40 hover:text-red-500 transition-colors"
                     >
                         <Zap className="w-5 h-5" />
                     </button>

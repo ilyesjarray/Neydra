@@ -69,7 +69,7 @@ export async function exportToNeydraPDF({
 
         // Add Neydra Watermark Footer
         pdf.setFontSize(8);
-        pdf.setTextColor(212, 175, 55); // neon-blue #00F3FF
+        pdf.setTextColor(212, 175, 55); // neon-blue #ff0000
         pdf.text(
             `${watermark} - GENERATED_SYSTEM_LOG_${new Date().getTime()}`,
             pdfWidth / 2,

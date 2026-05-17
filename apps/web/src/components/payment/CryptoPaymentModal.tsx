@@ -63,9 +63,9 @@ export function CryptoPaymentModal({ isOpen, onClose, tier, price }: CryptoPayme
                             exit={{ opacity: 0, scale: 0.95, y: 20 }}
                             className="relative w-full max-w-lg z-[101]"
                         >
-                            <div className="relative overflow-hidden rounded-none border border-neon-blue/20 bg-black shadow-[0_0_80px_rgba(0,0,0,1)]">
+                            <div className="relative overflow-hidden rounded-none border border-red-500/20 bg-black shadow-[0_0_80px_rgba(0,0,0,1)]">
                                 {/* Cinematic Gradient */}
-                                <div className="absolute top-0 left-0 w-full h-40 bg-gradient-to-b from-neon-blue/5 to-transparent pointer-events-none" />
+                                <div className="absolute top-0 left-0 w-full h-40 bg-gradient-to-b from-red-600/5 to-transparent pointer-events-none" />
 
                                 <div className="p-10 relative">
                                     <button
@@ -76,40 +76,40 @@ export function CryptoPaymentModal({ isOpen, onClose, tier, price }: CryptoPayme
                                     </button>
 
                                     <div className="flex flex-col items-center text-center mb-10">
-                                        <div className="w-20 h-20 rounded-none bg-neon-blue/5 flex items-center justify-center mb-6 border border-neon-blue/20 shadow-[0_0_20px_#00F3FF10]">
-                                            <ShieldCheck className="w-10 h-10 text-neon-blue animate-pulse" />
+                                        <div className="w-20 h-20 rounded-none bg-red-600/5 flex items-center justify-center mb-6 border border-red-500/20 shadow-[0_0_20px_#ff000010]">
+                                            <ShieldCheck className="w-10 h-10 text-red-500 animate-pulse" />
                                         </div>
                                         <h2 className="text-3xl font-black text-white italic tracking-tighter mb-2 uppercase">SECURE_GATEWAY_V4</h2>
-                                        <p className="text-[10px] text-neydra-blue/40 font-mono tracking-[0.4em] uppercase">
-                                            Unlock <span className="text-neon-blue font-black">{tier}</span> Neydra Status | {price}
+                                        <p className="text-[10px] text-red-500/40 font-mono tracking-[0.4em] uppercase">
+                                            Unlock <span className="text-red-500 font-black">{tier}</span> Neydra Status | {price}
                                         </p>
                                     </div>
 
                                     <div className="space-y-8">
                                         {/* SOL Address */}
                                         <div className="space-y-3">
-                                            <div className="flex items-center justify-between text-[8px] uppercase tracking-[0.3em] text-neon-blue/40 font-mono">
+                                            <div className="flex items-center justify-between text-[8px] uppercase tracking-[0.3em] text-red-500/40 font-mono">
                                                 <span>Solana (SOL)</span>
-                                                <span className="text-neon-blue">Priority_Entry</span>
+                                                <span className="text-red-500">Priority_Entry</span>
                                             </div>
                                             <div className="relative group">
-                                                <div className="w-full bg-white/[0.02] border border-white/5 p-5 font-mono text-[11px] text-white/80 break-all pr-14 group-hover:border-neon-blue/20 transition-all rounded-none">
+                                                <div className="w-full bg-white/[0.02] border border-white/5 p-5 font-mono text-[11px] text-white/80 break-all pr-14 group-hover:border-red-500/20 transition-all rounded-none">
                                                     {WALLETS.SOL}
                                                 </div>
                                                 <button
                                                     onClick={() => handleCopy(WALLETS.SOL, 'SOL')}
-                                                    className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-none hover:bg-neon-blue/10 text-neon-blue/40 hover:text-neon-blue transition-all"
+                                                    className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-none hover:bg-red-600/10 text-red-500/40 hover:text-red-500 transition-all"
                                                 >
-                                                    {copied === 'SOL' ? <Check className="w-5 h-5 text-neydra-blue" /> : <Copy className="w-5 h-5" />}
+                                                    {copied === 'SOL' ? <Check className="w-5 h-5 text-red-500" /> : <Copy className="w-5 h-5" />}
                                                 </button>
                                             </div>
                                         </div>
 
                                         {/* USDT Address */}
                                         <div className="space-y-3">
-                                            <div className="flex items-center justify-between text-[8px] uppercase tracking-[0.3em] text-neydra-blue/40 font-mono">
+                                            <div className="flex items-center justify-between text-[8px] uppercase tracking-[0.3em] text-red-500/40 font-mono">
                                                 <span>USDT (Polygon)</span>
-                                                <span className="text-neydra-blue/60 text-[7px] italic">Automated_Clearing</span>
+                                                <span className="text-red-500/60 text-[7px] italic">Automated_Clearing</span>
                                             </div>
                                             <div className="relative group">
                                                 <div className="w-full bg-white/[0.02] border border-white/5 p-5 font-mono text-[11px] text-white/80 break-all pr-14 group-hover:border-neydra-blue/20 transition-all rounded-none">
@@ -117,9 +117,9 @@ export function CryptoPaymentModal({ isOpen, onClose, tier, price }: CryptoPayme
                                                 </div>
                                                 <button
                                                     onClick={() => handleCopy(WALLETS.USDT, 'USDT')}
-                                                    className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-none hover:bg-neydra-blue/10 text-neydra-blue/40 hover:text-neydra-blue transition-all"
+                                                    className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-none hover:bg-red-600/10 text-red-500/40 hover:text-red-500 transition-all"
                                                 >
-                                                    {copied === 'USDT' ? <Check className="w-5 h-5 text-neydra-blue" /> : <Copy className="w-5 h-5" />}
+                                                    {copied === 'USDT' ? <Check className="w-5 h-5 text-red-500" /> : <Copy className="w-5 h-5" />}
                                                 </button>
                                             </div>
                                         </div>
@@ -131,13 +131,13 @@ export function CryptoPaymentModal({ isOpen, onClose, tier, price }: CryptoPayme
                                                     Transaction_Sequence_Auth
                                                 </label>
                                                 <div className="relative">
-                                                    <Wallet className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-neon-blue/40" />
+                                                    <Wallet className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-red-500/40" />
                                                     <input
                                                         type="text"
                                                         value={txId}
                                                         onChange={(e) => setTxId(e.target.value)}
                                                         placeholder="PASTE_TRANSACTION_HASH_X..."
-                                                        className="w-full bg-black border border-white/10 p-5 pl-14 text-sm text-white italic font-mono focus:outline-none focus:border-neon-blue/40 transition-all placeholder:text-white/5 rounded-none"
+                                                        className="w-full bg-black border border-white/10 p-5 pl-14 text-sm text-white italic font-mono focus:outline-none focus:border-red-500/40 transition-all placeholder:text-white/5 rounded-none"
                                                     />
                                                 </div>
                                             </div>
@@ -145,7 +145,7 @@ export function CryptoPaymentModal({ isOpen, onClose, tier, price }: CryptoPayme
                                             <button
                                                 type="submit"
                                                 disabled={!txId || isVerifying}
-                                                className="w-full py-6 bg-neon-blue text-black font-black uppercase tracking-[0.6em] text-xs hover:bg-white transition-all disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center gap-3 relative overflow-hidden group rounded-none"
+                                                className="w-full py-6 bg-red-600 text-black font-black uppercase tracking-[0.6em] text-xs hover:bg-white transition-all disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center gap-3 relative overflow-hidden group rounded-none"
                                             >
                                                 <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-700" />
                                                 {isVerifying ? (

@@ -87,7 +87,7 @@ export function CinematicLoading({ onComplete }: CinematicLoadingProps) {
                             rotate: i * 11.25
                         }}
                         transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.02, ease: "easeOut" }}
-                        className="absolute h-[0.5px] bg-neon-blue/40 origin-left"
+                        className="absolute h-[0.5px] bg-red-600/40 origin-left"
                     />
                 ))}
                 {/* Slow thick glowing lines */}
@@ -101,7 +101,7 @@ export function CinematicLoading({ onComplete }: CinematicLoadingProps) {
                             rotate: i * 30
                         }}
                         transition={{ duration: 3, repeat: Infinity, delay: i * 0.1, ease: "easeInOut" }}
-                        className="absolute h-[2px] bg-gradient-to-r from-neon-blue to-transparent origin-left blur-[1px]"
+                        className="absolute h-[2px] bg-gradient-to-r from-red-600 to-transparent origin-left blur-[1px]"
                     />
                 ))}
             </div>
@@ -114,7 +114,7 @@ export function CinematicLoading({ onComplete }: CinematicLoadingProps) {
                     filter: ["blur(40px)", "blur(80px)", "blur(40px)"]
                 }}
                 transition={{ duration: 2, repeat: Infinity }}
-                className="absolute w-96 h-96 bg-neon-blue/20 rounded-full z-0"
+                className="absolute w-96 h-96 bg-red-600/20 rounded-full z-0"
             />
 
             <div className="relative z-10 w-full max-w-2xl px-8 flex flex-col items-center">
@@ -130,7 +130,7 @@ export function CinematicLoading({ onComplete }: CinematicLoadingProps) {
                                 scale: 1 + (i * 0.08),
                                 rotateZ: i * 5,
                             }}
-                            className="absolute inset-0 border-[0.5px] border-neon-blue/40 rounded-none transform-gpu shadow-[inset_0_0_20px_rgba(212,175,55,0.1)]"
+                            className="absolute inset-0 border-[0.5px] border-red-500/40 rounded-none transform-gpu shadow-[inset_0_0_20px_rgba(255, 0, 0,0.1)]"
                             style={{
                                 rotateX: '65deg',
                             }}
@@ -140,10 +140,10 @@ export function CinematicLoading({ onComplete }: CinematicLoadingProps) {
                         <motion.div
                             animate={{
                                 opacity: [0.5, 1, 0.5],
-                                textShadow: ["0 0 10px #00F3FF", "0 0 30px #00F3FF", "0 0 10px #00F3FF"]
+                                textShadow: ["0 0 10px #ff0000", "0 0 30px #ff0000", "0 0 10px #ff0000"]
                             }}
                             transition={{ duration: 0.15, repeat: Infinity }}
-                            className="text-neon-blue font-black text-5xl italic tracking-tighter"
+                            className="text-red-500 font-black text-5xl italic tracking-tighter"
                         >
                             {progress}%
                         </motion.div>
@@ -151,7 +151,7 @@ export function CinematicLoading({ onComplete }: CinematicLoadingProps) {
                 </div>
 
                 {/* Matrix-style Data Feed */}
-                <div className="w-full text-left font-mono text-[9px] h-32 overflow-hidden bg-black/80 border border-neon-blue/20 p-5 space-y-2 shadow-[0_0_40px_rgba(0,0,0,0.8)] backdrop-blur-sm">
+                <div className="w-full text-left font-mono text-[9px] h-32 overflow-hidden bg-black/80 border border-red-500/20 p-5 space-y-2 shadow-[0_0_40px_rgba(0,0,0,0.8)] backdrop-blur-sm">
                     <AnimatePresence>
                         {LOGS.map((log, i) => (
                             progress > (i * 15) && (
@@ -159,7 +159,7 @@ export function CinematicLoading({ onComplete }: CinematicLoadingProps) {
                                     key={log}
                                     initial={{ opacity: 0, x: -20, filter: "blur(10px)" }}
                                     animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-                                    className={i % 2 === 0 ? "text-neon-blue" : "text-neydra-blue"}
+                                    className={i % 2 === 0 ? "text-red-500" : "text-red-500"}
                                 >
                                     <span className="opacity-30 inline-block w-24 tracking-[0.2em]">[{new Date().toLocaleTimeString([], { hour12: false })}]</span>
                                     <span className="font-bold tracking-widest">{log}</span>
@@ -173,12 +173,12 @@ export function CinematicLoading({ onComplete }: CinematicLoadingProps) {
                 {/* HUD Loading Bar */}
                 <div className="w-full mt-8 h-[2px] bg-white/5 relative overflow-hidden">
                     <motion.div
-                        className="absolute inset-y-0 left-0 bg-neon-blue shadow-[0_0_20px_#00F3FF]"
+                        className="absolute inset-y-0 left-0 bg-red-600 shadow-[0_0_20px_#ff0000]"
                         animate={{ width: `${progress}%` }}
                     />
                     {/* Ghost bar pursuit */}
                     <motion.div
-                        className="absolute inset-y-0 left-0 bg-neon-blue/20"
+                        className="absolute inset-y-0 left-0 bg-red-600/20"
                         animate={{ width: `${progress + 5}%` }}
                         transition={{ duration: 0.5 }}
                     />
