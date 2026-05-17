@@ -5,7 +5,7 @@ import { AlertCircle } from 'lucide-react';
 
 export function RiskDisclaimer({ className }: { className?: string }) {
     return (
-        <div className={cn("mt-4 p-3 rounded-lg bg-[#050A1F]/40 border border-white/5", className)}>
+        <div className={cn("mt-4 p-3 rounded-lg bg-[#000000]/40 border border-white/5", className)}>
             <div className="flex gap-2 items-start opacity-50 italic">
                 <AlertCircle className="w-3 h-3 mt-0.5 shrink-0" />
                 <p className="text-[10px] leading-relaxed font-mono">

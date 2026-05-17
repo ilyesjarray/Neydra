@@ -115,7 +115,7 @@ export function TierGuardWrapper({ children, sectorName, requiredTier }: TierGua
                                 <div className="flex flex-col gap-3 mt-4">
                                     <button
                                         onClick={handleUpgrade}
-                                        className="w-full py-5 rounded-2xl bg-[#FF0000] hover:bg-[#CC0000] text-white font-black uppercase tracking-[0.3em] text-xs transition-all flex items-center justify-center gap-3 shadow-[0_0_20px_rgba(255,0,0,0.2)]"
+                                        className="w-full py-5 rounded-2xl bg-[#FF0000] hover:bg-[#ff0000] text-white font-black uppercase tracking-[0.3em] text-xs transition-all flex items-center justify-center gap-3 shadow-[0_0_20px_rgba(255,0,0,0.2)]"
                                     >
                                         <Zap size={16} /> Authenticate_Upgrade
                                     </button>

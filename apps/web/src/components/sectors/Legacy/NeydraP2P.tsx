@@ -11,16 +11,16 @@ export function NeydraP2P() {
            ========================================= */
         :root {
             --primary: #ff0000;
-            --primary-light: #ff3333;
-            --primary-dark: #cc0000;
+            --primary-light: #ff0000;
+            --primary-dark: #ff0000;
             --bg-solid: #000000;
-            --bg-panel: rgba(20, 0, 0, 0.6);
+            --bg-panel: rgba(0, 0, 0, 0.6);
             --glass-border: rgba(255, 255, 255, 0.1);
             --text-main: #ffffff;
-            --text-dim: #ff9999;
-            --success: #00ff66;
-            --warning: #ffaa00;
-            --danger: #ff0044;
+            --text-dim: #ff0000;
+            --success: #ff0000;
+            --warning: #ff0000;
+            --danger: #ff0000;
             --font-ui: 'Rajdhani', sans-serif;
             --font-code: 'Share Tech Mono', monospace;
         }
@@ -151,7 +151,7 @@ export function NeydraP2P() {
 
         /* Panels */
         .panel {
-            background: linear-gradient(145deg, rgba(30, 0, 0, 0.7), rgba(0, 0, 0, 0.9));
+            background: linear-gradient(145deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9));
             border: 1px solid rgba(255, 0, 0, 0.2);
             backdrop-filter: blur(12px);
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
@@ -195,7 +195,7 @@ export function NeydraP2P() {
             text-align: center;
             padding: 60px 15px 50px;
             border-bottom: 1px solid rgba(255, 0, 0, 0.2);
-            background: radial-gradient(circle at center top, rgba(40, 0, 0, 0.6), transparent 70%);
+            background: radial-gradient(circle at center top, rgba(0, 0, 0, 0.6), transparent 70%);
             margin-bottom: 30px;
             position: relative;
         }
@@ -209,7 +209,7 @@ export function NeydraP2P() {
             font-weight: 800;
             text-transform: uppercase;
             line-height: 1;
-            background: linear-gradient(180deg, #ffffff 0%, #ffcccc 100%);
+            background: linear-gradient(180deg, #ffffff 0%, #ff0000 100%);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -306,7 +306,7 @@ export function NeydraP2P() {
 
         /* Buttons */
         .btn {
-            background: linear-gradient(145deg, rgba(255, 0, 0, 0.2), rgba(200, 0, 0, 0.05));
+            background: linear-gradient(145deg, rgba(255, 0, 0, 0.2), rgba(255, 0, 0, 0.05));
             border: 1px solid rgba(255, 0, 0, 0.5);
             color: #fff;
             font-family: var(--font-ui);
@@ -380,7 +380,7 @@ export function NeydraP2P() {
         .btn-success:hover {
             background: var(--success);
             color: #000;
-            box-shadow: 0 0 20px rgba(0, 255, 102, 0.4);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
         }
 
         .btn-danger {
@@ -401,7 +401,7 @@ export function NeydraP2P() {
         }
 
         .offer-card {
-            background: linear-gradient(145deg, rgba(25, 0, 0, 0.6), rgba(0, 0, 0, 0.8));
+            background: linear-gradient(145deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8));
             border: 1px solid rgba(255, 0, 0, 0.15);
             position: relative;
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -443,7 +443,7 @@ export function NeydraP2P() {
         .seller-avatar {
             width: 52px;
             height: 52px;
-            background: radial-gradient(circle at 30% 30%, #ff6666, #ff0000 40%, #990000 100%);
+            background: radial-gradient(circle at 30% 30%, #ff0000, #ff0000 40%, #ff0000 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -539,15 +539,15 @@ export function NeydraP2P() {
         }
 
         .level-trusted {
-            background: rgba(0, 255, 102, 0.15);
+            background: rgba(255, 0, 0, 0.15);
             color: var(--success);
-            border-color: rgba(0, 255, 102, 0.3);
+            border-color: rgba(255, 0, 0, 0.3);
         }
 
         .level-professional {
-            background: rgba(255, 170, 0, 0.15);
+            background: rgba(255, 0, 0, 0.15);
             color: var(--warning);
-            border-color: rgba(255, 170, 0, 0.3);
+            border-color: rgba(255, 0, 0, 0.3);
         }
 
         /* Stats Bar */
@@ -559,7 +559,7 @@ export function NeydraP2P() {
         }
 
         .stat-item {
-            background: linear-gradient(145deg, rgba(20, 0, 0, 0.6), rgba(0, 0, 0, 0.8));
+            background: linear-gradient(145deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8));
             border: 1px solid rgba(255, 0, 0, 0.15);
             padding: 20px;
             text-align: center;
@@ -603,7 +603,7 @@ export function NeydraP2P() {
             width: 380px;
             max-width: 90vw;
             height: 100vh;
-            background: rgba(5, 0, 0, 0.98);
+            background: rgba(0, 0, 0, 0.98);
             border-left: 1px solid rgba(255, 0, 0, 0.3);
             z-index: 2000;
             transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -662,7 +662,7 @@ export function NeydraP2P() {
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(0.9);
-            background: linear-gradient(145deg, rgba(20, 0, 0, 0.95), rgba(5, 0, 0, 0.98));
+            background: linear-gradient(145deg, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.98));
             border: 1px solid rgba(255, 0, 0, 0.3);
             width: 90%;
             max-width: 500px;
@@ -719,7 +719,7 @@ export function NeydraP2P() {
         }
 
         .dashboard-card {
-            background: linear-gradient(145deg, rgba(20, 0, 0, 0.4), rgba(0, 0, 0, 0.6));
+            background: linear-gradient(145deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6));
             border: 1px solid rgba(255, 0, 0, 0.1);
             padding: 25px;
             border-radius: 12px;
@@ -741,7 +741,7 @@ export function NeydraP2P() {
             bottom: 10px;
             left: 10px;
             right: 10px;
-            background: rgba(10, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.7);
             border: 1px solid rgba(255, 0, 0, 0.2);
             z-index: 1000;
             padding: 8px 0;
@@ -814,7 +814,7 @@ export function NeydraP2P() {
         }
 
         .toast {
-            background: rgba(10, 0, 0, 0.95);
+            background: rgba(0, 0, 0, 0.95);
             border: 1px solid var(--primary);
             padding: 15px 20px;
             min-width: 280px;

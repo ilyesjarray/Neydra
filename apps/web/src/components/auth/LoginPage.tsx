@@ -205,7 +205,7 @@ export default function LoginPage() {
                             <div key={i} className="flex items-center gap-3">
                                 <div
                                     className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
-                                    style={{ background: 'rgba(200,169,110,0.1)', color: 'var(--gold)' }}
+                                    style={{ background: 'rgba(255, 0, 0,0.1)', color: 'var(--gold)' }}
                                 >
                                     {item.icon}
                                 </div>
@@ -218,7 +218,7 @@ export default function LoginPage() {
                 {/* Bottom watermark */}
                 <div className="relative z-10">
                     <div className="gold-divider mb-4" />
-                    <p className="text-xs tracking-[0.15em] uppercase" style={{ color: 'rgba(200,169,110,0.3)' }}>
+                    <p className="text-xs tracking-[0.15em] uppercase" style={{ color: 'rgba(255, 0, 0,0.3)' }}>
                         Neydra Executive Shell · v5.0
                     </p>
                 </div>
@@ -292,7 +292,7 @@ export default function LoginPage() {
                                     </div>
 
                                     {error && (
-                                        <div className="flex items-center gap-2 p-3 rounded-xl text-sm" style={{ background: 'rgba(224,82,82,0.1)', color: 'var(--danger)', border: '1px solid rgba(224,82,82,0.2)' }}>
+                                        <div className="flex items-center gap-2 p-3 rounded-xl text-sm" style={{ background: 'rgba(255, 0, 0,0.1)', color: 'var(--danger)', border: '1px solid rgba(255, 0, 0,0.2)' }}>
                                             <AlertCircle className="w-4 h-4 flex-shrink-0" />
                                             {error}
                                         </div>
@@ -372,7 +372,7 @@ export default function LoginPage() {
                                     </div>
 
                                     {error && (
-                                        <div className="flex items-center gap-2 p-3 rounded-xl text-sm" style={{ background: 'rgba(224,82,82,0.1)', color: 'var(--danger)', border: '1px solid rgba(224,82,82,0.2)' }}>
+                                        <div className="flex items-center gap-2 p-3 rounded-xl text-sm" style={{ background: 'rgba(255, 0, 0,0.1)', color: 'var(--danger)', border: '1px solid rgba(255, 0, 0,0.2)' }}>
                                             <AlertCircle className="w-4 h-4 flex-shrink-0" />
                                             {error}
                                         </div>
@@ -427,10 +427,10 @@ export default function LoginPage() {
                                         <Loader2 className="w-5 h-5 animate-spin" />
                                     ) : (
                                         <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                                            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
-                                            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
-                                            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
-                                            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
+                                            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#ff0000" />
+                                            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#ff0000" />
+                                            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#ff0000" />
+                                            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#ff0000" />
                                         </svg>
                                     )}
                                     Continue with Google
@@ -480,13 +480,13 @@ export default function LoginPage() {
                                 </button>
 
                                 {error && (
-                                    <div className="flex items-center gap-2 p-3 rounded-xl text-sm" style={{ background: 'rgba(224,82,82,0.1)', color: 'var(--danger)', border: '1px solid rgba(224,82,82,0.2)' }}>
+                                    <div className="flex items-center gap-2 p-3 rounded-xl text-sm" style={{ background: 'rgba(255, 0, 0,0.1)', color: 'var(--danger)', border: '1px solid rgba(255, 0, 0,0.2)' }}>
                                         <AlertCircle className="w-4 h-4 flex-shrink-0" />
                                         {error}
                                     </div>
                                 )}
 
-                                <p className="text-xs text-center leading-relaxed" style={{ color: 'rgba(232,222,204,0.25)' }}>
+                                <p className="text-xs text-center leading-relaxed" style={{ color: 'rgba(255, 0, 0,0.25)' }}>
                                     By continuing you agree to our Terms of Service.<br />
                                     Your identity is protected at all times.
                                 </p>
@@ -534,7 +534,7 @@ export default function LoginPage() {
                                     </div>
 
                                     {error && (
-                                        <div className="flex items-center gap-2 p-3 rounded-xl text-sm" style={{ background: 'rgba(224,82,82,0.1)', color: 'var(--danger)', border: '1px solid rgba(224,82,82,0.2)' }}>
+                                        <div className="flex items-center gap-2 p-3 rounded-xl text-sm" style={{ background: 'rgba(255, 0, 0,0.1)', color: 'var(--danger)', border: '1px solid rgba(255, 0, 0,0.2)' }}>
                                             <AlertCircle className="w-4 h-4 flex-shrink-0" />
                                             {error}
                                         </div>
@@ -553,7 +553,7 @@ export default function LoginPage() {
                                     </button>
                                 </form>
 
-                                <p className="text-xs" style={{ color: 'rgba(232,222,204,0.25)' }}>
+                                <p className="text-xs" style={{ color: 'rgba(255, 0, 0,0.25)' }}>
                                     Works with any email provider including ProtonMail & Tutanota.
                                 </p>
                             </motion.div>
@@ -570,7 +570,7 @@ export default function LoginPage() {
                             >
                                 <div
                                     className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto"
-                                    style={{ background: 'rgba(62,207,142,0.12)', border: '1px solid rgba(62,207,142,0.25)' }}
+                                    style={{ background: 'rgba(255, 0, 0,0.12)', border: '1px solid rgba(255, 0, 0,0.25)' }}
                                 >
                                     <CheckCircle className="w-8 h-8" style={{ color: 'var(--success)' }} />
                                 </div>
@@ -583,7 +583,7 @@ export default function LoginPage() {
                                         <strong style={{ color: 'var(--gold)' }}>{email}</strong>
                                     </p>
                                 </div>
-                                <p className="text-xs" style={{ color: 'rgba(232,222,204,0.25)' }}>
+                                <p className="text-xs" style={{ color: 'rgba(255, 0, 0,0.25)' }}>
                                     The link expires in 1 hour. No password is stored.
                                 </p>
                                 <button

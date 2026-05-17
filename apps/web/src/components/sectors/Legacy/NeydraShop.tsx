@@ -8,12 +8,12 @@ export function NeydraShop() {
                 
     :root {
       --red-primary: #ff0000;
-      --red-dark: #8f0000;
+      --red-dark: #ff0000;
       --red-glow: rgba(255, 0, 0, 0.6);
       --bg-void: #000000;
-      --bg-card: rgba(31, 0, 0, 0.9);
+      --bg-card: rgba(0, 0, 0, 0.9);
       --text-white: #ffffff;
-      --text-gray: #aaaaaa;
+      --text-gray: #ff0000;
     }
 
     * {
@@ -164,7 +164,7 @@ export function NeydraShop() {
     }
 
     .popup-content {
-      background: linear-gradient(180deg, rgba(30, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.98) 100%);
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.98) 100%);
       border: 2px solid var(--red-primary);
       padding: 30px;
       max-width: 90%;
@@ -209,7 +209,7 @@ export function NeydraShop() {
     .notification-popup {
       position: fixed;
       z-index: 99998;
-      background: linear-gradient(135deg, rgba(30, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.98) 100%);
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.98) 100%);
       border: 2px solid var(--red-primary);
       padding: 15px 20px;
       max-width: 320px;
@@ -290,7 +290,7 @@ export function NeydraShop() {
     .download-popup {
       position: fixed;
       z-index: 100001;
-      background: linear-gradient(180deg, rgba(30, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.98) 100%);
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.98) 100%);
       border: 2px solid var(--red-primary);
       padding: 30px;
       max-width: 400px;
@@ -549,7 +549,7 @@ export function NeydraShop() {
     /* === MYSTERY SHOP SECTION === */
     .mystery-shop-container {
       position: relative;
-      background: linear-gradient(135deg, rgba(139, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.8) 100%);
+      background: linear-gradient(135deg, rgba(255, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.8) 100%);
       border: 1px solid rgba(255, 0, 0, 0.3);
       border-radius: 4px;
       margin: 8px 16px;

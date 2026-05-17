@@ -14,10 +14,10 @@ export function NeydraAccount() {
       --primary-color: #ff0000;
       --primary-glow: rgba(0, 0, 0, 0.6);
       --bg-dark: #000000;
-      --glass-bg: rgba(20, 20, 20, 0.6);
+      --glass-bg: rgba(0, 0, 0, 0.6);
       --glass-border: rgba(255, 255, 255, 0.08);
       --text-main: #ff0000;
-      --text-muted: #888888;
+      --text-muted: #ff0000;
     }
 
     * {
@@ -243,7 +243,7 @@ export function NeydraAccount() {
 
     button.action-btn:disabled {
       background: #000;
-      color: #666;
+      color: #ff0000;
       cursor: not-allowed;
       box-shadow: none;
       transform: none;

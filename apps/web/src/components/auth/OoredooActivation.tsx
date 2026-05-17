@@ -241,7 +241,7 @@ export default function OoredooActivation() {
     return (
         <div className="min-h-screen flex items-center justify-center p-4 bg-black relative overflow-hidden">
             {/* Background atmosphere */}
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,240,255,0.03)_0%,transparent_70%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255, 0, 0,0.03)_0%,transparent_70%)]" />
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-neydra-accent/[0.02] blur-[150px]" />
 
             {/* Grid pattern */}
@@ -249,8 +249,8 @@ export default function OoredooActivation() {
                 className="absolute inset-0 opacity-[0.02]"
                 style={{
                     backgroundImage: `
-                        linear-gradient(rgba(0,240,255,0.3) 1px, transparent 1px),
-                        linear-gradient(90deg, rgba(0,240,255,0.3) 1px, transparent 1px)
+                        linear-gradient(rgba(255, 0, 0,0.3) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255, 0, 0,0.3) 1px, transparent 1px)
                     `,
                     backgroundSize: '60px 60px',
                 }}
@@ -268,7 +268,7 @@ export default function OoredooActivation() {
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
                         transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
-                        className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-neydra-accent/10 border border-neydra-accent/20 flex items-center justify-center shadow-[0_0_30px_rgba(0,240,255,0.1)]"
+                        className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-neydra-accent/10 border border-neydra-accent/20 flex items-center justify-center shadow-[0_0_30px_rgba(255, 0, 0,0.1)]"
                     >
                         <Smartphone className="w-8 h-8 text-neydra-accent" />
                     </motion.div>
@@ -320,7 +320,7 @@ export default function OoredooActivation() {
                                             value={formatPinDisplay(pinInput)}
                                             onChange={handlePinChange}
                                             maxLength={17} /* 14 digits + 3 dashes */
-                                            className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-4 pl-12 pr-4 text-lg font-mono font-bold text-white tracking-[0.15em] placeholder:text-white/10 outline-none focus:border-neydra-accent/40 focus:shadow-[0_0_20px_rgba(0,240,255,0.1)] transition-all text-center"
+                                            className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-4 pl-12 pr-4 text-lg font-mono font-bold text-white tracking-[0.15em] placeholder:text-white/10 outline-none focus:border-neydra-accent/40 focus:shadow-[0_0_20px_rgba(255, 0, 0,0.1)] transition-all text-center"
                                             autoFocus
                                         />
                                         {/* Digit counter */}
@@ -349,7 +349,7 @@ export default function OoredooActivation() {
                                 <button
                                     type="submit"
                                     disabled={!isValidPin}
-                                    className="w-full py-4 rounded-xl font-black text-sm uppercase tracking-[0.2em] transition-all duration-500 flex items-center justify-center gap-3 disabled:opacity-30 disabled:cursor-not-allowed bg-neydra-accent/10 border border-neydra-accent/30 text-neydra-accent hover:bg-neydra-accent/20 hover:shadow-[0_0_30px_rgba(0,240,255,0.2)] active:scale-[0.98]"
+                                    className="w-full py-4 rounded-xl font-black text-sm uppercase tracking-[0.2em] transition-all duration-500 flex items-center justify-center gap-3 disabled:opacity-30 disabled:cursor-not-allowed bg-neydra-accent/10 border border-neydra-accent/30 text-neydra-accent hover:bg-neydra-accent/20 hover:shadow-[0_0_30px_rgba(255, 0, 0,0.2)] active:scale-[0.98]"
                                 >
                                     <Zap className="w-4 h-4" />
                                     Activate Account
@@ -453,7 +453,7 @@ export default function OoredooActivation() {
                                             ) : (
                                                 <motion.div
                                                     className="w-4 h-4 rounded-full border border-white/20 shrink-0"
-                                                    animate={i === 3 ? { borderColor: ['rgba(255,255,255,0.2)', 'rgba(0,240,255,0.5)', 'rgba(255,255,255,0.2)'] } : {}}
+                                                    animate={i === 3 ? { borderColor: ['rgba(255,255,255,0.2)', 'rgba(255, 0, 0,0.5)', 'rgba(255,255,255,0.2)'] } : {}}
                                                     transition={{ duration: 1.5, repeat: Infinity }}
                                                 />
                                             )}

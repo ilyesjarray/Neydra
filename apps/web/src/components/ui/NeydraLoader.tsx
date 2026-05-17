@@ -14,14 +14,14 @@ interface NeydraLoaderProps {
 
 const variantColors: Record<LoaderVariant, { primary: string; glow: string; gradient: string }> = {
     'neydra-blue': {
-        primary: '#0074D9',
-        glow: 'rgba(80, 200, 120, 0.4)',
-        gradient: 'from-[#0074D9] to-[#2E8B57]',
+        primary: '#ff0000',
+        glow: 'rgba(255, 0, 0, 0.4)',
+        gradient: 'from-[#ff0000] to-[#ff0000]',
     },
     'neon-blue': {
         primary: '#ff0000',
         glow: 'rgba(255, 0, 0, 0.4)',
-        gradient: 'from-[#ff0000] to-[#B8860B]',
+        gradient: 'from-[#ff0000] to-[#ff0000]',
     },
     'obsidian': {
         primary: '#ffffff',

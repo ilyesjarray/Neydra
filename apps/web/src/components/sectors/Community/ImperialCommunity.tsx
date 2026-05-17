@@ -172,7 +172,7 @@ export function ImperialCommunity() {
 
                 <div className="mx-12 mt-10 glass-v-series rounded-[3rem] p-10 bg-neydra-accent/[0.02] border border-white/5 relative overflow-hidden flex flex-col items-center justify-center min-h-[250px]">
                     <div className="absolute inset-0 opacity-10">
-                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,186,211,0.1)_0%,transparent_70%)]" />
+                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255, 0, 0,0.1)_0%,transparent_70%)]" />
                         <motion.div
                             animate={{
                                 scale: [1, 1.1, 1],

@@ -38,7 +38,7 @@ export function FlashAlert({ value, className, children }: FlashAlertProps) {
                         exit={{ opacity: 0 }}
                         className={cn(
                             'absolute inset-0 rounded-none pointer-events-none',
-                            flash === 'up' ? 'bg-red-600 border border-neydra-blue/50' : 'bg-red-600 border border-red-600/50'
+                            flash === 'up' ? 'bg-red-600 border border-red-500/50' : 'bg-red-600 border border-red-600/50'
                         )}
                         style={{ filter: 'blur(8px)' }}
                     />

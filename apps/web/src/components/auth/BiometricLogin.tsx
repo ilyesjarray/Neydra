@@ -104,9 +104,9 @@ export function BiometricLogin({ onSuccess }: BiometricLoginProps) {
                                 <motion.div
                                     animate={{
                                         scale: [1, 1.1, 1],
-                                        boxShadow: ["0 0 20px #0074D9", "0 0 50px #0074D9", "0 0 20px #0074D9"]
+                                        boxShadow: ["0 0 20px #ff0000", "0 0 50px #ff0000", "0 0 20px #ff0000"]
                                     }}
-                                    className="w-24 h-24 rounded-none border-4 border-neydra-blue flex items-center justify-center bg-black"
+                                    className="w-24 h-24 rounded-none border-4 border-red-500 flex items-center justify-center bg-black"
                                 >
                                     <Shield className="w-12 h-12 text-red-500" />
                                 </motion.div>

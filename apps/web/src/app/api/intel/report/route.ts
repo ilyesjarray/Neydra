@@ -22,20 +22,20 @@ export async function POST(req: Request) {
 <head>
   <meta charset="utf-8" />
   <style>
-    body { background: #000; color: #e8decf; font-family: 'Courier New', monospace; margin: 0; padding: 0; }
+    body { background: #000; color: #ff0000; font-family: 'Courier New', monospace; margin: 0; padding: 0; }
     .container { max-width: 600px; margin: 0 auto; padding: 32px 24px; }
     .header { border-bottom: 1px solid rgba(255, 0, 0,0.3); padding-bottom: 16px; margin-bottom: 24px; }
-    .logo { font-size: 12px; letter-spacing: 0.4em; color: #d4af6e; text-transform: uppercase; font-weight: 900; }
-    h1 { color: #d4af6e; font-size: 24px; margin: 8px 0; letter-spacing: -0.02em; }
-    .date { font-size: 10px; color: rgba(232,222,204,0.4); letter-spacing: 0.2em; }
+    .logo { font-size: 12px; letter-spacing: 0.4em; color: #ff0000; text-transform: uppercase; font-weight: 900; }
+    h1 { color: #ff0000; font-size: 24px; margin: 8px 0; letter-spacing: -0.02em; }
+    .date { font-size: 10px; color: rgba(255, 0, 0,0.4); letter-spacing: 0.2em; }
     .section { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); border-radius: 8px; padding: 16px; margin-bottom: 16px; }
-    .section-title { font-size: 9px; font-weight: 900; letter-spacing: 0.4em; text-transform: uppercase; color: #00f0ff; margin-bottom: 8px; }
-    .item { font-size: 13px; color: rgba(232,222,204,0.8); line-height: 1.6; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
+    .section-title { font-size: 9px; font-weight: 900; letter-spacing: 0.4em; text-transform: uppercase; color: #ff0000; margin-bottom: 8px; }
+    .item { font-size: 13px; color: rgba(255, 0, 0,0.8); line-height: 1.6; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
     .item:last-child { border-bottom: none; }
     .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 9px; font-weight: 900; letter-spacing: 0.1em; }
-    .badge-bull { background: rgba(0,240,200,0.15); color: #00f0c8; border: 1px solid rgba(0,240,200,0.2); }
-    .badge-bear { background: rgba(255,60,60,0.15); color: #ff6060; border: 1px solid rgba(255,60,60,0.2); }
-    .footer { margin-top: 32px; font-size: 9px; color: rgba(232,222,204,0.2); letter-spacing: 0.1em; text-align: center; }
+    .badge-bull { background: rgba(255, 0, 0,0.15); color: #ff0000; border: 1px solid rgba(255, 0, 0,0.2); }
+    .badge-bear { background: rgba(255, 0, 0,0.15); color: #ff0000; border: 1px solid rgba(255, 0, 0,0.2); }
+    .footer { margin-top: 32px; font-size: 9px; color: rgba(255, 0, 0,0.2); letter-spacing: 0.1em; text-align: center; }
   </style>
 </head>
 <body>

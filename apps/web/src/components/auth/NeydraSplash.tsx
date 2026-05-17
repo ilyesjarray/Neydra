@@ -297,7 +297,7 @@ export function NeydraSplash({ onComplete }: NeydraSplashProps) {
                                                         <circle cx="50" cy="50" r="40" stroke="rgba(255,255,255,0.1)" strokeWidth="12" fill="none" />
                                                         <circle 
                                                             cx="50" cy="50" r="40" 
-                                                            stroke="#00c3ff" strokeWidth="12" fill="none" 
+                                                            stroke="#ff0000" strokeWidth="12" fill="none" 
                                                             strokeDasharray="251.2" 
                                                             strokeDashoffset={251.2 - (251.2 * (downloadProgress.loaded / (downloadProgress.total || 1)))} 
                                                             strokeLinecap="round" 

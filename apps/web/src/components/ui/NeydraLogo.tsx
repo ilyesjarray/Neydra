@@ -28,7 +28,7 @@ export function NeydraLogo({ className }: { className?: string }) {
                 d="M50 5 L85 20 L85 45 C85 70 50 95 50 95 C50 95 15 70 15 45 L15 20 L50 5 Z"
                 stroke="url(#imperial-gradient)"
                 strokeWidth="2"
-                fill="rgba(5, 10, 31, 0.8)"
+                fill="rgba(0, 0, 0, 0.8)"
                 filter="url(#glow)"
             />
 
@@ -42,8 +42,8 @@ export function NeydraLogo({ className }: { className?: string }) {
             />
 
             {/* Tech Nodes */}
-            <circle cx="35" cy="35" r="3" fill="#22d3ee" />
-            <circle cx="65" cy="65" r="3" fill="#22d3ee" />
+            <circle cx="35" cy="35" r="3" fill="#ff0000" />
+            <circle cx="65" cy="65" r="3" fill="#ff0000" />
             <circle cx="50" cy="50" r="2" fill="#fff" className="animate-pulse" />
         </svg>
     );

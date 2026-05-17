@@ -23,11 +23,11 @@ export function CinematicToggle() {
                 whileTap={{ scale: 0.95 }}
                 onClick={toggleTheme}
                 className={`flex items-center gap-3 px-4 py-2 rounded-full border shadow-lg backdrop-blur-md transition-all duration-300 ${theme === 'commander'
-                    ? 'bg-[#050A1F]/80 border-neydra-accent-cyan/30 text-neydra-accent-cyan shadow-[0_0_20px_rgba(34,211,238,0.2)]'
+                    ? 'bg-[#000000]/80 border-neydra-accent/30 text-neydra-accent shadow-[0_0_20px_rgba(255, 0, 0,0.2)]'
                     : 'bg-white/80 border-slate-300 text-slate-800 shadow-xl'
                     }`}
             >
-                <div className={`p-1 rounded-full ${theme === 'commander' ? 'bg-neydra-accent-cyan/10' : 'bg-slate-200'}`}>
+                <div className={`p-1 rounded-full ${theme === 'commander' ? 'bg-neydra-accent/10' : 'bg-slate-200'}`}>
                     {theme === 'commander' ? <Terminal className="w-4 h-4" /> : <Briefcase className="w-4 h-4" />}
                 </div>
                 <span className="text-xs font-bold uppercase tracking-wider font-mono hidden md:inline-block">

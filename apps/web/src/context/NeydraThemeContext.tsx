@@ -31,8 +31,8 @@ const sectorThemes: Record<Sector, ThemeConfig> = {
         label: 'ASSET_VAULT_DECRYPTED'
     },
     ops: {
-        accent: '#0074D9',
-        glow: 'rgba(80, 200, 120, 0.2)',
+        accent: '#ff0000',
+        glow: 'rgba(255, 0, 0, 0.2)',
         bg: '#000000',
         label: 'OPERATIONAL_CONTROL'
     },
@@ -49,14 +49,14 @@ const sectorThemes: Record<Sector, ThemeConfig> = {
         label: 'HIGH_COUNCIL'
     },
     system: {
-        accent: '#0074D9',
-        glow: 'rgba(80, 200, 120, 0.2)',
+        accent: '#ff0000',
+        glow: 'rgba(255, 0, 0, 0.2)',
         bg: '#000000',
         label: 'SYSTEM_CENTER'
     },
     neural: {
-        accent: '#0074D9',
-        glow: 'rgba(80, 200, 120, 0.2)',
+        accent: '#ff0000',
+        glow: 'rgba(255, 0, 0, 0.2)',
         bg: '#000000',
         label: 'NEURAL_NEXUS'
     },
@@ -67,8 +67,8 @@ const sectorThemes: Record<Sector, ThemeConfig> = {
         label: 'CHRONOS_COMMAND'
     },
     nexus: {
-        accent: '#0074D9',
-        glow: 'rgba(80, 200, 120, 0.2)',
+        accent: '#ff0000',
+        glow: 'rgba(255, 0, 0, 0.2)',
         bg: '#000000',
         label: 'POWER_NEXUS'
     }

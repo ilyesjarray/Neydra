@@ -77,8 +77,8 @@ export function NotificationsPanel() {
                                             <div className="flex gap-4">
                                                 <div className="mt-1">
                                                     {n.type === 'info' && <Info className="w-4 h-4 text-red-500 shadow-[0_0_8px_rgba(255, 0, 0,0.3)]" />}
-                                                    {n.type === 'warning' && <AlertTriangle className="w-4 h-4 text-red-600 shadow-[0_0_8px_rgba(224,82,82,0.3)]" />}
-                                                    {n.type === 'success' && <CheckCircle2 className="w-4 h-4 text-red-500 shadow-[0_0_8px_rgba(80,200,120,0.3)]" />}
+                                                    {n.type === 'warning' && <AlertTriangle className="w-4 h-4 text-red-600 shadow-[0_0_8px_rgba(255, 0, 0,0.3)]" />}
+                                                    {n.type === 'success' && <CheckCircle2 className="w-4 h-4 text-red-500 shadow-[0_0_8px_rgba(255, 0, 0,0.3)]" />}
                                                 </div>
                                                 <div className="flex-1 space-y-2">
                                                     <div className="flex justify-between items-center">

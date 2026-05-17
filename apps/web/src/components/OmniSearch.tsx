@@ -120,7 +120,7 @@ export function OmniSearch() {
                                     <span className="flex items-center gap-2"><kbd className="px-1.5 py-0.5 bg-black border border-red-500/20 text-red-500/60">ENTER</kbd> EXECUTE</span>
                                 </div>
                                 <div className="flex items-center gap-3">
-                                    <span className="w-2 h-2 bg-red-600 animate-pulse shadow-[0_0_8px_#0074D9]" />
+                                    <span className="w-2 h-2 bg-red-600 animate-pulse shadow-[0_0_8px_#ff0000]" />
                                     EMPIRE_CORE_INDEX: ACTIVE
                                 </div>
                             </div>

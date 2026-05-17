@@ -13,14 +13,14 @@ export function NeydraAIL() {
         :root {
             --primary: #ff0000;
             /* BLOOD RED */
-            --dim-red: #550000;
+            --dim-red: #ff0000;
             /* DRIED BLOOD */
-            --dark-red: #220000;
+            --dark-red: #000000;
             /* DARKNESS */
             --bg-solid: #000000;
             /* VOID */
-            --bg-panel: rgba(10, 0, 0, 0.85);
-            --text-main: #ffcccc;
+            --bg-panel: rgba(0, 0, 0, 0.85);
+            --text-main: #ff0000;
             --scan-line: rgba(255, 0, 0, 0.05);
             --grid-line: rgba(255, 0, 0, 0.1);
 
@@ -74,7 +74,7 @@ export function NeydraAIL() {
             left: 0;
             bottom: 0;
             right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+            background: linear-gradient(rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
                 linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(255, 0, 0, 0.02), rgba(255, 0, 0, 0.06));
             z-index: 999;
             background-size: 100% 2px, 3px 100%;
@@ -231,7 +231,7 @@ export function NeydraAIL() {
         /* Depth Panel (Bottom) */
         .depth-container {
             flex: 1;
-            background: rgba(20, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.9);
             border: 1px solid var(--dark-red);
             padding: 10px;
             overflow-y: auto;
@@ -265,13 +265,13 @@ export function NeydraAIL() {
         }
 
         .terminal {
-            background: #020000;
+            background: #000000;
             border: 1px solid var(--primary);
             padding: 10px;
             font-family: var(--font-code);
             font-size: 12px;
             overflow-y: auto;
-            color: #aaa;
+            color: #ff0000;
             box-shadow: inset 0 0 20px #000;
         }
 
@@ -396,7 +396,7 @@ export function NeydraAIL() {
             border-bottom: 1px dashed var(--dim-red);
             font-family: var(--font-code);
             font-size: 11px;
-            color: #ccc;
+            color: #ff0000;
         }
 
         .log-entry:last-child {
@@ -435,7 +435,7 @@ export function NeydraAIL() {
 
         .pool-type {
             font-size: 9px;
-            color: #888;
+            color: #ff0000;
             text-transform: uppercase;
         }
 
@@ -453,7 +453,7 @@ export function NeydraAIL() {
             font-size: 10px;
             text-align: right;
             margin-right: 10px;
-            color: #888;
+            color: #ff0000;
         }
 
         .depth-bar {
@@ -705,10 +705,10 @@ export function NeydraAIL() {
 
         .cmd-box code {
             flex: 1;
-            background: #110000;
-            border: 1px solid #330000;
+            background: #000000;
+            border: 1px solid #ff0000;
             padding: 8px 12px;
-            color: #ff6666;
+            color: #ff0000;
             display: block;
         }
 
@@ -748,7 +748,7 @@ export function NeydraAIL() {
         }
 
         .connection-panel p {
-            color: #aaa;
+            color: #ff0000;
             font-size: 13px;
             margin-bottom: 20px;
             font-family: var(--font-code);
@@ -767,7 +767,7 @@ export function NeydraAIL() {
         }
 
         .connection-panel input::placeholder {
-            color: #550000;
+            color: #ff0000;
         }
 
         ::-webkit-scrollbar {
@@ -814,7 +814,7 @@ export function NeydraAIL() {
                 <input type="text" id="url-input" placeholder="https://your-url.loca.lt" />
                 <button onClick={() => { (window as any).initializeConnection?.(); }}
                     style={{ "width": "100%", "padding": "15px", "fontSize": "16px" }}>CONNECT</button>
-                <p style={{ "marginTop": "15px", "fontSize": "11px", "color": "#666" }}>
+                <p style={{ "marginTop": "15px", "fontSize": "11px", "color": "#ff0000" }}>
                     Run <span style={{ "color": "var(--primary)" }}>npx localtunnel --port 8000</span> in your terminal to
                     generate a URL.
                 </p>
@@ -890,7 +890,7 @@ export function NeydraAIL() {
                         <br /><br />Click below to find your IP, then paste it into the tunnel page.
                         <div style={{ "marginTop": "8px" }}>
                             <a href="https://www.whatismyip.com/" target="_blank" className="btn-download"
-                                style={{ "padding": "10px 20px", "fontSize": "12px", "background": "#660000" }}>
+                                style={{ "padding": "10px 20px", "fontSize": "12px", "background": "#ff0000" }}>
                                 🔍 FIND MY IP ADDRESS
                             </a>
                         </div>
@@ -1004,7 +1004,7 @@ export function NeydraAIL() {
             </div>
             <div className="controls">
                 <button id="btn-start" onClick={() => { try { eval(`toggleEngine()`); } catch(e){} }}>ACTIVATE</button>
-                <button id="btn-kill" onClick={() => { try { eval(`killSwitch()`); } catch(e){} }} style={{ "borderColor": "#555", "color": "#555" }}>KILL</button>
+                <button id="btn-kill" onClick={() => { try { eval(`killSwitch()`); } catch(e){} }} style={{ "borderColor": "#ff0000", "color": "#ff0000" }}>KILL</button>
             </div>
         </div>
     </div>
@@ -1152,7 +1152,7 @@ export function NeydraAIL() {
                 whaleDiv.innerHTML = "";
                 const recentWhales = data.whales.slice().reverse();
                 if (recentWhales.length === 0) {
-                    whaleDiv.innerHTML = "<div style='padding:10px; color:#444;'>SCANNING...</div>";
+                    whaleDiv.innerHTML = "<div style='padding:10px; color:#ff0000;'>SCANNING...</div>";
                 } else {
                     recentWhales.forEach(w => {
                         const row = document.createElement('div');

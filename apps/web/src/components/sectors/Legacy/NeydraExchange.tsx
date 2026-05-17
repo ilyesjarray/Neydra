@@ -14,14 +14,14 @@ export function NeydraExchange() {
         :root {
             --primary: #ff0000;
             /* BLOOD RED */
-            --dim-red: #550000;
+            --dim-red: #ff0000;
             /* DRIED BLOOD */
-            --dark-red: #220000;
+            --dark-red: #000000;
             /* DARKNESS */
             --bg-solid: #000000;
             /* VOID */
-            --bg-panel: rgba(10, 0, 0, 0.85);
-            --text-main: #ffcccc;
+            --bg-panel: rgba(0, 0, 0, 0.85);
+            --text-main: #ff0000;
             --scan-line: rgba(255, 0, 0, 0.05);
             --grid-line: rgba(255, 0, 0, 0.1);
 
@@ -90,7 +90,7 @@ export function NeydraExchange() {
             left: 0;
             bottom: 0;
             right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+            background: linear-gradient(rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
                 linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(255, 0, 0, 0.02), rgba(255, 0, 0, 0.06));
             z-index: 999;
             background-size: 100% 2px, 3px 100%;
@@ -261,7 +261,7 @@ export function NeydraExchange() {
             bottom: 0;
             left: 0;
             width: 100%;
-            background: rgba(5, 0, 0, 0.95);
+            background: rgba(0, 0, 0, 0.95);
             border-top: 1px solid var(--primary);
             z-index: 1000;
             padding: 8px 0;
@@ -314,7 +314,7 @@ export function NeydraExchange() {
         /* --- FOOTER & SOCIALS --- */
         .footer__content {
             text-align: center;
-            color: #888;
+            color: #ff0000;
         }
 
         .social__icons {

@@ -78,7 +78,7 @@ export function NeuralPulse() {
             {/* Cyan Bloom (Diffusion) */}
             <motion.div
                 style={{ x: springX, y: springY }}
-                className="absolute w-64 h-64 bg-[#00F5FF]/5 blur-[80px] rounded-full pointer-events-none z-10"
+                className="absolute w-64 h-64 bg-[#ff0000]/5 blur-[80px] rounded-full pointer-events-none z-10"
             />
 
             {/* White Aura (High Fidelity) */}

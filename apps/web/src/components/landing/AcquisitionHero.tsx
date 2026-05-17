@@ -27,7 +27,7 @@ export function AcquisitionHero() {
                         <motion.circle
                             key={i}
                             r={p.r}
-                            fill="#00f0ff"
+                            fill="#ff0000"
                             initial={{ x: p.x, y: p.y }}
                             animate={{
                                 y: [null, p.y],

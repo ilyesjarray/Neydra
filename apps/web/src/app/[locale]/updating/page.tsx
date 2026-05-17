@@ -60,7 +60,7 @@ function UpdatingContent() {
             {/* Ambient Background Glow */}
             <motion.div
                 className="absolute w-[800px] h-[800px] rounded-full pointer-events-none z-0"
-                style={{ background: 'radial-gradient(circle, rgba(0, 195, 255, 0.1) 0%, transparent 60%)' }}
+                style={{ background: 'radial-gradient(circle, rgba(255, 0, 0, 0.1) 0%, transparent 60%)' }}
                 animate={{
                     scale: [1, 1.1, 1],
                     opacity: [0.5, 0.8, 0.5]
@@ -75,14 +75,14 @@ function UpdatingContent() {
             <div className="flex flex-col items-center text-center z-10 p-4">
 
                 <motion.div
-                    className="text-[#00c3ff] text-xl md:text-2xl tracking-[4px] mb-12 uppercase"
-                    style={{ textShadow: '0 0 15px rgba(0, 195, 255, 0.5)' }}
+                    className="text-[#ff0000] text-xl md:text-2xl tracking-[4px] mb-12 uppercase"
+                    style={{ textShadow: '0 0 15px rgba(255, 0, 0, 0.5)' }}
                     animate={{
                         opacity: [0.8, 1, 0.8],
                         textShadow: [
-                            '0 0 15px rgba(0, 195, 255, 0.5)',
-                            '0 0 25px rgba(0, 195, 255, 0.8)',
-                            '0 0 15px rgba(0, 195, 255, 0.5)'
+                            '0 0 15px rgba(255, 0, 0, 0.5)',
+                            '0 0 25px rgba(255, 0, 0, 0.8)',
+                            '0 0 15px rgba(255, 0, 0, 0.5)'
                         ]
                     }}
                     transition={{ duration: 2, repeat: Infinity }}
@@ -94,7 +94,7 @@ function UpdatingContent() {
                     {/* Spinning gradient border effect */}
                     <motion.div
                         className="absolute inset-[-10px] rounded-full opacity-50 z-0"
-                        style={{ background: 'conic-gradient(from 0deg, transparent, rgba(0, 195, 255, 0.8), transparent)' }}
+                        style={{ background: 'conic-gradient(from 0deg, transparent, rgba(255, 0, 0, 0.8), transparent)' }}
                         animate={{ rotate: 360 }}
                         transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
                     />
@@ -107,14 +107,14 @@ function UpdatingContent() {
                         disabled={status !== 'IDLE'}
                         className={`
                             relative z-20 w-full h-full rounded-full bg-transparent 
-                            border-2 border-[#00c3ff]/30 text-[#00c3ff] font-bold 
+                            border-2 border-[#ff0000]/30 text-[#ff0000] font-bold 
                             text-lg md:text-xl tracking-[4px] uppercase cursor-pointer
                             flex items-center justify-center transition-all duration-300
                             hover:scale-105 active:scale-95
-                            shadow-[0_0_40px_rgba(0,195,255,0.15),inset_0_0_30px_rgba(0,195,255,0.1)]
-                            hover:shadow-[0_0_80px_rgba(0,195,255,0.4),inset_0_0_50px_rgba(0,195,255,0.2)]
-                            hover:border-[#00c3ff]/80
-                            ${status !== 'IDLE' ? 'pointer-events-none border-[#00c3ff] shadow-[0_0_100px_rgba(0,195,255,0.6),inset_0_0_60px_rgba(0,195,255,0.4)]' : ''}
+                            shadow-[0_0_40px_rgba(255, 0, 0,0.15),inset_0_0_30px_rgba(255, 0, 0,0.1)]
+                            hover:shadow-[0_0_80px_rgba(255, 0, 0,0.4),inset_0_0_50px_rgba(255, 0, 0,0.2)]
+                            hover:border-[#ff0000]/80
+                            ${status !== 'IDLE' ? 'pointer-events-none border-[#ff0000] shadow-[0_0_100px_rgba(255, 0, 0,0.6),inset_0_0_60px_rgba(255, 0, 0,0.4)]' : ''}
                         `}
                     >
                         <span className="text-center relative z-30 leading-relaxed">
@@ -136,7 +136,7 @@ function UpdatingContent() {
 export default function UpdatingPage() {
     return (
         <Suspense fallback={
-            <div className="flex flex-col items-center justify-center min-h-screen bg-black text-[#00c3ff] font-mono tracking-widest text-sm">
+            <div className="flex flex-col items-center justify-center min-h-screen bg-black text-[#ff0000] font-mono tracking-widest text-sm">
                 <div className="animate-pulse">INITIALIZING UPDATE SEQUENCE...</div>
             </div>
         }>

@@ -131,9 +131,9 @@ export function WarCouncil() {
                     <svg className="w-full h-full overflow-visible" viewBox="0 0 1000 100">
                         <defs>
                             <linearGradient id="flow-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-                                <stop offset="0%" stopColor="#fbbf24" stopOpacity="0" />
-                                <stop offset="50%" stopColor="#fbbf24" stopOpacity="0.5" />
-                                <stop offset="100%" stopColor="#fbbf24" stopOpacity="0" />
+                                <stop offset="0%" stopColor="#ff0000" stopOpacity="0" />
+                                <stop offset="50%" stopColor="#ff0000" stopOpacity="0.5" />
+                                <stop offset="100%" stopColor="#ff0000" stopOpacity="0" />
                             </linearGradient>
                         </defs>
                         {isDebating && [...Array(3)].map((_, i) => (

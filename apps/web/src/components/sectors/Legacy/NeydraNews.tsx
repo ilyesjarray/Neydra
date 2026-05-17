@@ -8,14 +8,14 @@ export function NeydraNews() {
                 
         :root {
             --primary: #ff0000;
-            --primary-light: #ff3333;
-            --primary-dark: #990000;
-            --dim-red: #550000;
-            --dark-red: #220000;
+            --primary-light: #ff0000;
+            --primary-dark: #ff0000;
+            --dim-red: #ff0000;
+            --dark-red: #000000;
             --bg-solid: #000000;
-            --bg-panel: rgba(10, 0, 0, 0.92);
-            --text-main: #ffcccc;
-            --text-dim: #888888;
+            --bg-panel: rgba(0, 0, 0, 0.92);
+            --text-main: #ff0000;
+            --text-dim: #ff0000;
             --grid-line: rgba(255, 0, 0, 0.06);
         }
 
@@ -79,7 +79,7 @@ export function NeydraNews() {
             left: 0;
             bottom: 0;
             right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%),
+            background: linear-gradient(rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.15) 50%),
                 linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(255, 0, 0, 0.015), rgba(255, 0, 0, 0.03));
             z-index: 999;
             background-size: 100% 2px, 3px 100%;
@@ -237,7 +237,7 @@ export function NeydraNews() {
             text-align: center;
             padding: 4px 12px;
             border: 1px solid var(--dim-red);
-            background: rgba(20, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.8);
         }
 
         .stat-value {
@@ -354,20 +354,20 @@ export function NeydraNews() {
             gap: 10px;
             padding: 8px;
             margin-bottom: 4px;
-            background: rgba(30, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.5);
             border-right: 3px solid var(--dim-red);
             cursor: pointer;
             transition: all 0.2s;
         }
 
         .country-item:hover {
-            background: rgba(60, 0, 0, 0.5);
+            background: rgba(255, 0, 0, 0.5);
             border-right-color: var(--primary);
             transform: translateX(3px);
         }
 
         .country-item.selected {
-            background: rgba(100, 0, 0, 0.5);
+            background: rgba(255, 0, 0, 0.5);
             border-right-color: var(--primary);
         }
 
@@ -1036,7 +1036,7 @@ export function NeydraNews() {
 
         /* ===== BIG IMAGE NEWS CARDS ===== */
         .news-card {
-            background: rgba(20, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.6);
             border: 1px solid var(--dark-red);
             margin-bottom: 8px;
             cursor: pointer;
@@ -1060,11 +1060,11 @@ export function NeydraNews() {
 
             0%,
             100% {
-                background: rgba(50, 0, 0, 0.6);
+                background: rgba(255, 0, 0, 0.6);
             }
 
             50% {
-                background: rgba(80, 0, 0, 0.6);
+                background: rgba(255, 0, 0, 0.6);
             }
         }
 
@@ -1074,7 +1074,7 @@ export function NeydraNews() {
             object-fit: cover;
             display: block;
             border-bottom: 2px solid var(--dim-red);
-            background: #0a0000;
+            background: #000000;
         }
 
         .news-card-image.no-image {
@@ -1084,7 +1084,7 @@ export function NeydraNews() {
             font-family: 'Orbitron', sans-serif;
             font-size: 40px;
             color: var(--dim-red);
-            background: linear-gradient(135deg, #0a0000 0%, #1a0000 100%);
+            background: linear-gradient(135deg, #000000 0%, #000000 100%);
         }
 
         .news-card-body {
@@ -1171,7 +1171,7 @@ export function NeydraNews() {
 
         /* Legacy news items (kept for old mode) */
         .news-item {
-            background: rgba(20, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.6);
             border-right: 3px solid var(--dim-red);
             padding: 10px;
             margin-bottom: 6px;
@@ -1182,7 +1182,7 @@ export function NeydraNews() {
         }
 
         .news-item:hover {
-            background: rgba(40, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.6);
             border-right-color: var(--primary);
             transform: translateX(3px);
         }
@@ -1273,7 +1273,7 @@ export function NeydraNews() {
 
             50% {
                 box-shadow: 0 0 50px #ff0000, 0 0 90px rgba(255, 0, 0, 0.7), 0 0 140px rgba(255, 0, 0, 0.5);
-                border-color: #ff3333;
+                border-color: #ff0000;
             }
         }
 
@@ -1301,7 +1301,7 @@ export function NeydraNews() {
             }
 
             50% {
-                background: #cc0000;
+                background: #ff0000;
             }
         }
 
@@ -1420,14 +1420,14 @@ export function NeydraNews() {
             color: var(--dim-red);
             font-family: 'Share Tech Mono', monospace;
             font-size: 11px;
-            background: #050000;
+            background: #000000;
         }
 
         .tv-offline .tv-static {
             width: 40px;
             height: 40px;
             margin-bottom: 8px;
-            background: repeating-linear-gradient(0deg, #111 0px, #111 2px, #000 2px, #000 4px);
+            background: repeating-linear-gradient(0deg, #000000 0px, #000000 2px, #000 2px, #000 4px);
             animation: tv-static 0.1s steps(3) infinite;
         }
 
@@ -1571,8 +1571,8 @@ export function NeydraNews() {
         }
 
         button.secondary {
-            border-color: #444;
-            color: #444;
+            border-color: #ff0000;
+            color: #ff0000;
         }
 
         button.secondary:hover {
@@ -1712,7 +1712,7 @@ export function NeydraNews() {
         }
 
         .how-to-use-content pre {
-            background: #0a0000;
+            background: #000000;
             border: 1px solid var(--dim-red);
             padding: 12px;
             overflow-x: auto;
@@ -1742,10 +1742,10 @@ export function NeydraNews() {
 
         .cmd-box code {
             flex: 1;
-            background: #110000;
-            border: 1px solid #330000;
+            background: #000000;
+            border: 1px solid #ff0000;
             padding: 8px 12px;
-            color: #ff6666;
+            color: #ff0000;
             font-family: 'Share Tech Mono', monospace;
             font-size: 11px;
             display: block;
@@ -1789,13 +1789,13 @@ export function NeydraNews() {
         }
 
         .download-btn.secondary {
-            background: #333;
+            background: #ff0000;
             color: #fff;
-            border: 1px solid #555;
+            border: 1px solid #ff0000;
         }
 
         .download-btn.secondary:hover {
-            background: #555;
+            background: #ff0000;
             box-shadow: none;
             transform: none;
         }
@@ -1955,7 +1955,7 @@ export function NeydraNews() {
         }
 
         .connection-panel p {
-            color: #aaa;
+            color: #ff0000;
             font-size: 13px;
             margin-bottom: 20px;
             font-family: 'Share Tech Mono', monospace;
@@ -1974,7 +1974,7 @@ export function NeydraNews() {
         }
 
         .connection-panel input::placeholder {
-            color: #550000;
+            color: #ff0000;
         }
 
         /* News source status */
@@ -1999,7 +1999,7 @@ export function NeydraNews() {
         }
 
         .source-dot.offline {
-            background: #333;
+            background: #ff0000;
         }
 
         /* Mobile Specific Styles */
@@ -2065,7 +2065,7 @@ export function NeydraNews() {
                 z-index: 1500;
                 transform: translateX(100%);
                 transition: transform 0.3s ease;
-                background: rgba(5, 0, 0, 0.98);
+                background: rgba(0, 0, 0, 0.98);
                 box-shadow: -5px 0 20px rgba(0, 0, 0, 0.8);
                 padding-top: 10px;
             }
@@ -2241,7 +2241,7 @@ export function NeydraNews() {
             }
 
             .mobile-nav-footer .contact-info {
-                color: #ccc;
+                color: #ff0000;
                 font-size: 14px;
                 font-family: 'Share Tech Mono', monospace;
             }
@@ -2534,7 +2534,7 @@ export function NeydraNews() {
                     engine.</p>
                 <input type="text" id="url-input" placeholder="https://your-url.loca.lt" />
                 <button onClick={() => { try { eval(`initializeConnection()`); } catch(e){} }} style={{ "width": "100%", "padding": "15px" }}>CONNECT</button>
-                <p style={{ "marginTop": "15px", "fontSize": "11px", "color": "#666" }}>
+                <p style={{ "marginTop": "15px", "fontSize": "11px", "color": "#ff0000" }}>
                     Run <span style={{ "color": "var(--primary)" }}>npx localtunnel --port 8000</span> in your terminal to
                     generate a URL.
                 </p>

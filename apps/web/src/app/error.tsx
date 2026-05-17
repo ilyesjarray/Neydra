@@ -9,7 +9,7 @@ export default function GlobalError({
 }) {
     return (
         <html>
-            <body className="bg-[#050A1F] text-white flex items-center justify-center min-h-screen">
+            <body className="bg-[#000000] text-white flex items-center justify-center min-h-screen">
                 <div className="text-center space-y-4 p-10 max-w-lg">
                     <h2 className="text-4xl font-black italic text-white uppercase tracking-tighter mb-2">CRITICAL EMPIRE FAILURE</h2>
                     <div className="bg-red-600/10 border border-red-600/20 p-4 rounded-xl text-left mb-6">

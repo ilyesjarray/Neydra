@@ -8,11 +8,11 @@ export function NeydraPAE() {
                 
     :root {
       --primary: #ff0000;
-      --dim-red: #550000;
-      --dark-red: #220000;
+      --dim-red: #ff0000;
+      --dark-red: #000000;
       --bg-solid: #000000;
-      --bg-panel: rgba(10, 0, 0, 0.85);
-      --text-main: #ffcccc;
+      --bg-panel: rgba(0, 0, 0, 0.85);
+      --text-main: #ff0000;
       --font-ui: 'Rajdhani', sans-serif;
       --font-code: 'Share Tech Mono', monospace;
     }
@@ -101,7 +101,7 @@ export function NeydraPAE() {
     .desc {
       font-family: var(--font-code);
       font-size: 12px;
-      color: #aaa;
+      color: #ff0000;
       line-height: 1.6;
       margin: 0 0 14px 0;
     }
@@ -131,14 +131,14 @@ export function NeydraPAE() {
     }
     .btn:hover { background: var(--primary); color: #000; box-shadow: 0 0 20px var(--primary); }
     .btn.secondary {
-      border-color: #660000;
-      color: #ffcccc;
+      border-color: #ff0000;
+      color: #ff0000;
     }
-    .btn.secondary:hover { background: #660000; color: #fff; box-shadow: 0 0 20px rgba(102,0,0,.5); }
+    .btn.secondary:hover { background: #ff0000; color: #fff; box-shadow: 0 0 20px rgba(255, 0, 0,.5); }
     .foot {
       font-family: var(--font-code);
       font-size: 11px;
-      color: #666;
+      color: #ff0000;
       text-align: center;
       padding: 8px 0 0 0;
     }
@@ -179,7 +179,7 @@ export function NeydraPAE() {
         </div>
         <p className="desc">
           The original auto-dashboard workflow (LocalTunnel → external engine). Kept intact and moved to
-          <code style={{ "color": "#ff6666" }}>/welcome/pae/Auto</code>.
+          <code style={{ "color": "#ff0000" }}>/welcome/pae/Auto</code>.
         </p>
         <div className="btnrow">
           <a className="btn secondary" href="/welcome/pae/Auto">OPEN AUTO</a>

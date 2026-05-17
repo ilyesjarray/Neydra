@@ -60,7 +60,7 @@ export function NeydraPayment() {
       width: 100%;
       height: 100%;
       z-index: -1;
-      background: radial-gradient(circle at 50% 50%, #1a0000 0%, #000000 70%);
+      background: radial-gradient(circle at 50% 50%, #000000 0%, #000000 70%);
     }
 
     /* --- CONTAINER --- */
@@ -87,15 +87,15 @@ export function NeydraPayment() {
 
     .subtitle {
       font-size: 1rem;
-      color: #cccccc;
+      color: #ff0000;
       margin-bottom: 40px;
       font-weight: 300;
     }
 
     /* --- PLAN CARD --- */
     .plan-card {
-      background: rgba(20, 20, 20, 0.8);
-      border: 1px solid #333;
+      background: rgba(0, 0, 0, 0.8);
+      border: 1px solid #ff0000;
       border-radius: 12px;
       padding: 30px;
       backdrop-filter: blur(10px);
@@ -112,7 +112,7 @@ export function NeydraPayment() {
       left: 0;
       width: 100%;
       height: 4px;
-      background: linear-gradient(90deg, #ff0000, #ff6600);
+      background: linear-gradient(90deg, #ff0000, #ff0000);
     }
 
     .plan-title {
@@ -132,7 +132,7 @@ export function NeydraPayment() {
 
     .plan-subprice {
       font-size: 1rem;
-      color: #888;
+      color: #ff0000;
       margin-bottom: 20px;
     }
 
@@ -155,8 +155,8 @@ export function NeydraPayment() {
     input {
       width: 100%;
       padding: 15px;
-      background: #0a0a0a;
-      border: 1px solid #333;
+      background: #000000;
+      border: 1px solid #ff0000;
       border-radius: 8px;
       color: #fff;
       font-size: 1rem;
@@ -173,7 +173,7 @@ export function NeydraPayment() {
     .btn-unlock {
       width: 100%;
       padding: 18px;
-      background: linear-gradient(135deg, #cc0000, #ff0000);
+      background: linear-gradient(135deg, #ff0000, #ff0000);
       color: white;
       border: none;
       border-radius: 8px;
@@ -207,7 +207,7 @@ export function NeydraPayment() {
       transform: translateX(-50%);
       width: 90%;
       max-width: 500px;
-      background: rgba(20, 0, 0, 0.95);
+      background: rgba(0, 0, 0, 0.95);
       border: 1px solid #ff0000;
       color: white;
       padding: 20px;
@@ -239,14 +239,14 @@ export function NeydraPayment() {
     .notification-content p {
       font-size: 0.85rem;
       line-height: 1.4;
-      color: #ddd;
+      color: #ff0000;
     }
 
     /* --- BACK BUTTON --- */
     .back-link {
       display: inline-block;
       margin-top: 20px;
-      color: #666;
+      color: #ff0000;
       text-decoration: none;
       font-size: 0.9rem;
       transition: color 0.3s;
@@ -290,7 +290,7 @@ export function NeydraPayment() {
 
     {/* Replace the old Form with this Container */}
     <div id="helio-container" style={{ "textAlign": "center" }}>
-      <p style={{ "marginBottom": "20px", "color": "#aaa" }}>Click below to launch secure payment .</p>
+      <p style={{ "marginBottom": "20px", "color": "#ff0000" }}>Click below to launch secure payment .</p>
       <button id="payWithHelio" className="btn-unlock">Proceed to Payment</button>
     </div>
 

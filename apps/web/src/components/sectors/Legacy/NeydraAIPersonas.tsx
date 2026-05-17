@@ -50,7 +50,7 @@ export function NeydraAIPersonas() {
       transform: translateY(60px) scale(.85);
       transition: transform .6s cubic-bezier(.22, 1, .36, 1), filter .4s ease;
       aspect-ratio: 3/4.2;
-      background: #080808;
+      background: #000000;
       z-index: 1;
     }
     .model-card.revealed {
@@ -182,7 +182,7 @@ export function NeydraAIPersonas() {
       position: absolute;
       inset: 0;
       border-radius: 20px;
-      background: #080808;
+      background: #000000;
       z-index: 1;
     }
     @property --angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
@@ -221,7 +221,7 @@ export function NeydraAIPersonas() {
     }
 
     .card-high .rank-number {
-      color: rgba(255,40,40,.9);
+      color: rgba(255, 0, 0,.9);
       text-shadow: 0 0 25px rgba(255,0,0,.6), 0 0 50px rgba(255,0,0,.3);
       animation: rankPulse 2s ease-in-out infinite;
     }
@@ -232,7 +232,7 @@ export function NeydraAIPersonas() {
 
     .card-high .tier-badge {
       background: rgba(255,0,0,.12);
-      color: #ff3333;
+      color: #ff0000;
       border: 1px solid rgba(255,0,0,.4);
       box-shadow: 0 0 15px rgba(255,0,0,.2), inset 0 0 8px rgba(255,0,0,.1);
       animation: badgePulse 2.5s ease-in-out infinite;
@@ -258,7 +258,7 @@ export function NeydraAIPersonas() {
       position: absolute;
       inset: 0;
       border-radius: 20px;
-      background: #080808;
+      background: #000000;
       z-index: 1;
     }
 

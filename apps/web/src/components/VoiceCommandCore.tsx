@@ -84,7 +84,7 @@ export function VoiceCommandCore() {
             <motion.button
                 onClick={() => setIsListening(!isListening)}
                 className={`w-14 h-14 rounded-full flex items-center justify-center shadow-2xl transition-all ${isListening
-                    ? 'bg-red-500 text-white shadow-[0_0_30px_rgba(239,68,68,0.5)]'
+                    ? 'bg-red-500 text-white shadow-[0_0_30px_rgba(255, 0, 0,0.5)]'
                     : 'bg-white/10 backdrop-blur-xl text-white/60 hover:bg-white/20'
                     }`}
                 whileHover={{ scale: 1.1 }}

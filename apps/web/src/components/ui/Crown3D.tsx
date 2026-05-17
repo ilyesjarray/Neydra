@@ -20,7 +20,7 @@ function CrownMesh() {
             {/* Base Ring */}
             <mesh position={[0, -0.5, 0]}>
                 <torusGeometry args={[1, 0.1, 16, 100]} />
-                <meshStandardMaterial color="#fbbf24" metalness={1} roughness={0.1} />
+                <meshStandardMaterial color="#ff0000" metalness={1} roughness={0.1} />
             </mesh>
 
             {/* Spikes */}
@@ -31,7 +31,7 @@ function CrownMesh() {
                     Math.sin(THREE.MathUtils.degToRad(angle)) * 0.9
                 ]}>
                     <coneGeometry args={[0.2, 1.2, 4]} />
-                    <meshStandardMaterial color="#fbbf24" metalness={1} roughness={i % 2 === 0 ? 0.1 : 0.3} />
+                    <meshStandardMaterial color="#ff0000" metalness={1} roughness={i % 2 === 0 ? 0.1 : 0.3} />
                 </mesh>
             ))}
 
@@ -39,8 +39,8 @@ function CrownMesh() {
             <mesh position={[0, 0, 0]}>
                 <octahedronGeometry args={[0.4]} />
                 <MeshDistortMaterial
-                    color="#fbbf24"
-                    emissive="#fbbf24"
+                    color="#ff0000"
+                    emissive="#ff0000"
                     emissiveIntensity={0.5}
                     distort={0.3}
                     speed={2}
@@ -64,7 +64,7 @@ export default function Crown3D() {
             <Canvas>
                 <PerspectiveCamera makeDefault position={[0, 0, 5]} />
                 <ambientLight intensity={0.5} />
-                <pointLight position={[10, 10, 10]} intensity={1} color="#fbbf24" />
+                <pointLight position={[10, 10, 10]} intensity={1} color="#ff0000" />
                 <CrownMesh />
             </Canvas>
         </div>

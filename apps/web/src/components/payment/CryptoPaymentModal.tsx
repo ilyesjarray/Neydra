@@ -112,7 +112,7 @@ export function CryptoPaymentModal({ isOpen, onClose, tier, price }: CryptoPayme
                                                 <span className="text-red-500/60 text-[7px] italic">Automated_Clearing</span>
                                             </div>
                                             <div className="relative group">
-                                                <div className="w-full bg-white/[0.02] border border-white/5 p-5 font-mono text-[11px] text-white/80 break-all pr-14 group-hover:border-neydra-blue/20 transition-all rounded-none">
+                                                <div className="w-full bg-white/[0.02] border border-white/5 p-5 font-mono text-[11px] text-white/80 break-all pr-14 group-hover:border-red-500/20 transition-all rounded-none">
                                                     {WALLETS.USDT}
                                                 </div>
                                                 <button

@@ -137,7 +137,7 @@ export function NeuralExecutive() {
                             className={`flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'}`}
                         >
                             <div className={`p-6 rounded-xl max-w-[85%] border transition-all ${msg.role === 'user'
-                                    ? 'bg-red-600/10 border-neydra-blue/30 text-red-500'
+                                    ? 'bg-red-600/10 border-red-500/30 text-red-500'
                                     : 'bg-black border-red-500/10 text-red-500 shadow-2xl'
                                 }`}>
                                 <div className="flex items-center gap-3 mb-4 opacity-40">

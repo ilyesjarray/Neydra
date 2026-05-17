@@ -21,7 +21,7 @@ export const SECTOR_THEMES: Record<string, SectorTheme> = {
         name: 'The Vault',
         icon: Shield,
         color: '#ff0000',
-        secondaryColor: '#A68245',
+        secondaryColor: '#ff0000',
         atmosphere: 'cyber',
         accentGlow: 'rgba(255, 0, 0, 0.2)'
     },
@@ -30,7 +30,7 @@ export const SECTOR_THEMES: Record<string, SectorTheme> = {
         name: 'Global Command',
         icon: Globe,
         color: '#ff0000',
-        secondaryColor: '#A68245',
+        secondaryColor: '#ff0000',
         atmosphere: 'void',
         accentGlow: 'rgba(255, 0, 0, 0.2)'
     },
@@ -38,17 +38,17 @@ export const SECTOR_THEMES: Record<string, SectorTheme> = {
         id: 'nexus',
         name: 'Neural Nexus',
         icon: Brain,
-        color: '#0074D9',
-        secondaryColor: '#3DA663',
+        color: '#ff0000',
+        secondaryColor: '#ff0000',
         atmosphere: 'cyber',
-        accentGlow: 'rgba(80, 200, 120, 0.2)'
+        accentGlow: 'rgba(255, 0, 0, 0.2)'
     },
     bio: {
         id: 'bio',
         name: 'Bio-Sentinel',
         icon: Heart,
         color: '#ff0000',
-        secondaryColor: '#A68245',
+        secondaryColor: '#ff0000',
         atmosphere: 'organic',
         accentGlow: 'rgba(255, 0, 0, 0.2)'
     },
@@ -57,7 +57,7 @@ export const SECTOR_THEMES: Record<string, SectorTheme> = {
         name: 'Imperial Projects',
         icon: Landmark,
         color: '#ff0000',
-        secondaryColor: '#A68245',
+        secondaryColor: '#ff0000',
         atmosphere: 'royal',
         accentGlow: 'rgba(255, 0, 0, 0.2)'
     },
@@ -66,7 +66,7 @@ export const SECTOR_THEMES: Record<string, SectorTheme> = {
         name: 'High Council',
         icon: Gavel,
         color: '#ff0000',
-        secondaryColor: '#A68245',
+        secondaryColor: '#ff0000',
         atmosphere: 'royal',
         accentGlow: 'rgba(255, 0, 0, 0.2)'
     },
@@ -74,17 +74,17 @@ export const SECTOR_THEMES: Record<string, SectorTheme> = {
         id: 'shadow',
         name: 'Shadow Sentinel',
         icon: Ghost,
-        color: '#E05252',
-        secondaryColor: '#B91C1C',
+        color: '#ff0000',
+        secondaryColor: '#ff0000',
         atmosphere: 'void',
-        accentGlow: 'rgba(224, 82, 82, 0.2)'
+        accentGlow: 'rgba(255, 0, 0, 0.2)'
     },
     fleet: {
         id: 'fleet',
         name: 'The Fleet',
         icon: Ship,
         color: '#ff0000',
-        secondaryColor: '#A68245',
+        secondaryColor: '#ff0000',
         atmosphere: 'industrial',
         accentGlow: 'rgba(255, 0, 0, 0.2)'
     },
@@ -93,7 +93,7 @@ export const SECTOR_THEMES: Record<string, SectorTheme> = {
         name: 'The Mint',
         icon: Coins,
         color: '#ff0000',
-        secondaryColor: '#A68245',
+        secondaryColor: '#ff0000',
         atmosphere: 'royal',
         accentGlow: 'rgba(255, 0, 0, 0.2)'
     },
@@ -102,7 +102,7 @@ export const SECTOR_THEMES: Record<string, SectorTheme> = {
         name: 'The Citadel',
         icon: Castle,
         color: '#ff0000',
-        secondaryColor: '#A68245',
+        secondaryColor: '#ff0000',
         atmosphere: 'industrial',
         accentGlow: 'rgba(255, 0, 0, 0.2)'
     },
@@ -110,17 +110,17 @@ export const SECTOR_THEMES: Record<string, SectorTheme> = {
         id: 'academy',
         name: 'The Academy',
         icon: GraduationCap,
-        color: '#0074D9',
-        secondaryColor: '#3DA663',
+        color: '#ff0000',
+        secondaryColor: '#ff0000',
         atmosphere: 'royal',
-        accentGlow: 'rgba(80, 200, 120, 0.2)'
+        accentGlow: 'rgba(255, 0, 0, 0.2)'
     },
     forge: {
         id: 'forge',
         name: 'The Forge',
         icon: Hammer,
         color: '#ff0000',
-        secondaryColor: '#A68245',
+        secondaryColor: '#ff0000',
         atmosphere: 'industrial',
         accentGlow: 'rgba(255, 0, 0, 0.2)'
     },
@@ -128,26 +128,26 @@ export const SECTOR_THEMES: Record<string, SectorTheme> = {
         id: 'observatory',
         name: 'The Observatory',
         icon: Telescope,
-        color: '#0074D9',
-        secondaryColor: '#3DA663',
+        color: '#ff0000',
+        secondaryColor: '#ff0000',
         atmosphere: 'void',
-        accentGlow: 'rgba(80, 200, 120, 0.2)'
+        accentGlow: 'rgba(255, 0, 0, 0.2)'
     },
     greenhouse: {
         id: 'greenhouse',
         name: 'The Greenhouse',
         icon: Sprout,
-        color: '#0074D9',
-        secondaryColor: '#3DA663',
+        color: '#ff0000',
+        secondaryColor: '#ff0000',
         atmosphere: 'organic',
-        accentGlow: 'rgba(80, 200, 120, 0.2)'
+        accentGlow: 'rgba(255, 0, 0, 0.2)'
     },
     agora: {
         id: 'agora',
         name: 'The Agora',
         icon: Users,
         color: '#ff0000',
-        secondaryColor: '#A68245',
+        secondaryColor: '#ff0000',
         atmosphere: 'organic',
         accentGlow: 'rgba(255, 0, 0, 0.2)'
     }

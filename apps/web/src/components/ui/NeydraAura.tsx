@@ -10,10 +10,10 @@ export function NeydraAura() {
         setMounted(true);
     }, []);
 
-    if (!mounted) return <div className="fixed inset-0 bg-[#0A0C12] -z-50" />;
+    if (!mounted) return <div className="fixed inset-0 bg-[#000000] -z-50" />;
 
     return (
-        <div className="fixed inset-0 -z-50 overflow-hidden bg-[#0A0C12]">
+        <div className="fixed inset-0 -z-50 overflow-hidden bg-[#000000]">
             {/* Base Liquid Layer */}
             <div className="absolute inset-0 liquid-aura opacity-40" />
 
@@ -29,7 +29,7 @@ export function NeydraAura() {
                     repeat: Infinity,
                     ease: "easeInOut"
                 }}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-[#00F5FF]/10 blur-[180px] rounded-full"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-[#ff0000]/10 blur-[180px] rounded-full"
             />
 
             {/* Deep Slate Pulse */}
@@ -55,7 +55,7 @@ export function NeydraAura() {
             />
 
             {/* Radial Vignette (Focus Anchor) */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(10,12,18,0.9)_100%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0, 0, 0,0.9)_100%)]" />
         </div>
     );
 }

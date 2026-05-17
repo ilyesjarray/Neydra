@@ -52,7 +52,7 @@ function ProductionAlertWrapper({ children, sectorName, moduleId }: { children: 
                             initial={{ y: -20, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             exit={{ y: -20, opacity: 0 }}
-                            className="bg-[#111] border border-red-600/30 rounded-2xl p-6 max-w-md w-full shadow-2xl shadow-red-600/5"
+                            className="bg-[#000000] border border-red-600/30 rounded-2xl p-6 max-w-md w-full shadow-2xl shadow-red-600/5"
                         >
                             <div className="flex items-center gap-4 mb-4">
                                 <div className="w-12 h-12 rounded-xl bg-red-600/10 border border-red-600/20 flex items-center justify-center shrink-0">

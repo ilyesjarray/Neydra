@@ -13,14 +13,14 @@ export function NeydraNLP() {
         :root {
             --primary: #ff0000;
             /* BLOOD RED */
-            --dim-red: #550000;
+            --dim-red: #ff0000;
             /* DRIED BLOOD */
-            --dark-red: #220000;
+            --dark-red: #000000;
             /* DARKNESS */
             --bg-solid: #000000;
             /* VOID */
-            --bg-panel: rgba(10, 0, 0, 0.85);
-            --text-main: #ffcccc;
+            --bg-panel: rgba(0, 0, 0, 0.85);
+            --text-main: #ff0000;
             --scan-line: rgba(255, 0, 0, 0.05);
             --grid-line: rgba(255, 0, 0, 0.1);
 
@@ -74,7 +74,7 @@ export function NeydraNLP() {
             left: 0;
             bottom: 0;
             right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+            background: linear-gradient(rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
                 linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(255, 0, 0, 0.02), rgba(255, 0, 0, 0.06));
             z-index: 999;
             background-size: 100% 2px, 3px 100%;
@@ -224,7 +224,7 @@ export function NeydraNLP() {
             font-size: 18px;
             letter-spacing: 4px;
             margin-top: 10px;
-            color: #888;
+            color: #ff0000;
             text-transform: uppercase;
             z-index: 2;
         }
@@ -233,7 +233,7 @@ export function NeydraNLP() {
         .news-feed-container {
             flex: 1.5;
             /* Give more space to news */
-            background: rgba(20, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.9);
             border: 1px solid var(--dark-red);
             overflow-y: auto;
             padding: 10px;
@@ -249,7 +249,7 @@ export function NeydraNLP() {
         }
 
         .metric-card {
-            background: rgba(20, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.9);
             border-left: 4px solid var(--dim-red);
             padding: 15px;
             display: flex;
@@ -259,7 +259,7 @@ export function NeydraNLP() {
         }
 
         .m-label {
-            color: #888;
+            color: #ff0000;
             font-size: 10px;
             letter-spacing: 2px;
             margin-bottom: 5px;
@@ -291,13 +291,13 @@ export function NeydraNLP() {
         }
 
         .terminal {
-            background: #020000;
+            background: #000000;
             border: 1px solid var(--primary);
             padding: 10px;
             font-family: var(--font-code);
             font-size: 12px;
             overflow-y: auto;
-            color: #aaa;
+            color: #ff0000;
             box-shadow: inset 0 0 20px #000;
         }
 
@@ -425,13 +425,13 @@ export function NeydraNLP() {
         .news-meta {
             display: flex;
             justify-content: space-between;
-            color: #666;
+            color: #ff0000;
             font-family: var(--font-code);
             margin-bottom: 4px;
         }
 
         .news-title {
-            color: #ccc;
+            color: #ff0000;
             line-height: 1.4;
         }
 
@@ -455,7 +455,7 @@ export function NeydraNLP() {
         /* Keyword Tags */
         .kw-tag {
             display: inline-block;
-            background: #220000;
+            background: #000000;
             border: 1px solid var(--primary);
             padding: 2px 6px;
             margin: 2px;
@@ -467,7 +467,7 @@ export function NeydraNLP() {
         .vol-alert {
             margin-top: 10px;
             padding: 8px;
-            border-left: 3px solid #444;
+            border-left: 3px solid #ff0000;
             font-size: 10px;
             text-align: left;
             font-family: var(--font-code);
@@ -697,10 +697,10 @@ export function NeydraNLP() {
 
         .cmd-box code {
             flex: 1;
-            background: #110000;
-            border: 1px solid #330000;
+            background: #000000;
+            border: 1px solid #ff0000;
             padding: 8px 12px;
-            color: #ff6666;
+            color: #ff0000;
             display: block;
         }
 
@@ -740,7 +740,7 @@ export function NeydraNLP() {
         }
 
         .connection-panel p {
-            color: #aaa;
+            color: #ff0000;
             font-size: 13px;
             margin-bottom: 20px;
             font-family: var(--font-code);
@@ -759,7 +759,7 @@ export function NeydraNLP() {
         }
 
         .connection-panel input::placeholder {
-            color: #550000;
+            color: #ff0000;
         }
 
         ::-webkit-scrollbar {
@@ -806,7 +806,7 @@ export function NeydraNLP() {
                 <input type="text" id="url-input" placeholder="https://your-url.loca.lt" />
                 <button onClick={() => { try { eval(`initializeConnection()`); } catch(e){} }}
                     style={{ "width": "100%", "padding": "15px", "fontSize": "16px" }}>CONNECT</button>
-                <p style={{ "marginTop": "15px", "fontSize": "11px", "color": "#666" }}>
+                <p style={{ "marginTop": "15px", "fontSize": "11px", "color": "#ff0000" }}>
                     Run <span style={{ "color": "var(--primary)" }}>npx localtunnel --port 8000</span> in your terminal to
                     generate a URL.
                 </p>
@@ -882,7 +882,7 @@ export function NeydraNLP() {
                         <br /><br />Click below to find your IP, then paste it into the tunnel page.
                         <div style={{ "marginTop": "8px" }}>
                             <a href="https://www.whatismyip.com/" target="_blank" className="btn-download"
-                                style={{ "padding": "10px 20px", "fontSize": "12px", "background": "#660000" }}>
+                                style={{ "padding": "10px 20px", "fontSize": "12px", "background": "#ff0000" }}>
                                 🔍 FIND MY IP ADDRESS
                             </a>
                         </div>
@@ -954,7 +954,7 @@ export function NeydraNLP() {
             {/* Sentiment Meter (Replaces Chart) */}
             <div className="sentiment-container panel">
                 <div className="overlay-text">
-                    <div style={{ "fontSize": "14px", "color": "#888" }}>GLOBAL SENTIMENT</div>
+                    <div style={{ "fontSize": "14px", "color": "#ff0000" }}>GLOBAL SENTIMENT</div>
                 </div>
                 <div className="big-price" id="sentimentScore">0</div>
                 <div className="regime-display" id="marketRegime">ANALYZING...</div>
@@ -994,7 +994,7 @@ export function NeydraNLP() {
             </div>
             <div className="controls">
                 <button id="btn-start" onClick={() => { try { eval(`toggleEngine()`); } catch(e){} }}>ACTIVATE</button>
-                <button id="btn-kill" onClick={() => { try { eval(`killSwitch()`); } catch(e){} }} style={{ "borderColor": "#555", "color": "#555" }}>KILL</button>
+                <button id="btn-kill" onClick={() => { try { eval(`killSwitch()`); } catch(e){} }} style={{ "borderColor": "#ff0000", "color": "#ff0000" }}>KILL</button>
             </div>
         </div>
     </div>
@@ -1158,8 +1158,8 @@ export function NeydraNLP() {
                     elSentiment.style.textShadow = "none";
                     elRegime.style.color = "var(--dim-red)";
                 } else {
-                    elSentiment.style.color = "#888";
-                    elRegime.style.color = "#888";
+                    elSentiment.style.color = "#ff0000";
+                    elRegime.style.color = "#ff0000";
                 }
 
                 // 2. UPDATE NEWS FEED (Center Bottom)

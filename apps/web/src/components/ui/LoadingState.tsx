@@ -105,7 +105,7 @@ function ChartSkeleton() {
                 {[60, 80, 45, 90, 70, 85, 55, 75].map((height, i) => (
                     <motion.div
                         key={i}
-                        className="flex-1 bg-gradient-to-t from-neydra-accent-cyan/20 to-neydra-accent-cyan/5 rounded-t"
+                        className="flex-1 bg-gradient-to-t from-neydra-accent/20 to-neydra-accent/5 rounded-t"
                         style={{ height: `${height}%` }}
                         initial={{ scaleY: 0 }}
                         animate={{ scaleY: 1 }}

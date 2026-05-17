@@ -25,7 +25,7 @@ export function WalletConnect() {
          flex items-center gap-2 px-4 py-2 rounded-lg border transition-all duration-300 font-mono text-xs font-bold
          ${status === 'connected'
                     ? 'bg-neydra-accent-emerald/10 border-neydra-accent-emerald/30 text-neydra-accent-emerald'
-                    : 'bg-white/5 border-white/10 text-white hover:bg-white/10 hover:border-neydra-accent-cyan/50 hover:text-neydra-accent-cyan'
+                    : 'bg-white/5 border-white/10 text-white hover:bg-white/10 hover:border-neydra-accent/50 hover:text-neydra-accent'
                 }
       `}
         >

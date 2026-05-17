@@ -113,10 +113,10 @@ export function IntroScene({ onComplete }: { onComplete?: () => void }) {
                             onClick={handleManualPlay}
                             className="group flex flex-col items-center justify-center gap-6 p-8"
                         >
-                            <div className="w-24 h-24 rounded-full border-2 border-[#00c3ff]/30 flex items-center justify-center group-hover:scale-110 group-active:scale-95 transition-all shadow-[0_0_30px_rgba(0,195,255,0.2)]">
-                                <Fingerprint className="w-12 h-12 text-[#00c3ff] animate-pulse" />
+                            <div className="w-24 h-24 rounded-full border-2 border-[#ff0000]/30 flex items-center justify-center group-hover:scale-110 group-active:scale-95 transition-all shadow-[0_0_30px_rgba(255, 0, 0,0.2)]">
+                                <Fingerprint className="w-12 h-12 text-[#ff0000] animate-pulse" />
                             </div>
-                            <span className="text-[#00c3ff] font-mono tracking-[0.5em] text-sm uppercase">Tap to Initialize</span>
+                            <span className="text-[#ff0000] font-mono tracking-[0.5em] text-sm uppercase">Tap to Initialize</span>
                         </button>
                     </motion.div>
                 )}

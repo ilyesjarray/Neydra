@@ -26,8 +26,8 @@ export function AssetAllocationChart() {
     const othersPct = 100 - btcPct - ethPct;
 
     const data = [
-        { name: 'Bitcoin', value: btcPct, color: '#f7931a' },
-        { name: 'Ethereum', value: ethPct, color: '#627eea' },
+        { name: 'Bitcoin', value: btcPct, color: '#ff0000' },
+        { name: 'Ethereum', value: ethPct, color: '#ff0000' },
         { name: 'Altcoins', value: othersPct, color: '#ff0000' },
     ];
 

@@ -32,7 +32,7 @@ export function ImperialButton({
         secondary: "bg-black border border-red-500/20 text-red-500/60 hover:bg-red-600/5 hover:border-red-500/40 hover:text-red-500",
         danger: "bg-black border border-red-600/50 text-red-600 hover:bg-red-600/10 hover:border-red-500 shadow-glow-red",
         ghost: "bg-transparent border border-transparent text-red-500/60 hover:text-red-500",
-        emerald: "bg-black text-red-500 hover:bg-red-600/5 border border-neydra-blue/50 shadow-glow-emerald"
+        emerald: "bg-black text-red-500 hover:bg-red-600/5 border border-red-500/50 shadow-glow-emerald"
     };
 
     const sizes = {

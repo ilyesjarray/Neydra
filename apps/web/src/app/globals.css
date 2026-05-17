@@ -9,7 +9,7 @@
 :root {
   --neydra-bg: #000000;
   --neydra-accent: #FF0000;
-  --neydra-violet: #880000;
+  --neydra-violet: #ff0000;
   --neydra-glass: rgba(255, 0, 0, 0.05);
   --neydra-border: rgba(255, 0, 0, 0.4);
   --neydra-text: #FFFFFF;
@@ -17,9 +17,9 @@
   /* Neydra legacy palette */
   --primary-color: #000000;
   --secondary-color: #ff0000;
-  --secondary-color-dark: #880000;
+  --secondary-color-dark: #ff0000;
   --text-dark: #000000;
-  --text-light: #8b0000;
+  --text-light: #ff0000;
   --white: #ffffff;
   --primary-cyan: #ff0000;
   --primary-pink: #ff0000;
@@ -43,7 +43,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+    background: linear-gradient(rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
                 linear-gradient(90deg, rgba(255, 0, 0, 0.01), rgba(255, 0, 0, 0.005), rgba(255, 0, 0, 0.01));
     background-size: 100% 4px, 3px 100%;
     pointer-events: none;
@@ -70,7 +70,7 @@
   }
 
   .shadow-neon-violet {
-    box-shadow: 0 0 20px rgba(136, 0, 0, 0.2);
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
   }
 
   .custom-scrollbar::-webkit-scrollbar {
