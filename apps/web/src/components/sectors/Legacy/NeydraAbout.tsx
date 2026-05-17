@@ -42,6 +42,9 @@ export function NeydraAbout() {
       <p>Welcome to NEYDRA – Where Imagination Becomes Reality. We are dedicated to breaking limits and reshaping
         reality itself<br /><br />
         <strong> The Founder : </strong> ILYES JARRAY.
+      </p>
+    </div>
+  </header>
   <div className="elfsight-app-f0694651-f050-4245-909a-6b38d447d146" data-elfsight-app-lazy></div>
 
   <footer>
