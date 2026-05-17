@@ -18,6 +18,12 @@ const NeydraPAE = dynamic(() => import('@/components/sectors/Legacy/NeydraPAE').
 const NeydraAIL = dynamic(() => import('@/components/sectors/Legacy/NeydraAIL').then(mod => mod.NeydraAIL));
 const NeydraNLP = dynamic(() => import('@/components/sectors/Legacy/NeydraNLP').then(mod => mod.NeydraNLP));
 const NeydraAbout = dynamic(() => import('@/components/sectors/Legacy/NeydraAbout').then(mod => mod.NeydraAbout));
+const NeydraAIPersonas = dynamic(() => import('@/components/sectors/Legacy/NeydraAIPersonas').then(mod => mod.NeydraAIPersonas));
+const NeydraAccount = dynamic(() => import('@/components/sectors/Legacy/NeydraAccount').then(mod => mod.NeydraAccount));
+const NeydraNexhub = dynamic(() => import('@/components/sectors/Legacy/NeydraNexhub').then(mod => mod.NeydraNexhub));
+const NeydraP2P = dynamic(() => import('@/components/sectors/Legacy/NeydraP2P').then(mod => mod.NeydraP2P));
+const NeydraPayment = dynamic(() => import('@/components/sectors/Legacy/NeydraPayment').then(mod => mod.NeydraPayment));
+const NeydraShop = dynamic(() => import('@/components/sectors/Legacy/NeydraShop').then(mod => mod.NeydraShop));
 
 import { useState, useEffect } from 'react';
 import { AlertTriangle, X } from 'lucide-react';
@@ -114,6 +120,18 @@ export function ModuleRenderer({ moduleId }: ModuleRendererProps) {
             return <NeydraAIL />;
         case 'neydra-nlp':
             return <NeydraNLP />;
+        case 'ai-personas':
+            return <NeydraAIPersonas />;
+        case 'neydra-account':
+            return <NeydraAccount />;
+        case 'neydra-nexhub':
+            return <NeydraNexhub />;
+        case 'neydra-p2p':
+            return <NeydraP2P />;
+        case 'neydra-payment':
+            return <NeydraPayment />;
+        case 'neydra-shop':
+            return <NeydraShop />;
 
         default:
             return (

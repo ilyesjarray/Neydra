@@ -210,7 +210,7 @@ function NeydraOS() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1 }}
-            className="min-h-screen bg-carbon-black text-hyper-cyan font-sans relative flex flex-col p-6 landscape-optimized-p selection:bg-hyper-cyan/20 selection:text-white"
+            className="min-h-screen bg-carbon-black text-neydra-accent font-sans relative flex flex-col p-6 landscape-optimized-p selection:bg-neydra-accent/20 selection:text-white"
         >
 
             {/* Scanline Effect */}
@@ -228,11 +228,11 @@ function NeydraOS() {
                                 transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
                                 className="relative w-32 h-32 mx-auto"
                             >
-                                <Fingerprint size={128} className="text-hyper-cyan opacity-20" />
-                                <div className="absolute inset-0 border-t-2 border-hyper-cyan rounded-full shadow-neon-cyan animate-pulse" />
+                                <Fingerprint size={128} className="text-neydra-accent opacity-20" />
+                                <div className="absolute inset-0 border-t-2 border-neydra-accent rounded-full shadow-neon-cyan animate-pulse" />
                             </motion.div>
                             <div className="space-y-2">
-                                <h2 className="text-hyper-cyan font-black tracking-[0.8em] uppercase text-sm italic">NEYDRA_PROTOCOL</h2>
+                                <h2 className="text-neydra-accent font-black tracking-[0.8em] uppercase text-sm italic">NEYDRA_PROTOCOL</h2>
                                 <p className="text-white/20 font-mono text-[10px] uppercase tracking-widest">Architecting Supreme Digital Governance</p>
                             </div>
                         </div>
@@ -249,10 +249,10 @@ function NeydraOS() {
                     </div>
                     <div>
                         <h1 className="text-2xl font-black tracking-tighter uppercase italic text-white flex gap-2">
-                            NEYDRA <span className="text-hyper-cyan">OS</span>
+                            NEYDRA <span className="text-neydra-accent">OS</span>
                         </h1>
                         <div className="flex items-center gap-3 text-[9px] font-black uppercase tracking-widest font-mono text-white/30">
-                            <span className="flex items-center gap-1"><Shield size={10} className="text-hyper-cyan" /> ELITE_CLEARANCE</span>
+                            <span className="flex items-center gap-1"><Shield size={10} className="text-neydra-accent" /> ELITE_CLEARANCE</span>
                             <span className="w-1 h-1 rounded-full bg-white/10" />
                             <span>NODE_0X8F_CYBER</span>
                         </div>
@@ -264,8 +264,8 @@ function NeydraOS() {
                     <div className="flex flex-col items-end">
                         <span className="text-[9px] text-white/20 uppercase font-black tracking-widest font-mono">NEURAL_LOAD</span>
                         <div className="flex items-center gap-3">
-                            <span className="text-sm font-black text-hyper-cyan italic">OPTIMIZED</span>
-                            <Activity size={16} className="text-hyper-cyan animate-pulse" />
+                            <span className="text-sm font-black text-neydra-accent italic">OPTIMIZED</span>
+                            <Activity size={16} className="text-neydra-accent animate-pulse" />
                         </div>
                     </div>
                     <div className="w-px h-10 bg-white/5" />
@@ -280,12 +280,12 @@ function NeydraOS() {
                         <div className="flex flex-col gap-4 px-2">
                             <span className="text-[10px] font-black text-white/20 uppercase tracking-[0.4em] font-mono">Neydra_Sectors</span>
                             <div className="relative group">
-                                <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-hyper-cyan transition-colors" />
+                                <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-neydra-accent transition-colors" />
                                 <input
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                     placeholder="FIND_SECTOR..."
-                                    className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-2 pl-10 pr-4 text-[9px] font-bold text-white placeholder:text-white/10 outline-none focus:border-hyper-cyan/40 transition-all uppercase italic"
+                                    className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-2 pl-10 pr-4 text-[9px] font-bold text-white placeholder:text-white/10 outline-none focus:border-neydra-accent/40 transition-all uppercase italic"
                                 />
                             </div>
                         </div>
@@ -295,7 +295,7 @@ function NeydraOS() {
                                 <div key={dir.name} className="space-y-3">
                                     <div className="flex items-center gap-3 px-2">
                                         <div className="h-px flex-1 bg-white/5" />
-                                        <span className="text-[8px] font-black text-hyper-cyan opacity-40 uppercase tracking-[0.3em] font-mono whitespace-nowrap">
+                                        <span className="text-[8px] font-black text-neydra-accent opacity-40 uppercase tracking-[0.3em] font-mono whitespace-nowrap">
                                             {dir.label}
                                         </span>
                                         <div className="h-px w-4 bg-white/5" />
@@ -308,7 +308,7 @@ function NeydraOS() {
                                                 className={cn(
                                                     "w-full p-3 rounded-2xl flex items-center gap-4 transition-all duration-500 border group",
                                                     currentSector === s.id
-                                                        ? "bg-hyper-cyan/10 border-hyper-cyan/30 text-white"
+                                                        ? "bg-neydra-accent/10 border-neydra-accent/30 text-white"
                                                         : "bg-white/[0.01] border-transparent text-white/30 hover:bg-white/[0.03] hover:border-white/10"
                                                 )}
                                             >
@@ -323,7 +323,7 @@ function NeydraOS() {
                                                     )}
                                                 </div>
                                                 <div className="flex-1 text-left hidden md:block overflow-hidden">
-                                                    <div className="text-[10px] font-black tracking-tighter uppercase italic group-hover:text-hyper-cyan transition-colors truncate">{s.label}</div>
+                                                    <div className="text-[10px] font-black tracking-tighter uppercase italic group-hover:text-neydra-accent transition-colors truncate">{s.label}</div>
                                                     <div className="text-[7px] font-bold opacity-30 font-mono tracking-widest uppercase mt-0.5">
                                                         {['market-oracle', 'neydra-social', 'neydra-vault'].includes(s.id) ? 'READY' : 'BUILDING'}
                                                     </div>
@@ -341,14 +341,14 @@ function NeydraOS() {
                     <div className="flex-1 glass-v-series rounded-3xl p-8 flex flex-col gap-6 border border-white/5 bg-white/[0.01] overflow-hidden">
                         <div className="flex items-center justify-between font-mono">
                             <span className="text-[10px] font-black text-white/20 uppercase tracking-[0.3em]">Command_Feedback</span>
-                            <Radar size={16} className="text-hyper-cyan animate-spin-slow opacity-40" />
+                            <Radar size={16} className="text-neydra-accent animate-spin-slow opacity-40" />
                         </div>
                         <div ref={terminalRef} className="flex-1 overflow-y-auto space-y-4 custom-scrollbar pr-2">
                             {logs.map((log, i) => (
                                 <div key={`${log.timestamp}-${i}`} className="flex gap-4 group">
                                     <div className={cn(
                                         "w-1 h-1 rounded-full mt-1.5 shrink-0 animate-pulse",
-                                        log.type === 'system' ? "bg-hyper-cyan" : "bg-white/20"
+                                        log.type === 'system' ? "bg-neydra-accent" : "bg-white/20"
                                     )} />
                                     <div className="flex flex-col gap-0.5">
                                         <span className="text-[8px] font-black text-white/30 uppercase font-mono tracking-[0.2em]">{log.type}_{log.timestamp}</span>
@@ -358,9 +358,9 @@ function NeydraOS() {
                             ))}
                         </div>
                         <form onSubmit={handleCommand} className="relative group">
-                            <div className="absolute inset-0 bg-hyper-cyan/5 rounded-xl blur-md opacity-0 group-focus-within:opacity-100 transition-opacity" />
-                            <div className="relative flex items-center gap-3 bg-white/[0.03] border border-white/10 rounded-xl px-5 py-3 focus-within:border-hyper-cyan/40 transition-all">
-                                <Search size={14} className="text-white/20 transition-colors group-focus-within:text-hyper-cyan" />
+                            <div className="absolute inset-0 bg-neydra-accent/5 rounded-xl blur-md opacity-0 group-focus-within:opacity-100 transition-opacity" />
+                            <div className="relative flex items-center gap-3 bg-white/[0.03] border border-white/10 rounded-xl px-5 py-3 focus-within:border-neydra-accent/40 transition-all">
+                                <Search size={14} className="text-white/20 transition-colors group-focus-within:text-neydra-accent" />
                                 <input
                                     value={inputValue}
                                     onChange={(e) => setInputValue(e.target.value)}
@@ -384,13 +384,13 @@ function NeydraOS() {
             <footer className="h-16 mt-8 px-10 glass-v-series rounded-2xl flex justify-between items-center border border-white/5 opacity-50 text-white/40 landscape-optimized-footer">
                 <div className="flex items-center gap-10 text-[9px] font-black tracking-[0.5em] uppercase font-mono italic">
                     <div className="flex items-center gap-3">
-                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse" />
                         <span>SYSTEM_STATUS: OPERATIONAL</span>
                     </div>
                 </div>
                 <div className="flex items-center gap-6">
                     <div className="flex items-center gap-3">
-                        <div className="w-1.5 h-1.5 rounded-full bg-hyper-cyan shadow-neon-cyan" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-neydra-accent shadow-neon-cyan" />
                         <span>NEURAL_SYNC: ACTIVE</span>
                     </div>
                     <div className="w-px h-6 bg-white/10 mx-2" />

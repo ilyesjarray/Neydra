@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 
 export function NeydraPayment() {
     return (
-        <div className="neydra-legacy-container h-full w-full relative overflow-y-auto overflow-x-hidden bg-black text-white">
+        <div className="neydra-legacy-container flex-1 h-full w-full relative overflow-y-auto overflow-x-hidden bg-black text-white">
             <style dangerouslySetInnerHTML={{ __html: `
                 
     ::-webkit-scrollbar {
@@ -30,12 +30,8 @@ export function NeydraPayment() {
   <link href="https://cdn.jsdelivr.net/npm/remixicon@3.0.0/fonts/remixicon.css" rel="stylesheet" />
 
   {/* EmailJS SDK (Using your existing Public Key) */}
-  {/* <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script> */}
-  {/* <script type="text/javascript">
-    (function () {
-      emailjs.init("MQKyFZlDIBIMySsjM");
-    })();
-  </script> */}
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js" defer></script>
+  <script dangerouslySetInnerHTML={{ __html: `(function () { emailjs.init("MQKyFZlDIBIMySsjM"); })();` }} />
 
   <style dangerouslySetInnerHTML={{ __html: `
     /* --- RESET & BASE STYLES --- */

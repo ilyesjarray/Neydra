@@ -21,15 +21,15 @@ export function MobileHeader({ onMenuToggle, isMenuOpen, onSectorChange }: Mobil
             <div className="flex items-center justify-between h-14 px-4">
                 {/* Logo */}
                 <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-lg bg-blue-600/10 flex items-center justify-center border border-blue-600/30 overflow-hidden">
+                    <div className="w-9 h-9 rounded-lg bg-red-700/10 flex items-center justify-center border border-red-700/30 overflow-hidden">
                         <Image src="/assets/icon.png" alt="Neydra" width={28} height={28} className="object-contain" />
                     </div>
                     <div>
                         <h1 className="text-sm font-black tracking-tighter uppercase italic text-white flex gap-1">
-                            Neydra <span className="text-hyper-cyan">OS</span>
+                            Neydra <span className="text-neydra-accent">OS</span>
                         </h1>
                         <div className="flex items-center gap-2 text-[7px] font-black uppercase tracking-widest text-white/30">
-                            <Shield size={8} className="text-hyper-cyan" />
+                            <Shield size={8} className="text-neydra-accent" />
                             <span>MOBILE_COMMAND</span>
                         </div>
                     </div>
@@ -38,8 +38,8 @@ export function MobileHeader({ onMenuToggle, isMenuOpen, onSectorChange }: Mobil
                 {/* Right controls */}
                 <div className="flex items-center gap-3">
                     <div className="flex items-center gap-2">
-                        <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
-                        <Activity size={14} className="text-hyper-cyan" />
+                        <div className="w-1.5 h-1.5 bg-red-600 rounded-full animate-pulse" />
+                        <Activity size={14} className="text-neydra-accent" />
                     </div>
                     <IdentityAccess onSectorChange={onSectorChange} />
                     <button

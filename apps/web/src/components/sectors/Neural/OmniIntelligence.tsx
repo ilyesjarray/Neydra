@@ -15,10 +15,10 @@ type OracleMessage = {
 };
 
 const ORACLE_MODES = [
-    { id: 'executive', label: 'EXECUTIVE', icon: Briefcase, color: 'text-hyper-cyan', bg: 'bg-hyper-cyan/10', border: 'border-hyper-cyan/30', desc: 'Business, Strategy & Investments' },
+    { id: 'executive', label: 'EXECUTIVE', icon: Briefcase, color: 'text-neydra-accent', bg: 'bg-neydra-accent/10', border: 'border-neydra-accent/30', desc: 'Business, Strategy & Investments' },
     { id: 'academic', label: 'ACADEMIC', icon: BookOpen, color: 'text-purple-400', bg: 'bg-purple-500/10', border: 'border-purple-500/30', desc: 'Research, Science & Learning' },
     { id: 'philosophy', label: 'SAPIENS', icon: Brain, color: 'text-amber-400', bg: 'bg-amber-500/10', border: 'border-amber-500/30', desc: 'Philosophy, Psychology & Wisdom' },
-    { id: 'casual', label: 'PERSONAL', icon: Coffee, color: 'text-emerald-400', bg: 'bg-emerald-500/10', border: 'border-emerald-500/30', desc: 'Life, Creativity & Daily Help' },
+    { id: 'casual', label: 'PERSONAL', icon: Coffee, color: 'text-red-500', bg: 'bg-red-600/10', border: 'border-red-600/30', desc: 'Life, Creativity & Daily Help' },
     { id: 'code', label: 'CODE', icon: Code2, color: 'text-rose-400', bg: 'bg-rose-500/10', border: 'border-rose-500/30', desc: 'Programming & Engineering' },
 ];
 
@@ -78,6 +78,21 @@ function NeuralOraclePanel() {
             scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
         }
     }, [messages, isTyping]);
+
+    useEffect(() => {
+        try {
+            const storedBot = sessionStorage.getItem('neydra_bot');
+            if (storedBot) {
+                const bot = JSON.parse(storedBot);
+                let targetMode = ORACLE_MODES[0];
+                if (bot.slug === 'friend') targetMode = ORACLE_MODES.find(m => m.id === 'casual') || ORACLE_MODES[0];
+                if (bot.slug === 'professor') targetMode = ORACLE_MODES.find(m => m.id === 'academic') || ORACLE_MODES[0];
+                if (bot.slug === 'builder') targetMode = ORACLE_MODES.find(m => m.id === 'code') || ORACLE_MODES[0];
+                setCurrentMode(targetMode);
+                sessionStorage.removeItem('neydra_bot'); // Clear after use
+            }
+        } catch (e) {}
+    }, []);
 
 
     const handleSend = async (text?: string) => {
@@ -158,7 +173,7 @@ function NeuralOraclePanel() {
                     return <p key={key} className="text-white/70 text-sm mb-0.5">{line}</p>;
                 }
                 if (line.startsWith('#')) {
-                    return <p key={key} className="font-black text-hyper-cyan text-sm mb-1 uppercase tracking-wider">{line.replace(/^#+\s/, '')}</p>;
+                    return <p key={key} className="font-black text-neydra-accent text-sm mb-1 uppercase tracking-wider">{line.replace(/^#+\s/, '')}</p>;
                 }
                 if (line === '') return <div key={key} className="h-2" />;
                 return <p key={key} className="text-white/80 text-sm leading-relaxed mb-0.5">{line}</p>;
@@ -182,7 +197,7 @@ function NeuralOraclePanel() {
                             {[...Array(6)].map((_, i) => (
                                 <motion.div
                                     key={i}
-                                    className="absolute w-px h-64 bg-gradient-to-b from-transparent via-hyper-cyan to-transparent"
+                                    className="absolute w-px h-64 bg-gradient-to-b from-transparent via-neydra-accent to-transparent"
                                     style={{
                                         left: `${15 + i * 15}%`,
                                         top: '-10%',
@@ -225,7 +240,7 @@ function NeuralOraclePanel() {
                                 onClick={() => setIsSeriousMode(true)}
                                 className={cn(
                                     "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[8px] font-black uppercase tracking-widest transition-all",
-                                    isSeriousMode ? "bg-hyper-cyan text-carbon-black" : "text-white/20 hover:text-white/40"
+                                    isSeriousMode ? "bg-neydra-accent text-carbon-black" : "text-white/20 hover:text-white/40"
                                 )}
                             >
                                 <Briefcase size={10} />
@@ -235,7 +250,7 @@ function NeuralOraclePanel() {
                                 onClick={() => setIsSeriousMode(false)}
                                 className={cn(
                                     "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[8px] font-black uppercase tracking-widest transition-all",
-                                    !isSeriousMode ? "bg-emerald-500 text-carbon-black" : "text-white/20 hover:text-white/40"
+                                    !isSeriousMode ? "bg-red-600 text-carbon-black" : "text-white/20 hover:text-white/40"
                                 )}
                             >
                                 <Coffee size={10} />
@@ -247,13 +262,13 @@ function NeuralOraclePanel() {
                         <div className="flex items-center gap-1.5 mr-4 px-3 py-1 bg-white/[0.03] border border-white/5 rounded-full overflow-hidden">
                             <span className="text-[7px] font-black text-white/20 uppercase tracking-widest mr-1">Context_Nodes:</span>
                             <div className="flex gap-1">
-                                <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ repeat: Infinity, duration: 2 }} className="w-1.5 h-1.5 rounded-full bg-hyper-cyan" />
-                                <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ repeat: Infinity, duration: 2, delay: 0.5 }} className="w-1.5 h-1.5 rounded-full bg-hyper-cyan/40" />
-                                <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ repeat: Infinity, duration: 2, delay: 1 }} className="w-1.5 h-1.5 rounded-full bg-hyper-cyan/20" />
+                                <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ repeat: Infinity, duration: 2 }} className="w-1.5 h-1.5 rounded-full bg-neydra-accent" />
+                                <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ repeat: Infinity, duration: 2, delay: 0.5 }} className="w-1.5 h-1.5 rounded-full bg-neydra-accent/40" />
+                                <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ repeat: Infinity, duration: 2, delay: 1 }} className="w-1.5 h-1.5 rounded-full bg-neydra-accent/20" />
                             </div>
                         </div>
 
-                        <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
+                        <div className="w-1.5 h-1.5 bg-red-600 rounded-full animate-pulse" />
                         <span className="text-[9px] text-white/20 font-mono uppercase">LLAMA-3.3-70B ONLINE</span>
                         <button
                             onClick={clearChat}
@@ -358,7 +373,7 @@ function NeuralOraclePanel() {
                                             onClick={() => copyMessage(msg.content, i)}
                                             className="flex items-center gap-1 text-[8px] font-black text-white/20 hover:text-white uppercase tracking-widest transition-colors"
                                         >
-                                            {copiedId === i ? <Check size={10} className="text-emerald-500" /> : <Copy size={10} />}
+                                            {copiedId === i ? <Check size={10} className="text-red-600" /> : <Copy size={10} />}
                                             {copiedId === i ? 'COPIED' : 'COPY'}
                                         </button>
                                         {msg.timestamp && (
@@ -435,11 +450,11 @@ function NeuralOraclePanel() {
                 <div className="flex justify-between items-center mt-2 px-1">
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-1.5">
-                            <Shield size={10} className="text-hyper-cyan" />
+                            <Shield size={10} className="text-neydra-accent" />
                             <span className="text-[8px] font-black text-white/20 uppercase tracking-widest">End-to-End Encrypted</span>
                         </div>
                         <div className="flex items-center gap-1.5">
-                            <Zap size={10} className="text-hyper-cyan" />
+                            <Zap size={10} className="text-neydra-accent" />
                             <span className="text-[8px] font-black text-white/20 uppercase tracking-widest">No Content Limits</span>
                         </div>
                     </div>
@@ -449,7 +464,7 @@ function NeuralOraclePanel() {
                             href="/oracle/"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-hyper-cyan/10 border border-hyper-cyan/30 text-hyper-cyan hover:bg-hyper-cyan hover:text-carbon-black transition-all"
+                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-neydra-accent/10 border border-neydra-accent/30 text-neydra-accent hover:bg-neydra-accent hover:text-carbon-black transition-all"
                         >
                             <Sparkles size={10} />
                             <span className="text-[8px] font-black uppercase tracking-widest">Install App</span>
@@ -566,10 +581,10 @@ function VisionForgePanel() {
                 <div className="flex justify-between items-end border-b border-white/5 pb-6">
                     <div>
                         <h1 className="text-3xl font-black text-white italic tracking-tighter uppercase flex items-center gap-3">
-                            <ImageIcon className="text-hyper-cyan" />
+                            <ImageIcon className="text-neydra-accent" />
                             Vision_Forge
                         </h1>
-                        <p className="text-[10px] text-hyper-cyan uppercase tracking-[0.4em] font-mono mt-1">Neural_Image_Synthesis // Level_9</p>
+                        <p className="text-[10px] text-neydra-accent uppercase tracking-[0.4em] font-mono mt-1">Neural_Image_Synthesis // Level_9</p>
                     </div>
                 </div>
 
@@ -583,7 +598,7 @@ function VisionForgePanel() {
                         <div className="glass-v-series p-6 rounded-[2rem] border border-white/5 space-y-4">
                             <div className="flex justify-between items-center">
                                 <label className="text-[10px] font-black text-white/50 uppercase tracking-widest flex items-center gap-2">
-                                    <Sparkles size={12} className="text-hyper-cyan" />
+                                    <Sparkles size={12} className="text-neydra-accent" />
                                     Visual_Directive
                                 </label>
                             </div>
@@ -591,7 +606,7 @@ function VisionForgePanel() {
                                 value={prompt}
                                 onChange={(e) => setPrompt(e.target.value)}
                                 placeholder="Describe the visual parameters for synthesis..."
-                                className="w-full h-32 bg-black/40 border border-white/10 rounded-xl p-4 text-sm text-white placeholder:text-white/20 resize-none outline-none focus:border-hyper-cyan/50 transition-colors custom-scrollbar"
+                                className="w-full h-32 bg-black/40 border border-white/10 rounded-xl p-4 text-sm text-white placeholder:text-white/20 resize-none outline-none focus:border-neydra-accent/50 transition-colors custom-scrollbar"
                             />
                             <motion.button
                                 whileTap={{ scale: 0.98 }}
@@ -601,7 +616,7 @@ function VisionForgePanel() {
                                     "w-full py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-2 transition-all",
                                     isGenerating || !prompt.trim() 
                                         ? "bg-white/5 text-white/20 cursor-not-allowed" 
-                                        : "bg-hyper-cyan text-carbon-black hover:shadow-neon-cyan"
+                                        : "bg-neydra-accent text-carbon-black hover:shadow-neon-cyan"
                                 )}
                             >
                                 {isGenerating ? <Loader2 className="animate-spin" size={16} /> : <ImageIcon size={16} />}
@@ -612,7 +627,7 @@ function VisionForgePanel() {
                         {/* Configuration */}
                         <div className="glass-v-series p-6 rounded-[2rem] border border-white/5 space-y-6">
                             <div className="flex items-center gap-2 text-[10px] font-black text-white/50 uppercase tracking-widest pb-4 border-b border-white/5">
-                                <Settings2 size={12} className="text-hyper-cyan" />
+                                <Settings2 size={12} className="text-neydra-accent" />
                                 Render_Engine_Config
                             </div>
 
@@ -624,7 +639,7 @@ function VisionForgePanel() {
                                 <select 
                                     value={selectedModel}
                                     onChange={(e) => setSelectedModel(e.target.value)}
-                                    className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-xs font-medium text-white outline-none focus:border-hyper-cyan/50 appearance-none cursor-pointer"
+                                    className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-xs font-medium text-white outline-none focus:border-neydra-accent/50 appearance-none cursor-pointer"
                                 >
                                     {MODELS.map(model => (
                                         <option key={model.id} value={model.id} className="bg-carbon-black text-white">
@@ -648,7 +663,7 @@ function VisionForgePanel() {
                     {/* Right Panel: Gallery */}
                     <div className="flex-1 bg-white/[0.01] border border-white/5 rounded-[2rem] p-6 overflow-y-auto custom-scrollbar">
                         <div className="flex items-center gap-2 text-[10px] font-black text-white/50 uppercase tracking-widest mb-6">
-                            <Layers size={12} className="text-hyper-cyan" />
+                            <Layers size={12} className="text-neydra-accent" />
                             Render_Archive
                         </div>
 
@@ -665,9 +680,9 @@ function VisionForgePanel() {
                                             initial={{ opacity: 0, scale: 0.9 }}
                                             animate={{ opacity: 1, scale: 1 }}
                                             exit={{ opacity: 0, scale: 0.9 }}
-                                            className="aspect-square rounded-2xl bg-white/5 border border-white/10 flex flex-col items-center justify-center text-hyper-cyan relative overflow-hidden"
+                                            className="aspect-square rounded-2xl bg-white/5 border border-white/10 flex flex-col items-center justify-center text-neydra-accent relative overflow-hidden"
                                         >
-                                            <div className="absolute inset-0 bg-gradient-to-t from-hyper-cyan/10 to-transparent animate-pulse" />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-neydra-accent/10 to-transparent animate-pulse" />
                                             <Loader2 className="animate-spin mb-4" size={24} />
                                             <span className="text-[10px] font-black uppercase tracking-widest">Rendering...</span>
                                         </motion.div>
@@ -684,7 +699,7 @@ function VisionForgePanel() {
                                             {/* Overlay */}
                                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4">
                                                 <p className="text-xs text-white line-clamp-2 font-medium mb-1">{img.prompt}</p>
-                                                <p className="text-[8px] text-hyper-cyan uppercase tracking-widest font-mono mb-4">{img.model}</p>
+                                                <p className="text-[8px] text-neydra-accent uppercase tracking-widest font-mono mb-4">{img.model}</p>
                                                 
                                                 <div className="flex gap-2">
                                                     <button 
@@ -695,7 +710,7 @@ function VisionForgePanel() {
                                                     </button>
                                                     <button 
                                                         onClick={() => downloadImage(img.url, img.prompt)}
-                                                        className="flex-1 bg-hyper-cyan/20 hover:bg-hyper-cyan text-hyper-cyan hover:text-black border border-hyper-cyan/30 py-2 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all flex items-center justify-center gap-1"
+                                                        className="flex-1 bg-neydra-accent/20 hover:bg-neydra-accent text-neydra-accent hover:text-black border border-neydra-accent/30 py-2 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all flex items-center justify-center gap-1"
                                                     >
                                                         <Download size={12} /> Save
                                                     </button>
@@ -740,14 +755,14 @@ type ScoutMessage = {
 };
 
 const SCOUT_MODES = [
-    { id: 'recon', label: 'RECON_MODE', icon: Search, color: 'text-hyper-cyan', bg: 'bg-hyper-cyan/10', border: 'border-hyper-cyan/30', desc: 'General Image Analysis' },
-    { id: 'data', label: 'DATA_EXTRACTION', icon: FileText, color: 'text-emerald-400', bg: 'bg-emerald-500/10', border: 'border-emerald-500/30', desc: 'Text & Chart Parsing' },
+    { id: 'recon', label: 'RECON_MODE', icon: Search, color: 'text-neydra-accent', bg: 'bg-neydra-accent/10', border: 'border-neydra-accent/30', desc: 'General Image Analysis' },
+    { id: 'data', label: 'DATA_EXTRACTION', icon: FileText, color: 'text-red-500', bg: 'bg-red-600/10', border: 'border-red-600/30', desc: 'Text & Chart Parsing' },
 ];
 
 const AI_SERVICES = [
     { id: 'img-gen', label: 'GENERATE_IMAGE', icon: ImageIcon, color: 'text-pink-500' },
     { id: 'vid-gen', label: 'GENERATE_VIDEO', icon: Video, color: 'text-violet-500' },
-    { id: 'data-analyze', label: 'ANALYZE_DATA', icon: BarChart, color: 'text-hyper-cyan' },
+    { id: 'data-analyze', label: 'ANALYZE_DATA', icon: BarChart, color: 'text-neydra-accent' },
 ];
 
 const SCOUT_PROMPTS: Record<string, string[]> = {
@@ -929,7 +944,7 @@ function VisionScoutPanel() {
                     return <p key={key} className="text-white/70 text-sm mb-0.5">{line}</p>;
                 }
                 if (line.startsWith('#')) {
-                    return <p key={key} className="font-black text-hyper-cyan text-sm mb-1 uppercase tracking-wider">{line.replace(/^#+\s/, '')}</p>;
+                    return <p key={key} className="font-black text-neydra-accent text-sm mb-1 uppercase tracking-wider">{line.replace(/^#+\s/, '')}</p>;
                 }
                 if (line === '') return <div key={key} className="h-2" />;
                 return <p key={key} className="text-white/80 text-sm leading-relaxed mb-0.5">{line}</p>;
@@ -951,7 +966,7 @@ function VisionScoutPanel() {
                             {[...Array(6)].map((_, i) => (
                                 <motion.div
                                     key={i}
-                                    className="absolute w-px h-64 bg-gradient-to-b from-transparent via-emerald-400 to-transparent"
+                                    className="absolute w-px h-64 bg-gradient-to-b from-transparent via-red-500 to-transparent"
                                     style={{
                                         left: `${15 + i * 15}%`,
                                         top: '-10%',
@@ -987,7 +1002,7 @@ function VisionScoutPanel() {
                         </div>
                     </div>
                     <div className="flex items-center gap-2">
-                        <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
+                        <div className="w-1.5 h-1.5 bg-red-600 rounded-full animate-pulse" />
                         <span className="text-[9px] text-white/20 font-mono uppercase">LLAMA-4-SCOUT ONLINE</span>
                         <button
                             onClick={clearChat}
@@ -1094,7 +1109,7 @@ function VisionScoutPanel() {
                                             onClick={() => copyMessage(msg.content, i)}
                                             className="flex items-center gap-1 text-[8px] font-black text-white/20 hover:text-white uppercase tracking-widest transition-colors"
                                         >
-                                            {copiedId === i ? <Check size={10} className="text-emerald-500" /> : <Copy size={10} />}
+                                            {copiedId === i ? <Check size={10} className="text-red-600" /> : <Copy size={10} />}
                                             {copiedId === i ? 'COPIED' : 'COPY'}
                                         </button>
                                         {msg.timestamp && (
@@ -1153,7 +1168,7 @@ function VisionScoutPanel() {
                 <div className={cn(
                     "relative flex items-end gap-3 bg-white/[0.03] border rounded-2xl p-3 transition-all",
                     currentMode.border.replace('/30', '/10'),
-                    "focus-within:border-hyper-cyan/40"
+                    "focus-within:border-neydra-accent/40"
                 )}>
                     <input 
                         type="file" 
@@ -1167,7 +1182,7 @@ function VisionScoutPanel() {
                     <button 
                         onClick={() => imageInputRef.current?.click()}
                         disabled={selectedImages.length >= 3 || isTyping}
-                        className="p-2 text-white/20 hover:text-emerald-400 transition-colors"
+                        className="p-2 text-white/20 hover:text-red-500 transition-colors"
                     >
                         <ImageIcon size={20} />
                     </button>
@@ -1200,7 +1215,7 @@ function VisionScoutPanel() {
                 <div className="flex justify-between items-center mt-2 px-1">
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-1.5">
-                            <Shield size={10} className="text-emerald-400" />
+                            <Shield size={10} className="text-red-500" />
                             <span className="text-[8px] font-black text-white/20 uppercase tracking-widest">End-to-End Encrypted</span>
                         </div>
                     </div>
@@ -1220,15 +1235,15 @@ export function OmniIntelligence() {
             {/* Sidebar Navigation */}
             <div className="w-64 border-r border-white/5 bg-white/[0.01] flex flex-col shrink-0">
                 <div className="p-6 border-b border-white/5">
-                    <h2 className="text-lg font-black text-white italic tracking-widest">OMNI<span className="text-hyper-cyan">_AI</span></h2>
+                    <h2 className="text-lg font-black text-white italic tracking-widest">OMNI<span className="text-neydra-accent">_AI</span></h2>
                     <p className="text-[9px] text-white/30 uppercase tracking-widest mt-1">Unified Intelligence Nexus</p>
                 </div>
                 <div className="flex-1 p-4 space-y-2">
-                    <button onClick={() => setActiveTab('oracle')} className={cn("w-full flex items-center justify-between p-3 rounded-xl transition-all", activeTab === 'oracle' ? "bg-hyper-cyan/10 border border-hyper-cyan/30 text-hyper-cyan" : "text-white/40 hover:bg-white/5 hover:text-white")}>
+                    <button onClick={() => setActiveTab('oracle')} className={cn("w-full flex items-center justify-between p-3 rounded-xl transition-all", activeTab === 'oracle' ? "bg-neydra-accent/10 border border-neydra-accent/30 text-neydra-accent" : "text-white/40 hover:bg-white/5 hover:text-white")}>
                         <div className="flex items-center gap-3"><Brain size={16} /> <span className="text-[10px] font-black uppercase tracking-widest">Neural Oracle</span></div>
                         {activeTab === 'oracle' && <ChevronRight size={14} />}
                     </button>
-                    <button onClick={() => setActiveTab('personas')} className={cn("w-full flex items-center justify-between p-3 rounded-xl transition-all", activeTab === 'personas' ? "bg-emerald-500/10 border border-emerald-500/30 text-emerald-400" : "text-white/40 hover:bg-white/5 hover:text-white")}>
+                    <button onClick={() => setActiveTab('personas')} className={cn("w-full flex items-center justify-between p-3 rounded-xl transition-all", activeTab === 'personas' ? "bg-red-600/10 border border-red-600/30 text-red-500" : "text-white/40 hover:bg-white/5 hover:text-white")}>
                         <div className="flex items-center gap-3"><Sparkles size={16} /> <span className="text-[10px] font-black uppercase tracking-widest">AI Personas</span></div>
                         {activeTab === 'personas' && <ChevronRight size={14} />}
                     </button>

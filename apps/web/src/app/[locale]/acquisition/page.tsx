@@ -10,20 +10,20 @@ import Link from 'next/link';
 
 export default function AcquisitionPage() {
     return (
-        <main className="min-h-screen bg-carbon-black selection:bg-hyper-cyan selection:text-carbon-black overflow-x-hidden">
+        <main className="min-h-screen bg-carbon-black selection:bg-neydra-accent selection:text-carbon-black overflow-x-hidden">
             {/* Global Acquisition Navbar */}
             <nav className="fixed top-0 left-0 right-0 z-[100] p-10 flex justify-between items-center pointer-events-none">
                 <Link
                     href="/dashboard"
-                    className="pointer-events-auto flex items-center gap-4 px-8 py-4 glass-v-series rounded-2xl bg-white/[0.01] border border-white/5 hover:border-hyper-cyan/40 text-[10px] font-black text-white/40 hover:text-white uppercase tracking-[0.4em] italic transition-all group"
+                    className="pointer-events-auto flex items-center gap-4 px-8 py-4 glass-v-series rounded-2xl bg-white/[0.01] border border-white/5 hover:border-neydra-accent/40 text-[10px] font-black text-white/40 hover:text-white uppercase tracking-[0.4em] italic transition-all group"
                 >
                     <ChevronLeft size={16} className="group-hover:-translate-x-2 transition-transform" />
                     Return_To_Throne
                 </Link>
 
-                <div className="pointer-events-auto flex items-center gap-6 px-10 py-4 glass-v-series rounded-2xl bg-hyper-cyan/5 border border-hyper-cyan/20">
-                    <ShieldAlert className="text-hyper-cyan w-5 h-5 animate-pulse" />
-                    <span className="text-[10px] font-black text-hyper-cyan uppercase tracking-[0.5em] font-mono italic">
+                <div className="pointer-events-auto flex items-center gap-6 px-10 py-4 glass-v-series rounded-2xl bg-neydra-accent/5 border border-neydra-accent/20">
+                    <ShieldAlert className="text-neydra-accent w-5 h-5 animate-pulse" />
+                    <span className="text-[10px] font-black text-neydra-accent uppercase tracking-[0.5em] font-mono italic">
                         UPLINK: ENCRYPTED_ACQUISITION_CHANNEL
                     </span>
                 </div>
@@ -42,7 +42,7 @@ export default function AcquisitionPage() {
 
             {/* Custom Scroll Progress Bar */}
             <motion.div
-                className="fixed bottom-0 left-0 right-0 h-1 bg-hyper-cyan z-[101] origin-left shadow-neon-cyan"
+                className="fixed bottom-0 left-0 right-0 h-1 bg-neydra-accent z-[101] origin-left shadow-neon-cyan"
                 style={{ scaleX: 0 }} // This would normally use useScroll from framer-motion
                 whileInView={{ scaleX: 1 }}
             />

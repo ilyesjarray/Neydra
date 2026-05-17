@@ -34,9 +34,9 @@ const AGENTS: Agent[] = [
         name: 'Vanguard Alpha',
         role: 'THE_TECHNICIAN',
         icon: Zap,
-        color: 'text-hyper-cyan',
-        borderColor: 'border-hyper-cyan/30',
-        bgColor: 'bg-hyper-cyan/10'
+        color: 'text-neydra-accent',
+        borderColor: 'border-neydra-accent/30',
+        bgColor: 'bg-neydra-accent/10'
     },
     {
         id: 'oracle',

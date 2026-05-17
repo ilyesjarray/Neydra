@@ -13,11 +13,11 @@ import { cn } from '@/lib/utils';
 import { createClient } from '@/lib/supabase/client';
 
 const SECTIONS = [
-    { id: 'profile', label: 'IMPERIAL_PROFILE', icon: User, color: 'text-hyper-cyan' },
+    { id: 'profile', label: 'IMPERIAL_PROFILE', icon: User, color: 'text-neydra-accent' },
     { id: 'syndicate', label: 'SYNDICATE_COMMAND', icon: Users, color: 'text-purple-400' },
     { id: 'subscriptions', label: 'IMPERIAL_TREASURY', icon: Zap, color: 'text-amber-400' },
-    { id: 'security', label: 'GUARD_PROTOCOLS', icon: Shield, color: 'text-emerald-400' },
-    { id: 'language', label: 'LINGUA_CENTER', icon: Languages, color: 'text-blue-400' },
+    { id: 'security', label: 'GUARD_PROTOCOLS', icon: Shield, color: 'text-red-500' },
+    { id: 'language', label: 'LINGUA_CENTER', icon: Languages, color: 'text-red-500' },
 ];
 
 export function MobileSettings() {
@@ -160,18 +160,18 @@ export function MobileSettings() {
             className="p-4 space-y-6"
         >
             <div className="flex items-center gap-4 p-4 rounded-2xl glass-v-series border border-white/5 bg-white/[0.02]">
-                <div className="w-14 h-14 rounded-xl border border-hyper-cyan/30 overflow-hidden relative shrink-0">
+                <div className="w-14 h-14 rounded-xl border border-neydra-accent/30 overflow-hidden relative shrink-0">
                     {avatarUrl ? (
                         <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
                     ) : (
-                        <div className="w-full h-full bg-hyper-cyan/10 flex items-center justify-center">
-                            <User size={24} className="text-hyper-cyan" />
+                        <div className="w-full h-full bg-neydra-accent/10 flex items-center justify-center">
+                            <User size={24} className="text-neydra-accent" />
                         </div>
                     )}
                 </div>
                 <div className="flex flex-col min-w-0">
                     <span className="text-sm font-black text-white italic truncate">{fullName || 'COMMANDER'}</span>
-                    <span className="text-[9px] font-black text-hyper-cyan uppercase tracking-widest">{userTier}_TIER</span>
+                    <span className="text-[9px] font-black text-neydra-accent uppercase tracking-widest">{userTier}_TIER</span>
                 </div>
             </div>
 
@@ -199,9 +199,9 @@ export function MobileSettings() {
             <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/5 flex items-center justify-between">
                 <div>
                     <span className="text-[9px] font-black text-white/40 uppercase tracking-widest">Neydra_Credits</span>
-                    <div className="text-xl font-black text-hyper-cyan italic mt-1">{neydraCredits} <span className="text-[10px] text-white/30">SCR</span></div>
+                    <div className="text-xl font-black text-neydra-accent italic mt-1">{neydraCredits} <span className="text-[10px] text-white/30">SCR</span></div>
                 </div>
-                <Zap className="w-8 h-8 text-hyper-cyan/20" />
+                <Zap className="w-8 h-8 text-neydra-accent/20" />
             </div>
         </motion.div>
     );
@@ -236,18 +236,18 @@ export function MobileSettings() {
                                 <button
                                     onClick={() => fileInputRef.current?.click()}
                                     disabled={isUploading}
-                                    className="w-20 h-20 rounded-2xl border border-hyper-cyan/30 flex items-center justify-center relative overflow-hidden active:scale-95 transition-all"
+                                    className="w-20 h-20 rounded-2xl border border-neydra-accent/30 flex items-center justify-center relative overflow-hidden active:scale-95 transition-all"
                                 >
                                     {avatarUrl ? (
                                         <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
                                     ) : (
-                                        <User size={32} className="text-hyper-cyan/50" />
+                                        <User size={32} className="text-neydra-accent/50" />
                                     )}
                                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-                                        {isUploading ? <Loader2 className="animate-spin text-hyper-cyan" /> : <Camera className="text-hyper-cyan" />}
+                                        {isUploading ? <Loader2 className="animate-spin text-neydra-accent" /> : <Camera className="text-neydra-accent" />}
                                     </div>
                                 </button>
-                                <span className="text-[10px] text-hyper-cyan font-black uppercase tracking-widest">{userTier} TIER</span>
+                                <span className="text-[10px] text-neydra-accent font-black uppercase tracking-widest">{userTier} TIER</span>
                             </div>
 
                             <div className="space-y-4">
@@ -262,7 +262,7 @@ export function MobileSettings() {
                                 disabled={isSaving}
                                 className={cn(
                                     "w-full py-4 mt-4 font-black text-xs uppercase tracking-[0.2em] rounded-xl active:scale-95 transition-all flex items-center justify-center gap-2",
-                                    saveSuccess ? "bg-emerald-500 text-black" : "bg-hyper-cyan text-black"
+                                    saveSuccess ? "bg-red-600 text-black" : "bg-neydra-accent text-black"
                                 )}
                             >
                                 <Save size={16} />
@@ -280,7 +280,7 @@ export function MobileSettings() {
                                     placeholder="EMAIL_COORDINATES..."
                                     value={inviteEmail}
                                     onChange={e => setInviteEmail(e.target.value)}
-                                    className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-xs font-mono text-white outline-none focus:border-hyper-cyan/50 placeholder:text-white/20 uppercase"
+                                    className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-xs font-mono text-white outline-none focus:border-neydra-accent/50 placeholder:text-white/20 uppercase"
                                 />
                                 <button
                                     onClick={() => {
@@ -288,7 +288,7 @@ export function MobileSettings() {
                                         setSyndicateMembers(prev => [{ id: Date.now().toString(), email: inviteEmail, role: 'OPERATIVE', status: 'PENDING' }, ...prev]);
                                         setInviteEmail('');
                                     }}
-                                    className="w-full py-3 bg-hyper-cyan/10 text-hyper-cyan border border-hyper-cyan/30 rounded-xl font-black text-[10px] uppercase tracking-widest active:bg-hyper-cyan active:text-black transition-all flex items-center justify-center gap-2"
+                                    className="w-full py-3 bg-neydra-accent/10 text-neydra-accent border border-neydra-accent/30 rounded-xl font-black text-[10px] uppercase tracking-widest active:bg-neydra-accent active:text-black transition-all flex items-center justify-center gap-2"
                                 >
                                     <UserPlus size={14} /> DEPLOY_INVITE
                                 </button>
@@ -299,9 +299,9 @@ export function MobileSettings() {
                                 <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 flex items-center justify-between">
                                     <div className="flex flex-col min-w-0">
                                         <span className="text-xs font-black text-white uppercase truncate">{emailNode}</span>
-                                        <span className="text-[9px] text-hyper-cyan font-mono mt-0.5">COMMANDER</span>
+                                        <span className="text-[9px] text-neydra-accent font-mono mt-0.5">COMMANDER</span>
                                     </div>
-                                    <span className="text-[8px] font-black text-emerald-500 bg-emerald-500/10 px-2 py-1 rounded">ONLINE</span>
+                                    <span className="text-[8px] font-black text-red-600 bg-red-600/10 px-2 py-1 rounded">ONLINE</span>
                                 </div>
                                 {syndicateMembers.map(m => (
                                     <div key={m.id} className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 flex items-center justify-between">
@@ -319,7 +319,7 @@ export function MobileSettings() {
                     {activeSection === 'subscriptions' && (
                         <div className="space-y-4">
                             <SubscriptionCard tier="Standard" price="15" features={['Basic Neural Access', '10GB Vault', 'Standard Intel']} onClick={() => handleSubscribe('standard')} color="text-white" border="border-white/20" bg="bg-white/5" />
-                            <SubscriptionCard tier="Premium" price="40" features={['Whale Order Tracking', 'Premium Intel', '100GB Quantum Vault']} onClick={() => handleSubscribe('premium')} color="text-hyper-cyan" border="border-hyper-cyan/30" bg="bg-hyper-cyan/5" />
+                            <SubscriptionCard tier="Premium" price="40" features={['Whale Order Tracking', 'Premium Intel', '100GB Quantum Vault']} onClick={() => handleSubscribe('premium')} color="text-neydra-accent" border="border-neydra-accent/30" bg="bg-neydra-accent/5" />
                             <SubscriptionCard tier="Ultra" price="90" features={['Llama 3.3 Overlord', 'B2B Syndicate Control', 'Unlimited Vault']} onClick={() => handleSubscribe('ultra')} color="text-amber-500" border="border-amber-500/40" bg="bg-amber-500/10" isMax />
                         </div>
                     )}
@@ -334,9 +334,9 @@ export function MobileSettings() {
 
                     {activeSection === 'language' && (
                         <div className="p-6 bg-white/[0.02] border border-white/5 rounded-2xl text-center space-y-4">
-                            <Languages className="w-12 h-12 text-blue-400 mx-auto opacity-50" />
+                            <Languages className="w-12 h-12 text-red-500 mx-auto opacity-50" />
                             <p className="text-xs text-white/60 uppercase tracking-widest font-bold">Linguistic protocol fixed to English for Kernel ops.</p>
-                            <div className="py-3 px-4 bg-hyper-cyan/10 text-hyper-cyan rounded-xl text-[10px] font-black tracking-widest">CURRENT: ENGLISH</div>
+                            <div className="py-3 px-4 bg-neydra-accent/10 text-neydra-accent rounded-xl text-[10px] font-black tracking-widest">CURRENT: ENGLISH</div>
                         </div>
                     )}
                 </div>
@@ -363,7 +363,7 @@ function MobileField({ label, value, onChange, readOnly }: any) {
                 readOnly={readOnly}
                 className={cn(
                     "w-full px-4 py-3 rounded-xl border outline-none text-xs font-bold uppercase tracking-wider transition-all",
-                    readOnly ? "bg-white/[0.02] border-white/5 text-white/30" : "bg-white/[0.05] border-white/10 text-white focus:border-hyper-cyan/50"
+                    readOnly ? "bg-white/[0.02] border-white/5 text-white/30" : "bg-white/[0.05] border-white/10 text-white focus:border-neydra-accent/50"
                 )}
             />
         </div>
@@ -392,14 +392,14 @@ function MobileSecurityToggle({ label, desc, active, onToggle, icon: Icon }: any
     return (
         <div className="p-4 bg-white/[0.02] border border-white/5 rounded-2xl flex items-center justify-between active:bg-white/[0.05]" onClick={onToggle}>
             <div className="flex items-center gap-4">
-                <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center", active ? "bg-hyper-cyan/10 text-hyper-cyan" : "bg-white/5 text-white/30")}><Icon size={18} /></div>
+                <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center", active ? "bg-neydra-accent/10 text-neydra-accent" : "bg-white/5 text-white/30")}><Icon size={18} /></div>
                 <div>
                     <div className="text-xs font-black text-white uppercase tracking-widest">{label}</div>
                     <div className="text-[9px] text-white/40 uppercase font-bold mt-0.5">{desc}</div>
                 </div>
             </div>
-            <div className={cn("w-12 h-6 rounded-full p-1 transition-colors", active ? "bg-hyper-cyan/30" : "bg-white/10")}>
-                <motion.div animate={{ x: active ? 24 : 0 }} className={cn("w-4 h-4 rounded-full", active ? "bg-hyper-cyan" : "bg-white/40")} />
+            <div className={cn("w-12 h-6 rounded-full p-1 transition-colors", active ? "bg-neydra-accent/30" : "bg-white/10")}>
+                <motion.div animate={{ x: active ? 24 : 0 }} className={cn("w-4 h-4 rounded-full", active ? "bg-neydra-accent" : "bg-white/40")} />
             </div>
         </div>
     );

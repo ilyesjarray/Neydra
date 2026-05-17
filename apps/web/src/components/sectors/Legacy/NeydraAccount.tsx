@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 
 export function NeydraAccount() {
     return (
-        <div className="neydra-legacy-container h-full w-full relative overflow-y-auto overflow-x-hidden bg-black text-white">
+        <div className="neydra-legacy-container flex-1 h-full w-full relative overflow-y-auto overflow-x-hidden bg-black text-white">
             <style dangerouslySetInnerHTML={{ __html: `
                 
     /* =========================================
@@ -311,7 +311,7 @@ export function NeydraAccount() {
   <link href="https://cdn.jsdelivr.net/npm/remixicon@3.0.0/fonts/remixicon.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Orbitron:wght@700&display=swap"
     rel="stylesheet" />
-  {/* <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> */}
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
 
   
 

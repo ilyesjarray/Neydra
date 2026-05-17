@@ -26,7 +26,7 @@ export function MobileLayout({}: MobileLayoutProps) {
     };
 
     return (
-        <div className="min-h-screen bg-carbon-black text-hyper-cyan font-sans relative flex flex-col">
+        <div className="min-h-screen bg-carbon-black text-neydra-accent font-sans relative flex flex-col">
             {/* Mobile Header */}
             <MobileHeader
                 onMenuToggle={() => setIsMenuOpen(!isMenuOpen)}
@@ -57,7 +57,7 @@ export function MobileLayout({}: MobileLayoutProps) {
                                 <div key={group.group} className="space-y-2">
                                     <div className="flex items-center gap-3 px-2">
                                         <div className="h-px flex-1 bg-white/5" />
-                                        <span className="text-[8px] font-black text-hyper-cyan/40 uppercase tracking-[0.3em]">
+                                        <span className="text-[8px] font-black text-neydra-accent/40 uppercase tracking-[0.3em]">
                                             {group.group}
                                         </span>
                                         <div className="h-px w-4 bg-white/5" />
@@ -70,14 +70,14 @@ export function MobileLayout({}: MobileLayoutProps) {
                                                 className={cn(
                                                     "flex items-center gap-3 p-3 rounded-xl border transition-all",
                                                     currentSector === sector.id
-                                                        ? "bg-hyper-cyan/10 border-hyper-cyan/30 text-white"
+                                                        ? "bg-neydra-accent/10 border-neydra-accent/30 text-white"
                                                         : "bg-white/[0.02] border-white/5 text-white/30"
                                                 )}
                                             >
                                                 <div className={cn(
                                                     "w-8 h-8 rounded-lg flex items-center justify-center",
                                                     currentSector === sector.id
-                                                        ? "bg-hyper-cyan text-carbon-black"
+                                                        ? "bg-neydra-accent text-carbon-black"
                                                         : "bg-white/5"
                                                 )}>
                                                     <sector.icon size={14} />

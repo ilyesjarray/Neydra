@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 
 export function NeydraExchange() {
     return (
-        <div className="neydra-legacy-container h-full w-full relative overflow-y-auto overflow-x-hidden bg-black text-white">
+        <div className="neydra-legacy-container flex-1 h-full w-full relative overflow-y-auto overflow-x-hidden bg-black text-white">
             <style dangerouslySetInnerHTML={{ __html: `
                 
         /* * =========================================
@@ -460,12 +460,8 @@ export function NeydraExchange() {
     <link rel="manifest" href="/manifest.json" />
 
     {/* EmailJS SDK */}
-    {/* <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script> */}
-    {/* <script type="text/javascript">
-        (function () {
-            emailjs.init("MQKyFZlDIBIMySsjM");
-        })();
-    </script> */}
+    <script src="https://cdn.emailjs.com/dist/email.min.js" defer></script>
+    <script dangerouslySetInnerHTML={{ __html: `(function () { emailjs.init("MQKyFZlDIBIMySsjM"); })();` }} />
 
     
 

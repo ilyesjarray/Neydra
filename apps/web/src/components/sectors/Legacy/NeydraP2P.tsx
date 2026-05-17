@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 
 export function NeydraP2P() {
     return (
-        <div className="neydra-legacy-container h-full w-full relative overflow-y-auto overflow-x-hidden bg-black text-white">
+        <div className="neydra-legacy-container flex-1 h-full w-full relative overflow-y-auto overflow-x-hidden bg-black text-white">
             <style dangerouslySetInnerHTML={{ __html: `
                 
         /* =========================================
@@ -914,7 +914,7 @@ export function NeydraP2P() {
     <link rel="icon" href="/assets/icon.png" type="image/png" />
 
     {/* Supabase SDK */}
-    {/* <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> */}
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
 
     
 

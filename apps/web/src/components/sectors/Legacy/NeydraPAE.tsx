@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 
 export function NeydraPAE() {
     return (
-        <div className="neydra-legacy-container h-full w-full relative overflow-y-auto overflow-x-hidden bg-black text-white">
+        <div className="neydra-legacy-container flex-1 h-full w-full relative overflow-y-auto overflow-x-hidden bg-black text-white">
             <style dangerouslySetInnerHTML={{ __html: `
                 
     :root {

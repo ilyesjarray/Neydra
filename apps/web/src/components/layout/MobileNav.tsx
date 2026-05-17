@@ -40,7 +40,7 @@ export function MobileNav({ currentSector, onSectorChange, onExpandMenu }: Mobil
                             className={cn(
                                 "flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-xl transition-all min-w-[56px]",
                                 isActive
-                                    ? "text-hyper-cyan"
+                                    ? "text-neydra-accent"
                                     : "text-white/30"
                             )}
                         >
@@ -58,7 +58,7 @@ export function MobileNav({ currentSector, onSectorChange, onExpandMenu }: Mobil
                             {isActive && (
                                 <motion.div
                                     layoutId="mobile-nav-indicator"
-                                    className="absolute bottom-0 w-8 h-0.5 bg-hyper-cyan rounded-full shadow-neon-cyan"
+                                    className="absolute bottom-0 w-8 h-0.5 bg-neydra-accent rounded-full shadow-neon-cyan"
                                 />
                             )}
                         </button>

@@ -57,7 +57,7 @@ export default function CommandSidebar() {
             animate={{ width: collapsed ? 100 : 340 }}
             className="h-screen bg-carbon-black border-r border-white/5 flex flex-col relative z-50 overflow-hidden shadow-2xl landscape-optimized-sidebar"
         >
-            <div className="absolute inset-0 bg-gradient-to-b from-hyper-cyan/[0.02] to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-b from-neydra-accent/[0.02] to-transparent pointer-events-none" />
 
             {/* Sidebar Header */}
             <div className="p-10 flex items-center justify-between relative z-10 landscape-optimized-header">
@@ -67,8 +67,8 @@ export default function CommandSidebar() {
                         animate={{ opacity: 1, x: 0 }}
                         className="flex items-center gap-4"
                     >
-                        <div className="w-10 h-10 bg-hyper-cyan/10 rounded-2xl flex items-center justify-center border border-hyper-cyan/20 shadow-neon-cyan/20 group cursor-pointer hover:bg-hyper-cyan/20 transition-all duration-500">
-                            <Shield size={20} className="text-hyper-cyan group-hover:scale-110 transition-transform shadow-neon-cyan" />
+                        <div className="w-10 h-10 bg-neydra-accent/10 rounded-2xl flex items-center justify-center border border-neydra-accent/20 shadow-neon-cyan/20 group cursor-pointer hover:bg-neydra-accent/20 transition-all duration-500">
+                            <Shield size={20} className="text-neydra-accent group-hover:scale-110 transition-transform shadow-neon-cyan" />
                         </div>
                         <div className="flex flex-col">
                             <span className="text-xl font-black tracking-[0.2em] text-white italic">NEYDRA</span>
@@ -77,13 +77,13 @@ export default function CommandSidebar() {
                     </motion.div>
                 )}
                 {collapsed && (
-                    <div className="w-10 h-10 bg-hyper-cyan/10 rounded-2xl flex items-center justify-center border border-hyper-cyan/20 shadow-neon-cyan/20">
-                        <Shield size={20} className="text-hyper-cyan shadow-neon-cyan" />
+                    <div className="w-10 h-10 bg-neydra-accent/10 rounded-2xl flex items-center justify-center border border-neydra-accent/20 shadow-neon-cyan/20">
+                        <Shield size={20} className="text-neydra-accent shadow-neon-cyan" />
                     </div>
                 )}
                 <button
                     onClick={() => setCollapsed(!collapsed)}
-                    className="p-3 hover:bg-white/5 rounded-2xl transition-all text-white/20 hover:text-hyper-cyan group"
+                    className="p-3 hover:bg-white/5 rounded-2xl transition-all text-white/20 hover:text-neydra-accent group"
                 >
                     <Menu size={22} className="group-hover:rotate-90 transition-transform duration-500" />
                 </button>
@@ -95,7 +95,7 @@ export default function CommandSidebar() {
                     <div key={cat.id} className="space-y-6">
                         {!collapsed && (
                             <div className="flex items-center gap-3 ml-4">
-                                <div className="h-px w-4 bg-hyper-cyan/20" />
+                                <div className="h-px w-4 bg-neydra-accent/20" />
                                 <h3 className="text-[9px] font-black text-white/30 tracking-[0.5em] uppercase">
                                     {cat.label}
                                 </h3>
@@ -115,13 +115,13 @@ export default function CommandSidebar() {
                                             {isActive && (
                                                 <motion.div
                                                     layoutId="active-nav-glow"
-                                                    className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-hyper-cyan/50 to-transparent"
+                                                    className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-neydra-accent/50 to-transparent"
                                                 />
                                             )}
 
                                             <div className={`
                                                 p-3 rounded-xl transition-all duration-500
-                                                ${isActive ? 'bg-hyper-cyan/10 text-hyper-cyan shadow-neon-cyan/20' : 'bg-transparent group-hover:text-hyper-cyan'}
+                                                ${isActive ? 'bg-neydra-accent/10 text-neydra-accent shadow-neon-cyan/20' : 'bg-transparent group-hover:text-neydra-accent'}
                                             `}>
                                                 <mod.icon size={22} className={isActive ? 'shadow-neon-cyan' : ''} />
                                             </div>
@@ -133,7 +133,7 @@ export default function CommandSidebar() {
                                                         <motion.span
                                                             initial={{ opacity: 0 }}
                                                             animate={{ opacity: 1 }}
-                                                            className="text-[8px] text-hyper-cyan font-black tracking-[0.2em] italic"
+                                                            className="text-[8px] text-neydra-accent font-black tracking-[0.2em] italic"
                                                         >
                                                             STATUS: OPTIMIZED
                                                         </motion.span>
@@ -143,7 +143,7 @@ export default function CommandSidebar() {
 
                                             {!collapsed && isActive && (
                                                 <div className="ml-auto flex items-center gap-2">
-                                                    <Sparkles size={12} className="text-hyper-cyan/40 animate-pulse" />
+                                                    <Sparkles size={12} className="text-neydra-accent/40 animate-pulse" />
                                                     <ChevronRight size={14} className="text-white/20" />
                                                 </div>
                                             )}
@@ -160,10 +160,10 @@ export default function CommandSidebar() {
             <div className="p-10 border-t border-white/5 relative z-10 bg-black/20">
                 <div className="flex items-center gap-5 group cursor-pointer">
                     <div className="relative">
-                        <div className="w-12 h-12 rounded-2xl bg-carbon-black border border-white/10 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-hyper-cyan/40 shadow-premium">
-                            <Fingerprint size={24} className="text-hyper-cyan/40 group-hover:text-hyper-cyan transition-colors" />
+                        <div className="w-12 h-12 rounded-2xl bg-carbon-black border border-white/10 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-neydra-accent/40 shadow-premium">
+                            <Fingerprint size={24} className="text-neydra-accent/40 group-hover:text-neydra-accent transition-colors" />
                         </div>
-                        <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-hyper-cyan border-4 border-carbon-black animate-pulse shadow-neon-cyan" />
+                        <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-neydra-accent border-4 border-carbon-black animate-pulse shadow-neon-cyan" />
                     </div>
 
                     {!collapsed && (

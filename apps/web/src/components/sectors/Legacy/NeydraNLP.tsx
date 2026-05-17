@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 
 export function NeydraNLP() {
     return (
-        <div className="neydra-legacy-container h-full w-full relative overflow-y-auto overflow-x-hidden bg-black text-white">
+        <div className="neydra-legacy-container flex-1 h-full w-full relative overflow-y-auto overflow-x-hidden bg-black text-white">
             <style dangerouslySetInnerHTML={{ __html: `
                 
         /* * =========================================
@@ -781,7 +781,7 @@ export function NeydraNLP() {
     <title>NEYDRA | RED PROTOCOL [ULTRA NLP]</title>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700;800&family=Share+Tech+Mono&display=swap"
         rel="stylesheet" />
-    {/* <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> */}
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
     
     <script src="/neydranlp.js" defer></script>
 
